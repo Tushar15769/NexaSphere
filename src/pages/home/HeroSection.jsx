@@ -163,18 +163,18 @@ export default function HeroSection({ onTabChange, onApply, onJoin, theme = 'dar
   }, []);
 
   return (
-    <section className="hero-section" id="section-home">
-      {/* BG — nexasphere logo as hero bg */}
+    <section className="hero-section" id="section-home" style={{position:'relative',zIndex:2}}>
+      {/* Responsive glass overlay, lets 3D background show through */}
       <div style={{
         position:'absolute',inset:0,zIndex:0,
-        backgroundImage:`url(${nexasphereLogo})`,
-        backgroundSize:'55%',backgroundPosition:'center',backgroundRepeat:'no-repeat',
-        filter: isLight
-          ? 'brightness(.55) saturate(2.2) hue-rotate(220deg) opacity(0.22)'
-          : 'brightness(.08) saturate(1.2)',
-        transform:'scale(1.04)',
-      }} className="hero-bg-parallax"/>
-      <div className="hero-overlay"/>
+        pointerEvents:'none',
+        background: isLight
+          ? 'linear-gradient(120deg,rgba(245,240,236,0.88) 0%,rgba(237,229,219,0.88) 100%)'
+          : 'linear-gradient(120deg,rgba(10,15,30,0.88) 0%,rgba(18,29,53,0.88) 100%)',
+        backdropFilter:'blur(8px) saturate(120%)',
+        WebkitBackdropFilter:'blur(8px) saturate(120%)',
+        transition:'background 1.2s cubic-bezier(.4,0,.2,1)',
+      }} />
       <Atmosphere isLight={isLight}/>
 
       <div className="hero-content" style={{position:'relative',zIndex:2,paddingBottom:'80px'}}>

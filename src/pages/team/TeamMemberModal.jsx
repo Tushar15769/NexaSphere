@@ -88,6 +88,33 @@ function ModalContent({ member, onClose }) {
           </div>
         </div>
 
+        {/* Achievements */}
+        {member.achievements && member.achievements.length > 0 && (
+          <div className="modal-achievements">
+            <div className="modal-achievements-title">🏆 Achievements</div>
+            <ul className="modal-achievements-list">
+              {member.achievements.map((ach, idx) => (
+                <li key={idx} className="modal-achievement-item">{ach}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* Testimonials */}
+        {member.testimonials && member.testimonials.length > 0 && (
+          <div className="modal-testimonials">
+            <div className="modal-testimonials-title">💬 Testimonials</div>
+            <ul className="modal-testimonials-list">
+              {member.testimonials.map((t, idx) => (
+                <li key={idx} className="modal-testimonial-item">
+                  <span className="testimonial-text">“{t.text}”</span>
+                  <span className="testimonial-author">- {t.author}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
         {/* Social */}
         {hasSocial && (
           <div className="modal-social">

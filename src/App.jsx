@@ -5,6 +5,7 @@ import './styles/components.css';
 import './styles/motion.css';
 
 import ParticleBackground  from './shared/ParticleBackground';
+import GeometricGridBackground from './shared/GeometricGridBackground';
 import Navbar              from './shared/Navbar';
 import HeroSection         from './pages/home/HeroSection';
 import ActivitiesSection   from './pages/activities/ActivitiesSection';
@@ -398,6 +399,7 @@ export default function App() {
       {/* Ambient depth orbs — layered behind everything */}
       {cinDone&&<AmbientOrbs theme={theme}/>}
 
+      {cinDone&&<GeometricGridBackground theme={theme} />}
       {cinDone&&<ParticleBackground theme={theme}/>}
       {cinDone&&<Navbar activeTab={activeTab} onTabChange={onTab} onToggleTheme={toggleTheme}/>}
 
