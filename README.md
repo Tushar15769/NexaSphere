@@ -2,7 +2,7 @@
 
 > The official website & community platform for NexaSphere — connecting GL Bajaj students with opportunities across Tech and Non-Tech domains.
 
-**🌐 Live Site:** https://nexasphere-glbajaj.netlify.app  
+**🌐 Live Site:**   
 **📧 Email:** nexasphere@glbajajgroup.org  
 **💼 LinkedIn:** https://www.linkedin.com/showcase/glbajaj-nexasphere/  
 **💬 WhatsApp Community:** https://chat.whatsapp.com/Jjc5cuUKENu0RC1vWSEs20
