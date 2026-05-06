@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+﻿import { useEffect, useRef, useState, useCallback } from 'react';
 import nexasphereLogo from '../../assets/images/logos/nexasphere-logo.png';
 import { IconArrowRight, IconSpark } from '../../shared/Icons';
 
 
-/* ── Ripple Button ── */
+/* â”€â”€ Ripple Button â”€â”€ */
 function RippleBtn({ cls, children, href, onClick }) {
   const ref = useRef(null);
   const go = e => {
@@ -21,7 +21,7 @@ function RippleBtn({ cls, children, href, onClick }) {
   return <button ref={ref} className={`btn btn-ripple ${cls}`} onClick={go}>{children}</button>;
 }
 
-/* ── Animated gradient title — safe in both modes ── */
+/* â”€â”€ Animated gradient title â€” safe in both modes â”€â”€ */
 function HeroTitle({ isLight }) {
   return (
     <div className="hero-title">
@@ -30,7 +30,7 @@ function HeroTitle({ isLight }) {
   );
 }
 
-/* ── SVG Orbit rings ── */
+/* â”€â”€ SVG Orbit rings â”€â”€ */
 function OrbitRings({ isLight }) {
   const rings = isLight
     ? [{rx:105,ry:48,dur:8,r:2,col:'204,17,17',d:'0s'},{rx:58,ry:182,dur:13,r:1.5,col:'136,0,0',d:'-5s'},{rx:162,ry:37,dur:17,r:1,col:'238,34,34',d:'-9s'},{rx:78,ry:158,dur:6,r:2,col:'255,68,68',d:'-2s'}]
@@ -56,7 +56,7 @@ function OrbitRings({ isLight }) {
   );
 }
 
-/* ── Logo with 3D mouse tilt ── */
+/* â”€â”€ Logo with 3D mouse tilt â”€â”€ */
 function Logo3D({ ready, isLight }) {
   const ref = useRef(null);
   const onMove = useCallback(e => {
@@ -86,14 +86,14 @@ function Logo3D({ ready, isLight }) {
     >
       <OrbitRings isLight={isLight}/>
       <img src={nexasphereLogo} alt="NexaSphere" className="hero-logo-img"/>
-      <div style={{position:'absolute',bottom:'-8px',left:'50%',transform:'translateX(-50%)',width:'72px',height:'12px',borderRadius:'50%',background:`radial-gradient(ellipse,${isLight?'rgba(204,17,17,.22)':'rgba(204,17,17,.32)'},transparent 70%)`,filter:'blur(5px)',animation:'float 5s ease-in-out infinite'}}/>
+      <div style={{position:'absolute',bottom:'-8px',left:'50%',transform:'translateX(-50%)',width:'90px',height:'14px',borderRadius:'50%',background:`radial-gradient(ellipse,${isLight?'rgba(204,17,17,.22)':'rgba(204,17,17,.32)'},transparent 70%)`,filter:'blur(5px)',animation:'float 5s ease-in-out infinite'}}/>
     </div>
   );
 }
 
-/* ── Stats bar ── */
+/* â”€â”€ Stats bar â”€â”€ */
 function StatsBar({ vis, isLight }) {
-  const items = [{v:'12',l:'Members',i:'👥'},{v:'8',l:'Activities',i:'⚡'},{v:'1',l:'Events Done',i:'📅'},{v:'∞',l:'Ideas',i:'💡'}];
+  const items = [{v:'12',l:'Members',i:'ðŸ‘¥'},{v:'8',l:'Activities',i:'âš¡'},{v:'1',l:'Events Done',i:'ðŸ“…'},{v:'âˆž',l:'Ideas',i:'ðŸ’¡'}];
   return (
     <div style={{
       display:'flex',maxWidth:'500px',margin:'40px auto 0',
@@ -126,7 +126,7 @@ function StatsBar({ vis, isLight }) {
   );
 }
 
-/* ── Particles / atmosphere ── */
+/* â”€â”€ Particles / atmosphere â”€â”€ */
 function Atmosphere({ isLight }) {
   if (isLight) return (
     <div style={{position:'absolute',inset:0,zIndex:0,pointerEvents:'none',
@@ -229,7 +229,7 @@ export default function HeroSection({ onTabChange, onApply, onJoin, theme = 'dar
 
       {/* Bottom fade */}
       <div style={{position:'absolute',bottom:0,left:0,right:0,height:'150px',background:'linear-gradient(to bottom,transparent,var(--bg))',pointerEvents:'none',zIndex:2}}/>
-      {/* Scroll indicator — sits inside bottom fade */}
+      {/* Scroll indicator â€” sits inside bottom fade */}
       <div style={{position:'absolute',bottom:'16px',left:'50%',transform:'translateX(-50%)',zIndex:2,display:'flex',flexDirection:'column',alignItems:'center',gap:'4px',opacity:.42,animation:'float 2.5s ease-in-out infinite'}}>
         <div style={{fontSize:'.56rem',color:isLight?'#78716c':'var(--t2)',letterSpacing:'.22em',fontFamily:"'Space Mono',monospace"}}>SCROLL</div>
         <div className="scroll-indicator-line" style={{width:'1px',height:'28px',background:`linear-gradient(to bottom,var(--c1),transparent)`}}/>
@@ -237,3 +237,4 @@ export default function HeroSection({ onTabChange, onApply, onJoin, theme = 'dar
     </section>
   );
 }
+
