@@ -33,7 +33,7 @@ import MembershipPage      from './pages/membership/MembershipPage';
 import AdminPage           from './pages/admin/AdminPage';
 
 import { activityPages }   from './data/activities/index';
-import { api }             from './services/api';
+import { events as fallbackEvents } from './data/eventsData';
 import nexasphereLogo      from './assets/images/logos/nexasphere-logo.png';
 
 const MNH = 88, DNH = 64;
@@ -201,7 +201,7 @@ export default function App() {
   const [wipePh,   setWipePh]   = useState('out');
   const [page,     setPage]     = useState(null);
   const [theme,    setTheme]    = useState(()=>localStorage.getItem('ns-theme')||'dark');
-  const [eventsData,setEventsData]=useState([]);
+  const [eventsData,setEventsData]=useState(fallbackEvents);
   const isAdminRoute = typeof window !== 'undefined' && window.location.pathname === '/admin';
   
   useEffect(()=>{
@@ -216,12 +216,13 @@ export default function App() {
 
   useEffect(() => {
     let alive = true;
-    api.getEvents()
+    const base = (import.meta?.env?.VITE_API_BASE || '').replace(/\/+$/, '');
+    const url = base ? `${base}/api/content/events` : '/api/content/events';
+    fetch(url)
+      .then(r => r.ok ? r.json() : Promise.reject(new Error('Failed to load dynamic events')))
       .then(data => {
         if (!alive) return;
-        if (Array.isArray(data) && data.length > 0) {
-          setEventsData(data);
-        } else if (data?.events && Array.isArray(data.events) && data.events.length > 0) {
+        if (Array.isArray(data?.events) && data.events.length > 0) {
           setEventsData(data.events);
         }
       })

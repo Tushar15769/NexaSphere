@@ -5,12 +5,9 @@ export default defineConfig({
   plugins: [react()],
   base: "/",
   server: {
-    port: 5173,
     proxy: {
-      '/api': {
-        target: 'http://localhost:8080',
-        changeOrigin: true,
-      },
+      '/api': 'http://localhost:8787',
+      '/healthz': 'http://localhost:8787',
     },
   },
 })
