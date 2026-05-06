@@ -33,8 +33,8 @@ function HeroTitle({ isLight }) {
 /* ── SVG Orbit rings ── */
 function OrbitRings({ isLight }) {
   const rings = isLight
-    ? [{rx:105,ry:48,dur:8,r:2,col:'194,119,10',d:'0s'},{rx:58,ry:182,dur:13,r:1.5,col:'109,40,217',d:'-5s'},{rx:162,ry:37,dur:17,r:1,col:'190,24,93',d:'-9s'},{rx:78,ry:158,dur:6,r:2,col:'8,145,178',d:'-2s'}]
-    : [{rx:105,ry:48,dur:8,r:2,col:'0,212,255',d:'0s'},{rx:58,ry:182,dur:13,r:1.5,col:'123,111,255',d:'-5s'},{rx:162,ry:37,dur:17,r:1,col:'189,92,255',d:'-9s'},{rx:78,ry:158,dur:6,r:2,col:'0,255,157',d:'-2s'}];
+    ? [{rx:105,ry:48,dur:8,r:2,col:'204,17,17',d:'0s'},{rx:58,ry:182,dur:13,r:1.5,col:'136,0,0',d:'-5s'},{rx:162,ry:37,dur:17,r:1,col:'238,34,34',d:'-9s'},{rx:78,ry:158,dur:6,r:2,col:'255,68,68',d:'-2s'}]
+    : [{rx:105,ry:48,dur:8,r:2,col:'204,17,17',d:'0s'},{rx:58,ry:182,dur:13,r:1.5,col:'136,0,0',d:'-5s'},{rx:162,ry:37,dur:17,r:1,col:'238,34,34',d:'-9s'},{rx:78,ry:158,dur:6,r:2,col:'255,68,68',d:'-2s'}];
   const tilts=['rotate(-22 250 250)','rotate(14 250 250)','rotate(55 250 250)','rotate(-35 250 250)'];
   return (
     <svg width="280" height="280" viewBox="0 0 500 500"
@@ -97,8 +97,8 @@ function StatsBar({ vis, isLight }) {
   return (
     <div style={{
       display:'flex',maxWidth:'500px',margin:'40px auto 0',
-      background: isLight ? 'rgba(28,25,23,.04)' : 'rgba(0,212,255,.03)',
-      border:`1px solid ${isLight?'rgba(28,25,23,.09)':'rgba(0,212,255,.09)'}`,
+      background: isLight ? 'rgba(26,26,26,.04)' : 'rgba(204,17,17,.04)',
+      border:`1px solid ${isLight?'rgba(26,26,26,.09)':'rgba(204,17,17,.12)'}`,
       borderRadius:'14px',overflow:'hidden',
       opacity:vis?1:0,transform:vis?'none':'translateY(22px)',
       transition:'all .85s cubic-bezier(.22,1,.36,1)',transitionDelay:'.4s',
@@ -106,20 +106,20 @@ function StatsBar({ vis, isLight }) {
       {items.map((s,i)=>(
         <div key={i} style={{
           flex:1,padding:'13px 6px',textAlign:'center',cursor:'default',
-          borderRight:i<3?`1px solid ${isLight?'rgba(28,25,23,.07)':'rgba(0,212,255,.08)'}`:'none',
+          borderRight:i<3?`1px solid ${isLight?'rgba(26,26,26,.07)':'rgba(204,17,17,.10)'}`:'none',
           transition:'background .2s',
         }}
-          onMouseEnter={e=>e.currentTarget.style.background=isLight?'rgba(28,25,23,.06)':'rgba(0,212,255,.07)'}
-          onMouseLeave={e=>e.currentTarget.style.background='transparent'}
+          onMouseEnter={e=>e.currentTarget.style.background=isLight?'rgba(26,26,26,.06)':'rgba(204,17,17,.09)'}
+          onMouseLeave={e=>e.currentTarget.style.background='transparent'}  
         >
           <div style={{fontSize:'.9rem',marginBottom:'2px'}}>{s.i}</div>
           <div style={{
             fontFamily:'Orbitron,monospace',fontSize:'clamp(1.1rem,3vw,1.75rem)',fontWeight:900,
-            backgroundImage:isLight?'linear-gradient(135deg,#c2770a,#6d28d9)':'linear-gradient(135deg,#00d4ff,#7b6fff)',
+            backgroundImage:isLight?'linear-gradient(135deg,#CC1111,#880000)':'linear-gradient(135deg,#EE2222,#CC1111)',
             WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',backgroundClip:'text',
             animation:vis?`countUp .5s ${.4+i*.1}s both`:'none',
           }}>{s.v}</div>
-          <div style={{fontSize:'.58rem',color:isLight?'#57534e':'var(--t2)',textTransform:'uppercase',letterSpacing:'.1em',marginTop:'1px',fontFamily:"'Space Mono',monospace"}}>{s.l}</div>
+          <div style={{fontSize:'.58rem',color:isLight?'#6B6B6B':'var(--t2)',textTransform:'uppercase',letterSpacing:'.1em',marginTop:'1px',fontFamily:"'Space Mono',monospace"}}>{s.l}</div>
         </div>
       ))}
     </div>
@@ -144,8 +144,9 @@ function Atmosphere({ isLight }) {
       </div>
       {/* Scanline */}
       <div style={{position:'absolute',inset:0,overflow:'hidden',zIndex:1,pointerEvents:'none'}}>
-        <div style={{position:'absolute',left:0,right:0,height:'1px',background:'linear-gradient(90deg,transparent,rgba(0,212,255,.38),rgba(123,111,255,.38),transparent)',animation:'scanline 8s linear infinite'}}/>
-        <div style={{position:'absolute',inset:0,backgroundImage:'repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,212,255,.005) 2px,rgba(0,212,255,.005) 4px)'}}/>
+        <div style={{position:'absolute',inset:0,overflow:'hidden',zIndex:1,pointerEvents:'none'}}>
+        <div style={{position:'absolute',left:0,right:0,height:'1px',background:'linear-gradient(90deg,transparent,rgba(204,17,17,.38),rgba(136,0,0,.38),transparent)',animation:'scanline 8s linear infinite'}}/>
+        <div style={{position:'absolute',inset:0,backgroundImage:'repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(204,17,17,.005) 2px,rgba(204,17,17,.005) 4px)'}}/>
       </div>
     </>
   );
@@ -170,7 +171,7 @@ export default function HeroSection({ onTabChange, onApply, onJoin, theme = 'dar
         pointerEvents:'none',
         background: isLight
           ? 'linear-gradient(120deg,rgba(245,240,236,0.88) 0%,rgba(237,229,219,0.88) 100%)'
-          : 'linear-gradient(120deg,rgba(10,15,30,0.88) 0%,rgba(18,29,53,0.88) 100%)',
+          : 'linear-gradient(120deg,rgba(10,10,10,0.88) 0%,rgba(20,10,10,0.88) 100%)',
         backdropFilter:'blur(8px) saturate(120%)',
         WebkitBackdropFilter:'blur(8px) saturate(120%)',
         transition:'background 1.2s cubic-bezier(.4,0,.2,1)',
@@ -209,8 +210,8 @@ export default function HeroSection({ onTabChange, onApply, onJoin, theme = 'dar
           {/* Core Team CTA */}
           <div style={{
             marginTop:'6px',padding:'14px 24px',
-            background: isLight ? 'rgba(109,40,217,.05)' : 'rgba(123,111,255,.07)',
-            border:`1px solid ${isLight?'rgba(109,40,217,.2)':'rgba(123,111,255,.2)'}`,
+            background: isLight ? 'rgba(204,17,17,.05)' : 'rgba(204,17,17,.07)',
+            border:`1px solid ${isLight?'rgba(204,17,17,.18)':'rgba(204,17,17,.18)'}`,
             borderRadius:'16px',maxWidth:'420px',textAlign:'center',
           }}>
             <p style={{fontSize:'.82rem',color:'var(--t2)',marginBottom:'10px',lineHeight:1.5}}>
