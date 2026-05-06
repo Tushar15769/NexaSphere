@@ -1,13 +1,13 @@
-/* ═══════════════════════════════════════════════════════
-   NEXASPHERE — BRAND THEME SYSTEM v9
+﻿/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   NEXASPHERE â€” BRAND THEME SYSTEM v9
    Brand palette: Rich wine-red from NS logo
-   Primary: #CC1111 → #880000 (pure metallic red)
-   Dark mode (default) · Light mode (opt-in)
-   ═══════════════════════════════════════════════════════ */
+   Primary: #CC1111 â†’ #880000 (pure metallic red)
+   Dark mode (default) Â· Light mode (opt-in)
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
-/* ── BRAND COLOR PRIMITIVES ──────────────────────────── */
+/* â”€â”€ BRAND COLOR PRIMITIVES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 :root {
-  /* Core Brand Reds — extracted from NS logo */
+  /* Core Brand Reds â€” extracted from NS logo */
   --brand-red-primary: #CC1111;   /* main mid-red */
   --brand-red-bright:  #EE2222;   /* highlight/top shine */
   --brand-red-dark:    #880000;   /* wine/shadow */
@@ -36,13 +36,13 @@
   --nhm: 88px;
 }
 
-/* ── DARK MODE (default) ──────────────────────────────── */
+/* â”€â”€ DARK MODE (default) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 :root,
 :root[data-theme="dark"] {
-  /* Backgrounds — near-black brand dark */
-  --bg:    #0A0A0A;
+  /* Backgrounds â€” near-black brand dark */
+  --bg: #050508;
   --bg2:   #141414;
-  --card:  #1A1A1A;
+  --card: #0C0C11;
   --card2: #222222;
   --card-hover: #262626;
 
@@ -75,16 +75,16 @@
   --shcard: 0 12px 48px rgba(0, 0, 0, 0.65);
 }
 
-/* ── LIGHT MODE ───────────────────────────────────────── */
+/* â”€â”€ LIGHT MODE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 [data-theme="light"] {
-  /* Backgrounds — clean whites */
+  /* Backgrounds â€” clean whites */
   --bg:    #FFFFFF;
   --bg2:   #F5F5F5;
   --card:  #FFFFFF;
   --card2: #EDEDED;
   --card-hover: #F9F9F9;
 
-  /* Brand accent stays brand red — slightly deepened for contrast */
+  /* Brand accent stays brand red â€” slightly deepened for contrast */
   --c1:  #BB0F0F;   /* slightly darker for legibility on white */
   --c2:  #DD2020;
   --c3:  #FF4444;
@@ -113,7 +113,7 @@
   --shcard: 0 4px 24px rgba(0, 0, 0, 0.09), 0 1px 4px rgba(0, 0, 0, 0.04);
 }
 
-/* ── SMOOTH THEME TRANSITION ──────────────────────────── */
+/* â”€â”€ SMOOTH THEME TRANSITION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html {
@@ -135,3 +135,4 @@ body,
 }
 
 canvas { transition: none !important; }
+

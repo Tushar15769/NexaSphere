@@ -3,6 +3,7 @@ import './styles/themes.css';
 import './styles/globals.css';
 import './styles/animations.css';
 import './styles/components.css';
+import './styles/aurora.css';
 import './styles/motion.css';
 
 import ParticleBackground  from './shared/ParticleBackground';
