@@ -2,7 +2,6 @@
 import nexasphereLogo from '../../assets/images/logos/nexasphere-logo.png';
 import { IconArrowRight, IconSpark } from '../../shared/Icons';
 
-
 /* â”€â”€ Ripple Button â”€â”€ */
 function RippleBtn({ cls, children, href, onClick }) {
   const ref = useRef(null);
@@ -134,7 +133,7 @@ function Atmosphere({ isLight }) {
   );
   return (
     <>
-      {/* Binary rain */}
+      
       <div style={{position:'absolute',inset:0,overflow:'hidden',zIndex:0,pointerEvents:'none'}}>
         {Array.from({length:9},(_,i)=>(
           <div key={i} style={{position:'absolute',left:`${6+i*11}%`,top:0,fontFamily:"'Space Mono',monospace",fontSize:'8px',color:'var(--c1)',lineHeight:1.9,userSelect:'none',animation:`dataStream ${4.2+i*.65}s linear infinite`,animationDelay:`${-i*1.3}s`,opacity:.06}}>
@@ -142,7 +141,7 @@ function Atmosphere({ isLight }) {
           </div>
         ))}
       </div>
-      {/* Scanline */}
+      
       <div style={{position:'absolute',inset:0,overflow:'hidden',zIndex:1,pointerEvents:'none'}}>
         <div style={{position:'absolute',left:0,right:0,height:'1px',background:'linear-gradient(90deg,transparent,rgba(204,17,17,.38),rgba(136,0,0,.38),transparent)',animation:'scanline 8s linear infinite'}}/>
         <div style={{position:'absolute',inset:0,backgroundImage:'repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(204,17,17,.005) 2px,rgba(204,17,17,.005) 4px)'}}/>
@@ -164,7 +163,7 @@ export default function HeroSection({ onTabChange, onApply, onJoin, theme = 'dar
 
   return (
     <section className="hero-section" id="section-home" style={{position:'relative',zIndex:2}}>
-      {/* Responsive glass overlay, lets 3D background show through */}
+      
       <div style={{
         position:'absolute',inset:0,zIndex:0,
         pointerEvents:'none',
@@ -206,7 +205,7 @@ export default function HeroSection({ onTabChange, onApply, onJoin, theme = 'dar
               </span>
             </RippleBtn>
           </div>
-          {/* Core Team CTA */}
+          
           <div style={{
             marginTop:'6px',padding:'14px 24px',
             background: isLight ? 'rgba(204,17,17,.05)' : 'rgba(204,17,17,.07)',
@@ -227,9 +226,9 @@ export default function HeroSection({ onTabChange, onApply, onJoin, theme = 'dar
         <StatsBar vis={statsVis} isLight={isLight}/>
       </div>
 
-      {/* Bottom fade */}
+      
       <div style={{position:'absolute',bottom:0,left:0,right:0,height:'150px',background:'linear-gradient(to bottom,transparent,var(--bg))',pointerEvents:'none',zIndex:2}}/>
-      {/* Scroll indicator â€” sits inside bottom fade */}
+      
       <div style={{position:'absolute',bottom:'16px',left:'50%',transform:'translateX(-50%)',zIndex:2,display:'flex',flexDirection:'column',alignItems:'center',gap:'4px',opacity:.42,animation:'float 2.5s ease-in-out infinite'}}>
         <div style={{fontSize:'.56rem',color:isLight?'#78716c':'var(--t2)',letterSpacing:'.22em',fontFamily:"'Space Mono',monospace"}}>SCROLL</div>
         <div className="scroll-indicator-line" style={{width:'1px',height:'28px',background:`linear-gradient(to bottom,var(--c1),transparent)`}}/>
@@ -237,4 +236,5 @@ export default function HeroSection({ onTabChange, onApply, onJoin, theme = 'dar
     </section>
   );
 }
+
 

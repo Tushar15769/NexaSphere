@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+﻿import { useEffect } from 'react';
 import { BannerOrbs } from '../../shared/MotionLayer';
 
 const WHATSAPP = 'https://chat.whatsapp.com/Jjc5cuUKENu0RC1vWSEs20';
@@ -32,7 +32,7 @@ export default function AboutPage({ onBack }) {
 
   return (
     <div id="about-page" style={{ minHeight: '100vh', padding: '0 0 100px' }}>
-      {/* Hero */}
+      
       <div className="page-banner" style={{
         background: 'linear-gradient(135deg, rgba(0,212,255,.06), rgba(123,111,255,.04))',
         borderBottom: '1px solid var(--bdr)',
@@ -60,7 +60,7 @@ export default function AboutPage({ onBack }) {
       </div>
 
       <div className="container">
-        {/* Mission */}
+        
         <div style={{
           display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
           gap: '32px', marginBottom: '70px', alignItems: 'center',
@@ -84,7 +84,7 @@ export default function AboutPage({ onBack }) {
             </div>
           </div>
 
-          {/* Stats box */}
+          
           <div className="pop-right ag" style={{ animationDelay: '.14s' }}>
             <div className="about-card-inner" style={{ padding: '32px' }}>
               <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'linear-gradient(90deg, var(--c1), var(--c2), var(--c3))', borderRadius: 'var(--r3) var(--r3) 0 0' }} />
@@ -110,7 +110,7 @@ export default function AboutPage({ onBack }) {
           </div>
         </div>
 
-        {/* Values */}
+        
         <div style={{ marginBottom: '70px' }}>
           <h2 style={{ fontFamily: "'Orbitron', monospace", fontSize: '1.2rem', fontWeight: 700, color: 'var(--t1)', textAlign: 'center', marginBottom: '32px' }}>
             Our <span style={{ color: 'var(--c1)' }}>Values</span>
@@ -134,7 +134,7 @@ export default function AboutPage({ onBack }) {
           </div>
         </div>
 
-        {/* Milestones */}
+        
         <div className="ns-reveal" style={{ marginBottom: '60px' }}>
           <h2 style={{ fontFamily: "'Orbitron', monospace", fontSize: '1.2rem', fontWeight: 700, color: 'var(--t1)', textAlign: 'center', marginBottom: '32px' }}>
             Our <span style={{ color: 'var(--c2)' }}>Journey</span>
@@ -158,7 +158,7 @@ export default function AboutPage({ onBack }) {
           </div>
         </div>
 
-        {/* CTA */}
+        
         <div className="ns-reveal-scale" style={{ textAlign: 'center', paddingTop: '20px' }}>
           <div style={{ marginBottom: '20px', fontFamily: "'Orbitron', monospace", fontSize: '.72rem', color: 'var(--t3)', letterSpacing: '.2em', textTransform: 'uppercase' }}>
             Connect With Us
@@ -173,3 +173,4 @@ export default function AboutPage({ onBack }) {
     </div>
   );
 }
+

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 
 const WHATSAPP       = 'https://chat.whatsapp.com/Jjc5cuUKENu0RC1vWSEs20';
 const LINKEDIN       = 'https://www.linkedin.com/showcase/glbajaj-nexasphere/';
@@ -49,7 +49,7 @@ export default function AboutSection() {
             <p className="about-text pop-left" style={{marginTop:'12px',animationDelay:'.16s'}}>
               We've hosted KSS #153 on the Impact of AI, are running an Industry Insider career guidance session on March 13, and a Git &amp; GitHub workshop is coming soon. NexaSphere is where curiosity meets real opportunity.
             </p>
-            {/* Contact */}
+            
             <div className="pop-left" style={{marginTop:'16px',animationDelay:'.22s'}}>
               <div style={{fontFamily:'Orbitron,monospace',fontSize:'.7rem',color:'var(--c1)',fontWeight:700,letterSpacing:'.1em',marginBottom:'4px',textTransform:'uppercase'}}>Contact Us</div>
               <a href={`mailto:${NEXASPHERE_EMAIL}`} style={{color:'var(--c1)',fontSize:'.88rem',fontWeight:600}}>{NEXASPHERE_EMAIL}</a>
@@ -92,3 +92,4 @@ export default function AboutSection() {
     </section>
   );
 }
+

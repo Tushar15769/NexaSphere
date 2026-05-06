@@ -1,6 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+﻿import React, { useEffect, useRef } from 'react';
 
-// Responsive, animated grid + geometric shapes + glows
 export default function GeometricGridBackground({ theme = 'dark' }) {
   const canvasRef = useRef(null);
 
@@ -17,7 +16,7 @@ export default function GeometricGridBackground({ theme = 'dark' }) {
       canvas.height = h;
       ctx.clearRect(0, 0, w, h);
 
-      // Draw grid
+      
       ctx.save();
       ctx.globalAlpha = theme === 'light' ? 0.10 : 0.13;
       ctx.strokeStyle = theme === 'light' ? '#bfae9c' : '#222733';
@@ -36,18 +35,18 @@ export default function GeometricGridBackground({ theme = 'dark' }) {
       }
       ctx.restore();
 
-      // Geometric shapes (triangles, polygons)
+      
       ctx.save();
       ctx.globalAlpha = 0.13;
       ctx.fillStyle = theme === 'light' ? '#bfae9c' : '#181c2a';
-      // Triangle
+      
       ctx.beginPath();
       ctx.moveTo(w * 0.7, h * 0.1);
       ctx.lineTo(w * 0.95, h * 0.7);
       ctx.lineTo(w * 0.55, h * 0.7);
       ctx.closePath();
       ctx.fill();
-      // Polygon
+      
       ctx.beginPath();
       ctx.moveTo(w * 0.15, h * 0.8);
       ctx.lineTo(w * 0.3, h * 0.95);
@@ -56,7 +55,7 @@ export default function GeometricGridBackground({ theme = 'dark' }) {
       ctx.fill();
       ctx.restore();
 
-      // Soft radial glows
+      
       ctx.save();
       const glow1 = ctx.createRadialGradient(w * 0.25, h * 0.7, 0, w * 0.25, h * 0.7, 180);
       glow1.addColorStop(0, theme === 'light' ? 'rgba(255,200,100,0.13)' : 'rgba(0,212,255,0.13)');
@@ -100,3 +99,4 @@ export default function GeometricGridBackground({ theme = 'dark' }) {
     />
   );
 }
+

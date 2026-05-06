@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+﻿import { useEffect } from 'react';
 import { events as fallbackEvents } from '../../data/eventsData';
 import { BannerOrbs } from '../../shared/MotionLayer';
 
@@ -14,7 +14,7 @@ export default function EventsPage({ onBack, onEventClick, events = fallbackEven
 
   return (
     <div id="events-page" style={{ minHeight: '100vh', padding: '0 0 100px' }}>
-      {/* Hero */}
+      
       <div className="page-banner" style={{
         background: 'linear-gradient(135deg, rgba(0,212,255,.06), rgba(123,111,255,.04))',
         borderBottom: '1px solid var(--bdr)',
@@ -109,3 +109,4 @@ export default function EventsPage({ onBack, onEventClick, events = fallbackEven
     </div>
   );
 }
+

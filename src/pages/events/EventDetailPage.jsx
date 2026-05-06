@@ -1,12 +1,10 @@
-import { useEffect, useState, useRef } from 'react';
+﻿import { useEffect, useState, useRef } from 'react';
 
-// ── Helpers ──
 function hexToRgb(hex) {
   if (!hex || !hex.startsWith('#')) return '0,212,255';
   return `${parseInt(hex.slice(1,3),16)},${parseInt(hex.slice(3,5),16)},${parseInt(hex.slice(5,7),16)}`;
 }
 
-// ── Typewriter ──
 function Typewriter({ text, speed = 10 }) {
   const [displayed, setDisplayed] = useState('');
   const [done, setDone] = useState(false);
@@ -36,7 +34,6 @@ function Typewriter({ text, speed = 10 }) {
   );
 }
 
-// ── Animated Stat ──
 function StatCard({ label, value, color }) {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
@@ -76,7 +73,6 @@ function StatCard({ label, value, color }) {
   );
 }
 
-// ── Section Header ──
 function SectionHeader({ icon, title, color }) {
   return (
     <h2 style={{
@@ -94,7 +90,6 @@ function SectionHeader({ icon, title, color }) {
   );
 }
 
-// ── Person Chip ──
 function PersonChip({ name, role, color, emoji = '⚡' }) {
   const [hovered, setHovered] = useState(false);
   const rgb = hexToRgb(color);
@@ -122,7 +117,6 @@ function PersonChip({ name, role, color, emoji = '⚡' }) {
   );
 }
 
-// ── Topic Card ──
 function TopicCard({ topic, index, color }) {
   const [hovered, setHovered] = useState(false);
   const rgb = hexToRgb(color);
@@ -165,7 +159,6 @@ function TopicCard({ topic, index, color }) {
   );
 }
 
-// ── Acknowledgement Card ──
 function AckCard({ ack, color }) {
   const [hovered, setHovered] = useState(false);
   const rgb = hexToRgb(color);
@@ -193,7 +186,6 @@ function AckCard({ ack, color }) {
   );
 }
 
-// ── Media Button ──
 function MediaBtn({ href, icon, label, color }) {
   const [hovered, setHovered] = useState(false);
   const rgb = hexToRgb(color);
@@ -232,7 +224,6 @@ function MediaBtn({ href, icon, label, color }) {
   );
 }
 
-// ════════════════════════════════════════
 export default function EventDetailPage({ event, activityColor, activityIcon, onBack }) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => { window.scrollTo({ top: 0 }); setTimeout(() => setMounted(true), 60); }, []);
@@ -243,14 +234,14 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
   return (
     <div style={{ minHeight: '100vh', paddingBottom: '100px' }}>
 
-      {/* ── Hero ── */}
+      
       <div style={{
         position: 'relative', overflow: 'hidden',
         background: `linear-gradient(160deg, rgba(${rgb},0.12) 0%, rgba(${rgb},0.03) 50%, transparent 100%)`,
         borderBottom: `1px solid rgba(${rgb},0.2)`,
         padding: '60px 0 52px',
       }}>
-        {/* Grid bg */}
+        
         <div style={{
           position: 'absolute', inset: 0, zIndex: 0,
           backgroundImage: `linear-gradient(rgba(${rgb},0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(${rgb},0.05) 1px, transparent 1px)`,
@@ -281,7 +272,7 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
             transform: mounted ? 'translateY(0)' : 'translateY(36px)',
             transition: 'all 0.8s cubic-bezier(0.22,1,0.36,1)',
           }}>
-            {/* Badge */}
+            
             <div style={{
               display: 'inline-flex', alignItems: 'center', gap: '8px',
               background: `rgba(${rgb},0.1)`, border: `1px solid rgba(${rgb},0.3)`,
@@ -323,7 +314,7 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
               }}>✅ Completed</span>
             </div>
 
-            {/* Stats */}
+            
             <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
               {event.stats?.map(s => <StatCard key={s.label} label={s.label} value={s.value} color={color} />)}
             </div>
@@ -331,11 +322,11 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
         </div>
       </div>
 
-      {/* ── Content ── */}
+      
       <div className="container" style={{ paddingTop: '52px' }}>
         <div style={{ maxWidth: '820px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '48px' }}>
 
-          {/* Overview */}
+          
           <section>
             <SectionHeader icon="📋" title="Session Overview" color={color} />
             <div style={{
@@ -355,7 +346,7 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
             </div>
           </section>
 
-          {/* Presenters */}
+          
           <section>
             <SectionHeader icon="🎤" title="Presenters" color={color} />
             <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
@@ -365,7 +356,7 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
             </div>
           </section>
 
-          {/* Topics */}
+          
           <section>
             <SectionHeader icon="🎯" title="Topics Covered" color={color} />
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
@@ -373,7 +364,7 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
             </div>
           </section>
 
-          {/* Video Presentors & Anchor */}
+          
           {(event.videoPresenter?.length > 0 || event.anchor) && (
             <section>
               <SectionHeader icon="🎬" title="Video Presentors & Anchor" color={color} />
@@ -388,7 +379,7 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
             </section>
           )}
 
-          {/* Volunteers */}
+          
           {event.volunteers?.length > 0 && (
             <section>
               <SectionHeader icon="⚡" title="Volunteers — The Unsung Heroes" color={color} />
@@ -400,7 +391,7 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
             </section>
           )}
 
-          {/* Acknowledgements */}
+          
           {event.acknowledgements?.length > 0 && (
             <section>
               <SectionHeader icon="🙏" title="Special Thanks" color={color} />
@@ -410,7 +401,7 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
             </section>
           )}
 
-          {/* Photos & Videos */}
+          
           <section>
             <SectionHeader icon="📸" title="Photos & Videos" color={color} />
             <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
@@ -424,7 +415,7 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
             )}
           </section>
 
-          {/* Closing Note */}
+          
           {event.closingNote && (
             <section>
               <div style={{
@@ -453,7 +444,7 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
             </section>
           )}
 
-          {/* Hashtags */}
+          
           {event.hashtags?.length > 0 && (
             <section>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
@@ -481,3 +472,4 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
     </div>
   );
 }
+
