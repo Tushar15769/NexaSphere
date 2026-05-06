@@ -67,11 +67,11 @@ function IntroContent({ phase, count, tagline, accent, accent2, muted, grad, bg,
       ))}
       <div style={{ marginBottom:'20px', opacity:phase>=1?1:0, animation:phase>=1?'cinLogoIn .75s cubic-bezier(.34,1.56,.64,1) both':'none' }}>
         <img src={nexasphereLogo} alt="NexaSphere" style={{
-          width:'72px', height:'72px', objectFit:'contain',
-          mixBlendMode: 'normal',
+          width:'96px', height:'96px', objectFit:'contain',
+          mixBlendMode: isL ? 'multiply' : 'screen',
           filter: isL
-            ? 'drop-shadow(0 2px 10px rgba(0,0,0,.2))'
-            : 'drop-shadow(0 0 18px rgba(204,17,17,.7)) drop-shadow(0 0 36px rgba(136,0,0,.4)) brightness(1.2)',
+            ? 'saturate(1.5) contrast(1.2) drop-shadow(0 4px 16px rgba(204,17,17,.5)) brightness(1.05)'
+            : 'brightness(1.8) saturate(1.5) drop-shadow(0 0 22px rgba(204,17,17,.8)) drop-shadow(0 0 44px rgba(136,0,0,.5))',
           animation: phase>=1 ? 'float 3s ease-in-out infinite' : 'none',
         }}/>
       </div>

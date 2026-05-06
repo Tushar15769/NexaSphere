@@ -86,7 +86,7 @@ function Logo3D({ ready, isLight }) {
     >
       <OrbitRings isLight={isLight}/>
       <img src={nexasphereLogo} alt="NexaSphere" className="hero-logo-img"/>
-      <div style={{position:'absolute',bottom:'-8px',left:'50%',transform:'translateX(-50%)',width:'52px',height:'10px',borderRadius:'50%',background:`radial-gradient(ellipse,${isLight?'rgba(0,0,0,.08)':'rgba(0,212,255,.18)'},transparent 70%)`,filter:'blur(4px)',animation:'float 5s ease-in-out infinite'}}/>
+      <div style={{position:'absolute',bottom:'-8px',left:'50%',transform:'translateX(-50%)',width:'72px',height:'12px',borderRadius:'50%',background:`radial-gradient(ellipse,${isLight?'rgba(204,17,17,.22)':'rgba(204,17,17,.32)'},transparent 70%)`,filter:'blur(5px)',animation:'float 5s ease-in-out infinite'}}/>
     </div>
   );
 }
