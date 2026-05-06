@@ -155,10 +155,13 @@
   transition:height .3s, background .3s, box-shadow .3s !important;
 }
 [data-theme="light"] .ns-navbar {
-  background:rgba(255,255,255,0.90);
-  border-bottom:1px solid rgba(26,26,26,0.1);
+  background: rgba(255,255,255,.55) !important;
+  backdrop-filter: blur(36px) saturate(200%) brightness(1.05) !important;
+  -webkit-backdrop-filter: blur(36px) saturate(200%) brightness(1.05) !important;
+  border-bottom: 1px solid rgba(204,17,17,.09) !important;
+  box-shadow: 0 1px 0 rgba(204,17,17,.06), 0 8px 24px rgba(0,0,0,.06) !important;
 }
-.ns-navbar.scrolled { height:54px; background:rgba(10,10,10,0.97); box-shadow:0 4px 32px rgba(204,17,17,.04); }
+.ns-navbar.scrolled { height:54px; background:rgba(5,5,8,.50); box-shadow:0 4px 32px rgba(204,17,17,.04); }
 [data-theme="light"] .ns-navbar.scrolled { background:rgba(255,255,255,0.99); box-shadow:0 2px 20px rgba(0,0,0,.08); }
 .ns-navbar .container { display:flex; align-items:center; justify-content:space-between; height:100%; }
 .ns-nav-logos { display:flex; align-items:center; gap:12px; }
@@ -229,8 +232,13 @@
 [data-theme="light"] .ns-nav-tab.active { color:#CC1111; }
 
 /* Mobile nav */
-.ns-navbar-mobile { position:fixed; top:0; left:0; right:0; z-index:900; background:rgba(10,10,10,0.97); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); border-bottom:1px solid var(--bdr); padding:6px 0 4px; }
-[data-theme="light"] .ns-navbar-mobile { background:rgba(255,255,255,0.99); border-bottom:1px solid rgba(26,26,26,0.1); }
+.ns-navbar-mobile { position:fixed; top:0; left:0; right:0; z-index:900; background:rgba(5,5,8,.50); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); border-bottom:1px solid var(--bdr); padding:6px 0 4px; }
+[data-theme="light"] .ns-navbar-mobile {
+  background: rgba(255,255,255,.75) !important;
+  backdrop-filter: blur(36px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(36px) saturate(200%) !important;
+  border-bottom: 1px solid rgba(0,0,0,.07) !important;
+}
 .ns-mobile-top { display:flex; align-items:center; justify-content:center; gap:10px; padding:0 14px 5px; }
 .ns-mobile-logo-ns {
   height: 34px; width: 34px; object-fit: contain;
@@ -681,4 +689,5 @@
 [data-theme="light"] .team-card-hint    { color: #8A8A8A !important; }
 [data-theme="light"] .ns-footer-built   { color: #6B6B6B !important; }
 [data-theme="light"] .ns-footer-email-link { color: #CC1111 !important; }
+
 
