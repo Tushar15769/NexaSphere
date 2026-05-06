@@ -4,9 +4,10 @@
 
 > **Connecting students with opportunities** across Tech and Non-Tech domains through an integrated digital ecosystem
 <br/>
----
-<br/>
 
+<p align="center">`r`n  <img src="image.png" alt="NexaSphere homepage preview" width="100%" />`r`n</p>
+
+<br/>
 ## 🔗 Quick Access
 
 <div align="center">
@@ -722,3 +723,4 @@ All rights reserved. Not for external distribution.
 **Version 1.0** | Last Updated: May 2026
 
 </div>
+
