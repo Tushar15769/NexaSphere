@@ -155,20 +155,20 @@
   transition:height .3s, background .3s, box-shadow .3s !important;
 }
 [data-theme="light"] .ns-navbar {
-  background: rgba(255,255,255,.55) !important;
-  backdrop-filter: blur(36px) saturate(200%) brightness(1.05) !important;
-  -webkit-backdrop-filter: blur(36px) saturate(200%) brightness(1.05) !important;
-  border-bottom: 1px solid rgba(204,17,17,.09) !important;
-  box-shadow: 0 1px 0 rgba(204,17,17,.06), 0 8px 24px rgba(0,0,0,.06) !important;
+  background: rgba(255,255,255,.08) !important;
+  backdrop-filter: blur(40px) saturate(220%) brightness(1.04) !important;
+  -webkit-backdrop-filter: blur(40px) saturate(220%) brightness(1.04) !important;
+  border-bottom: 1px solid rgba(204,17,17,.05) !important;
+  box-shadow: inset 0 -1px 0 rgba(204,17,17,.04), 0 4px 24px rgba(0,0,0,.04) !important;
 }
-.ns-navbar.scrolled { height:54px; background:rgba(5,5,8,.50); box-shadow:0 4px 32px rgba(204,17,17,.04); }
+.ns-navbar.scrolled { height:54px; background:rgba(5,5,8,.12); box-shadow:0 4px 32px rgba(204,17,17,.04); }
 [data-theme="light"] .ns-navbar.scrolled { background:rgba(255,255,255,0.99); box-shadow:0 2px 20px rgba(0,0,0,.08); }
 .ns-navbar .container { display:flex; align-items:center; justify-content:space-between; height:100%; }
 .ns-nav-logos { display:flex; align-items:center; gap:12px; }
 
 /* NexaSphere logo in nav: screen blend removes black bg */
 .ns-nav-logo-ns {
-  height: 52px; width: 52px; object-fit: contain;
+  height: 58px; width: 58px; object-fit: contain;
   mix-blend-mode: screen;
   filter: brightness(1.7) saturate(1.4) drop-shadow(0 0 8px rgba(204,17,17,.7));
   transition: filter .25s ease, transform .25s ease !important;
@@ -189,7 +189,7 @@
 
 .ns-nav-divider { width:1px; height:24px; background:var(--bdr2); flex-shrink:0; }
 .ns-nav-brand {
-  font-family:'Orbitron',monospace; font-size:.95rem; font-weight:900; letter-spacing:.08em;
+  font-family:'Orbitron',monospace; font-size:1.05rem; font-weight:900; letter-spacing:.08em;
   background:linear-gradient(135deg,var(--c1),var(--c2));
   -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
   transition:transform .2s ease, filter .2s ease !important;
@@ -232,12 +232,12 @@
 [data-theme="light"] .ns-nav-tab.active { color:#CC1111; }
 
 /* Mobile nav */
-.ns-navbar-mobile { position:fixed; top:0; left:0; right:0; z-index:900; background:rgba(5,5,8,.50); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); border-bottom:1px solid var(--bdr); padding:6px 0 4px; }
+.ns-navbar-mobile { position:fixed; top:0; left:0; right:0; z-index:900; background:rgba(5,5,8,.12); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); border-bottom:1px solid var(--bdr); padding:6px 0 4px; }
 [data-theme="light"] .ns-navbar-mobile {
-  background: rgba(255,255,255,.75) !important;
-  backdrop-filter: blur(36px) saturate(200%) !important;
-  -webkit-backdrop-filter: blur(36px) saturate(200%) !important;
-  border-bottom: 1px solid rgba(0,0,0,.07) !important;
+  background: rgba(255,255,255,.12) !important;
+  backdrop-filter: blur(40px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(40px) saturate(200%) !important;
+  border-bottom: 1px solid rgba(0,0,0,.05) !important;
 }
 .ns-mobile-top { display:flex; align-items:center; justify-content:center; gap:10px; padding:0 14px 5px; }
 .ns-mobile-logo-ns {
@@ -267,11 +267,11 @@
 .hero-overlay { position:absolute; inset:0; background:radial-gradient(ellipse 75% 50% at 50% 35%,rgba(204,17,17,.04) 0%,rgba(10,10,10,.6) 65%,rgba(10,10,10,.97) 100%); z-index:1; }
 [data-theme="light"] .hero-overlay { background:radial-gradient(ellipse 80% 55% at 50% 35%, rgba(255,245,245,.50) 0%, rgba(255,255,255,.85) 65%, rgba(255,255,255,.97) 100%); }
 .hero-content { position:relative; z-index:2; text-align:center; padding:0 20px; }
-.hero-logo-wrap { position:relative; display:inline-block; margin-bottom:24px; width:210px; height:210px; }
+.hero-logo-wrap { position:relative; display:inline-block; margin-bottom:28px; width:270px; height:270px; }
 .hero-logo-img {
   position:relative; z-index:1;
-  width:158px; height:158px; object-fit:contain;
-  margin:26px auto 0; display:block;
+  width:210px; height:210px; object-fit:contain;
+  margin:30px auto 0; display:block;
   mix-blend-mode:screen;
   filter: brightness(1.8) saturate(1.5) drop-shadow(0 0 30px rgba(204,17,17,.75)) drop-shadow(0 0 60px rgba(238,34,34,.45));
   animation:float 5s ease-in-out infinite;
@@ -689,5 +689,8 @@
 [data-theme="light"] .team-card-hint    { color: #8A8A8A !important; }
 [data-theme="light"] .ns-footer-built   { color: #6B6B6B !important; }
 [data-theme="light"] .ns-footer-email-link { color: #CC1111 !important; }
+
+
+
 
 

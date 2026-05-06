@@ -131,20 +131,22 @@
 /* â”€â”€ NAVBAR PRISMATIC GLASS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 [data-theme="dark"] .ns-navbar,
 :not([data-theme]) .ns-navbar {
-  background: rgba(4, 4, 7, .84) !important;
+  background: rgba(5, 5, 8, 0.06) !important;
+  backdrop-filter: blur(42px) saturate(220%) brightness(1.08) !important;
+  -webkit-backdrop-filter: blur(42px) saturate(220%) brightness(1.08) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
   box-shadow:
-    0 1px 0 rgba(139, 92, 246, .07),
-    0 1px 0 rgba(59, 130, 246, .05),
-    0 0 1px rgba(204, 17, 17, .12),
-    0 20px 50px rgba(0, 0, 0, .6) !important;
+    inset 0 -1px 0 rgba(204, 17, 17, .05),
+    0 8px 32px rgba(0, 0, 0, .18) !important;
 }
 
 [data-theme="dark"] .ns-navbar-mobile,
 :not([data-theme]) .ns-navbar-mobile {
-  background: rgba(4, 4, 7, .96) !important;
-  box-shadow:
-    0 1px 0 rgba(139, 92, 246, .07),
-    0 2px 20px rgba(0, 0, 0, .55) !important;
+  background: rgba(5, 5, 8, 0.12) !important;
+  backdrop-filter: blur(42px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(42px) saturate(200%) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+  box-shadow: 0 2px 24px rgba(0, 0, 0, .22) !important;
 }
 
 
@@ -234,5 +236,6 @@
   -webkit-backdrop-filter: blur(10px) saturate(140%) !important;
   background: rgba(255,255,255,.82) !important;
 }
+
 
 
