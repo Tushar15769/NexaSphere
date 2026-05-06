@@ -1,252 +1,224 @@
-# NexaSphere — GL Bajaj Group of Institutions, Mathura
+# NexaSphere — GL Bajaj's Student-Driven Tech Ecosystem
 
-> The official website & community platform for NexaSphere — connecting GL Bajaj students with opportunities across Tech and Non-Tech domains.
-
-**🌐 Live Site:**   
-**📧 Email:** nexasphere@glbajajgroup.org  
-**💼 LinkedIn:** https://www.linkedin.com/showcase/glbajaj-nexasphere/  
-**💬 WhatsApp Community:** https://chat.whatsapp.com/Jjc5cuUKENu0RC1vWSEs20
+A modern, animated single-page React application for NexaSphere, the official student tech community of GL Bajaj Group of Institutions, Mathura.
 
 ---
 
-## ⚡ Tech Stack
+## Live URLs
+
+| Environment | URL |
+|-------------|-----|
+| **Production** | [nexasphere.vercel.app](https://nexasphere.vercel.app) |
+| **GitHub Pages** | [ayushh-sharmaa.github.io/NexaSphere-NSOC](https://ayushh-sharmaa.github.io/NexaSphere-NSOC) |
+
+---
+
+## Tech Stack
 
 | Layer | Technology |
-|---|---|
-| Framework | React 18 + Vite 5 |
-| Styling | Vanilla CSS (globals · animations · components · **motion**) |
-| Hosting | Netlify (auto-deploy on push to `main`) |
-| Form backend | Google Apps Script → Google Sheets |
-| Fonts | Orbitron · Rajdhani · Space Mono · Inter (Google Fonts) |
+|-------|-----------|
+| Framework | React 18 (Vite) |
+| Styling | Vanilla CSS — design token system via CSS custom properties |
+| Animations | CSS keyframes + custom React motion hooks |
+| Forms | Google Apps Script → Google Sheets backend |
+| Deployment | Vercel (primary) + GitHub Pages |
+| Package Manager | npm |
 
 ---
 
-## 📁 Project Structure
+## Features
+
+- **Cinematic opening** — glass-shatter intro sequence with letter-by-letter type-in
+- **Dark / Light theme** — system-aware with `localStorage` persistence, toggled via sun/moon button in navbar
+- **Wine-Red brand system** — full `#CC1111` palette replacing legacy blue/purple
+- **Aurora night layer** — Apple 2027-inspired prismatic ambient dark mode (breathing aurora blobs, iridescent card borders, conic logo halo)
+- **Glassmorphism** — fully transparent frosted-glass navbar + backdrop-blur on all cards, banners, modals
+- **Motion layer** — parallax, magnetic buttons, 3D card tilt, scroll reveals, particle background, geometric grid
+- **Custom cursor** — magnetic hover with glow trail
+- **Pages**: Home, Activities, Events, About, Team, Contact, Core Team Recruitment, Membership Application, Admin
+
+---
+
+## Pages & Navigation
+
+| Route / State | Component | Description |
+|---------------|-----------|-------------|
+| `Home` | `HeroSection` + sections | Landing with hero, activities, events, about, team |
+| `Activities` | `ActivitiesPage` | All activity cards |
+| Activity detail | `ActivityDetailPage` | Per-activity deep-dive with events list |
+| `Events` | `EventsPage` | KSS and all events |
+| Event detail | `EventDetailPage` | Individual event page |
+| `About` | `AboutPage` | Club mission, stats, timeline |
+| `Team` | `TeamPage` | Core team member cards + modal bios |
+| `Contact` | `ContactPage` | Social links and contact form |
+| `apply` (type) | `RecruitmentPage` | Core Team application form → Google Sheets |
+| `join` (type) | `MembershipPage` | Membership application form → Google Sheets |
+| `Admin` | `AdminPage` | Internal admin panel (hash-gated) |
+
+All navigation is handled via the `page` state in `App.jsx` with animated wipe transitions.
+
+---
+
+## Project Structure
 
 ```
-NexaSphere-1/
-├── google-apps-script/         # Apps Script files (NOT auto-deployed)
-│   └── Code.gs                 # Membership form handler → Google Sheets
-├── public/                     # Static assets served as-is
-├── src/
-│   ├── App.jsx                 # Root component — routing & page switching + motion hooks
-│   ├── assets/
-│   │   └── images/
-│   │       ├── logos/          # nexasphere-logo.png, glbajaj-logo.png
-│   │       └── team/           # Circular profile photos (300×300px)
-│   ├── data/                   # All site content (edit here — no component changes needed)
-│   │   ├── teamData.js         # Core team members
-│   │   ├── activitiesData.js   # Activity card grid data
-│   │   ├── eventsData.js       # Home page + Events page timeline
-│   │   └── activities/         # Per-activity detail pages
-│   │       ├── index.js        # Activity registry
-│   │       ├── insightSession.js
-│   │       ├── workshop.js
-│   │       ├── hackathon.js
-│   │       └── ...
-│   ├── pages/
-│   │   ├── home/               # HeroSection
-│   │   ├── activities/         # ActivitiesPage + ActivityDetailPage
-│   │   ├── events/             # EventsPage + EventDetailPage
-│   │   ├── about/              # AboutPage
-│   │   ├── team/               # TeamPage + TeamSection
-│   │   ├── contact/            # ContactPage
-│   │   ├── recruitment/        # RecruitmentPage  (Core Team Application — 7-step form)
-│   │   └── membership/         # MembershipPage   (Join as Member — 2-section form)
-│   ├── shared/                 # Navbar, Footer, Icons, ParticleBackground, MotionLayer, etc.
-│   └── styles/
-│       ├── globals.css         # CSS variables, body reset, layout utilities
-│       ├── animations.css      # @keyframes + scroll-reveal classes (v8)
-│       ├── components.css      # Every component's styles
-│       └── motion.css          # ✨ NEW: Advanced motion layer (v2) — see below
-├── index.html
-├── vite.config.js
-├── netlify.toml
-└── package.json
+src/
+├── assets/images/logos/      # Brand logos (nexasphere-logo.png, glbajaj-logo.png)
+├── data/                     # Activities, events, team data
+│   ├── activities/           # Per-activity JS data files + index.js
+│   └── eventsData.js         # KSS events data
+├── pages/
+│   ├── home/                 # HeroSection.jsx
+│   ├── activities/           # ActivitiesPage, ActivitiesSection, ActivityDetailPage
+│   ├── events/               # EventsPage, EventsSection, EventDetailPage
+│   ├── about/                # AboutPage, AboutSection
+│   ├── team/                 # TeamPage, TeamSection, TeamMemberCard, TeamMemberModal
+│   ├── contact/              # ContactPage
+│   ├── recruitment/          # RecruitmentPage (Core Team form)
+│   ├── membership/           # MembershipPage (Membership form)
+│   └── admin/                # AdminPage
+├── shared/                   # Reusable components
+│   ├── Navbar.jsx
+│   ├── Footer.jsx
+│   ├── CinematicOpening.jsx
+│   ├── ParticleBackground.jsx
+│   ├── GeometricGridBackground.jsx
+│   ├── MotionLayer.jsx       # All motion hooks (parallax, reveals, cursor, scroll)
+│   ├── StormOverlay.jsx
+│   └── Icons.jsx
+└── styles/
+    ├── themes.css            # CSS custom property tokens (dark + light)
+    ├── globals.css           # Body, typography, scrollbar, utility classes
+    ├── components.css        # All component styles
+    ├── animations.css        # @keyframes library
+    ├── aurora.css            # Dark mode prismatic night layer
+    └── motion.css            # Motion layer CSS
 ```
 
 ---
 
-## 🚀 Development
+## Brand Design System
+
+### Color Tokens (CSS custom properties)
+
+| Token | Dark | Light | Usage |
+|-------|------|-------|-------|
+| `--bg` | `#050508` | `#FFFFFF` | Page background |
+| `--card` | `#0C0C11` | `#FFFFFF` | Card/surface background |
+| `--c1` | `#CC1111` | `#BB0F0F` | Primary brand red |
+| `--c2` | `#EE2222` | `#DD2020` | Highlight red |
+| `--c4` | `#880000` | `#880000` | Deep wine red |
+| `--t1` | `#F0F0F0` | `#1A1A1A` | Primary text |
+| `--t2` | `#A8A8A8` | `#4A4A4A` | Secondary text |
+
+### Fonts
+
+| Font | Usage |
+|------|-------|
+| `Orbitron` | Headings, brand name, cinematic opener |
+| `Rajdhani` | Navigation, labels, body |
+| `Space Mono` | Taglines, code-style text |
+| `Inter` | Form inputs, general body |
+
+### Theme Toggle
+- Stored in `localStorage` key `ns-theme`
+- Applied via `data-theme="light"` on `<html>` element (default dark)
+- Transitions on all surfaces: `0.42s cubic-bezier(.4,0,.2,1)`
+
+---
+
+## Forms & Backend
+
+### Core Team Recruitment
+- **Component**: `RecruitmentPage.jsx`
+- **Endpoint**: Google Apps Script web app
+- **Destination**: Google Sheets — Core Team Applications
+- **Fields**: Name, Email, Phone, Branch, Year, Section, Domain, Motivation, Skills, LinkedIn, Portfolio
+- **Trigger**: "Apply for Core Team" button on HeroSection / TeamPage
+
+### Membership Application
+- **Component**: `MembershipPage.jsx`
+- **Endpoint**: Google Apps Script web app
+- **Destination**: Google Sheets — Membership Applications
+- **Fields**: Name, Email, Phone, Branch, Year, Section, Skills, Why join
+- **Trigger**: "Join as Member" button on HeroSection
+
+---
+
+## Local Development
 
 ```bash
+# Install dependencies
 npm install
-npm run dev        # http://localhost:5173
+
+# Start dev server (http://localhost:5173)
+npm run dev
+
+# Production build
+npm run build
+
+# Preview production build
+npm run preview
 ```
+
+---
+
+## Deployment
+
+### Vercel (Primary)
+The project auto-deploys from the `main` branch via Vercel GitHub integration.
 
 ```bash
-npm run build      # Production build → dist/
-npm run preview    # Preview the production build locally
+# Manual deploy
+npx vercel --prod
 ```
 
----
-
-## 🌍 Deployment
-
-Push to `main` → Netlify auto-builds and deploys via `netlify.toml`.
-
-```toml
-# netlify.toml
-[build]
-  command   = "npm run build"
-  publish   = "dist"
-```
+### GitHub Pages
+Configured via `.github/workflows/` — auto-deploys on push to `main`.
 
 ---
 
-## ✨ Animation Architecture & Interaction System
+## Environment Variables
 
-NexaSphere uses a **layered motion hierarchy** across three CSS files and a shared React utility module. All effects are **non-destructive** — existing animations are preserved and only extended.
-
-### Motion Files
-
-| File | Purpose |
-|---|---|
-| `src/styles/animations.css` | Core keyframes + `.pop-in/.pop-word/.pop-left` scroll-reveal system |
-| `src/styles/components.css` | Per-component hover, shimmer, and transition styles |
-| `src/styles/motion.css` | ✨ Advanced motion layer — ambient orbs, parallax, nav micro-fx, button pulses |
-| `src/shared/MotionLayer.jsx` | React hooks wiring all scroll/mouse effects into the app |
-
-### Animation Hierarchy
-
-```
-Level 1 — Loader / Cinematic Opening
-  CinematicOpening.jsx → shard-shatter, letter-typewriter, crack SVG, flash burst
-  Wipe component       → page wipe + shimmer sweep + logo splash + page flash glow
-
-Level 2 — Ambient / Background
-  AmbientOrbs          → 5 fixed blurred gradient orbs drifting behind content
-  ParticleBackground   → canvas-based constellation particle system
-  Hero hero-bg-parallax→ scroll-driven scale+translateY on hero background
-
-Level 3 — Entrance Reveals (scroll-triggered)
-  .pop-in/.pop-word/.pop-left/.pop-right/.pop-scale/.pop-flip/.pop-num
-    → IntersectionObserver adds .fired → triggers keyframe animation
-  .ns-reveal / .ns-reveal-left / .ns-reveal-right / .ns-reveal-scale
-    → IntersectionObserver adds .ns-visible → CSS transition fade/slide
-
-Level 4 — Per-Section Micro-interactions
-  Activity cards  → mag-card 3D tilt + card-accent-line + shimmer sweep + icon spin
-  Team cards      → mag-card 3D tilt + photo ring spin (conic-gradient) + glow
-  Timeline cards  → translateY lift + border glow + dot color pulse
-  About values    → chip hover lift + box-shadow
-  Buttons         → ctaBreath pulse / joinBreath pulse / outlinePulse glow
-                    + press-down :active scale + ripple on click
-
-Level 5 — Navigation
-  Navbar         → navSlideIn on mount + lift on tab hover + underline glow
-  Tab switching  → wipeDown/wipeUp wipe + shimmer overlay + page flash + splash logo
-  Scroll bar     → #scroll-progress width driven by useScrollProgress hook
-
-Level 6 — Cursor System
-  Custom cursor  → anti-gravity orb (with float bob) + trail dot + ambient glow halo
-                   magnetic hover expand + click shrink
-```
-
-### Key Hooks (src/shared/MotionLayer.jsx)
-
-| Hook | Effect |
-|---|---|
-| `useScrollProgress()` | Drives `#scroll-progress` bar width via `window.scrollY` |
-| `useNsReveal(deps)` | IntersectionObserver for `.ns-reveal*` elements → adds `.ns-visible` |
-| `useHeroParallax()` | rAF loop: moves `.hero-bg-parallax` at 0.28× scroll speed |
-| `useNavScrollTint()` | Dynamic `backdropFilter` intensity on navbar on scroll |
-| `useGlobalMouseParallax()` | Moves `[data-parallax]` elements based on mouse position |
-| `useMagneticCards()` | 3D `perspective + rotateX/Y` tilt on `.mag-card` elements |
-
-### CSS Classes Reference
-
-| Class | Applied To | Effect |
-|---|---|---|
-| `.ns-reveal` | Section wrappers | Fade + translateY up on scroll into view |
-| `.ns-reveal-left` | Text columns | Slide from left on scroll |
-| `.ns-reveal-right` | Media columns | Slide from right on scroll |
-| `.ns-reveal-scale` | CTA boxes | Scale from 0.88 on scroll |
-| `.ns-visible` | Added by JS | Triggers the transition |
-| `.mag-card` | Activity + Team cards | 3D tilt from MotionLayer mouse hook |
-| `.ambient-orb` | Fixed bg divs | Drifting colored blur orbs |
-| `.section-divider` | Between sections | Animated gradient sweep stripe |
-| `.wipe-shimmer` | During nav wipe | Bright shimmer over page transition |
-| `.page-flash` | On nav arrive | Radial glow burst on page entry |
-| `.hero-bg-parallax` | Hero bg div | Scroll-driven transform |
-| `[data-parallax="N"]` | SVG rings, etc. | Mouse-driven movement at depth N |
-| `.scroll-indicator-line` | Hero scroll dot | Bounce animation |
-
-### Timing Consistency
-
-All animations use one of these easing functions for consistency:
-- **`cubic-bezier(.22,1,.36,1)`** — smooth spring (entrances, reveals)
-- **`cubic-bezier(.34,1.56,.64,1)`** — bouncy spring (interactive elements, modals)
-- **`cubic-bezier(.77,0,.18,1)`** — cinematic snap (page wipes)
-- **`ease-in-out`** — ambient loops (orbs, pulses, parallax)
-
-### Performance Optimizations
-
-- `will-change: transform` on animated cards and orbs
-- `passive: true` on all scroll/mouse event listeners
-- rAF loops for smooth 60fps effects (cursor, parallax, progress bar)
-- `@media (prefers-reduced-motion: reduce)` disables all ambient animations
-- `@media (max-width: 768px)` hides ambient orbs and disables parallax
+No environment variables are required for the frontend.  
+Google Apps Script endpoints are hardcoded in the form components (public web app URLs).
 
 ---
 
-## 📝 Forms & Google Sheets Integration
+## Active Branch
 
-NexaSphere uses **Google Apps Script Web Apps** for form submissions. Data stays in Google Sheets — no backend server required.
+| Branch | Purpose |
+|--------|---------|
+| `main` | Production — deployed to Vercel + GitHub Pages |
+| `feat/brand-rebrand-wine-red` | Current — wine-red rebrand + aurora night layer |
 
-### Form 1 — Core Team Recruitment (7-step)
-
-| Item | Detail |
-|---|---|
-| File | `src/pages/recruitment/RecruitmentPage.jsx` |
-| Constant | `APPS_SCRIPT_URL` (line ~883) |
-| Script project | Separate Apps Script project (Core Team sheet) |
-| Sheet tab | `Responses` |
-| Deployed URL | *(stored in the constant above)* |
-
-### Form 2 — Join as Member (2-section)
-
-| Item | Detail |
-|---|---|
-| File | `src/pages/membership/MembershipPage.jsx` |
-| Constant | `MEMBERSHIP_SCRIPT_URL` (line ~33) |
-| Script project | **"NexaSphere Membership"** Apps Script project |
-| Sheet tab | `Membership` (auto-created on first submission) |
-| Deployment ID | `AKfycbyRQOW3Xjv13vXvft8ezD9sJdvjV3kf-VHm1l_mImHRDUAEqsilK0wb5QBD5GOkixwe` |
-| Deployed URL | `https://script.google.com/macros/s/AKfycbyRQOW3Xjv13vXvft8ez.../exec` |
-| Script file | `google-apps-script/Code.gs` |
-
-> Both forms use `mode: 'no-cors'` + `Content-Type: text/plain` to bypass CORS on Google's servers. The Apps Script parses the plain-text body as JSON.
+**Current PR**: `feat/brand-rebrand-wine-red` → `main`
 
 ---
 
-## ✏️ Common Content Changes
+## Changelog (Recent)
 
-| Task | File to edit |
-|---|---|
-| Add / update team member | `src/data/teamData.js` |
-| Add activity event | `src/data/activities/<name>.js` |
-| Add KSS / Insight Session | `src/data/activities/insightSession.js` |
-| Update home page stats | `src/pages/home/HeroSection.jsx` → `StatsBar` |
-| Update contact details | `src/pages/contact/ContactPage.jsx` → constants at top |
-| Add team member photo | `src/assets/images/team/<name>.png` (300×300px, transparent) |
-| Change site colors | `src/styles/globals.css` → `:root {}` |
-| Add a new scroll-reveal | Add `ns-reveal` class to any wrapper element |
-| Change animation timing | Edit easing in `src/styles/motion.css` |
-
----
-
-## 🔗 Key Links
-
-| Resource | URL |
-|---|---|
-| Core Team Application | In-built form (opens from "Apply" / "Core Team" buttons) |
-| Join as Member | In-built form (opens from "Join as Member" hero button) |
-| Code of Conduct | https://tinyurl.com/NexaSphere-COD |
-| Community Rules | https://tinyurl.com/NexaSphere-Rules |
-| LinkedIn Page | https://www.linkedin.com/showcase/glbajaj-nexasphere/ |
-| WhatsApp Community | https://chat.whatsapp.com/Jjc5cuUKENu0RC1vWSEs20 |
+### feat/brand-rebrand-wine-red
+- Full wine-red brand identity (`#CC1111`) replacing blue/purple
+- Dark / light theme toggle with `localStorage` persistence
+- Aurora night layer — prismatic dark mode ambient (breathing blobs, iridescent card borders, conic logo halo)
+- Fully transparent glassmorphism navbar (`blur(42px)`) across all pages
+- Global frosted-glass backdrop on all cards, banners, modals
+- Hero logo: 116px → 210px; Navbar logo: 38px → 58px
+- Cinematic opening tagline: fixed color + size (now visible in dark mode)
+- Stripped all CSS/JSX comments — 509 lines removed across 33 files
+- Fixed UTF-8 BOM on all source files (caused symbol corruption in forms)
+- Unified background system: all pages use `var(--bg)` CSS token
 
 ---
 
-*NexaSphere — GL Bajaj Group of Institutions · Built with React + Vite*
+## Contributors
+
+| Name | Role |
+|------|------|
+| Ayush Sharma | Founder & Lead Developer |
+| Core Team | NexaSphere NSOC |
+
+---
+
+*NexaSphere — Connecting GL Bajaj's Tech Ecosystem*

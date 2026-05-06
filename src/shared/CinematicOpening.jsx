@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import nexasphereLogo from '../assets/images/logos/nexasphere-logo.png';
 
 const SHARDS = [

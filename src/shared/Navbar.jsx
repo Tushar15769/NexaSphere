@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import nexasphereLogo from '../assets/images/logos/nexasphere-logo.png';
 
 const TABS = ['Home', 'Activities', 'Events', 'About', 'Team', 'Contact'];

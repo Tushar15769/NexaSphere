@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import nexasphereLogo from '../../assets/images/logos/nexasphere-logo.png';
 import { IconArrowRight, IconSpark } from '../../shared/Icons';
 

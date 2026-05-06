@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { activities } from '../../data/activitiesData';
 
 /* Anti-gravity delays — same pattern as team cards */

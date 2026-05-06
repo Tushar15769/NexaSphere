@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { activities } from '../../data/activitiesData';
 import { BannerOrbs } from '../../shared/MotionLayer';
 

@@ -1,4 +1,4 @@
-﻿import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { IconArrowLeft, IconArrowRight, IconBolt, IconShieldCheck, IconSpark, IconUsers } from '../../shared/Icons';
 
 /* â”€â”€ Roles & Responsibilities slide-over modal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */

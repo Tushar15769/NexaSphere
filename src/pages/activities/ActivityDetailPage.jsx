@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 function Counter({ value, suffix = '' }) {
   const [count, setCount] = useState(0);

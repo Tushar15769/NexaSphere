@@ -1,4 +1,4 @@
-﻿import { useEffect } from 'react';
+import { useEffect } from 'react';
 import { BannerOrbs } from '../../shared/MotionLayer';
 
 const WHATSAPP = 'https://chat.whatsapp.com/Jjc5cuUKENu0RC1vWSEs20';

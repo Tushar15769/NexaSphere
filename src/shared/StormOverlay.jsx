@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 /* ═══════════════════════════════════════════════════════════════
    NEXASPHERE CINEMATIC STORM v5 — FULL CANVAS, ONE UNIFIED FLOW

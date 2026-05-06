@@ -1,4 +1,4 @@
-﻿import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 function hexToRgb(hex) {
   if (!hex || !hex.startsWith('#')) return '0,212,255';

@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import glbajajLogo from '../../assets/images/logos/glbajaj-logo.png';
 
 /* ─────────────────────────────────────────────────────────

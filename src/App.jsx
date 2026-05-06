@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import './styles/themes.css';
 import './styles/globals.css';
 import './styles/animations.css';

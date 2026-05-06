@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const WHATSAPP       = 'https://chat.whatsapp.com/Jjc5cuUKENu0RC1vWSEs20';
 const LINKEDIN       = 'https://www.linkedin.com/showcase/glbajaj-nexasphere/';

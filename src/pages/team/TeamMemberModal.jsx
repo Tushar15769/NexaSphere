@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 function CopyPopup({ value, onClose }) {

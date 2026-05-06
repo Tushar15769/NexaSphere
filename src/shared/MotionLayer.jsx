@@ -1,4 +1,4 @@
-﻿/**
+/**
  * MotionLayer.jsx — NexaSphere Motion Engine v3 (Full-Site)
  *
  * Non-destructive: adds NEW effects only. Never modifies existing
