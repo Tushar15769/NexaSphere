@@ -8,6 +8,10 @@ c:\Users\aryav\NexaSphere\server-java\src\main\java\org\nexasphere\controller\Ev
 c:\Users\aryav\NexaSphere\server-java\src\main\java\org\nexasphere\model\entity\ActivityEventEntity.java
 c:\Users\aryav\NexaSphere\server-java\src\main\java\org\nexasphere\model\entity\CoreTeamMemberEntity.java
 c:\Users\aryav\NexaSphere\server-java\src\main\java\org\nexasphere\model\entity\EventEntity.java
+c:\Users\aryav\NexaSphere\server-java\src\main\java\org\nexasphere\model\events\AdminEvent.java
+c:\Users\aryav\NexaSphere\server-java\src\main\java\org\nexasphere\model\events\EventCreatedEvent.java
+c:\Users\aryav\NexaSphere\server-java\src\main\java\org\nexasphere\model\events\EventDeletedEvent.java
+c:\Users\aryav\NexaSphere\server-java\src\main\java\org\nexasphere\model\events\EventUpdatedEvent.java
 c:\Users\aryav\NexaSphere\server-java\src\main\java\org\nexasphere\model\SessionInfo.java
 c:\Users\aryav\NexaSphere\server-java\src\main\java\org\nexasphere\model\TokenSession.java
 c:\Users\aryav\NexaSphere\server-java\src\main\java\org\nexasphere\NexaSphereApplication.java
@@ -15,5 +19,7 @@ c:\Users\aryav\NexaSphere\server-java\src\main\java\org\nexasphere\repository\Ac
 c:\Users\aryav\NexaSphere\server-java\src\main\java\org\nexasphere\repository\CoreTeamRepository.java
 c:\Users\aryav\NexaSphere\server-java\src\main\java\org\nexasphere\repository\EventRepository.java
 c:\Users\aryav\NexaSphere\server-java\src\main\java\org\nexasphere\service\AdminAuthService.java
+c:\Users\aryav\NexaSphere\server-java\src\main\java\org\nexasphere\service\AdminEventPublisher.java
+c:\Users\aryav\NexaSphere\server-java\src\main\java\org\nexasphere\service\crud\EventService.java
 c:\Users\aryav\NexaSphere\server-java\src\main\java\org\nexasphere\service\TokenService.java
 c:\Users\aryav\NexaSphere\server-java\src\main\java\org\nexasphere\util\Sanitizer.java
