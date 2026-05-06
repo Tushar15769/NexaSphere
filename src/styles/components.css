@@ -165,11 +165,15 @@
 
 /* NexaSphere logo in nav: screen blend removes black bg */
 .ns-nav-logo-ns {
-  height:38px; width:38px; object-fit:contain;
-  mix-blend-mode:screen;
-  filter:brightness(1.3) drop-shadow(0 0 6px rgba(204,17,17,.5));
+  height: 52px; width: 52px; object-fit: contain;
+  mix-blend-mode: screen;
+  filter: brightness(1.7) saturate(1.4) drop-shadow(0 0 8px rgba(204,17,17,.7));
+  transition: filter .25s ease, transform .25s ease !important;
 }
-[data-theme="light"] .ns-nav-logo-ns { mix-blend-mode: normal; filter: drop-shadow(0 1px 4px rgba(0,0,0,.2)); }
+[data-theme="light"] .ns-nav-logo-ns {
+  mix-blend-mode: multiply;
+  filter: saturate(1.4) contrast(1.15) drop-shadow(0 2px 6px rgba(204,17,17,.4));
+}
 /* GL Bajaj logo: visible in both modes */
 .ns-nav-logo-gl {
   height:36px; width:auto; object-fit:contain;
@@ -228,8 +232,15 @@
 .ns-navbar-mobile { position:fixed; top:0; left:0; right:0; z-index:900; background:rgba(10,10,10,0.97); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); border-bottom:1px solid var(--bdr); padding:6px 0 4px; }
 [data-theme="light"] .ns-navbar-mobile { background:rgba(255,255,255,0.99); border-bottom:1px solid rgba(26,26,26,0.1); }
 .ns-mobile-top { display:flex; align-items:center; justify-content:center; gap:10px; padding:0 14px 5px; }
-.ns-mobile-logo-ns { height:24px; width:24px; object-fit:contain; mix-blend-mode:screen; }
-[data-theme="light"] .ns-mobile-logo-ns { mix-blend-mode: normal; }
+.ns-mobile-logo-ns {
+  height: 34px; width: 34px; object-fit: contain;
+  mix-blend-mode: screen;
+  filter: brightness(1.7) saturate(1.4) drop-shadow(0 0 6px rgba(204,17,17,.6));
+}
+[data-theme="light"] .ns-mobile-logo-ns {
+  mix-blend-mode: multiply;
+  filter: saturate(1.4) contrast(1.15);
+}
 .ns-mobile-logo-gl { height:22px; width:auto; background:rgba(255,255,255,.85); padding:2px 4px; border-radius:4px; }
 [data-theme="light"] .ns-mobile-logo-gl { background:transparent; }
 .ns-mobile-brand { font-family:'Orbitron',monospace; font-size:.8rem; font-weight:900; transition:transform .2s ease !important; }
@@ -248,16 +259,19 @@
 .hero-overlay { position:absolute; inset:0; background:radial-gradient(ellipse 75% 50% at 50% 35%,rgba(204,17,17,.04) 0%,rgba(10,10,10,.6) 65%,rgba(10,10,10,.97) 100%); z-index:1; }
 [data-theme="light"] .hero-overlay { background:radial-gradient(ellipse 80% 55% at 50% 35%, rgba(255,245,245,.50) 0%, rgba(255,255,255,.85) 65%, rgba(255,255,255,.97) 100%); }
 .hero-content { position:relative; z-index:2; text-align:center; padding:0 20px; }
-.hero-logo-wrap { position:relative; display:inline-block; margin-bottom:24px; width:160px; height:160px; }
+.hero-logo-wrap { position:relative; display:inline-block; margin-bottom:24px; width:210px; height:210px; }
 .hero-logo-img {
   position:relative; z-index:1;
-  width:116px; height:116px; object-fit:contain;
-  margin:22px auto 0; display:block;
+  width:158px; height:158px; object-fit:contain;
+  margin:26px auto 0; display:block;
   mix-blend-mode:screen;
-  filter:drop-shadow(0 0 22px rgba(204,17,17,.55)) drop-shadow(0 0 44px rgba(238,34,34,.3)) brightness(1.25);
+  filter: brightness(1.8) saturate(1.5) drop-shadow(0 0 30px rgba(204,17,17,.75)) drop-shadow(0 0 60px rgba(238,34,34,.45));
   animation:float 5s ease-in-out infinite;
 }
-[data-theme="light"] .hero-logo-img { mix-blend-mode: normal; filter: drop-shadow(0 4px 16px rgba(0,0,0,.25)) saturate(1.1); }
+[data-theme="light"] .hero-logo-img {
+  mix-blend-mode: multiply;
+  filter: saturate(1.5) contrast(1.2) drop-shadow(0 4px 22px rgba(204,17,17,.5)) brightness(1.0);
+}
 .hero-title { margin-bottom:8px; line-height:1; }
 .hero-title-text {
   font-family:'Orbitron',monospace;
@@ -667,3 +681,4 @@
 [data-theme="light"] .team-card-hint    { color: #8A8A8A !important; }
 [data-theme="light"] .ns-footer-built   { color: #6B6B6B !important; }
 [data-theme="light"] .ns-footer-email-link { color: #CC1111 !important; }
+
