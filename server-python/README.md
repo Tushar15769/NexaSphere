@@ -7,9 +7,6 @@
 <br/>
 
 ---
-
-<br/>
-
 ## 📌 Overview
 
 <br/>
@@ -40,8 +37,6 @@ FastAPI microservice handling:
 
 ---
 
-<br/>
-
 ## ⚙️ System Requirements
 
 <br/>
@@ -56,9 +51,6 @@ FastAPI microservice handling:
 <br/>
 
 ---
-
-<br/>
-
 ## 🚀 Quick Start
 
 <br/>
@@ -167,8 +159,6 @@ uvicorn main:app --reload --port 8000
 
 ---
 
-<br/>
-
 ## 🔑 Environment Variables Guide
 
 <br/>
@@ -227,9 +217,6 @@ SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 <br/>
 
 ---
-
-<br/>
-
 ## 📁 Project Structure
 
 <br/>
@@ -362,8 +349,6 @@ Content-Type: application/json
 
 ---
 
-<br/>
-
 ## 📊 Google Sheets Integration
 
 <br/>
@@ -418,8 +403,6 @@ Create a Google Sheet with these tabs:
 <br/>
 
 ---
-
-<br/>
 
 ## 💾 Supabase Integration
 
@@ -477,9 +460,6 @@ CREATE TABLE core_team_applications (
 <br/>
 
 ---
-
-<br/>
-
 ## 🧪 Testing
 
 <br/>
@@ -511,8 +491,6 @@ pytest tests/test_forms.py::test_membership_submission
 <br/>
 
 ---
-
-<br/>
 
 ## 🚀 Deployment
 
@@ -582,8 +560,6 @@ DEBUG=False
 <br/>
 
 ---
-
-<br/>
 
 ## 🐛 Troubleshooting
 

@@ -3,11 +3,8 @@
 ## Official Community Platform — GL Bajaj Group of Institutions, Mathura
 
 > **Connecting students with opportunities** across Tech and Non-Tech domains through an integrated digital ecosystem
-
 <br/>
-
 ---
-
 <br/>
 
 ## 🔗 Quick Access
@@ -26,8 +23,6 @@
 <br/>
 
 ---
-
-<br/>
 
 ## 🚀 Technology Stack
 
@@ -69,8 +64,6 @@ Modern, scalable architecture built with industry-leading technologies:
 <br/>
 
 ---
-
-<br/>
 
 ## 📁 Project Architecture
 
@@ -133,8 +126,6 @@ nexasphere/
 
 ---
 
-<br/>
-
 ## 🛠️ Local Development Setup
 
 ### ✅ Prerequisites
@@ -180,8 +171,6 @@ VITE_API_BASE=http://localhost:8080
 <br/>
 
 ---
-
-<br/>
 
 ### ☕ Step 2: Java Backend Setup
 
@@ -232,8 +221,6 @@ DB_PASS=yourpassword
 <br/>
 
 ---
-
-<br/>
 
 ### 🐍 Step 3: Python Forms Service
 
@@ -288,8 +275,6 @@ CORS_ORIGIN=http://localhost:5173,https://nexasphere-glbajaj.vercel.app
 
 ---
 
-<br/>
-
 ### 👨‍💼 Step 4: Admin Dashboard
 
 <br/>
@@ -317,8 +302,6 @@ VITE_API_BASE=http://localhost:8080
 <br/>
 
 ---
-
-<br/>
 
 ## 🌐 API Documentation
 
@@ -353,8 +336,6 @@ VITE_API_BASE=http://localhost:8080
 <br/>
 
 ---
-
-<br/>
 
 ## 👨‍💻 Admin Dashboard Features
 
@@ -411,9 +392,6 @@ VITE_API_BASE=http://localhost:8080
 <br/>
 
 ---
-
-<br/>
-
 ## 🚀 Production Deployment
 
 ### 🌐 Frontend Deployment (Vercel)
@@ -436,8 +414,6 @@ VITE_API_BASE=http://localhost:8080
 
 ---
 
-<br/>
-
 ### 👨‍💼 Admin Dashboard Deployment (Vercel)
 
 <br/>
@@ -455,8 +431,6 @@ VITE_API_BASE=http://localhost:8080
 <br/>
 
 ---
-
-<br/>
 
 ### ☕ Java Backend Deployment (Railway)
 
@@ -489,8 +463,6 @@ DB_PASS=[from-dashboard]
 <br/>
 
 ---
-
-<br/>
 
 ### 🐍 Python Service Deployment
 
@@ -590,8 +562,6 @@ CREATE TABLE core_team_applications (
 
 ---
 
-<br/>
-
 ## 🧪 Testing
 
 <br/>
@@ -625,8 +595,6 @@ pytest --cov
 
 ---
 
-<br/>
-
 ## 📖 Documentation
 
 For detailed information about specific components, visit:
@@ -640,8 +608,6 @@ For detailed information about specific components, visit:
 <br/>
 
 ---
-
-<br/>
 
 ## 🤝 Contributing
 
@@ -671,8 +637,6 @@ This is an **internal project** for the NexaSphere core team.
 <br/>
 
 ---
-
-<br/>
 
 ## 📋 Project Checklist
 
@@ -709,9 +673,6 @@ This is an **internal project** for the NexaSphere core team.
 <br/>
 
 ---
-
-<br/>
-
 ## 📝 License & Usage
 
 **Internal Project** — GL Bajaj NexaSphere Core Team  
@@ -720,8 +681,6 @@ All rights reserved. Not for external distribution.
 <br/>
 
 ---
-
-<br/>
 
 ## 📧 Contact & Support
 

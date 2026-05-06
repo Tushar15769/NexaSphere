@@ -7,9 +7,6 @@
 <br/>
 
 ---
-
-<br/>
-
 ## 📌 Overview
 
 <br/>
@@ -41,8 +38,6 @@ Spring Boot 3 backend service providing:
 
 ---
 
-<br/>
-
 ## ⚙️ Prerequisites
 
 <br/>
@@ -58,8 +53,6 @@ Before starting, ensure you have:
 <br/>
 
 ---
-
-<br/>
 
 ## 🚀 Quick Start
 
@@ -84,9 +77,6 @@ mvn clean install
 <br/>
 
 ---
-
-<br/>
-
 ### 2️⃣ Run Development Server
 
 <br/>
@@ -104,9 +94,6 @@ mvn spring-boot:run
 <br/>
 
 ---
-
-<br/>
-
 ### 3️⃣ Run Production Server
 
 <br/>
@@ -127,8 +114,6 @@ mvn spring-boot:run
 <br/>
 
 ---
-
-<br/>
 
 ## 📋 Environment Variables
 
@@ -202,8 +187,6 @@ logging.level.org.springframework.web=DEBUG
 
 ---
 
-<br/>
-
 ## 📁 Project Structure
 
 <br/>
@@ -238,8 +221,6 @@ server-java/
 
 ---
 
-<br/>
-
 ## 🧪 Testing
 
 <br/>
@@ -271,8 +252,6 @@ mvn verify
 <br/>
 
 ---
-
-<br/>
 
 ## 🏛️ Architecture
 
@@ -327,8 +306,6 @@ mvn verify
 
 ---
 
-<br/>
-
 ## 🌐 API Endpoints
 
 <br/>
@@ -370,9 +347,6 @@ POST   /api/admin/logout
 <br/>
 
 ---
-
-<br/>
-
 ## 🔐 Authentication
 
 <br/>
@@ -411,8 +385,6 @@ curl -H "Authorization: Bearer YOUR_JWT_TOKEN" \
 <br/>
 
 ---
-
-<br/>
 
 ## 📚 Database Setup
 
@@ -454,8 +426,6 @@ Spring Boot auto-creates tables on startup via JPA
 <br/>
 
 ---
-
-<br/>
 
 ## 🚀 Deployment
 
@@ -501,8 +471,6 @@ DB_PASS=[from-dashboard]
 <br/>
 
 ---
-
-<br/>
 
 ## 🐛 Troubleshooting
 
@@ -555,8 +523,6 @@ server.port=9090
 <br/>
 
 ---
-
-<br/>
 
 ## 📖 Additional Resources
 

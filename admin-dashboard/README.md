@@ -7,9 +7,6 @@
 <br/>
 
 ---
-
-<br/>
-
 ## 📌 Overview
 
 <br/>
@@ -39,9 +36,6 @@ Dedicated admin application providing:
 <br/>
 
 ---
-
-<br/>
-
 ## ⚙️ Requirements
 
 <br/>
@@ -55,8 +49,6 @@ Dedicated admin application providing:
 <br/>
 
 ---
-
-<br/>
 
 ## 🚀 Quick Start
 
@@ -109,8 +101,6 @@ npm run dev
 
 ---
 
-<br/>
-
 ## 🔑 Login Credentials
 
 <br/>
@@ -129,9 +119,6 @@ npm run dev
 <br/>
 
 ---
-
-<br/>
-
 ## 📋 Environment Variables
 
 <br/>
@@ -169,8 +156,6 @@ VITE_ENVIRONMENT=production
 <br/>
 
 ---
-
-<br/>
 
 ## 📁 Project Structure
 
@@ -230,7 +215,6 @@ admin-dashboard/
 
 ---
 
-<br/>
 
 ## 🎯 Core Features
 
@@ -355,8 +339,6 @@ admin-dashboard/
 
 ---
 
-<br/>
-
 ## 🔐 Authentication Flow
 
 <br/>
@@ -388,8 +370,6 @@ admin-dashboard/
 <br/>
 
 ---
-
-<br/>
 
 ## 🌐 API Integration
 
@@ -446,9 +426,6 @@ DELETE /api/admin/core-team/{id}   ← Delete member
 <br/>
 
 ---
-
-<br/>
-
 ## 🧪 Testing
 
 <br/>
@@ -479,7 +456,6 @@ npm run test EventForm.test.jsx
 
 ---
 
-<br/>
 
 ## 🚀 Deployment Guide
 
@@ -604,8 +580,6 @@ npm run preview
 
 ---
 
-<br/>
-
 ## 🐛 Troubleshooting
 
 <br/>
@@ -682,8 +656,6 @@ npm run dev -- --port 5175
 
 ---
 
-<br/>
-
 ## 📚 Development Guidelines
 
 <br/>
@@ -728,8 +700,6 @@ export default function EventForm({ onSubmit, event }) {
 
 ---
 
-<br/>
-
 ## 📖 Resources
 
 <br/>
@@ -743,9 +713,6 @@ export default function EventForm({ onSubmit, event }) {
 <br/>
 
 ---
-
-<br/>
-
 ## 🚀 Performance Tips
 
 <br/>
