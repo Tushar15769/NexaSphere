@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 
 function baseProps(props) {
   return {
@@ -67,4 +67,5 @@ export function IconBolt(props) {
     </svg>
   );
 }
+
 

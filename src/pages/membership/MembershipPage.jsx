@@ -1,7 +1,6 @@
 ﻿import { useEffect, useMemo, useRef, useState } from 'react';
 import { IconArrowLeft, IconArrowRight, IconBolt, IconShieldCheck, IconUsers } from '../../shared/Icons';
 
-// â”€â”€ Constants â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const WHATSAPP_COMMUNITY = 'https://chat.whatsapp.com/Jjc5cuUKENu0RC1vWSEs20';
 const LINKEDIN_PAGE      = 'https://www.linkedin.com/showcase/glbajaj-nexasphere/';
 
@@ -28,14 +27,10 @@ const GROUP_OPTIONS    = [
   'NexaSphere Career & Placement',
 ];
 
-// â”€â”€ Apps Script URL for Membership sheet â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// Replace this with your deployed Web App URL after deploying Code.gs
 const MEMBERSHIP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyRQOW3Xjv13vXvft8ezD9sJdvjV3kf-VHm1l_mImHRDUAEqsilK0wb5QBD5GOkixwe/exec';
 
-// â”€â”€ Utility â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
 
-// â”€â”€ Sub-components â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function Field({ label, required, hint, children }) {
   return (
     <div style={{ display: 'grid', gap: 8 }}>
@@ -200,16 +195,15 @@ function MultiSelectChips({ options, values, onToggle }) {
   );
 }
 
-// â”€â”€ Main Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export default function MembershipPage({ onBack }) {
-  const [step, setStep]   = useState(0); // 0 = Section 1, 1 = Section 2
+  const [step, setStep]   = useState(0); 
   const [busy, setBusy]   = useState(false);
   const [done, setDone]   = useState(false);
   const [err,  setErr]    = useState('');
   const [alreadySubmitted, setAlreadySubmitted] = useState(false);
   const topRef = useRef(null);
 
-  // Check for duplicate submission on mount
+  
   useEffect(() => {
     try {
       const submitted = JSON.parse(localStorage.getItem('ns_member_emails') || '[]');
@@ -218,7 +212,7 @@ export default function MembershipPage({ onBack }) {
   }, []);
 
   const [form, setForm] = useState({
-    // Section 1
+    
     fullName:     '',
     collegeEmail: '',
     rollNumber:   '',
@@ -230,17 +224,17 @@ export default function MembershipPage({ onBack }) {
     sectionOther: '',
     semester:     '',
     whatsapp:     '',
-    // Section 2
+    
     groups:       [],
     whyJoin:      '',
   });
 
   function set(key, val) { setForm(f => ({ ...f, [key]: val })); }
 
-  // â”€â”€ Validation per step â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  
   const missingRequired = useMemo(() => {
     const missing = [];
-    // Step 0 = About (no required fields â€” just read)
+    
     if (step === 1) {
       if (!form.fullName.trim())     missing.push('fullName');
       if (!form.collegeEmail.trim()) missing.push('collegeEmail');
@@ -254,7 +248,7 @@ export default function MembershipPage({ onBack }) {
       if (!form.semester)            missing.push('semester');
       const phone = String(form.whatsapp || '').trim();
       if (!phone || !/^\d{10}$/.test(phone)) missing.push('whatsapp');
-      // Basic email format check (no domain restriction)
+      
       const email = form.collegeEmail.trim();
       if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) missing.push('collegeEmail');
     }
@@ -271,12 +265,12 @@ export default function MembershipPage({ onBack }) {
     topRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  // â”€â”€ Submit â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  
   async function submit() {
     setErr('');
     setBusy(true);
     try {
-      const emailKey = String(form.whatsapp || '').trim(); // use WhatsApp as dedup key
+      const emailKey = String(form.whatsapp || '').trim(); 
       try {
         const existing = JSON.parse(localStorage.getItem('ns_member_emails') || '[]');
         if (existing.includes(emailKey)) {
@@ -312,7 +306,7 @@ export default function MembershipPage({ onBack }) {
         throw new Error(data?.error || 'Membership form submission failed');
       }
 
-      // Save to localStorage to prevent re-submit from same device
+      
       try {
         const existing = JSON.parse(localStorage.getItem('ns_member_emails') || '[]');
         existing.push(emailKey);
@@ -328,7 +322,7 @@ export default function MembershipPage({ onBack }) {
     }
   }
 
-  // â”€â”€ Intersection observer for pop animations â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  
   useEffect(() => {
     const obs = new IntersectionObserver(entries => {
       entries.forEach(e => {
@@ -340,16 +334,16 @@ export default function MembershipPage({ onBack }) {
     return () => obs.disconnect();
   }, [step]);
 
-  // â”€â”€ Step content â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  
   const steps = useMemo(() => [
-    // â”€â”€ Step 0: About NexaSphere â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    
     {
       title:    'About NexaSphere',
       subtitle: 'NexaSphere Membership Form â€” GL Bajaj Group of Institutions',
       icon:     <IconBolt style={{ width: 18, height: 18 }} />,
       render: () => (
         <div style={{ display: 'grid', gap: 18 }}>
-          {/* One-time warning */}
+          
           <div style={{
             background: 'rgba(255,180,0,.08)',
             border: '1px solid rgba(255,180,0,.32)',
@@ -371,7 +365,7 @@ export default function MembershipPage({ onBack }) {
             </div>
           </div>
 
-          {/* What is NexaSphere */}
+          
           <p style={{ color: 'var(--t2)', lineHeight: 1.8, fontSize: '.96rem' }}>
             <span className="grad-text" style={{ fontWeight: 700 }}>NexaSphere</span> is the official
             student tech ecosystem at <b style={{ color: 'var(--t1)' }}>GL Bajaj Group of Institutions, Mathura</b>.
@@ -379,7 +373,7 @@ export default function MembershipPage({ onBack }) {
             supporting <b>tech and non-tech events</b> across every domain:
           </p>
 
-          {/* Domain grid */}
+          
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))',
@@ -408,7 +402,7 @@ export default function MembershipPage({ onBack }) {
             ))}
           </div>
 
-          {/* What you get */}
+          
           <div style={{
             background: 'var(--card)',
             border: '1px solid var(--bdr)',
@@ -432,7 +426,7 @@ export default function MembershipPage({ onBack }) {
             </ul>
           </div>
 
-          {/* LinkedIn nudge */}
+          
           <div style={{
             background: 'linear-gradient(135deg,rgba(0,119,181,.10),rgba(0,212,255,.05))',
             border: '1px solid rgba(0,119,181,.24)',
@@ -455,7 +449,7 @@ export default function MembershipPage({ onBack }) {
         </div>
       ),
     },
-    // â”€â”€ Step 1: Personal Details â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    
     {
       title:    'Personal Details',
       subtitle: 'Fill in your basic information accurately using your college details.',
@@ -565,7 +559,7 @@ export default function MembershipPage({ onBack }) {
         </div>
       ),
     },
-    // â”€â”€ Step 2: Domain Selection â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    
     {
       title:    'Domain Selection',
       subtitle: 'Choose the NexaSphere groups you want to join and share your motivation.',
@@ -599,7 +593,7 @@ export default function MembershipPage({ onBack }) {
   const current  = steps[step];
   const progress = step / (steps.length - 1);
 
-  // â”€â”€ Render â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  
   return (
     <div id="pg-member" ref={topRef}>
       <style>{`
@@ -654,7 +648,7 @@ export default function MembershipPage({ onBack }) {
         }
       `}</style>
 
-      {/* Hero */}
+      
       <div className="member-hero">
         <div className="member-hero-bg"/>
         {onBack ? (
@@ -701,7 +695,7 @@ export default function MembershipPage({ onBack }) {
         <div className="member-shell pop-scale">
           <div className="corner-tl"/><div className="corner-br"/>
 
-          {/* Top bar */}
+          
           <div className="member-topbar">
             <div style={{
               display:'flex', justifyContent:'space-between',
@@ -749,7 +743,7 @@ export default function MembershipPage({ onBack }) {
             </div>
           </div>
 
-          {/* Body */}
+          
           <div className="member-body">
             {alreadySubmitted && !done ? (
               <div style={{
@@ -809,7 +803,7 @@ export default function MembershipPage({ onBack }) {
                   </p>
                 </div>
 
-                {/* Action buttons */}
+                
                 <div style={{ display:'flex', gap:12, flexWrap:'wrap', justifyContent:'center' }}>
                   <a
                     className="btn btn-whatsapp"
@@ -856,7 +850,7 @@ export default function MembershipPage({ onBack }) {
                   </div>
                 ) : null}
 
-                {/* Navigation buttons */}
+                
                 <div style={{ marginTop:22, display:'flex', justifyContent:'space-between', gap:10, flexWrap:'wrap' }}>
                   <button
                     className="btn btn-outline"
@@ -921,4 +915,5 @@ export default function MembershipPage({ onBack }) {
     </div>
   );
 }
+
 

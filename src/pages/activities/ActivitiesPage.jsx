@@ -50,7 +50,7 @@ function ActivityCard({ a, idx, onNavigate }) {
         animation: `ag 7s ease-in-out ${[-0, -2.1, -4.2, -1.0, -3.3, -5.5, -0.7][idx % 7]}s infinite`,
       }}
     >
-      {/* Accent top bar */}
+      
       <div style={{
         position: 'absolute', top: 0, left: 0, right: 0, height: '3px',
         background: details.color || 'var(--c1)',
@@ -124,7 +124,7 @@ export default function ActivitiesPage({ onNavigate, onBack }) {
 
   return (
     <div id="activities-page" style={{ minHeight: '100vh', padding: '60px 0 100px' }}>
-      {/* Hero banner â€” page-banner class triggers CSS entrance */}
+      
       <div
         className="page-banner"
         style={{
@@ -137,7 +137,7 @@ export default function ActivitiesPage({ onNavigate, onBack }) {
           overflow: 'hidden',
         }}
       >
-        {/* Animated bg line */}
+        
         <div className="page-banner-line" style={{
           position:'absolute', top:0, left:0, right:0, height:'3px',
           background:'linear-gradient(90deg,var(--c1),var(--c2),var(--c3))',
@@ -177,4 +177,5 @@ export default function ActivitiesPage({ onNavigate, onBack }) {
     </div>
   );
 }
+
 

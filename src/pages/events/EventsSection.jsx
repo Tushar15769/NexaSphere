@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+﻿import { useEffect } from 'react';
 import { events as fallbackEvents } from '../../data/eventsData';
 
 export default function EventsSection({ onEventClick, events = fallbackEvents }) {
@@ -80,3 +80,4 @@ export default function EventsSection({ onEventClick, events = fallbackEvents })
     </section>
   );
 }
+

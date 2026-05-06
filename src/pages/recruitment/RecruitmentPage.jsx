@@ -42,7 +42,7 @@ function RolesGuideModal({ onClose }) {
 
   return (
     <>
-      {/* Backdrop */}
+      
       <div
         onClick={onClose}
         style={{
@@ -50,7 +50,7 @@ function RolesGuideModal({ onClose }) {
           background: 'rgba(0,0,0,.65)', backdropFilter: 'blur(4px)',
         }}
       />
-      {/* Panel */}
+      
       <div style={{
         position: 'fixed', top: 0, right: 0, bottom: 0, zIndex: 99999,
         width: 'min(680px, 96vw)',
@@ -67,7 +67,7 @@ function RolesGuideModal({ onClose }) {
           }
         `}</style>
 
-        {/* Header */}
+        
         <div style={{
           padding: '20px 24px', borderBottom: '1px solid var(--bdr)',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -94,7 +94,7 @@ function RolesGuideModal({ onClose }) {
           >âœ•</button>
         </div>
 
-        {/* Scrollable content */}
+        
         <div style={{ flex: 1, overflowY: 'auto', padding: '24px', scrollbarWidth: 'thin' }}>
           <p style={{ color: 'var(--t2)', fontSize: '.88rem', lineHeight: 1.7, marginBottom: 24 }}>
             NexaSphere operates through a structured, responsibility-driven Core Team where every role has defined authority, accountability, and execution ownership.
@@ -192,7 +192,7 @@ function RolesGuideModal({ onClose }) {
           </>)}
         </div>
 
-        {/* Footer */}
+        
         <div style={{
           padding: '14px 24px', borderTop: '1px solid var(--bdr)',
           display: 'flex', justifyContent: 'flex-end', flexShrink: 0,
@@ -377,15 +377,15 @@ const BRANCH_OPTIONS = [
 ];
 
 export default function RecruitmentPage({ onBack }) {
-  const [step, setStep] = useState(0); // 0..6
+  const [step, setStep] = useState(0); 
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState(false);
   const [alreadySubmitted, setAlreadySubmitted] = useState(false);
   const [err, setErr] = useState('');
-  const [showRoles, setShowRoles] = useState(false); // lifted out of useMemo to obey Rules of Hooks
+  const [showRoles, setShowRoles] = useState(false); 
   const topRef = useRef(null);
 
-  // Check on mount if this device already submitted
+  
   useEffect(() => {
     try {
       const submitted = JSON.parse(localStorage.getItem('ns_submitted_emails') || '[]');
@@ -435,7 +435,7 @@ export default function RecruitmentPage({ onBack }) {
       requiredKeys: [],
       render: () => (
         <div style={{ display: 'grid', gap: 18 }}>
-          {/* One-time fill warning */}
+          
           <div style={{
             background: 'rgba(255,180,0,.08)',
             border: '1px solid rgba(255,180,0,.32)',
@@ -532,7 +532,7 @@ export default function RecruitmentPage({ onBack }) {
             <Input
               value={form.fullName}
               onChange={v => {
-                // Letters, spaces, dots, hyphens only â€” no numbers or symbols
+                
                 const cleaned = v.replace(/[^a-zA-Z\s.\-']/g, '');
                 setForm(f => ({ ...f, fullName: cleaned }));
               }}
@@ -553,7 +553,7 @@ export default function RecruitmentPage({ onBack }) {
             <Input
               value={form.whatsapp}
               onChange={v => {
-                // Strip everything except digits, cap at 10
+                
                 const cleaned = String(v || '').replace(/[^\d]/g, '').slice(0, 10);
                 setForm(f => ({ ...f, whatsapp: cleaned }));
               }}
@@ -762,8 +762,8 @@ export default function RecruitmentPage({ onBack }) {
             <Input
               value={form.links}
               onChange={v => {
-                // Only allow valid GitHub profile URL characters while typing
-                // Strip spaces automatically
+                
+                
                 setForm(f => ({ ...f, links: v.replace(/\s/g, '') }));
               }}
               placeholder="https://github.com/YourUsername"
@@ -912,24 +912,24 @@ export default function RecruitmentPage({ onBack }) {
         missing.push(k);
       }
     }
-    // Extra manual checks for 'Other' fields
+    
     if (step === 1 && form.branch === 'Other' && !String(form.branchOther || '').trim()) missing.push('branchOther');
     if (step === 1 && form.section === 'Other' && !String(form.sectionOther || '').trim()) missing.push('sectionOther');
 
-    // Extra validation rules (cannot be bypassed by just typing anything)
+    
     const email = String(form.collegeEmail || '').trim().toLowerCase();
     if (step === 1 && email && !email.endsWith('@glbajajgroup.org')) missing.push('collegeEmail');
     const phone = String(form.whatsapp || '').trim();
     if (step === 1 && phone && !/^\d{10}$/.test(phone)) missing.push('whatsapp');
-    // GitHub URL validation (optional field â€” only validate format if something is entered)
+    
     const githubUrl = String(form.links || '').trim();
     if (step === 3 && githubUrl) {
-      // Must match https://github.com/username or https://github.com/username/
+      
       const githubPattern = /^https:\/\/github\.com\/[a-zA-Z0-9][a-zA-Z0-9\-]{0,37}\/?$/;
       if (!githubPattern.test(githubUrl)) missing.push('links');
     }
     if (step === 3 && form.campusExp === 'Yes' && !String(form.campusExpDetails || '').trim()) {
-      // Not required in the original form, but itâ€™s useful when they select Yes.
+      
     }
     return missing;
   }, [current.requiredKeys, form, step]);
@@ -946,7 +946,7 @@ export default function RecruitmentPage({ onBack }) {
     try {
       const payload = {
         ...form,
-        // If 'Other' was selected, use the custom text; otherwise use the selected option
+        
         branch: form.branch === 'Other' ? (form.branchOther || 'Other') : form.branch,
         section: form.section === 'Other' ? (form.sectionOther || 'Other') : form.section,
         interests: Array.isArray(form.interests) ? form.interests.join(', ') : '',
@@ -956,7 +956,7 @@ export default function RecruitmentPage({ onBack }) {
         userAgent: navigator.userAgent,
       };
 
-      // Block duplicate email submissions
+      
       const emailKey = String(form.collegeEmail || '').trim().toLowerCase();
       try {
         const existing = JSON.parse(localStorage.getItem('ns_submitted_emails') || '[]');
@@ -1306,7 +1306,7 @@ export default function RecruitmentPage({ onBack }) {
                     onClick={() => {
                       setErr('');
                       if (step === 0) {
-                        // Go back to previous page
+                        
                         if (onBack) onBack();
                       } else {
                         setStep(s => clamp(s - 1, 0, steps.length - 1));
@@ -1382,4 +1382,5 @@ export default function RecruitmentPage({ onBack }) {
     </div>
   );
 }
+
 

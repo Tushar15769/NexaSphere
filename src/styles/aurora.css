@@ -1,13 +1,4 @@
-﻿/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   NEXASPHERE â€” AURORA NIGHT LAYER  (dark mode only)
-   Inspired by Apple 2027 prismatic deep-space aesthetic.
-   Ultra-subtle iridescent light living in the darkness â€”
-   the red brand cuts through it like a laser.
-   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
-
-/* â”€â”€ BODY AURORA BLOBS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-/* Floating prismatic light pools â€” they breathe, not flash          */
-[data-theme="dark"] body::before,
+﻿[data-theme="dark"] body::before,
 :not([data-theme]) body::before {
   content: '';
   position: fixed;
@@ -31,13 +22,9 @@
   100% { opacity: .80; transform: scale(1.01) translateY(5px); }
 }
 
-/* Ensure all actual page content sits above aurora */
 [data-theme="dark"] #root > *,
 :not([data-theme]) #root > * { position: relative; z-index: 1; }
 
-
-/* â”€â”€ PRISMATIC CARD SHIMMER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-/* Cards have a hairline iridescent border that slowly shifts hue   */
 [data-theme="dark"] .activity-card,
 :not([data-theme]) .activity-card,
 [data-theme="dark"] .team-card,
@@ -52,7 +39,6 @@
   position: relative;
 }
 
-/* Iridescent border via pseudo-element â€” sits under card content */
 [data-theme="dark"] .activity-card::before,
 :not([data-theme]) .activity-card::before,
 [data-theme="dark"] .team-card::before,
@@ -86,7 +72,6 @@
   to { --iris-angle: 495deg; }
 }
 
-/* Card hover â€” red takes command, prismatic amplifies */
 [data-theme="dark"] .activity-card:hover,
 :not([data-theme]) .activity-card:hover,
 [data-theme="dark"] .team-card:hover,
@@ -98,9 +83,6 @@
     0 20px 55px rgba(0, 0, 0,   .65) !important;
 }
 
-
-/* â”€â”€ HERO CONIC AURORA HALO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-/* A slowly-spinning prismatic ring behind the NS logo               */
 [data-theme="dark"] .hero-logo-wrap::after,
 :not([data-theme]) .hero-logo-wrap::after {
   content: '';
@@ -127,8 +109,6 @@
   to { transform: rotate(360deg); }
 }
 
-
-/* â”€â”€ NAVBAR PRISMATIC GLASS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 [data-theme="dark"] .ns-navbar,
 :not([data-theme]) .ns-navbar {
   background: rgba(5, 5, 8, 0.06) !important;
@@ -149,8 +129,6 @@
   box-shadow: 0 2px 24px rgba(0, 0, 0, .22) !important;
 }
 
-
-/* â”€â”€ MODAL PRISMATIC DEPTH â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 [data-theme="dark"] .modal-box,
 :not([data-theme]) .modal-box {
   background: linear-gradient(160deg, #0C0914, #0D0D14) !important;
@@ -160,8 +138,6 @@
     0 28px 80px rgba(0, 0, 0,   .80) !important;
 }
 
-
-/* â”€â”€ SECTION TITLE PRISMATIC UNDERLINE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 [data-theme="dark"] .section-title::after,
 :not([data-theme]) .section-title::after {
   background: linear-gradient(90deg,
@@ -173,8 +149,6 @@
   ) !important;
 }
 
-
-/* â”€â”€ FOOTER AURORA BASE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 [data-theme="dark"] .ns-footer,
 :not([data-theme]) .ns-footer {
   background: linear-gradient(180deg,
@@ -185,8 +159,6 @@
   border-top: 1px solid rgba(139, 92, 246, .08) !important;
 }
 
-
-/* â”€â”€ SCROLL PROGRESS PRISMATIC â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 [data-theme="dark"] #scroll-progress,
 :not([data-theme]) #scroll-progress {
   background: linear-gradient(90deg,
@@ -201,8 +173,6 @@
   100% { background-position: 300% 0%; }
 }
 
-
-/* â”€â”€ BACK TO TOP PRISMATIC GLOW â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 [data-theme="dark"] #back-to-top:hover,
 :not([data-theme]) #back-to-top:hover {
   box-shadow:
@@ -211,24 +181,22 @@
     0 0 60px rgba(59, 130, 246, .2) !important;
 }
 
-
-/* â”€â”€ LIGHT MODE: DISABLE ALL AURORA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 [data-theme="light"] body::before { display: none; }
 [data-theme="light"] .activity-card::before,
 [data-theme="light"] .team-card::before,
 [data-theme="light"] .timeline-card::before { display: none; }
 [data-theme="light"] .hero-logo-wrap::after { display: none; }
-/* Light mode: frosted glass navbar — keep backdrop-filter from components.css */
+
 [data-theme="light"] .ns-footer { background: rgba(245,245,248,.97) !important; border-top-color: rgba(0,0,0,.07) !important; }
 [data-theme="light"] .modal-box { background: rgba(255,255,255,.92) !important; backdrop-filter: blur(24px) !important; -webkit-backdrop-filter: blur(24px) !important; }
-/* Light mode page banners */
+
 [data-theme="light"] .page-banner {
   background: rgba(255,255,255,.70) !important;
   backdrop-filter: blur(24px) saturate(180%) !important;
   -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
   border-bottom: 1px solid rgba(204,17,17,.08) !important;
 }
-/* Light mode cards — subtle glass */
+
 [data-theme="light"] .activity-card,
 [data-theme="light"] .team-card,
 [data-theme="light"] .timeline-card {
@@ -236,6 +204,5 @@
   -webkit-backdrop-filter: blur(10px) saturate(140%) !important;
   background: rgba(255,255,255,.82) !important;
 }
-
 
 

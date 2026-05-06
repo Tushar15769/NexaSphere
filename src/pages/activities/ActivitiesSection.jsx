@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+﻿import { useEffect, useRef } from 'react';
 import { activities } from '../../data/activitiesData';
 
 /* Anti-gravity delays — same pattern as team cards */
@@ -45,7 +45,7 @@ function ActivityCard({ a, idx, onNav }) {
       onMouseLeave={onLeave}
       onClick={click}
     >
-      {/* Accent top line — appears on hover via CSS */}
+      
       <div className="card-accent-line"/>
       <div className="card-num">{String(idx + 1).padStart(2, '0')}</div>
       <div className="activity-icon">{a.icon}</div>
@@ -87,3 +87,4 @@ export default function ActivitiesSection({ onNavigate }) {
     </section>
   );
 }
+

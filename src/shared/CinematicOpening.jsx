@@ -1,7 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import nexasphereLogo from '../assets/images/logos/nexasphere-logo.png';
 
-// ── Mirror shards — each defines a clip-path slice of the screen ──
 const SHARDS = [
   { clip:'polygon(0 0,42% 0,28% 38%,0 22%)',           ox:'20%', oy:'10%', idx:0,  d:0   },
   { clip:'polygon(42% 0,68% 0,55% 32%,28% 38%)',        ox:'55%', oy:'5%',  idx:1,  d:30  },
@@ -16,13 +15,12 @@ const SHARDS = [
   { clip:'polygon(78% 58%,100% 48%,100% 100%,88% 85%)', ox:'90%', oy:'80%', idx:10, d:70  },
 ];
 
-// Exit destinations per shard [tx, ty, rotate]
 const EXITS = [
   ['-130%','-140%','-30deg'],
   ['0%',   '-160%', '10deg'],
   ['150%', '-125%', '24deg'],
   ['-160%','-25%', '-38deg'],
-  ['0%',   '-5%',  '0deg'],   // centre shard explodes outward
+  ['0%',   '-5%',  '0deg'],   
   ['160%', '-18%', '40deg'],
   ['-148%','140%', '-28deg'],
   ['-65%', '158%', '-14deg'],
@@ -175,7 +173,7 @@ export default function CinematicOpening({ onDone, theme = 'dark' }) {
 
       <div style={{ position:'fixed', inset:0, zIndex:9999, pointerEvents:'none' }}>
 
-        {/* ── SHARDS — each clips a copy of the full intro ── */}
+        
         {SHARDS.map((s, i) => {
           const [tx, ty, rot] = EXITS[i];
           return (
@@ -190,7 +188,7 @@ export default function CinematicOpening({ onDone, theme = 'dark' }) {
             }}>
               <IntroContent {...{phase,count,tagline,accent,accent2,muted,grad,bg,isL,WORD}}/>
 
-              {/* Mirror sheen on each shard */}
+              
               <div style={{
                 position:'absolute', inset:0, pointerEvents:'none',
                 background:'linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 50%, rgba(255,255,255,0.03) 100%)',
@@ -200,7 +198,7 @@ export default function CinematicOpening({ onDone, theme = 'dark' }) {
           );
         })}
 
-        {/* ── CRACK SVG — sits on top, appears just before shatter ── */}
+        
         {!shatter && (
           <svg viewBox="0 0 100 100" preserveAspectRatio="none"
             style={{
@@ -239,7 +237,7 @@ export default function CinematicOpening({ onDone, theme = 'dark' }) {
           </svg>
         )}
 
-        {/* ── IMPACT FLASH at crack moment ── */}
+        
         {cracking && !shatter && (
           <div style={{
             position:'absolute', inset:0, pointerEvents:'none', zIndex:3,
@@ -251,3 +249,4 @@ export default function CinematicOpening({ onDone, theme = 'dark' }) {
     </>
   );
 }
+

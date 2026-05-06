@@ -1,5 +1,4 @@
-﻿/* â”€â”€â”€ TEAM MODAL ENHANCEMENTS â”€â”€â”€ */
-.modal-achievements {
+﻿.modal-achievements {
   margin: 22px 0 10px 0;
   padding: 14px 18px 10px 18px;
   background: linear-gradient(120deg, rgba(204,17,17,0.07), rgba(238,34,34,0.06));
@@ -99,9 +98,7 @@
   font-family: 'Orbitron', monospace;
   font-weight: 700;
 }
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â• NEXASPHERE COMPONENTS v7 â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
-/* â”€â”€â”€ BUTTONS â”€â”€â”€ */
 .btn {
   display:inline-flex; align-items:center; gap:8px;
   padding:11px 28px; border-radius:50px;
@@ -110,7 +107,7 @@
   cursor:pointer; border:none; position:relative; overflow:hidden;
   transition:transform .22s cubic-bezier(.34,1.56,.64,1), box-shadow .22s ease, color .15s !important;
 }
-/* Glow ring pulse on hover */
+
 .btn::before {
   content:'';
   position:absolute; inset:-2px;
@@ -145,7 +142,6 @@
 [data-theme="light"] .btn-outline:hover { background:rgba(170,0,0,.07); color:var(--c2); }
 [data-theme="light"] .btn-join { background:linear-gradient(135deg,#CC1111,#880000); }
 
-/* â”€â”€â”€ NAVBAR â”€â”€â”€ */
 .ns-navbar {
   position:fixed; top:0; left:0; right:0; z-index:900;
   height:var(--nh);
@@ -166,7 +162,6 @@
 .ns-navbar .container { display:flex; align-items:center; justify-content:space-between; height:100%; }
 .ns-nav-logos { display:flex; align-items:center; gap:12px; }
 
-/* NexaSphere logo in nav: screen blend removes black bg */
 .ns-nav-logo-ns {
   height: 58px; width: 58px; object-fit: contain;
   mix-blend-mode: screen;
@@ -177,7 +172,7 @@
   mix-blend-mode: multiply;
   filter: saturate(1.4) contrast(1.15) drop-shadow(0 2px 6px rgba(204,17,17,.4));
 }
-/* GL Bajaj logo: visible in both modes */
+
 .ns-nav-logo-gl {
   height:36px; width:auto; object-fit:contain;
   background:rgba(255,255,255,0.9);
@@ -231,7 +226,6 @@
 [data-theme="light"] .ns-nav-tab:hover  { color:var(--t1); }
 [data-theme="light"] .ns-nav-tab.active { color:#CC1111; }
 
-/* Mobile nav */
 .ns-navbar-mobile { position:fixed; top:0; left:0; right:0; z-index:900; background:rgba(5,5,8,.12); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); border-bottom:1px solid var(--bdr); padding:6px 0 4px; }
 [data-theme="light"] .ns-navbar-mobile {
   background: rgba(255,255,255,.12) !important;
@@ -260,7 +254,6 @@
 .ns-mobile-tab.active { color:var(--c1); border-bottom-color:var(--c1); }
 [data-theme="light"] .ns-mobile-tab.active { color:#CC1111; border-bottom-color:#CC1111; }
 
-/* â”€â”€â”€ HERO â”€â”€â”€ */
 .hero-section { position:relative; min-height:100vh; display:flex; align-items:center; justify-content:center; overflow:hidden; }
 .hero-bg { position:absolute; inset:0; background-size:cover; background-position:center; filter:brightness(.14) saturate(1.3); z-index:0; transform:scale(1.05); }
 [data-theme="light"] .hero-bg { filter:brightness(.06) saturate(.6); }
@@ -303,7 +296,6 @@
 [data-theme="light"] .hero-tagline { color:#6B6B6B; }
 .hero-buttons { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
 
-/* â”€â”€â”€ ACTIVITY CARDS â”€â”€â”€ */
 .activity-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:20px; }
 .activity-card {
   background:var(--card); border:1px solid var(--bdr); border-radius:var(--r3);
@@ -312,7 +304,7 @@
   transition:transform .35s cubic-bezier(.22,1,.36,1), border-color .3s, box-shadow .3s !important;
   will-change: transform;
 }
-/* Shimmer sweep on hover */
+
 .activity-card::after {
   content:''; position:absolute; inset:0;
   background:linear-gradient(105deg, transparent 35%, rgba(255,255,255,.045) 50%, transparent 65%);
@@ -328,7 +320,7 @@
   transform: translateY(-6px) rotateX(calc(var(--ry, 0) * 1deg)) rotateY(calc(var(--rx, 0) * 1deg)) !important;
 }
 .activity-card:hover::before { opacity:1; }
-/* Top accent line */
+
 .activity-card .card-accent-line {
   position:absolute; top:0; left:0; right:0; height:2px;
   background:linear-gradient(90deg,var(--c1),var(--c2),var(--c3));
@@ -349,7 +341,6 @@
 .activity-card:hover .activity-cta { opacity:1; transform:translateX(4px); }
 [data-theme="light"] .activity-cta { color:#CC1111; }
 
-/* â”€â”€â”€ TEAM CARDS â”€â”€â”€ */
 .team-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(175px,1fr)); gap:16px; max-width:1100px; margin:0 auto; }
 .team-card {
   background:var(--card); border:1px solid var(--bdr); border-radius:var(--r3);
@@ -383,7 +374,6 @@
 .team-card-hint  { font-size:.62rem; color:var(--t3); margin-top:8px; opacity:0; transition:opacity .2s !important; }
 .team-card:hover .team-card-hint { opacity:1; }
 
-/* â”€â”€â”€ MODAL â”€â”€â”€ */
 .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,.88); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); z-index:2000; display:flex; align-items:center; justify-content:center; padding:24px; animation:overlayIn .2s ease; }
 [data-theme="light"] .modal-overlay { background:rgba(0,0,0,.5); }
 .modal-box { background:linear-gradient(160deg,#111111,#1A1A1A); border:1px solid rgba(204,17,17,.18); border-radius:var(--r4); padding:38px 32px; width:100%; max-width:430px; position:relative; animation:modalIn .38s cubic-bezier(.34,1.56,.64,1); box-shadow:0 0 70px rgba(204,17,17,.08),0 28px 72px rgba(0,0,0,.7); }
@@ -413,7 +403,6 @@
 .modal-social-btn:hover { transform:translateY(-2px) !important; filter:brightness(1.12); }
 @media(max-width:480px){.modal-overlay{padding:0;align-items:flex-end;}.modal-box{border-radius:var(--r4) var(--r4) 0 0;max-width:100%;padding:28px 18px;}}
 
-/* â”€â”€â”€ EVENTS TIMELINE â”€â”€â”€ */
 .events-timeline { position:relative; max-width:780px; margin:0 auto; padding:0 16px; }
 .events-timeline::before { content:''; position:absolute; left:50%; top:0; bottom:0; width:1px; background:linear-gradient(180deg,transparent,var(--c1) 8%,var(--c2) 92%,transparent); transform:translateX(-50%); box-shadow:0 0 10px var(--c1g); }
 [data-theme="light"] .events-timeline::before { background:linear-gradient(180deg,transparent,#CC1111 8%,#AA0000 92%,transparent); box-shadow:none; }
@@ -437,13 +426,11 @@
 [data-theme="light"] .timeline-badge.upcoming  { background:rgba(204,17,17,.08); color:#CC1111; border-color:rgba(204,17,17,.2); }
 @media(max-width:640px){.events-timeline::before{left:14px;}.timeline-item,.timeline-item:nth-child(odd){flex-direction:column;padding-left:40px;}.timeline-dot{left:14px;}.timeline-card{width:100%;}}
 
-/* â”€â”€â”€ ABOUT â”€â”€â”€ */
 .about-text { font-size:.96rem; color:var(--t2); line-height:1.82; margin-bottom:16px; }
 .about-actions { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:28px; }
 .about-card-inner { background:var(--card); border:1px solid var(--bdr); border-radius:var(--r3); padding:24px; position:relative; overflow:hidden; transition:border-color .28s, box-shadow .28s !important; }
 [data-theme="light"] .about-card-inner { background:#fff; border-color:rgba(26,26,26,.1); box-shadow:0 2px 10px rgba(0,0,0,.05); }
 
-/* â”€â”€â”€ COPY POPUP â”€â”€â”€ */
 .copy-popup { position:absolute; bottom:calc(100% + 10px); left:50%; transform:translateX(-50%); background:var(--card2); border:1px solid var(--c1b); border-radius:var(--r2); padding:8px 13px; display:flex; align-items:center; gap:8px; white-space:nowrap; box-shadow:0 0 24px rgba(204,17,17,.16),0 10px 32px rgba(0,0,0,.5); z-index:100; animation:modalIn .2s cubic-bezier(.34,1.56,.64,1); }
 [data-theme="light"] .copy-popup { background:#fff; border-color:rgba(204,17,17,.25); box-shadow:0 4px 18px rgba(0,0,0,.1); }
 .copy-popup::after { content:''; position:absolute; top:100%; left:50%; transform:translateX(-50%); border:5px solid transparent; border-top-color:var(--c1b); }
@@ -451,7 +438,6 @@
 [data-theme="light"] .copy-popup-value { color:#CC1111; }
 .copy-popup-btn { background:linear-gradient(135deg,var(--c1),var(--c2)); color:#fff; border:none; border-radius:18px; padding:3px 12px; font-size:.72rem; font-family:'Rajdhani',sans-serif; font-weight:700; cursor:pointer; }
 
-/* â”€â”€â”€ FOOTER â”€â”€â”€ */
 .ns-footer { border-top:1px solid var(--bdr); padding:32px 0; background:linear-gradient(180deg,transparent,rgba(204,17,17,.012)); }
 [data-theme="light"] .ns-footer { background:linear-gradient(180deg,transparent,rgba(204,17,17,.025)); border-top-color:rgba(26,26,26,.1); }
 .ns-footer-inner { display:flex; flex-direction:column; align-items:center; gap:12px; }
@@ -471,21 +457,17 @@
 .ns-footer-built { font-size:.72rem; opacity:.75; }
 [data-theme="light"] .ns-footer-built { opacity:1; color:#6B6B6B; }
 
-/* â”€â”€â”€ CORNER BRACKETS â”€â”€â”€ */
 .corner-tl { position:absolute; top:0; left:0; width:16px; height:16px; border-top:1.5px solid var(--c1); border-left:1.5px solid var(--c1); opacity:.55; }
 .corner-br { position:absolute; bottom:0; right:0; width:16px; height:16px; border-bottom:1.5px solid var(--c2); border-right:1.5px solid var(--c2); opacity:.55; }
 [data-theme="light"] .corner-tl { border-color:#CC1111; }
 [data-theme="light"] .corner-br { border-color:#AA0000; }
 
-/* â”€â”€â”€ SPLASH â”€â”€â”€ */
 .splash-screen { position:fixed; inset:0; background:var(--bg); display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:9999; }
 [data-theme="light"] .splash-screen { background:#FFFFFF; }
 
-/* â”€â”€â”€ WIPE TRANSITION â”€â”€â”€ */
 @keyframes wipeDown { from{transform:scaleY(0);transform-origin:top}    to{transform:scaleY(1);transform-origin:top} }
 @keyframes wipeUp   { from{transform:scaleY(1);transform-origin:bottom} to{transform:scaleY(0);transform-origin:bottom} }
 
-/* â”€â”€ CONTACT NAV TAB â€” special accent â”€â”€ */
 .contact-nav-tab {
   background: linear-gradient(135deg, rgba(204,17,17,.08), rgba(238,34,34,.08)) !important;
   border: 1px solid rgba(204,17,17,.18) !important;
@@ -513,11 +495,9 @@
   box-shadow: 0 0 14px rgba(204,17,17,.3) !important;
 }
 
-/* Mobile contact tab */
 .contact-tab { color: var(--c1) !important; font-weight: 800 !important; }
 [data-theme="light"] .contact-tab { color: #CC1111 !important; }
 
-/* â”€â”€ TEXT CONTRAST BOOST â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 [data-theme="light"] .section-subtitle { color: #4A4A4A; }
 [data-theme="light"] .about-text { color: #4A4A4A; }
 [data-theme="light"] .timeline-event-desc { color: #4A4A4A; }
@@ -530,11 +510,6 @@
 [data-theme="light"] .ns-footer-text { color: #4A4A4A; }
 [data-theme="light"] .cin-section-label { color: #6b6560; }
 
-
-
-
-
-/* --- THEME TOGGLE BUTTON --- */
 .ns-theme-toggle {
   display: flex; align-items: center; justify-content: center;
   width: 32px; height: 32px; border-radius: 50%;
@@ -555,19 +530,10 @@
 [data-theme="light"] .ns-theme-toggle { border-color: rgba(187,15,15,.22); color: #6B6B6B; }
 [data-theme="light"] .ns-theme-toggle:hover { background: rgba(187,15,15,.07); border-color: var(--c1); color: var(--c1); }
 
-
-
-/* ================================================================
-   NEXASPHERE — UNIVERSAL VISIBILITY OVERRIDES v9
-   Ensures ALL text is readable in BOTH dark and light modes.
-   ================================================================ */
-
-/* ── DARK MODE: Ensure all text uses bright enough values ──────── */
 :root, :root[data-theme="dark"] {
   color-scheme: dark;
 }
 
-/* Body text always readable on dark backgrounds */
 [data-theme="dark"] body,
 :not([data-theme]) body { color: #F0F0F0; }
 
@@ -579,7 +545,6 @@
 
 [data-theme="dark"] p, :not([data-theme]) p { color: #A8A8A8; }
 
-/* Cards dark mode — text must contrast against #1A1A1A */
 .activity-card .activity-title   { color: #EE3333 !important; }
 .activity-card .activity-desc    { color: #C0C0C0 !important; }
 .activity-card .activity-cta     { color: #EE3333 !important; }
@@ -606,8 +571,6 @@
 .hero-tagline     { color: #B0B0B0 !important; }
 .ns-footer-text   { color: #707070 !important; }
 
-
-/* ── LIGHT MODE: Ensure all text uses dark enough values ───────── */
 [data-theme="light"] { color-scheme: light; }
 
 [data-theme="light"] body     { color: #1A1A1A; }
@@ -616,42 +579,34 @@
 [data-theme="light"] h5,[data-theme="light"] h6 { color: #1A1A1A; }
 [data-theme="light"] p        { color: #4A4A4A; }
 
-/* Hero light mode */
 [data-theme="light"] .hero-tagline     { color: #4A4A4A !important; }
 [data-theme="light"] .hero-bg          { filter: brightness(.05) saturate(.4); }
 
-/* Logo — white bg PNG shows white square in light mode with screen blend */
-/* Fix: always use normal blend, logo PNG has transparent or white bg */
 [data-theme="light"] .ns-nav-logo-ns,
 [data-theme="light"] .ns-mobile-logo-ns,
 [data-theme="light"] .hero-logo-img    { mix-blend-mode: normal !important; }
 
-/* Nav text light mode */
 [data-theme="light"] .ns-nav-brand     { color: #CC1111; }
 [data-theme="light"] .ns-nav-tab       { color: #5A5A5A; }
 [data-theme="light"] .ns-nav-tab:hover { color: #1A1A1A; }
 [data-theme="light"] .ns-mobile-tab    { color: #5A5A5A; }
 
-/* Activity cards light mode */
 [data-theme="light"] .activity-card .activity-title { color: #AA0000 !important; }
 [data-theme="light"] .activity-card .activity-desc  { color: #4A4A4A !important; }
 [data-theme="light"] .activity-card .activity-cta   { color: #CC1111 !important; }
 [data-theme="light"] .activity-card                 { background: #FFFFFF !important; }
 
-/* Team cards light mode */
 [data-theme="light"] .team-card-name   { color: #1A1A1A !important; }
 [data-theme="light"] .team-card-role   { color: #CC1111 !important; }
 [data-theme="light"] .team-card-hint   { color: #8A8A8A !important; }
 [data-theme="light"] .chip-branch      { color: #AA0000 !important; }
 [data-theme="light"] .chip-section     { color: #880000 !important; }
 
-/* Timeline light mode */
 [data-theme="light"] .timeline-event-name { color: #880000 !important; }
 [data-theme="light"] .timeline-event-date { color: #8A8A8A !important; }
 [data-theme="light"] .timeline-event-desc { color: #4A4A4A !important; }
 [data-theme="light"] .timeline-card        { background: #FFFFFF !important; }
 
-/* Modal light mode */
 [data-theme="light"] .modal-name        { color: #1A1A1A !important; }
 [data-theme="light"] .modal-role        { color: #CC1111 !important; }
 [data-theme="light"] .modal-info-label  { color: #6B6B6B !important; }
@@ -659,38 +614,28 @@
 [data-theme="light"] .modal-box         { background: #FFFFFF !important; color: #1A1A1A; }
 [data-theme="light"] .modal-close       { color: #5A5A5A !important; }
 
-/* Sections light mode */
 [data-theme="light"] .section-subtitle  { color: #4A4A4A !important; }
 [data-theme="light"] .about-text        { color: #4A4A4A !important; }
 [data-theme="light"] .cin-section-label { color: #8A8A8A !important; }
 [data-theme="light"] .ns-footer-text    { color: #5A5A5A !important; }
 [data-theme="light"] .ns-footer-text span { background: linear-gradient(135deg,#CC1111,#880000); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
 
-/* About cards light */
 [data-theme="light"] .about-card-inner  { background: #FFFFFF !important; color: #1A1A1A; }
 
-/* Buttons light mode — all text white on red bg stays readable */
 [data-theme="light"] .btn-primary       { color: #FFFFFF !important; }
 [data-theme="light"] .btn-outline       { color: #CC1111 !important; border-color: rgba(204,17,17,.35) !important; }
 
-/* Copy popup light */
 [data-theme="light"] .copy-popup-value  { color: #CC1111 !important; }
 
-/* Corner brackets light */
 [data-theme="light"] .corner-tl        { border-color: #CC1111 !important; }
 [data-theme="light"] .corner-br        { border-color: #880000 !important; }
 
-/* Mobile tab active */
 [data-theme="light"] .ns-mobile-tab.active { color: #CC1111 !important; border-bottom-color: #CC1111 !important; }
 [data-theme="light"] .contact-tab           { color: #CC1111 !important; }
 
-/* Text contrast boost — any gray that may be invisible in light */
 [data-theme="light"] .card-num          { color: rgba(204,17,17,.15) !important; }
 [data-theme="light"] .team-card-hint    { color: #8A8A8A !important; }
 [data-theme="light"] .ns-footer-built   { color: #6B6B6B !important; }
 [data-theme="light"] .ns-footer-email-link { color: #CC1111 !important; }
-
-
-
 
 

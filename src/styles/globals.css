@@ -1,9 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap');
-
-/* ═══════════════════════════════════════════
-   NEXASPHERE — GLOBALS v9
-   Imports brand token system from themes.css
-   ═══════════════════════════════════════════ */
+﻿@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap');
 
 html  { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body  {
@@ -18,7 +13,6 @@ body  {
 }
 @media (hover: none) { body, button, a { cursor: auto !important; } }
 
-/* ── SCROLLBAR ──────────────────────────── */
 ::-webkit-scrollbar       { width: 3px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb {
@@ -30,14 +24,12 @@ body  {
   background: linear-gradient(#E63946, #B71C1C);
 }
 
-/* ── FOCUS ──────────────────────────────── */
 :focus-visible {
   outline: 2px solid var(--c1);
   outline-offset: 3px;
   border-radius: 4px;
 }
 
-/* ── TYPOGRAPHY ─────────────────────────── */
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Orbitron', monospace;
   font-weight: 700;
@@ -50,11 +42,9 @@ img, svg { display: block; max-width: 100%; }
 button { cursor: none; font-family: 'Rajdhani', sans-serif; border: none; background: none; }
 button, a { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 
-/* ── LAYOUT ─────────────────────────────── */
 .container { width: 100%; max-width: 1240px; margin: 0 auto; padding: 0 28px; }
 .section   { padding: 100px 0; }
 
-/* ── SECTION TITLES ─────────────────────── */
 .section-title {
   font-size: clamp(1.8rem, 4.5vw, 2.8rem);
   text-align: center;
@@ -102,7 +92,6 @@ button, a { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 }
 [data-theme="light"] .cin-section-label { color: #8A8A8A; }
 
-/* ── SCROLL PROGRESS ────────────────────── */
 #scroll-progress {
   position: fixed;
   top: 0; left: 0;
@@ -114,7 +103,6 @@ button, a { touch-action: manipulation; -webkit-tap-highlight-color: transparent
   transition: none !important;
 }
 
-/* ── BACK TO TOP ────────────────────────── */
 #back-to-top {
   position: fixed;
   bottom: 28px; right: 28px;
@@ -140,7 +128,6 @@ button, a { touch-action: manipulation; -webkit-tap-highlight-color: transparent
   box-shadow: 0 0 32px rgba(230, 57, 70, 0.6), 0 8px 20px rgba(0,0,0,.4) !important;
 }
 
-/* ── ANTI-GRAVITY FLOAT ─────────────────── */
 @keyframes ag {
   0%,  100% { transform: translateY(0)     translateX(0)    rotateX(0deg)    rotateY(0deg); }
   20%        { transform: translateY(-14px) translateX(2px)  rotateX(2deg)    rotateY(-1deg); }
@@ -166,3 +153,4 @@ button, a { touch-action: manipulation; -webkit-tap-highlight-color: transparent
   .container { padding: 0 16px; }
   #back-to-top { bottom: 18px; }
 }
+
