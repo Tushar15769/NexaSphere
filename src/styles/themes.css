@@ -1,0 +1,150 @@
+/* ═══════════════════════════════════════════════════════
+   NEXASPHERE — BRAND THEME SYSTEM v9
+   New brand identity: Red gradient palette
+   Dark mode (default) · Light mode (opt-in)
+   ═══════════════════════════════════════════════════════ */
+
+/* ── BRAND COLOR PRIMITIVES (global constants) ────────── */
+:root {
+  /* Core Brand Reds */
+  --brand-red-primary:  #E63946;
+  --brand-red-dark:     #B71C1C;
+  --brand-red-light:    #FF5A5F;
+  --brand-red-xlight:   #FF6B6B;
+  --brand-red-pale:     #FFB4B4;
+  --brand-red-deep:     #8B0000;
+  --brand-red-mid:      #C41E3A;
+  --brand-red-accent:   #FF8787;
+
+  /* Logo / Hero Gradients */
+  --gradient-logo:   linear-gradient(135deg, #E63946 0%, #B71C1C 100%);
+  --gradient-hero:   linear-gradient(135deg, #E63946 0%, #8B0000 50%, #000000 100%);
+  --gradient-glow:   linear-gradient(135deg,
+                       rgba(230,57,70,0.2) 0%,
+                       rgba(183,28,28,0.4) 50%,
+                       rgba(0,0,0,0.8)    100%);
+
+  /* Semantic colours */
+  --semantic-success: #4CAF50;
+  --semantic-warning: #FFC107;
+  --semantic-error:   #E63946;
+  --semantic-info:    #2196F3;
+
+  /* Border radii — unchanged from v8 */
+  --r1: 8px; --r2: 14px; --r3: 22px; --r4: 32px;
+
+  /* Navbar heights */
+  --nh:  64px;
+  --nhm: 88px;
+}
+
+/* ── DARK MODE (default) ──────────────────────────────── */
+:root,
+:root[data-theme="dark"] {
+  /* Backgrounds */
+  --bg:    #0A0A0A;
+  --bg2:   #1A1A1A;
+  --card:  #1E1E1E;
+  --card2: #242424;
+  --card-hover: #282828;
+
+  /* Brand accent (red) */
+  --c1:  #E63946;
+  --c2:  #FF5A5F;
+  --c3:  #FF6B6B;
+  --c4:  #B71C1C;
+  --c5:  #4CAF50;   /* success green */
+
+  /* Transparent accents */
+  --c1a: rgba(230, 57, 70, 0.08);
+  --c1b: rgba(230, 57, 70, 0.22);
+  --c1g: rgba(230, 57, 70, 0.42);
+  --c2a: rgba(255, 90, 95, 0.08);
+  --c2b: rgba(255, 90, 95, 0.22);
+
+  /* Text */
+  --t1: #FFFFFF;
+  --t2: #B0B0B0;
+  --t3: #6B6B6B;
+
+  /* Borders */
+  --bdr:  rgba(230, 57, 70, 0.12);
+  --bdr2: rgba(230, 57, 70, 0.26);
+
+  /* Shadows */
+  --sh1:    0 0 28px rgba(230, 57, 70, 0.22), 0 0 70px rgba(230, 57, 70, 0.05);
+  --sh2:    0 0 28px rgba(183, 28, 28, 0.22), 0 0 70px rgba(183, 28, 28, 0.05);
+  --shcard: 0 12px 48px rgba(0, 0, 0, 0.65);
+}
+
+/* ── LIGHT MODE ───────────────────────────────────────── */
+[data-theme="light"] {
+  /* Backgrounds */
+  --bg:    #FFFFFF;
+  --bg2:   #F5F5F5;
+  --card:  #FFFFFF;
+  --card2: #E8E8E8;
+  --card-hover: #F9F9F9;
+
+  /* Brand accent (red — slightly toned for light bg) */
+  --c1:  #E63946;
+  --c2:  #C41E3A;
+  --c3:  #FF5A5F;
+  --c4:  #8B0000;
+  --c5:  #2e7d32;  /* success green */
+
+  /* Transparent accents */
+  --c1a: rgba(230, 57, 70, 0.07);
+  --c1b: rgba(230, 57, 70, 0.18);
+  --c1g: rgba(230, 57, 70, 0.30);
+  --c2a: rgba(196, 30, 58, 0.07);
+  --c2b: rgba(196, 30, 58, 0.18);
+
+  /* Text */
+  --t1: #1A1A1A;
+  --t2: #4A4A4A;
+  --t3: #8A8A8A;
+
+  /* Borders */
+  --bdr:  rgba(230, 57, 70, 0.10);
+  --bdr2: rgba(230, 57, 70, 0.20);
+
+  /* Shadows */
+  --sh1:    0 2px 16px rgba(0, 0, 0, 0.09), 0 1px 4px rgba(0, 0, 0, 0.05);
+  --sh2:    0 4px 20px rgba(230, 57, 70, 0.12), 0 1px 4px rgba(0, 0, 0, 0.05);
+  --shcard: 0 4px 24px rgba(0, 0, 0, 0.09), 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+/* ── SMOOTH THEME TRANSITION ──────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  transition:
+    background-color .45s cubic-bezier(.4, 0, .2, 1),
+    color            .35s cubic-bezier(.4, 0, .2, 1);
+}
+
+body,
+.ns-navbar,
+.ns-navbar-mobile,
+.activity-card,
+.team-card,
+.timeline-card,
+.about-card-inner,
+.modal-box,
+.ns-footer,
+#back-to-top {
+  transition:
+    background-color .42s cubic-bezier(.4, 0, .2, 1),
+    border-color     .38s cubic-bezier(.4, 0, .2, 1),
+    color            .30s cubic-bezier(.4, 0, .2, 1),
+    box-shadow       .30s ease !important;
+}
+
+canvas { transition: none !important; }
