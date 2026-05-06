@@ -1,10 +1,10 @@
-/* ══════════════ NEXASPHERE ANIMATIONS v8 ══════════════ */
+﻿/* â•â•â•â•â•â•â•â•â•â•â•â•â•â• NEXASPHERE ANIMATIONS v8 â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
-/* ── Core keyframes ── */
+/* â”€â”€ Core keyframes â”€â”€ */
 @keyframes gradientShift { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
 @keyframes float  { 0%,100%{transform:translateY(0) rotate(0)} 50%{transform:translateY(-16px) rotate(1deg)} }
 @keyframes spin   { to{transform:rotate(360deg)} }
-@keyframes pulse  { 0%,70%{box-shadow:0 0 0 0 rgba(0,212,255,.5)} 100%{box-shadow:0 0 0 8px rgba(0,212,255,0)} }
+@keyframes pulse  { 0%,70%{box-shadow:0 0 0 0 rgba(204,17,17,.5)} 100%{box-shadow:0 0 0 8px rgba(204,17,17,0)} }
 @keyframes blink  { 0%,100%{opacity:1} 50%{opacity:0} }
 @keyframes scanline   { from{top:-2px} to{top:100%} }
 @keyframes dataStream { 0%{transform:translateY(-100%);opacity:0} 5%{opacity:.8} 95%{opacity:.8} 100%{transform:translateY(100vh);opacity:0} }
@@ -17,7 +17,7 @@
 @keyframes ripple { 0%{transform:scale(0);opacity:1} 100%{transform:scale(6);opacity:0} }
 @keyframes shimmer{ 0%{transform:translateX(-130%) skewX(-20deg)} 100%{transform:translateX(300%) skewX(-20deg)} }
 
-/* ── Cinematic scroll pop ── */
+/* â”€â”€ Cinematic scroll pop â”€â”€ */
 @keyframes popIn      { from{opacity:0;transform:translateY(56px) scale(.94)} to{opacity:1;transform:none} }
 @keyframes popLeft    { from{opacity:0;transform:translateX(-72px) scale(.95)} to{opacity:1;transform:none} }
 @keyframes popRight   { from{opacity:0;transform:translateX(72px) scale(.95)} to{opacity:1;transform:none} }
@@ -26,18 +26,18 @@
 @keyframes wordReveal { from{opacity:0;transform:translateY(28px);filter:blur(10px)} to{opacity:1;transform:none;filter:blur(0)} }
 @keyframes numPop     { 0%{opacity:0;transform:scale(.5) translateY(18px)} 70%{transform:scale(1.12) translateY(-3px)} 100%{opacity:1;transform:none} }
 
-/* ── Cinematic opening ── */
+/* â”€â”€ Cinematic opening â”€â”€ */
 @keyframes cinLetterIn  { from{opacity:0;transform:translateY(-52px) rotateX(90deg) scale(.5)} to{opacity:1;transform:none} }
 @keyframes cinLogoIn    { from{opacity:0;transform:scale(.35) translateY(-24px)} to{opacity:1;transform:none} }
 @keyframes cinGlow      { 0%,100%{opacity:.35} 50%{opacity:.85} }
 @keyframes cinProg      { from{transform:scaleX(0)} to{transform:scaleX(1)} }
 @keyframes cinExit      { from{transform:translateY(0);opacity:1} to{transform:translateY(-100%);opacity:.8} }
 
-/* ─────────────────────────────────────────────────
-   SANDSTORM ANIMATIONS — realistic haboob effect
-───────────────────────────────────────────────── */
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   SANDSTORM ANIMATIONS â€” realistic haboob effect
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
-/* Sand grain drift — horizontal with wave */
+/* Sand grain drift â€” horizontal with wave */
 @keyframes sandDrift {
   0%   { transform:translateX(-100%) scaleX(0.4); opacity:0; }
   15%  { opacity:1; }
@@ -66,7 +66,7 @@
   100% { transform:translateX(5%); opacity:0.9; }
 }
 
-/* Screen rumble — sandstorm vibration */
+/* Screen rumble â€” sandstorm vibration */
 @keyframes stormRumble {
   0%,100% { transform:translate(0,0); }
   10%  { transform:translate(-1.5px,  1px ); }
@@ -108,7 +108,7 @@
 /* Scroll progress bar glow pulse */
 @keyframes progressPulse {
   0%,100% { box-shadow:0 0 8px var(--c1g); }
-  50%     { box-shadow:0 0 20px var(--c1g), 0 0 40px rgba(123,111,255,0.3); }
+  50%     { box-shadow:0 0 20px var(--c1g), 0 0 40px rgba(255,90,95,0.3); }
 }
 
 /* Card shimmer sweep */
@@ -124,7 +124,7 @@
   66%     { transform:translate(-20px,15px) scale(0.9);  opacity:.05; }
 }
 
-/* ── Pop classes — opacity:0 until .fired ── */
+/* â”€â”€ Pop classes â€” opacity:0 until .fired â”€â”€ */
 .pop-in,.pop-left,.pop-right,.pop-scale,.pop-flip,.pop-word,.pop-num { opacity:0; }
 .pop-in.fired    { animation:popIn       .72s cubic-bezier(.22,1,.36,1) forwards; }
 .pop-left.fired  { animation:popLeft     .72s cubic-bezier(.22,1,.36,1) forwards; }
@@ -134,7 +134,7 @@
 .pop-word.fired  { animation:wordReveal  .78s cubic-bezier(.22,1,.36,1) forwards; }
 .pop-num.fired   { animation:numPop      .60s cubic-bezier(.34,1.56,.64,1) forwards; }
 
-/* ── Stagger for .cin-container children ── */
+/* â”€â”€ Stagger for .cin-container children â”€â”€ */
 .cin-container>*:nth-child(1) {animation-delay:.04s}
 .cin-container>*:nth-child(2) {animation-delay:.10s}
 .cin-container>*:nth-child(3) {animation-delay:.16s}
@@ -148,7 +148,7 @@
 .cin-container>*:nth-child(11){animation-delay:.64s}
 .cin-container>*:nth-child(12){animation-delay:.70s}
 
-/* ── Ripple ── */
+/* â”€â”€ Ripple â”€â”€ */
 .btn-ripple { position:relative; overflow:hidden; }
 .btn-ripple .rpl {
   position:absolute; border-radius:50%;
@@ -157,7 +157,7 @@
   animation:ripple .65s linear; pointer-events:none;
 }
 
-/* ── Shimmer ── */
+/* â”€â”€ Shimmer â”€â”€ */
 .shimmer { position:relative; overflow:hidden; }
 .shimmer::after {
   content:''; position:absolute; top:0; left:0;
@@ -167,7 +167,7 @@
 }
 .shimmer:hover::after { animation:shimmer .65s ease forwards; }
 
-/* ── Gradient text utility ── */
+/* â”€â”€ Gradient text utility â”€â”€ */
 .grad-text {
   background:linear-gradient(270deg,var(--c1),var(--c2),var(--c3),var(--c1));
   background-size:300% 300%;
@@ -175,10 +175,10 @@
   animation:gradientShift 4s ease infinite;
 }
 
-/* ── Storm rumble during transition ── */
+/* â”€â”€ Storm rumble during transition â”€â”€ */
 .storm-active { animation:stormRumble 0.15s ease-in-out infinite; }
 
-/* ── Glow pulse ring utility ── */
+/* â”€â”€ Glow pulse ring utility â”€â”€ */
 .glow-ring {
   position:absolute; inset:-4px; border-radius:inherit;
   border:2px solid var(--c1);
@@ -186,9 +186,11 @@
   pointer-events:none;
 }
 
-/* ── Color transition on content text for smooth theme switch ── */
+/* â”€â”€ Color transition on content text for smooth theme switch â”€â”€ */
 .section-subtitle, .about-text, .activity-desc, .timeline-event-desc,
 .timeline-event-date, .team-card-name, .modal-info-value, .ns-footer-text,
 .hero-tagline {
   transition: color .3s cubic-bezier(.4,0,.2,1) !important;
 }
+
+

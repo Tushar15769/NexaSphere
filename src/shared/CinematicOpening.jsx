@@ -41,14 +41,14 @@ function IntroContent({ phase, count, tagline, accent, accent2, muted, grad, bg,
       {!isL && (
         <div style={{
           position:'absolute', inset:0, pointerEvents:'none',
-          backgroundImage:`linear-gradient(rgba(0,212,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.025) 1px,transparent 1px)`,
+          backgroundImage:`linear-gradient(rgba(204,17,17,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(204,17,17,.025) 1px,transparent 1px)`,
           backgroundSize:'50px 50px',
         }}/>
       )}
       <div style={{
         position:'absolute', top:'50%', left:'50%',
         transform:'translate(-50%,-58%)', width:'520px', height:'520px', borderRadius:'50%',
-        background:`radial-gradient(circle,${isL?'rgba(194,119,10,.07)':'rgba(0,212,255,.07)'} 0%,transparent 70%)`,
+        background:`radial-gradient(circle,${isL?'rgba(204,17,17,.06)':'rgba(204,17,17,.07)'} 0%,transparent 70%)`,
         animation:'cinGlow 3s ease-in-out infinite',
       }}/>
       {[{t:26,l:26,bt:true,bl:true},{t:26,r:26,bt:true,br:true},{b:26,l:26,bb:true,bl:true},{b:26,r:26,bb:true,br:true}].map((c,i)=>(
@@ -68,10 +68,10 @@ function IntroContent({ phase, count, tagline, accent, accent2, muted, grad, bg,
       <div style={{ marginBottom:'20px', opacity:phase>=1?1:0, animation:phase>=1?'cinLogoIn .75s cubic-bezier(.34,1.56,.64,1) both':'none' }}>
         <img src={nexasphereLogo} alt="NexaSphere" style={{
           width:'72px', height:'72px', objectFit:'contain',
-          mixBlendMode: isL?'multiply':'luminosity',
+          mixBlendMode: 'normal',
           filter: isL
-            ? 'drop-shadow(0 2px 10px rgba(0,0,0,.14))'
-            : 'drop-shadow(0 0 18px rgba(0,212,255,.7)) drop-shadow(0 0 36px rgba(123,111,255,.4)) brightness(1.35)',
+            ? 'drop-shadow(0 2px 10px rgba(0,0,0,.2))'
+            : 'drop-shadow(0 0 18px rgba(204,17,17,.7)) drop-shadow(0 0 36px rgba(136,0,0,.4)) brightness(1.2)',
           animation: phase>=1 ? 'float 3s ease-in-out infinite' : 'none',
         }}/>
       </div>
@@ -145,13 +145,13 @@ export default function CinematicOpening({ onDone, theme = 'dark' }) {
     return () => { ts.forEach(t => clearTimeout(t)); clearInterval(ivRef.current); };
   }, []);
 
-  const bg      = isL ? '#faf8f5' : '#020509';
-  const accent  = isL ? '#c2770a' : '#00d4ff';
-  const accent2 = isL ? '#6d28d9' : '#7b6fff';
-  const muted   = isL ? '#a8a29e' : '#3d4f6e';
+  const bg      = isL ? '#FFFFFF' : '#0A0A0A';
+  const accent  = isL ? '#CC1111' : '#CC1111';
+  const accent2 = isL ? '#880000' : '#880000';
+  const muted   = isL ? '#8A8A8A' : '#606060';
   const grad    = isL
-    ? 'linear-gradient(135deg,#c2770a 0%,#6d28d9 50%,#be185d 100%)'
-    : 'linear-gradient(135deg,#00d4ff 0%,#7b6fff 50%,#bd5cff 100%)';
+    ? 'linear-gradient(135deg,#CC1111 0%,#880000 50%,#EE2222 100%)'
+    : 'linear-gradient(135deg,#EE2222 0%,#CC1111 50%,#FF4444 100%)';
 
   if (gone) return null;
 
@@ -214,7 +214,7 @@ export default function CinematicOpening({ onDone, theme = 'dark' }) {
                 <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
               </filter>
             </defs>
-            <g stroke="rgba(160,210,255,0.95)" strokeWidth="0.22" fill="none" filter="url(#cglow)"
+            <g stroke="rgba(238,80,80,0.95)" strokeWidth="0.22" fill="none" filter="url(#cglow)"
               style={{animation: cracking ? 'crackIn 0.14s ease forwards' : 'none'}}>
               <line x1="50" y1="50" x2="28"  y2="38"/>
               <line x1="50" y1="50" x2="55"  y2="32"/>
@@ -234,7 +234,7 @@ export default function CinematicOpening({ onDone, theme = 'dark' }) {
               <line x1="22" y1="72" x2="10"  y2="88"/>
               <line x1="18" y1="62" x2="0"   y2="52"/>
             </g>
-            <circle cx="50" cy="50" r="1.4" fill="rgba(180,225,255,1)" filter="url(#cglow)"/>
+            <circle cx="50" cy="50" r="1.4" fill="rgba(238,80,80,1)" filter="url(#cglow)"/>
           </svg>
         )}
 
@@ -242,7 +242,7 @@ export default function CinematicOpening({ onDone, theme = 'dark' }) {
         {cracking && !shatter && (
           <div style={{
             position:'absolute', inset:0, pointerEvents:'none', zIndex:3,
-            background:'radial-gradient(circle at 50% 50%, rgba(180,225,255,0.6) 0%, transparent 55%)',
+            background:'radial-gradient(circle at 50% 50%, rgba(238,80,80,0.55) 0%, transparent 55%)',
             animation:'flashBurst 0.18s ease forwards',
           }}/>
         )}

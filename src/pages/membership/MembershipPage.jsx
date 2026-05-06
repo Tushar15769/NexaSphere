@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+﻿import { useEffect, useMemo, useRef, useState } from 'react';
 import { IconArrowLeft, IconArrowRight, IconBolt, IconShieldCheck, IconUsers } from '../../shared/Icons';
 
-// ── Constants ────────────────────────────────────────────────────────────────
+// â”€â”€ Constants â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const WHATSAPP_COMMUNITY = 'https://chat.whatsapp.com/Jjc5cuUKENu0RC1vWSEs20';
 const LINKEDIN_PAGE      = 'https://www.linkedin.com/showcase/glbajaj-nexasphere/';
 
@@ -28,14 +28,14 @@ const GROUP_OPTIONS    = [
   'NexaSphere Career & Placement',
 ];
 
-// ── Apps Script URL for Membership sheet ─────────────────────────────────────
+// â”€â”€ Apps Script URL for Membership sheet â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Replace this with your deployed Web App URL after deploying Code.gs
 const MEMBERSHIP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyRQOW3Xjv13vXvft8ezD9sJdvjV3kf-VHm1l_mImHRDUAEqsilK0wb5QBD5GOkixwe/exec';
 
-// ── Utility ──────────────────────────────────────────────────────────────────
+// â”€â”€ Utility â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
 
-// ── Sub-components ───────────────────────────────────────────────────────────
+// â”€â”€ Sub-components â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function Field({ label, required, hint, children }) {
   return (
     <div style={{ display: 'grid', gap: 8 }}>
@@ -110,7 +110,7 @@ function TextArea({ value, onChange, placeholder, rows = 5 }) {
   );
 }
 
-const SELECT_ARROW = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2300d4ff' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")`;
+const SELECT_ARROW = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23CC1111' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")`;
 
 function StyledSelect({ value, onChange, children, placeholder }) {
   return (
@@ -192,7 +192,7 @@ function MultiSelectChips({ options, values, onToggle }) {
               fontSize: '.82rem',
             }}
           >
-            {active ? '✓ ' : ''}{opt}
+            {active ? 'âœ“ ' : ''}{opt}
           </button>
         );
       })}
@@ -200,7 +200,7 @@ function MultiSelectChips({ options, values, onToggle }) {
   );
 }
 
-// ── Main Component ────────────────────────────────────────────────────────────
+// â”€â”€ Main Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export default function MembershipPage({ onBack }) {
   const [step, setStep]   = useState(0); // 0 = Section 1, 1 = Section 2
   const [busy, setBusy]   = useState(false);
@@ -237,10 +237,10 @@ export default function MembershipPage({ onBack }) {
 
   function set(key, val) { setForm(f => ({ ...f, [key]: val })); }
 
-  // ── Validation per step ──────────────────────────────────────────────────
+  // â”€â”€ Validation per step â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const missingRequired = useMemo(() => {
     const missing = [];
-    // Step 0 = About (no required fields — just read)
+    // Step 0 = About (no required fields â€” just read)
     if (step === 1) {
       if (!form.fullName.trim())     missing.push('fullName');
       if (!form.collegeEmail.trim()) missing.push('collegeEmail');
@@ -271,7 +271,7 @@ export default function MembershipPage({ onBack }) {
     topRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  // ── Submit ───────────────────────────────────────────────────────────────
+  // â”€â”€ Submit â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   async function submit() {
     setErr('');
     setBusy(true);
@@ -328,7 +328,7 @@ export default function MembershipPage({ onBack }) {
     }
   }
 
-  // ── Intersection observer for pop animations ────────────────────────────
+  // â”€â”€ Intersection observer for pop animations â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   useEffect(() => {
     const obs = new IntersectionObserver(entries => {
       entries.forEach(e => {
@@ -340,12 +340,12 @@ export default function MembershipPage({ onBack }) {
     return () => obs.disconnect();
   }, [step]);
 
-  // ── Step content ─────────────────────────────────────────────────────────
+  // â”€â”€ Step content â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const steps = useMemo(() => [
-    // ── Step 0: About NexaSphere ──────────────────────────────────────────
+    // â”€â”€ Step 0: About NexaSphere â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     {
       title:    'About NexaSphere',
-      subtitle: 'NexaSphere Membership Form — GL Bajaj Group of Institutions',
+      subtitle: 'NexaSphere Membership Form â€” GL Bajaj Group of Institutions',
       icon:     <IconBolt style={{ width: 18, height: 18 }} />,
       render: () => (
         <div style={{ display: 'grid', gap: 18 }}>
@@ -357,10 +357,10 @@ export default function MembershipPage({ onBack }) {
             padding: '14px 18px',
             display: 'flex', alignItems: 'flex-start', gap: 12,
           }}>
-            <span style={{ fontSize: '1.4rem', flexShrink: 0 }}>⚠️</span>
+            <span style={{ fontSize: '1.4rem', flexShrink: 0 }}>âš ï¸</span>
             <div style={{ lineHeight: 1.75 }}>
               <div style={{ fontFamily: 'Orbitron,monospace', fontSize: '.75rem', letterSpacing: '.1em', color: 'var(--t1)', marginBottom: 6, textTransform: 'uppercase' }}>
-                Important — Read Before Proceeding
+                Important â€” Read Before Proceeding
               </div>
               <div style={{ fontSize: '.9rem', color: 'var(--t2)' }}>
                 This form can be filled <b style={{ color: 'var(--t1)' }}>only once</b> per device.
@@ -375,7 +375,7 @@ export default function MembershipPage({ onBack }) {
           <p style={{ color: 'var(--t2)', lineHeight: 1.8, fontSize: '.96rem' }}>
             <span className="grad-text" style={{ fontWeight: 700 }}>NexaSphere</span> is the official
             student tech ecosystem at <b style={{ color: 'var(--t1)' }}>GL Bajaj Group of Institutions, Mathura</b>.
-            We bring together students from all branches and years under one platform — organising and
+            We bring together students from all branches and years under one platform â€” organising and
             supporting <b>tech and non-tech events</b> across every domain:
           </p>
 
@@ -386,14 +386,14 @@ export default function MembershipPage({ onBack }) {
             gap: 10,
           }}>
             {[
-              { icon: '🔐', label: 'Cybersecurity' },
-              { icon: '🤖', label: 'AI / Machine Learning' },
-              { icon: '🌐', label: 'Web Development' },
-              { icon: '☁️', label: 'Cloud & AWS' },
-              { icon: '📱', label: 'Android Development' },
-              { icon: '📢', label: 'Management & Events' },
-              { icon: '💼', label: 'Career & Placement' },
-              { icon: '🎨', label: 'Design & Media' },
+              { icon: 'ðŸ”', label: 'Cybersecurity' },
+              { icon: 'ðŸ¤–', label: 'AI / Machine Learning' },
+              { icon: 'ðŸŒ', label: 'Web Development' },
+              { icon: 'â˜ï¸', label: 'Cloud & AWS' },
+              { icon: 'ðŸ“±', label: 'Android Development' },
+              { icon: 'ðŸ“¢', label: 'Management & Events' },
+              { icon: 'ðŸ’¼', label: 'Career & Placement' },
+              { icon: 'ðŸŽ¨', label: 'Design & Media' },
             ].map(d => (
               <div key={d.label} style={{
                 display: 'flex', alignItems: 'center', gap: 10,
@@ -440,7 +440,7 @@ export default function MembershipPage({ onBack }) {
             padding: '12px 16px',
             display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap',
           }}>
-            <span style={{ fontSize: '1.1rem' }}>🔗</span>
+            <span style={{ fontSize: '1.1rem' }}>ðŸ”—</span>
             <span style={{ fontSize: '.88rem', color: 'var(--t2)', flex: 1 }}>
               Before filling the form, please follow our official LinkedIn page:
             </span>
@@ -455,7 +455,7 @@ export default function MembershipPage({ onBack }) {
         </div>
       ),
     },
-    // ── Step 1: Personal Details ──────────────────────────────────────────
+    // â”€â”€ Step 1: Personal Details â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     {
       title:    'Personal Details',
       subtitle: 'Fill in your basic information accurately using your college details.',
@@ -565,7 +565,7 @@ export default function MembershipPage({ onBack }) {
         </div>
       ),
     },
-    // ── Step 2: Domain Selection ──────────────────────────────────────────
+    // â”€â”€ Step 2: Domain Selection â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     {
       title:    'Domain Selection',
       subtitle: 'Choose the NexaSphere groups you want to join and share your motivation.',
@@ -599,7 +599,7 @@ export default function MembershipPage({ onBack }) {
   const current  = steps[step];
   const progress = step / (steps.length - 1);
 
-  // ── Render ───────────────────────────────────────────────────────────────
+  // â”€â”€ Render â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   return (
     <div id="pg-member" ref={topRef}>
       <style>{`
@@ -691,7 +691,7 @@ export default function MembershipPage({ onBack }) {
           maxWidth:660, margin:'0 auto',
           lineHeight:1.75, animationDelay:'.12s',
         }}>
-          NexaSphere connects students with opportunities across Tech and Non-Tech domains —
+          NexaSphere connects students with opportunities across Tech and Non-Tech domains â€”
           development, cloud, cybersecurity, management, and career growth.
         </p>
         <div className="member-divider" style={{ marginTop:34, maxWidth:780 }}/>
@@ -733,7 +733,7 @@ export default function MembershipPage({ onBack }) {
                   </div>
                   <div style={{ color:'var(--t2)', fontSize:'.9rem' }}>
                     {done
-                      ? 'Thank you for joining NexaSphere — GL Bajaj Group of Institutions 🚀'
+                      ? 'Thank you for joining NexaSphere â€” GL Bajaj Group of Institutions ðŸš€'
                       : current.subtitle}
                   </div>
                 </div>
@@ -756,7 +756,7 @@ export default function MembershipPage({ onBack }) {
                 background:'rgba(255,45,120,.08)', border:'1px solid rgba(255,45,120,.22)',
                 borderRadius:'var(--r3)', padding:'20px 22px', textAlign:'center',
               }}>
-                <div style={{ fontSize:'1.4rem', marginBottom:10 }}>⚠️</div>
+                <div style={{ fontSize:'1.4rem', marginBottom:10 }}>âš ï¸</div>
                 <div style={{ color:'var(--t1)', fontSize:'.98rem', fontWeight:600, marginBottom:16 }}>
                   Membership Form Already Submitted
                 </div>
@@ -787,7 +787,7 @@ export default function MembershipPage({ onBack }) {
                 </div>
               </div>
             ) : done ? (
-              /* ── Success screen ── */
+              /* â”€â”€ Success screen â”€â”€ */
               <div style={{ display:'grid', gap:18 }}>
                 <div style={{
                   background:'linear-gradient(135deg,rgba(123,111,255,.08),rgba(0,212,255,.06))',
@@ -795,14 +795,14 @@ export default function MembershipPage({ onBack }) {
                   padding:22, position:'relative', overflow:'hidden', textAlign:'center',
                 }}>
                   <div className="corner-tl"/><div className="corner-br"/>
-                  <div style={{ fontSize:'2.4rem', marginBottom:14 }}>🚀</div>
+                  <div style={{ fontSize:'2.4rem', marginBottom:14 }}>ðŸš€</div>
                   <div style={{ fontFamily:'Orbitron,monospace', fontSize:'1rem', color:'var(--t1)', fontWeight:700, marginBottom:12 }}>
                     Thank you for filling the NexaSphere Membership Form!
                   </div>
                   <p style={{ color:'var(--t2)', lineHeight:1.8, maxWidth:540, margin:'0 auto' }}>
-                    Your form has been successfully submitted. 🎉
+                    Your form has been successfully submitted. ðŸŽ‰
                     <br/><br/>
-                    Now request to join the NexaSphere WhatsApp group using the link below — and
+                    Now request to join the NexaSphere WhatsApp group using the link below â€” and
                     <b style={{ color:'var(--t1)' }}> mention that you have already filled the NexaSphere form</b>.
                     <br/><br/>
                     Our team will verify your responses and add you to the respective NexaSphere spaces/groups.
@@ -838,8 +838,8 @@ export default function MembershipPage({ onBack }) {
                   borderRadius:'var(--r2)', padding:'14px 16px',
                   fontSize:'.88rem', color:'var(--t3)', lineHeight:1.7, textAlign:'center',
                 }}>
-                  📌 Also make sure to follow the official NexaSphere LinkedIn page for updates.<br/>
-                  <b style={{ color:'var(--t2)' }}>Stay connected and keep building 🚀 — NexaSphere Team</b>
+                  ðŸ“Œ Also make sure to follow the official NexaSphere LinkedIn page for updates.<br/>
+                  <b style={{ color:'var(--t2)' }}>Stay connected and keep building ðŸš€ â€” NexaSphere Team</b>
                 </div>
               </div>
             ) : (
@@ -900,7 +900,7 @@ export default function MembershipPage({ onBack }) {
                         submit();
                       }}
                     >
-                      {busy ? 'Submitting…' : 'Submit Membership Form'}
+                      {busy ? 'Submittingâ€¦' : 'Submit Membership Form'}
                     </button>
                   )}
                 </div>
@@ -921,3 +921,4 @@ export default function MembershipPage({ onBack }) {
     </div>
   );
 }
+
