@@ -5,8 +5,9 @@
 > **Connecting students with opportunities** across Tech and Non-Tech domains through an integrated digital ecosystem
 <br/>
 
-<p align="center">`r`n  <img src="image.png" alt="NexaSphere homepage preview" width="100%" /></p>
+<p align="center"> <img src="image.png" alt="NexaSphere homepage preview" width="100%" /></p>
 <br/>
+
 ---
 
 ## 🔗 Quick Access
