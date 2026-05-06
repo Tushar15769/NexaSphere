@@ -238,89 +238,44 @@ function hexToRgb(hex) {
   return `${r},${g},${b}`;
 }
 
+// ════════════════════════════════════════
+import { api } from '../../services/api';
+import { ACTIVITY_KEY_MAP } from '../../utils/activityKeyMap';
+import { Skeleton } from '../../shared/Skeleton';
+
 export default function ActivityDetailPage({ activity, onBack, onSelectEvent }) {
   const [mounted, setMounted] = useState(false);
-  const [manualEvents, setManualEvents] = useState([]);
-  const [busy, setBusy] = useState(false);
-  const apiBase = (import.meta?.env?.VITE_API_BASE || '').replace(/\/+$/, '');
-  const activityKey = encodeURIComponent(activity.title);
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const fetchManualEvents = async () => {
-    const url = apiBase ? `${apiBase}/api/content/activity-events/${activityKey}` : `/api/content/activity-events/${activityKey}`;
-    const res = await fetch(url);
-    const data = await res.json().catch(() => ({}));
-    if (res.ok && Array.isArray(data?.events)) setManualEvents(data.events);
-  };
+  const activityKey = ACTIVITY_KEY_MAP[activity.title];
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
     setTimeout(() => setMounted(true), 50);
-    fetchManualEvents().catch(() => {});
-  }, [activity.title]);
+    if (activityKey) {
+      loadActivityEvents();
+    } else {
+      setLoading(false);
+    }
+  }, [activity.title, activityKey]);
 
-  const askAuth = () => {
-    const name = window.prompt('Enter your full name (core team):');
-    if (!name) return null;
-    const email = window.prompt('Enter your email:');
-    if (!email) return null;
-    const phone = window.prompt('Enter your phone number:');
-    if (!phone) return null;
-    const password = window.prompt('Enter password:');
-    if (!password) return null;
-    return { name, email, phone, password };
-  };
-
-  const handleAddEvent = async () => {
-    const auth = askAuth();
-    if (!auth) return;
-    const eventName = window.prompt('Event name:');
-    if (!eventName) return;
-    const eventDate = window.prompt('Event date (e.g. May 20, 2026):');
-    if (!eventDate) return;
-    const eventTagline = window.prompt('Short tagline (optional):') || '';
-    const eventDescription = window.prompt('Event description:');
-    if (!eventDescription) return;
-    setBusy(true);
+  const loadActivityEvents = async () => {
     try {
-      const url = apiBase ? `${apiBase}/api/content/activity-events/${activityKey}` : `/api/content/activity-events/${activityKey}`;
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...auth, eventName, eventDate, eventTagline, eventDescription }),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data?.error || 'Failed to add event');
-      alert('Event added successfully.');
-      await fetchManualEvents();
-    } catch (e) {
-      alert(e?.message || 'Unable to add event.');
+      setLoading(true);
+      const data = await api.getActivityEvents(activityKey);
+      // Handle either array or object with events property
+      const fetchedEvents = Array.isArray(data) ? data : data?.events || [];
+      setEvents(fetchedEvents);
+    } catch (err) {
+      console.error('Failed to load activity events:', err);
     } finally {
-      setBusy(false);
+      setLoading(false);
     }
   };
 
-  const handleDeleteEvent = async (eventId) => {
-    const auth = askAuth();
-    if (!auth) return;
-    if (!window.confirm('Delete this event?')) return;
-    setBusy(true);
-    try {
-      const url = apiBase ? `${apiBase}/api/content/activity-events/${activityKey}/${eventId}` : `/api/content/activity-events/${activityKey}/${eventId}`;
-      const res = await fetch(url, {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(auth),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data?.error || 'Failed to delete event');
-      alert('Event deleted.');
-      await fetchManualEvents();
-    } catch (e) {
-      alert(e?.message || 'Unable to delete event.');
-    } finally {
-      setBusy(false);
-    }
-  };
+  const upcomingEvents = events.filter((e) => e.status === 'upcoming');
+  const completedEvents = events.filter((e) => e.status === 'completed');
 
   const color = activity.color || 'var(--cyan)';
   const rgb = color.startsWith('#') ? hexToRgb(color) : '0,212,255';
@@ -406,6 +361,23 @@ export default function ActivityDetailPage({ activity, onBack, onSelectEvent }) 
       
       <div className="container" style={{ paddingTop: '56px' }}>
 
+        {/* Conducted Events */}
+        <div style={{ marginBottom: '56px' }}>
+          <h2 style={{
+            fontFamily: 'Orbitron, monospace', fontSize: '1.1rem', fontWeight: 700,
+            color, marginBottom: '24px', letterSpacing: '0.08em',
+            textTransform: 'uppercase',
+            display: 'flex', alignItems: 'center', gap: '10px',
+          }}>
+            <span style={{
+              display: 'inline-block', width: '32px', height: '2px',
+              background: `linear-gradient(90deg, ${color}, transparent)`,
+            }} />
+            Conducted Events
+          </h2>
+          {loading ? (
+            <ActivityEventsSkeleton />
+          ) : completedEvents.length > 0 ? (
         
         {((activity.conductedEvents && activity.conductedEvents.length > 0) || manualEvents.length > 0) && (
           <div style={{ marginBottom: '56px' }}>
@@ -427,19 +399,37 @@ export default function ActivityDetailPage({ activity, onBack, onSelectEvent }) 
               </button>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '760px' }}>
-              {[...manualEvents, ...(activity.conductedEvents || [])].map(event => (
+              {completedEvents.map(event => (
                 <EventCard
                   key={event.id}
                   event={event}
                   activityColor={color}
                   onSelect={onSelectEvent}
-                  onDelete={handleDeleteEvent}
                 />
               ))}
             </div>
-          </div>
-        )}
+          ) : (
+            <p style={{ color: 'var(--text-muted)' }}>No past events yet</p>
+          )}
+        </div>
 
+        {/* Upcoming Events */}
+        <div style={{ maxWidth: '760px', marginBottom: '56px' }}>
+          <h2 style={{
+            fontFamily: 'Orbitron, monospace', fontSize: '1.1rem', fontWeight: 700,
+            color: 'var(--text-secondary)', marginBottom: '24px', letterSpacing: '0.08em',
+            textTransform: 'uppercase',
+            display: 'flex', alignItems: 'center', gap: '10px',
+          }}>
+            <span style={{
+              display: 'inline-block', width: '32px', height: '2px',
+              background: 'linear-gradient(90deg, var(--text-secondary), transparent)',
+            }} />
+            Coming Up
+          </h2>
+          {loading ? (
+            <ActivityEventsSkeleton />
+          ) : upcomingEvents.length > 0 ? (
         
         {activity.upcomingEvents && activity.upcomingEvents.length > 0 && (
           <div style={{ maxWidth: '760px' }}>
@@ -456,12 +446,14 @@ export default function ActivityDetailPage({ activity, onBack, onSelectEvent }) 
               Coming Up
             </h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              {activity.upcomingEvents.map((event, i) => (
+              {upcomingEvents.map((event, i) => (
                 <UpcomingCard key={i} event={event} color={color} />
               ))}
             </div>
-          </div>
-        )}
+          ) : (
+            <p style={{ color: 'var(--text-muted)' }}>No upcoming events scheduled</p>
+          )}
+        </div>
 
         
         {(!activity.conductedEvents || activity.conductedEvents.length === 0) &&
@@ -477,3 +469,12 @@ export default function ActivityDetailPage({ activity, onBack, onSelectEvent }) 
   );
 }
 
+function ActivityEventsSkeleton() {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '760px' }}>
+      {[1, 2].map((i) => (
+        <Skeleton key={i} height={80} borderRadius={12} />
+      ))}
+    </div>
+  );
+}

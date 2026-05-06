@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { teamMembers } from '../../data/teamData';
 import TeamMemberModal from './TeamMemberModal';
 import { IconArrowRight, IconSpark } from '../../shared/Icons';
 import { BannerOrbs } from '../../shared/MotionLayer';
+import { api } from '../../services/api';
+import { Skeleton } from '../../shared/Skeleton';
 
 function MemberCard({ member, idx, onClick }) {
   const ref = useRef(null);
@@ -27,6 +28,8 @@ function MemberCard({ member, idx, onClick }) {
     setTimeout(() => onClick(member), 110);
   };
 
+  const photo = member.photoUrl || member.photo || `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=random`;
+
   return (
     <div ref={ref}
       className="team-card shimmer mag-card"
@@ -42,13 +45,13 @@ function MemberCard({ member, idx, onClick }) {
       onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') click(); }}
     >
       <div className="team-card-photo-wrap">
-        <img src={member.photo} alt={member.name} className="team-card-photo" />
+        <img src={photo} alt={member.name} className="team-card-photo" />
       </div>
       <div className="team-card-name">{member.name}</div>
       <div className="team-card-role">{member.role}</div>
       <div className="team-card-chips">
         <span className="chip-branch">{member.branch}</span>
-        <span className="chip-section">§{member.section}</span>
+        {member.section && <span className="chip-section">§{member.section}</span>}
       </div>
       <div className="team-card-hint">Click to view ↗</div>
       <div className="corner-tl" /><div className="corner-br" />
@@ -56,13 +59,44 @@ function MemberCard({ member, idx, onClick }) {
   );
 }
 
+function TeamSkeleton() {
+  return (
+    <>
+      {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+        <div key={i} className="team-card shimmer mag-card" style={{ padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <Skeleton width={120} height={120} borderRadius="50%" style={{ marginBottom: '16px' }} />
+          <Skeleton width="80%" height={24} style={{ marginBottom: '8px' }} />
+          <Skeleton width="60%" height={16} />
+        </div>
+      ))}
+    </>
+  );
+}
+
 export default function TeamPage({ onBack, onApply }) {
   const [sel, setSel] = useState(null);
+  const [team, setTeam] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => { window.scrollTo({ top: 0 }); }, []);
+  useEffect(() => { 
+    window.scrollTo({ top: 0 }); 
+    loadTeam();
+  }, []);
 
-  const organiser = teamMembers.filter(m => m.role === 'Organiser' || m.role === 'Co-organiser');
-  const coreTeam  = teamMembers.filter(m => m.role === 'Core Team Member');
+  const loadTeam = async () => {
+    try {
+      setLoading(true);
+      const data = await api.getCoreTeam();
+      setTeam(data);
+    } catch (err) {
+      console.error('Failed to load team:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const organiser = team.filter(m => m.role?.toLowerCase().includes('organiser'));
+  const coreTeam  = team.filter(m => !m.role?.toLowerCase().includes('organiser'));
 
   return (
     <div id="team-page" style={{ minHeight: '100vh', padding: '0 0 100px' }}>
@@ -109,7 +143,7 @@ export default function TeamPage({ onBack, onApply }) {
             <div style={{ flex: 1, height: '1px', background: 'linear-gradient(90deg, var(--bdr2), transparent)' }} />
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(175px, 1fr))', gap: '16px', maxWidth: '500px', margin: '0 auto' }}>
-            {organiser.map((m, i) => <MemberCard key={m.id} member={m} idx={i} onClick={setSel} />)}
+            {loading ? <TeamSkeleton /> : organiser.map((m, i) => <MemberCard key={m.id} member={m} idx={i} onClick={setSel} />)}
           </div>
         </div>
 
@@ -126,7 +160,7 @@ export default function TeamPage({ onBack, onApply }) {
             <div style={{ flex: 1, height: '1px', background: 'linear-gradient(90deg, var(--bdr2), transparent)' }} />
           </div>
           <div className="team-grid">
-            {coreTeam.map((m, i) => <MemberCard key={m.id} member={m} idx={i + 2} onClick={setSel} />)}
+            {loading ? <TeamSkeleton /> : coreTeam.map((m, i) => <MemberCard key={m.id} member={m} idx={i + 2} onClick={setSel} />)}
           </div>
         </div>
 
