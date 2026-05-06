@@ -1,224 +1,728 @@
-# NexaSphere — GL Bajaj's Student-Driven Tech Ecosystem
+# 🌟 NexaSphere
 
-A modern, animated single-page React application for NexaSphere, the official student tech community of GL Bajaj Group of Institutions, Mathura.
+## Official Community Platform — GL Bajaj Group of Institutions, Mathura
 
----
+> **Connecting students with opportunities** across Tech and Non-Tech domains through an integrated digital ecosystem
+<br/>
 
-## Live URLs
-
-| Environment | URL |
-|-------------|-----|
-| **Production** |  |
-| **GitHub Pages** |  |
+<p align="center"> <img src="image.png" alt="NexaSphere homepage preview" width="100%" /></p>
+<br/>
 
 ---
 
-## Tech Stack
+## 🔗 Quick Access
 
-| Layer | Technology |
-|-------|-----------|
-| Framework | React 18 (Vite) |
-| Styling | Vanilla CSS — design token system via CSS custom properties |
-| Animations | CSS keyframes + custom React motion hooks |
-| Forms | Google Apps Script → Google Sheets backend |
-| Deployment | Vercel (primary) + GitHub Pages |
-| Package Manager | npm |
+<div align="center">
 
----
+| Resource               | Link                                                                           |
+| ---------------------- | ------------------------------------------------------------------------------ |
+| 🌐 **Live Website**    | [https://nexa-sphere-sigma.vercel.app/](https://nexa-sphere-sigma.vercel.app/)|
+| 🔑 **Admin Dashboard** | [https://admin-nexasphere.vercel.app](https://admin-nexasphere.vercel.app)     |
+| 📧 **Contact**         | nexasphere@glbajajgroup.org                                                    |
+| 💼 **Institution**     | GL Bajaj Group of Institutions, Mathura                                        |
 
-## Features
+</div>
 
-- **Cinematic opening** — glass-shatter intro sequence with letter-by-letter type-in
-- **Dark / Light theme** — system-aware with `localStorage` persistence, toggled via sun/moon button in navbar
-- **Wine-Red brand system** — full `#CC1111` palette replacing legacy blue/purple
-- **Aurora night layer** — Apple 2027-inspired prismatic ambient dark mode (breathing aurora blobs, iridescent card borders, conic logo halo)
-- **Glassmorphism** — fully transparent frosted-glass navbar + backdrop-blur on all cards, banners, modals
-- **Motion layer** — parallax, magnetic buttons, 3D card tilt, scroll reveals, particle background, geometric grid
-- **Custom cursor** — magnetic hover with glow trail
-- **Pages**: Home, Activities, Events, About, Team, Contact, Core Team Recruitment, Membership Application, Admin
+<br/>
 
 ---
 
-## Pages & Navigation
+## 🚀 Technology Stack
 
-| Route / State | Component | Description |
-|---------------|-----------|-------------|
-| `Home` | `HeroSection` + sections | Landing with hero, activities, events, about, team |
-| `Activities` | `ActivitiesPage` | All activity cards |
-| Activity detail | `ActivityDetailPage` | Per-activity deep-dive with events list |
-| `Events` | `EventsPage` | KSS and all events |
-| Event detail | `EventDetailPage` | Individual event page |
-| `About` | `AboutPage` | Club mission, stats, timeline |
-| `Team` | `TeamPage` | Core team member cards + modal bios |
-| `Contact` | `ContactPage` | Social links and contact form |
-| `apply` (type) | `RecruitmentPage` | Core Team application form → Google Sheets |
-| `join` (type) | `MembershipPage` | Membership application form → Google Sheets |
-| `Admin` | `AdminPage` | Internal admin panel (hash-gated) |
+Modern, scalable architecture built with industry-leading technologies:
 
-All navigation is handled via the `page` state in `App.jsx` with animated wipe transitions.
+<br/>
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <h3>Frontend Layer</h3>
+      <p>⚡ React 18 + Vite 5</p>
+      <p>🎨 Vanilla CSS with Advanced Motion</p>
+      <p>📦 Vercel Hosting</p>
+    </td>
+    <td align="center" width="50%">
+      <h3>Backend Layer</h3>
+      <p>☕ Java 17 + Spring Boot 3</p>
+      <p>🐍 Python 3.11 + FastAPI</p>
+      <p>🚀 Railway / Render / Fly.io</p>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <h3>Database</h3>
+      <p>🗄️ PostgreSQL (Production)</p>
+      <p>💾 H2 (Development)</p>
+      <p>📊 Supabase Integration</p>
+    </td>
+    <td align="center">
+      <h3>Services</h3>
+      <p>📝 Google Sheets Integration</p>
+      <p>🔐 JWT Authentication</p>
+      <p>🔄 Real-time Updates</p>
+    </td>
+  </tr>
+</table>
+
+<br/>
 
 ---
 
-## Project Structure
+## 📁 Project Architecture
 
 ```
-src/
-├── assets/images/logos/      # Brand logos (nexasphere-logo.png, glbajaj-logo.png)
-├── data/                     # Activities, events, team data
-│   ├── activities/           # Per-activity JS data files + index.js
-│   └── eventsData.js         # KSS events data
-├── pages/
-│   ├── home/                 # HeroSection.jsx
-│   ├── activities/           # ActivitiesPage, ActivitiesSection, ActivityDetailPage
-│   ├── events/               # EventsPage, EventsSection, EventDetailPage
-│   ├── about/                # AboutPage, AboutSection
-│   ├── team/                 # TeamPage, TeamSection, TeamMemberCard, TeamMemberModal
-│   ├── contact/              # ContactPage
-│   ├── recruitment/          # RecruitmentPage (Core Team form)
-│   ├── membership/           # MembershipPage (Membership form)
-│   └── admin/                # AdminPage
-├── shared/                   # Reusable components
-│   ├── Navbar.jsx
-│   ├── Footer.jsx
-│   ├── CinematicOpening.jsx
-│   ├── ParticleBackground.jsx
-│   ├── GeometricGridBackground.jsx
-│   ├── MotionLayer.jsx       # All motion hooks (parallax, reveals, cursor, scroll)
-│   ├── StormOverlay.jsx
-│   └── Icons.jsx
-└── styles/
-    ├── themes.css            # CSS custom property tokens (dark + light)
-    ├── globals.css           # Body, typography, scrollbar, utility classes
-    ├── components.css        # All component styles
-    ├── animations.css        # @keyframes library
-    ├── aurora.css            # Dark mode prismatic night layer
-    └── motion.css            # Motion layer CSS
+nexasphere/
+│
+├── 📂 src/                          ← Main Frontend Application
+│   ├── pages/                       ← Page Components
+│   │   ├── home/
+│   │   ├── about/
+│   │   ├── activities/
+│   │   ├── events/
+│   │   ├── team/
+│   │   ├── contact/
+│   │   ├── membership/
+│   │   ├── recruitment/
+│   │   └── admin/
+│   ├── shared/                      ← Reusable Components & Utilities
+│   ├── services/                    ← API Client Layer
+│   ├── styles/                      ← Global Stylesheets
+│   ├── data/                        ← Static Content & Configuration
+│   └── App.jsx, main.jsx
+│
+├── 📂 admin-dashboard/              ← Standalone Admin Application
+│   ├── src/
+│   │   ├── pages/                   ← Admin Pages
+│   │   ├── components/              ← Admin Components
+│   │   ├── services/                ← API Integration
+│   │   └── hooks/                   ← Custom React Hooks
+│   └── package.json
+│
+├── 📂 server-java/                  ← REST API Backend
+│   ├── src/main/java/org/nexasphere/
+│   │   ├── controller/              ← REST Endpoints
+│   │   ├── service/                 ← Business Logic
+│   │   ├── model/                   ← JPA Entities
+│   │   ├── repository/              ← Data Access Layer
+│   │   └── config/                  ← Spring Configuration
+│   ├── pom.xml
+│   └── README.md
+│
+├── 📂 server-python/                ← Forms Microservice
+│   ├── routers/                     ← API Routes
+│   ├── services/                    ← Business Logic
+│   ├── models/                      ← Data Models
+│   ├── requirements.txt
+│   └── README.md
+│
+├── Configuration Files
+│   ├── package.json
+│   ├── vite.config.js
+│   ├── vercel.json
+│   ├── netlify.toml
+│   └── index.html
+│
+└── README.md                        ← This File
 ```
 
----
-
-## Brand Design System
-
-### Color Tokens (CSS custom properties)
-
-| Token | Dark | Light | Usage |
-|-------|------|-------|-------|
-| `--bg` | `#050508` | `#FFFFFF` | Page background |
-| `--card` | `#0C0C11` | `#FFFFFF` | Card/surface background |
-| `--c1` | `#CC1111` | `#BB0F0F` | Primary brand red |
-| `--c2` | `#EE2222` | `#DD2020` | Highlight red |
-| `--c4` | `#880000` | `#880000` | Deep wine red |
-| `--t1` | `#F0F0F0` | `#1A1A1A` | Primary text |
-| `--t2` | `#A8A8A8` | `#4A4A4A` | Secondary text |
-
-### Fonts
-
-| Font | Usage |
-|------|-------|
-| `Orbitron` | Headings, brand name, cinematic opener |
-| `Rajdhani` | Navigation, labels, body |
-| `Space Mono` | Taglines, code-style text |
-| `Inter` | Form inputs, general body |
-
-### Theme Toggle
-- Stored in `localStorage` key `ns-theme`
-- Applied via `data-theme="light"` on `<html>` element (default dark)
-- Transitions on all surfaces: `0.42s cubic-bezier(.4,0,.2,1)`
+<br/>
 
 ---
 
-## Forms & Backend
+## 🛠️ Local Development Setup
 
-### Core Team Recruitment
-- **Component**: `RecruitmentPage.jsx`
-- **Endpoint**: Google Apps Script web app
-- **Destination**: Google Sheets — Core Team Applications
-- **Fields**: Name, Email, Phone, Branch, Year, Section, Domain, Motivation, Skills, LinkedIn, Portfolio
-- **Trigger**: "Apply for Core Team" button on HeroSection / TeamPage
+### ✅ Prerequisites
 
-### Membership Application
-- **Component**: `MembershipPage.jsx`
-- **Endpoint**: Google Apps Script web app
-- **Destination**: Google Sheets — Membership Applications
-- **Fields**: Name, Email, Phone, Branch, Year, Section, Skills, Why join
-- **Trigger**: "Join as Member" button on HeroSection
+Make sure you have these installed on your system:
 
----
+<br/>
 
-## Local Development
+| Tool           | Version | Purpose                                   |
+| -------------- | ------- | ----------------------------------------- |
+| **Node.js**    | 20+     | Frontend development & package management |
+| **Java JDK**   | 17+     | Java backend compilation & execution      |
+| **Maven**      | 3.8+    | Java project build tool                   |
+| **Python**     | 3.11+   | Forms service runtime                     |
+| **PostgreSQL** | Latest  | Database (optional for development)       |
+
+<br/>
+
+### 🎯 Step 1: Frontend Setup
+
+<br/>
+
+**Clone and Install:**
 
 ```bash
-# Install dependencies
+cd nexasphere
 npm install
-
-# Start dev server (http://localhost:5173)
 npm run dev
-
-# Production build
-npm run build
-
-# Preview production build
-npm run preview
 ```
 
----
+<br/>
 
-## Deployment
+**▶️ Access:** http://localhost:5173
 
-### Vercel (Primary)
-The project auto-deploys from the `main` branch via Vercel GitHub integration.
+<br/>
+
+**📋 Environment Variables (.env.local):**
 
 ```bash
-# Manual deploy
-npx vercel --prod
+VITE_API_BASE=http://localhost:8080
 ```
 
-### GitHub Pages
-Configured via `.github/workflows/` — auto-deploys on push to `main`.
+<br/>
 
 ---
 
-## Environment Variables
+### ☕ Step 2: Java Backend Setup
 
-No environment variables are required for the frontend.  
-Google Apps Script endpoints are hardcoded in the form components (public web app URLs).
+<br/>
+
+**Build and Run:**
+
+```bash
+cd server-java
+mvn clean install
+mvn spring-boot:run
+```
+
+<br/>
+
+**▶️ Access:** http://localhost:8080
+
+<br/>
+
+**📋 Environment Variables (application.properties):**
+
+```properties
+# Admin Credentials
+ADMIN_EMAIL=nexasphere@glbajajgroup.org
+ADMIN_PASSWORD=Admin@123
+
+# CORS Configuration
+CORS_ORIGIN=http://localhost:5173,https://nexasphere-glbajaj.vercel.app
+
+# Database (Development - H2)
+DB_URL=jdbc:h2:mem:nexaspheredb
+DB_DRIVER=org.h2.Driver
+DB_USER=sa
+DB_PASS=
+```
+
+<br/>
+
+**For PostgreSQL (Production):**
+
+```properties
+DB_URL=jdbc:postgresql://localhost:5432/nexasphere
+DB_DRIVER=org.postgresql.Driver
+DB_USER=postgres
+DB_PASS=yourpassword
+```
+
+<br/>
 
 ---
 
-## Active Branch
+### 🐍 Step 3: Python Forms Service
 
-| Branch | Purpose |
-|--------|---------|
-| `main` | Production — deployed to Vercel + GitHub Pages |
-| `feat/brand-rebrand-wine-red` | Current — wine-red rebrand + aurora night layer |
+<br/>
 
-**Current PR**: `feat/brand-rebrand-wine-red` → `main`
+**Setup Virtual Environment & Run:**
+
+```bash
+cd server-python
+
+# Create virtual environment
+python -m venv venv
+
+# Activate (choose based on your OS)
+source venv/bin/activate          # macOS/Linux
+# OR
+venv\Scripts\activate             # Windows
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run development server
+uvicorn main:app --reload --port 8000
+```
+
+<br/>
+
+**▶️ Access:** http://localhost:8000
+
+**📋 Interactive Docs:** http://localhost:8000/docs
+
+<br/>
+
+**📋 Environment Variables (.env):**
+
+```bash
+# Google Cloud Authentication
+GOOGLE_PROJECT_ID=your-project-id
+GOOGLE_SERVICE_ACCOUNT_EMAIL=your-sa@project.iam.gserviceaccount.com
+GOOGLE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
+GOOGLE_SHEET_ID=your-sheet-id
+
+# Supabase Configuration
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+
+# CORS & Server
+CORS_ORIGIN=http://localhost:5173,https://nexasphere-glbajaj.vercel.app
+```
+
+<br/>
 
 ---
 
-## Changelog (Recent)
+### 👨‍💼 Step 4: Admin Dashboard
 
-### feat/brand-rebrand-wine-red
-- Full wine-red brand identity (`#CC1111`) replacing blue/purple
-- Dark / light theme toggle with `localStorage` persistence
-- Aurora night layer — prismatic dark mode ambient (breathing blobs, iridescent card borders, conic logo halo)
-- Fully transparent glassmorphism navbar (`blur(42px)`) across all pages
-- Global frosted-glass backdrop on all cards, banners, modals
-- Hero logo: 116px → 210px; Navbar logo: 38px → 58px
-- Cinematic opening tagline: fixed color + size (now visible in dark mode)
-- Stripped all CSS/JSX comments — 509 lines removed across 33 files
-- Fixed UTF-8 BOM on all source files (caused symbol corruption in forms)
-- Unified background system: all pages use `var(--bg)` CSS token
+<br/>
+
+**Install and Run:**
+
+```bash
+cd admin-dashboard
+npm install
+npm run dev
+```
+
+<br/>
+
+**▶️ Access:** http://localhost:5174
+
+<br/>
+
+**📋 Environment Variables (.env.local):**
+
+```bash
+VITE_API_BASE=http://localhost:8080
+```
+
+<br/>
 
 ---
 
-## Contributors
+## 🌐 API Documentation
 
-| Name | Role |
-|------|------|
-| Ayush Sharma | Founder & Lead Developer |
-| Core Team | NexaSphere NSOC |
+### 🔓 Public Endpoints (No Authentication)
+
+<br/>
+
+| Method | Endpoint                             | Description                    |
+| ------ | ------------------------------------ | ------------------------------ |
+| `GET`  | `/api/content/events`                | Fetch all community events     |
+| `GET`  | `/api/content/activity-events/{key}` | Get events by activity type    |
+| `GET`  | `/api/content/core-team`             | List all core team members     |
+| `POST` | `/api/forms/membership`              | Submit membership application  |
+| `POST` | `/api/forms/recruitment`             | Submit recruitment application |
+| `POST` | `/api/core-team/apply`               | Submit core team application   |
+
+<br/>
+
+### 🔐 Protected Endpoints (Admin Only)
+
+<br/>
+
+| Method   | Endpoint                    | Description             |
+| -------- | --------------------------- | ----------------------- |
+| `POST`   | `/api/admin/events`         | Create new event        |
+| `PUT`    | `/api/admin/events/{id}`    | Update existing event   |
+| `DELETE` | `/api/admin/events/{id}`    | Delete event            |
+| `POST`   | `/api/admin/core-team`      | Create core team member |
+| `PUT`    | `/api/admin/core-team/{id}` | Update core team member |
+| `DELETE` | `/api/admin/core-team/{id}` | Delete core team member |
+
+<br/>
 
 ---
 
-*NexaSphere — Connecting GL Bajaj's Tech Ecosystem*
+## 👨‍💻 Admin Dashboard Features
+
+<br/>
+
+<table>
+  <tr>
+    <td width="50%">
+      <h3>📊 Event Management</h3>
+      <ul>
+        <li>✓ Create new events</li>
+        <li>✓ Edit event details</li>
+        <li>✓ Delete events</li>
+        <li>✓ Real-time updates</li>
+      </ul>
+    </td>
+    <td width="50%">
+      <h3>🎯 Activity Events</h3>
+      <ul>
+        <li>✓ Manage 8 activity categories</li>
+        <li>✓ Hackathon, Codathon, Ideathon</li>
+        <li>✓ Workshops & Insight Sessions</li>
+        <li>✓ Open Source Day & Tech Debate</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <h3>👥 Team Management</h3>
+      <ul>
+        <li>✓ Add core team members</li>
+        <li>✓ Edit member profiles</li>
+        <li>✓ Manage roles & contacts</li>
+        <li>✓ Remove members</li>
+      </ul>
+    </td>
+    <td width="50%">
+      <h3>⚡ Real-time Updates</h3>
+      <ul>
+        <li>✓ Event-driven architecture</li>
+        <li>✓ No page reloads</li>
+        <li>✓ Instant UI synchronization</li>
+        <li>✓ Seamless user experience</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+**🔑 Admin Credentials:**
+
+- **Email:** nexasphere@glbajajgroup.org
+- **Password:** Admin@123
+
+<br/>
+
+---
+## 🚀 Production Deployment
+
+### 🌐 Frontend Deployment (Vercel)
+
+<br/>
+
+1. **Connect Repository:** Link GitHub repo to Vercel
+2. **Configure Build:**
+   - Build Command: `npm run build`
+   - Output Directory: `dist`
+3. **Set Environment Variables:**
+   - `VITE_API_BASE=https://your-api-url.railway.app`
+4. **Deploy** and monitor
+
+<br/>
+
+**📍 Live URL:** https://nexasphere-glbajaj.vercel.app
+
+<br/>
+
+---
+
+### 👨‍💼 Admin Dashboard Deployment (Vercel)
+
+<br/>
+
+1. **Create Separate Vercel Project** from `admin-dashboard/` folder
+2. **Configure (same as frontend):**
+   - Build: `npm run build`
+   - Output: `dist`
+   - Env: `VITE_API_BASE=https://your-api-url.railway.app`
+
+<br/>
+
+**📍 Live URL:** https://admin-nexasphere.vercel.app
+
+<br/>
+
+---
+
+### ☕ Java Backend Deployment (Railway)
+
+<br/>
+
+**Installation:**
+
+```bash
+npm i -g @railway/cli
+railway login
+cd server-java
+railway init
+railway up
+```
+
+<br/>
+
+**📋 Production Environment Variables:**
+
+```
+ADMIN_EMAIL=nexasphere@glbajajgroup.org
+ADMIN_PASSWORD=Admin@123
+CORS_ORIGIN=https://nexasphere-glbajaj.vercel.app,https://admin-nexasphere.vercel.app
+DB_URL=jdbc:postgresql://[host]:5432/railway
+DB_DRIVER=org.postgresql.Driver
+DB_USER=postgres
+DB_PASS=[from-dashboard]
+```
+
+<br/>
+
+---
+
+### 🐍 Python Service Deployment
+
+<br/>
+
+**Railway Deployment:**
+
+```bash
+cd server-python
+railway init
+railway up
+```
+
+<br/>
+
+**Environment Variables:** (Same as local `.env`)
+
+<br/>
+
+---
+
+<br/>
+
+## 🗄️ Database Configuration
+
+### 💾 Development (H2 In-Memory)
+
+Auto-configured on startup:
+
+- ✓ Tables created automatically
+- ✓ Seed data loaded
+- ✓ No manual setup required
+
+<br/>
+
+### 🗄️ Production (PostgreSQL)
+
+<br/>
+
+**Create Database:**
+
+```sql
+CREATE DATABASE nexasphere;
+```
+
+<br/>
+
+**Setup:**
+
+- Spring Boot creates tables via JPA
+- Seed data loads from `data.sql`
+- Ready for production use
+
+<br/>
+
+**Supabase Tables:**
+
+```sql
+CREATE TABLE membership_forms (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  whatsapp VARCHAR(10) NOT NULL,
+  year VARCHAR(20) NOT NULL,
+  branch VARCHAR(100) NOT NULL,
+  section VARCHAR(1) NOT NULL,
+  reason TEXT,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE recruitment_forms (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  whatsapp VARCHAR(10) NOT NULL,
+  year VARCHAR(20) NOT NULL,
+  branch VARCHAR(100) NOT NULL,
+  section VARCHAR(1) NOT NULL,
+  reason TEXT,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE core_team_applications (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  whatsapp VARCHAR(10) NOT NULL,
+  year VARCHAR(20) NOT NULL,
+  branch VARCHAR(100) NOT NULL,
+  section VARCHAR(1) NOT NULL,
+  reason TEXT,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+```
+
+<br/>
+
+---
+
+## 🧪 Testing
+
+<br/>
+
+### React Frontend
+
+```bash
+npm run test
+npm run test:coverage
+```
+
+<br/>
+
+### Java Backend
+
+```bash
+mvn test
+mvn verify
+```
+
+<br/>
+
+### Python Service
+
+```bash
+pytest
+pytest --cov
+```
+
+<br/>
+
+---
+
+## 📖 Documentation
+
+For detailed information about specific components, visit:
+
+<br/>
+
+- **[server-java/README.md](server-java/README.md)** — Java backend build, setup, and deployment
+- **[server-python/README.md](server-python/README.md)** — Python backend setup and integrations
+- **[admin-dashboard/README.md](admin-dashboard/README.md)** — Admin dashboard installation
+
+<br/>
+
+---
+
+## 🤝 Contributing
+
+This is an **internal project** for the NexaSphere core team.
+
+<br/>
+
+### Workflow
+
+1. Clone the repository
+2. Create feature branch: `git checkout -b feature/your-feature`
+3. Make changes with quality standards
+4. Test thoroughly before submission
+5. Submit pull request for review
+
+<br/>
+
+### 📋 Code Quality Standards
+
+- ✓ No `console.log` statements
+- ✓ Functions under 40 lines
+- ✓ Consistent naming conventions
+- ✓ Zero unused imports
+- ✓ Meaningful commit messages
+- ✓ Comprehensive documentation
+
+<br/>
+
+---
+
+## 📋 Project Checklist
+
+<br/>
+
+### Documentation ✅
+
+- [x] Complete API documentation
+- [x] Environment variable guides
+- [x] Setup instructions for all services
+- [x] Deployment procedures
+- [x] Database configuration
+
+<br/>
+
+### Infrastructure 🚀
+
+- [x] Frontend hosting (Vercel)
+- [x] API backend available
+- [x] Database configured
+- [x] Admin dashboard deployed
+- [x] CORS properly configured
+
+<br/>
+
+### Future Improvements 🎯
+
+- [ ] Architecture diagrams
+- [ ] Video tutorials
+- [ ] API Swagger documentation
+- [ ] Performance monitoring
+- [ ] Security audit logs
+
+<br/>
+
+---
+## 📝 License & Usage
+
+**Internal Project** — GL Bajaj NexaSphere Core Team  
+All rights reserved. Not for external distribution.
+
+<br/>
+
+---
+
+## 📧 Contact & Support
+
+<br/>
+
+<table>
+  <tr>
+    <th>Resource</th>
+    <th>Details</th>
+  </tr>
+  <tr>
+    <td>📧 Email</td>
+    <td>nexasphere@glbajajgroup.org</td>
+  </tr>
+  <tr>
+    <td>🏢 Institution</td>
+    <td>GL Bajaj Group of Institutions, Mathura</td>
+  </tr>
+  <tr>
+    <td>🌐 Website</td>
+    <td>https://nexa-sphere-sigma.vercel.app</td>
+  </tr>
+  <tr>
+    <td>👨‍💼 Admin Panel</td>
+    <td>https://admin-nexasphere.vercel.app</td>
+  </tr>
+</table>
+
+<br/>
+
+---
+
+<br/>
+
+<div align="center">
+
+### Made with ❤️ by NexaSphere Core Team
+
+**Version 1.0** | Last Updated: May 2026
+
+</div>
+
