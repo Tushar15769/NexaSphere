@@ -1,252 +1,463 @@
 # NexaSphere — GL Bajaj Group of Institutions, Mathura
 
-> The official website & community platform for NexaSphere — connecting GL Bajaj students with opportunities across Tech and Non-Tech domains.
+Official website and community platform for NexaSphere student community.
 
-**🌐 Live Site:**   
-**📧 Email:** nexasphere@glbajajgroup.org  
-**💼 LinkedIn:** https://www.linkedin.com/showcase/glbajaj-nexasphere/  
-**💬 WhatsApp Community:** https://chat.whatsapp.com/Jjc5cuUKENu0RC1vWSEs20
+**🌐 Live Website:** https://nexasphere-glbajaj.vercel.app  
+**🔑 Admin Dashboard:** https://admin-nexasphere.vercel.app  
+**📧 Contact:** nexasphere@glbajajgroup.org
 
 ---
 
-## ⚡ Tech Stack
+## 🚀 Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Framework | React 18 + Vite 5 |
-| Styling | Vanilla CSS (globals · animations · components · **motion**) |
-| Hosting | Netlify (auto-deploy on push to `main`) |
-| Form backend | Google Apps Script → Google Sheets |
-| Fonts | Orbitron · Rajdhani · Space Mono · Inter (Google Fonts) |
+| Layer            | Technology                       |
+| ---------------- | -------------------------------- |
+| Frontend         | React 18 + Vite 5                |
+| Admin Dashboard  | React 18 + Vite 5 (separate app) |
+| Primary API      | Java 17 + Spring Boot 3          |
+| Forms Service    | Python 3.11 + FastAPI            |
+| Database         | PostgreSQL (prod) / H2 (dev)     |
+| Form Storage     | Google Sheets + Supabase         |
+| Frontend Hosting | Vercel                           |
+| Backend Hosting  | Railway / Render / Fly.io        |
+| Fonts            | Orbitron · Rajdhani · Space Mono |
 
 ---
 
 ## 📁 Project Structure
 
 ```
-NexaSphere-1/
-├── google-apps-script/         # Apps Script files (NOT auto-deployed)
-│   └── Code.gs                 # Membership form handler → Google Sheets
-├── public/                     # Static assets served as-is
-├── src/
-│   ├── App.jsx                 # Root component — routing & page switching + motion hooks
-│   ├── assets/
-│   │   └── images/
-│   │       ├── logos/          # nexasphere-logo.png, glbajaj-logo.png
-│   │       └── team/           # Circular profile photos (300×300px)
-│   ├── data/                   # All site content (edit here — no component changes needed)
-│   │   ├── teamData.js         # Core team members
-│   │   ├── activitiesData.js   # Activity card grid data
-│   │   ├── eventsData.js       # Home page + Events page timeline
-│   │   └── activities/         # Per-activity detail pages
-│   │       ├── index.js        # Activity registry
-│   │       ├── insightSession.js
-│   │       ├── workshop.js
-│   │       ├── hackathon.js
-│   │       └── ...
-│   ├── pages/
-│   │   ├── home/               # HeroSection
-│   │   ├── activities/         # ActivitiesPage + ActivityDetailPage
-│   │   ├── events/             # EventsPage + EventDetailPage
-│   │   ├── about/              # AboutPage
-│   │   ├── team/               # TeamPage + TeamSection
-│   │   ├── contact/            # ContactPage
-│   │   ├── recruitment/        # RecruitmentPage  (Core Team Application — 7-step form)
-│   │   └── membership/         # MembershipPage   (Join as Member — 2-section form)
-│   ├── shared/                 # Navbar, Footer, Icons, ParticleBackground, MotionLayer, etc.
-│   └── styles/
-│       ├── globals.css         # CSS variables, body reset, layout utilities
-│       ├── animations.css      # @keyframes + scroll-reveal classes (v8)
-│       ├── components.css      # Every component's styles
-│       └── motion.css          # ✨ NEW: Advanced motion layer (v2) — see below
-├── index.html
+nexasphere/
+├── src/                                # Main website frontend
+│   ├── pages/                         # Page components
+│   │   ├── about/
+│   │   ├── activities/
+│   │   ├── admin/
+│   │   ├── contact/
+│   │   ├── events/
+│   │   ├── home/
+│   │   ├── membership/
+│   │   ├── recruitment/
+│   │   └── team/
+│   ├── components/                    # Reusable components
+│   ├── shared/                        # Shared utilities & layouts
+│   ├── services/                      # API clients
+│   ├── styles/                        # Global styles
+│   ├── data/                          # Static data
+│   ├── App.jsx
+│   └── main.jsx
+├── admin-dashboard/                   # Standalone admin app
+│   ├── src/
+│   │   ├── pages/
+│   │   ├── components/
+│   │   ├── services/
+│   │   └── hooks/
+│   └── package.json
+├── server-java/                       # Spring Boot API
+│   ├── src/main/java/org/nexasphere/
+│   │   ├── controller/
+│   │   ├── service/
+│   │   ├── model/
+│   │   ├── repository/
+│   │   └── config/
+│   ├── pom.xml
+│   └── README.md
+├── server-python/                     # FastAPI forms service
+│   ├── routers/
+│   ├── services/
+│   ├── models/
+│   ├── main.py
+│   ├── requirements.txt
+│   └── README.md
+├── package.json
 ├── vite.config.js
+├── index.html
 ├── netlify.toml
-└── package.json
+├── vercel.json
+└── README.md
 ```
 
 ---
 
-## 🚀 Development
+## 🛠️ Local Development
+
+### Prerequisites
+
+- **Node.js 20+** (for frontend)
+- **Java 17+** (for primary API)
+- **Maven 3.8+** (for building Java)
+- **Python 3.11+** (for forms service)
+- **PostgreSQL** (optional — H2 used by default in dev)
+
+### 1. Frontend (Main Website)
 
 ```bash
+cd nexasphere
 npm install
-npm run dev        # http://localhost:5173
+npm run dev
 ```
+
+Runs on `http://localhost:5173`
+
+**Environment Variables (.env.local):**
 
 ```bash
-npm run build      # Production build → dist/
-npm run preview    # Preview the production build locally
+VITE_API_BASE=http://localhost:8080
+```
+
+### 2. Java API Server
+
+```bash
+cd server-java
+mvn clean install
+mvn spring-boot:run
+```
+
+Runs on `http://localhost:8080`
+
+**Environment Variables (application.properties or .env):**
+
+```properties
+ADMIN_EMAIL=nexasphere@glbajajgroup.org
+ADMIN_PASSWORD=Admin@123
+CORS_ORIGIN=http://localhost:5173,https://nexasphere-glbajaj.vercel.app
+DB_URL=jdbc:h2:mem:nexaspheredb
+DB_DRIVER=org.h2.Driver
+DB_USER=sa
+DB_PASS=
+```
+
+For PostgreSQL (production):
+
+```properties
+DB_URL=jdbc:postgresql://localhost:5432/nexasphere
+DB_DRIVER=org.postgresql.Driver
+DB_USER=postgres
+DB_PASS=yourpassword
+```
+
+### 3. Python Forms Service
+
+```bash
+cd server-python
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+uvicorn main:app --reload --port 8000
+```
+
+Runs on `http://localhost:8000`
+
+**Environment Variables (.env):**
+
+```bash
+GOOGLE_PROJECT_ID=your-project-id
+GOOGLE_SERVICE_ACCOUNT_EMAIL=your-sa@project.iam.gserviceaccount.com
+GOOGLE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
+GOOGLE_SHEET_ID=your-sheet-id
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+CORS_ORIGIN=http://localhost:5173,https://nexasphere-glbajaj.vercel.app
+```
+
+### 4. Admin Dashboard
+
+```bash
+cd admin-dashboard
+npm install
+npm run dev
+```
+
+Runs on `http://localhost:5174`
+
+**Environment Variables (.env.local):**
+
+```bash
+VITE_API_BASE=http://localhost:8080
 ```
 
 ---
 
-## 🌍 Deployment
+## 🌐 API Endpoints
 
-Push to `main` → Netlify auto-builds and deploys via `netlify.toml`.
+### Public Endpoints (No Auth Required)
 
-```toml
-# netlify.toml
-[build]
-  command   = "npm run build"
-  publish   = "dist"
+| Method | Endpoint                                   | Description                  |
+| ------ | ------------------------------------------ | ---------------------------- |
+| GET    | /api/content/events                        | List all events              |
+| GET    | /api/content/activity-events/{activityKey} | List events for activity     |
+| GET    | /api/content/core-team                     | List core team members       |
+| POST   | /api/forms/membership                      | Submit membership form       |
+| POST   | /api/forms/recruitment                     | Submit recruitment form      |
+| POST   | /api/core-team/apply                       | Submit core team application |
+
+### Protected Endpoints (Admin Auth Required)
+
+| Method | Endpoint                  | Description             |
+| ------ | ------------------------- | ----------------------- |
+| POST   | /api/admin/events         | Create event            |
+| PUT    | /api/admin/events/{id}    | Update event            |
+| DELETE | /api/admin/events/{id}    | Delete event            |
+| POST   | /api/admin/core-team      | Create core team member |
+| PUT    | /api/admin/core-team/{id} | Update core team member |
+| DELETE | /api/admin/core-team/{id} | Delete core team member |
+
+---
+
+## 🔐 Admin Dashboard
+
+The admin dashboard is a **separate application** deployed independently from the main website.
+
+**Access:** https://admin-nexasphere.vercel.app
+
+**Login Credentials:**
+
+- Email: `nexasphere@glbajajgroup.org`
+- Password: `Admin@123`
+
+### Features
+
+- Manage events (create, edit, delete)
+- Manage activity events for 8 categories
+- Manage core team members
+- Event-driven UI updates (no page reloads)
+- Real-time change reflection
+
+### Activity Categories
+
+- Hackathon
+- Codathon
+- Ideathon
+- Promptathon
+- Workshop
+- Insight Session
+- Open Source Day
+- Tech Debate
+
+---
+
+## 🚢 Deployment
+
+### Frontend (Main Website)
+
+**Platform:** Vercel
+
+1. Connect GitHub repository to Vercel
+2. Set build command: `npm run build`
+3. Set output directory: `dist`
+4. Add environment variable:
+   - `VITE_API_BASE=https://your-java-backend-url.railway.app`
+5. Deploy
+
+**Live URL:** https://nexasphere-glbajaj.vercel.app
+
+### Admin Dashboard
+
+**Platform:** Vercel (separate project)
+
+1. Create new Vercel project from `admin-dashboard/` directory
+2. Set build command: `npm run build`
+3. Set output directory: `dist`
+4. Add environment variable:
+   - `VITE_API_BASE=https://your-java-backend-url.railway.app`
+5. Deploy
+
+**Live URL:** https://admin-nexasphere.vercel.app
+
+### Java Backend
+
+**Platform:** Railway / Render / Fly.io
+
+**Railway Deployment:**
+
+```bash
+# Install Railway CLI
+npm i -g @railway/cli
+
+# Login and deploy
+railway login
+cd server-java
+railway init
+railway up
+```
+
+**Environment Variables:**
+
+```
+ADMIN_EMAIL=nexasphere@glbajajgroup.org
+ADMIN_PASSWORD=Admin@123
+CORS_ORIGIN=https://nexasphere-glbajaj.vercel.app,https://admin-nexasphere.vercel.app
+DB_URL=jdbc:postgresql://[railway-db-host]:5432/railway
+DB_DRIVER=org.postgresql.Driver
+DB_USER=postgres
+DB_PASS=[from-railway-dashboard]
+```
+
+### Python Backend
+
+**Platform:** Railway / Render / Fly.io
+
+**Railway Deployment:**
+
+```bash
+cd server-python
+railway init
+railway up
+```
+
+**Environment Variables:** (Same as local .env)
+
+---
+
+## 📊 Database Setup
+
+### Development (H2 In-Memory)
+
+No setup required. Database auto-creates on application start.
+
+### Production (PostgreSQL)
+
+1. Create database:
+
+```sql
+CREATE DATABASE nexasphere;
+```
+
+2. Spring Boot will auto-create tables via JPA
+3. Seed data loads automatically from `data.sql`
+
+### Supabase Tables
+
+Create these tables in Supabase:
+
+```sql
+CREATE TABLE membership_forms (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  whatsapp VARCHAR(10) NOT NULL,
+  year VARCHAR(20) NOT NULL,
+  branch VARCHAR(100) NOT NULL,
+  section VARCHAR(1) NOT NULL,
+  reason TEXT,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE recruitment_forms (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  whatsapp VARCHAR(10) NOT NULL,
+  year VARCHAR(20) NOT NULL,
+  branch VARCHAR(100) NOT NULL,
+  section VARCHAR(1) NOT NULL,
+  reason TEXT,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE core_team_applications (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  whatsapp VARCHAR(10) NOT NULL,
+  year VARCHAR(20) NOT NULL,
+  branch VARCHAR(100) NOT NULL,
+  section VARCHAR(1) NOT NULL,
+  reason TEXT,
+  created_at TIMESTAMP DEFAULT NOW()
+);
 ```
 
 ---
 
-## ✨ Animation Architecture & Interaction System
+## 🧪 Testing
 
-NexaSphere uses a **layered motion hierarchy** across three CSS files and a shared React utility module. All effects are **non-destructive** — existing animations are preserved and only extended.
+### Frontend
 
-### Motion Files
-
-| File | Purpose |
-|---|---|
-| `src/styles/animations.css` | Core keyframes + `.pop-in/.pop-word/.pop-left` scroll-reveal system |
-| `src/styles/components.css` | Per-component hover, shimmer, and transition styles |
-| `src/styles/motion.css` | ✨ Advanced motion layer — ambient orbs, parallax, nav micro-fx, button pulses |
-| `src/shared/MotionLayer.jsx` | React hooks wiring all scroll/mouse effects into the app |
-
-### Animation Hierarchy
-
-```
-Level 1 — Loader / Cinematic Opening
-  CinematicOpening.jsx → shard-shatter, letter-typewriter, crack SVG, flash burst
-  Wipe component       → page wipe + shimmer sweep + logo splash + page flash glow
-
-Level 2 — Ambient / Background
-  AmbientOrbs          → 5 fixed blurred gradient orbs drifting behind content
-  ParticleBackground   → canvas-based constellation particle system
-  Hero hero-bg-parallax→ scroll-driven scale+translateY on hero background
-
-Level 3 — Entrance Reveals (scroll-triggered)
-  .pop-in/.pop-word/.pop-left/.pop-right/.pop-scale/.pop-flip/.pop-num
-    → IntersectionObserver adds .fired → triggers keyframe animation
-  .ns-reveal / .ns-reveal-left / .ns-reveal-right / .ns-reveal-scale
-    → IntersectionObserver adds .ns-visible → CSS transition fade/slide
-
-Level 4 — Per-Section Micro-interactions
-  Activity cards  → mag-card 3D tilt + card-accent-line + shimmer sweep + icon spin
-  Team cards      → mag-card 3D tilt + photo ring spin (conic-gradient) + glow
-  Timeline cards  → translateY lift + border glow + dot color pulse
-  About values    → chip hover lift + box-shadow
-  Buttons         → ctaBreath pulse / joinBreath pulse / outlinePulse glow
-                    + press-down :active scale + ripple on click
-
-Level 5 — Navigation
-  Navbar         → navSlideIn on mount + lift on tab hover + underline glow
-  Tab switching  → wipeDown/wipeUp wipe + shimmer overlay + page flash + splash logo
-  Scroll bar     → #scroll-progress width driven by useScrollProgress hook
-
-Level 6 — Cursor System
-  Custom cursor  → anti-gravity orb (with float bob) + trail dot + ambient glow halo
-                   magnetic hover expand + click shrink
+```bash
+npm run test
+npm run test:coverage
 ```
 
-### Key Hooks (src/shared/MotionLayer.jsx)
+### Java Backend
 
-| Hook | Effect |
-|---|---|
-| `useScrollProgress()` | Drives `#scroll-progress` bar width via `window.scrollY` |
-| `useNsReveal(deps)` | IntersectionObserver for `.ns-reveal*` elements → adds `.ns-visible` |
-| `useHeroParallax()` | rAF loop: moves `.hero-bg-parallax` at 0.28× scroll speed |
-| `useNavScrollTint()` | Dynamic `backdropFilter` intensity on navbar on scroll |
-| `useGlobalMouseParallax()` | Moves `[data-parallax]` elements based on mouse position |
-| `useMagneticCards()` | 3D `perspective + rotateX/Y` tilt on `.mag-card` elements |
+```bash
+mvn test
+mvn verify
+```
 
-### CSS Classes Reference
+### Python Backend
 
-| Class | Applied To | Effect |
-|---|---|---|
-| `.ns-reveal` | Section wrappers | Fade + translateY up on scroll into view |
-| `.ns-reveal-left` | Text columns | Slide from left on scroll |
-| `.ns-reveal-right` | Media columns | Slide from right on scroll |
-| `.ns-reveal-scale` | CTA boxes | Scale from 0.88 on scroll |
-| `.ns-visible` | Added by JS | Triggers the transition |
-| `.mag-card` | Activity + Team cards | 3D tilt from MotionLayer mouse hook |
-| `.ambient-orb` | Fixed bg divs | Drifting colored blur orbs |
-| `.section-divider` | Between sections | Animated gradient sweep stripe |
-| `.wipe-shimmer` | During nav wipe | Bright shimmer over page transition |
-| `.page-flash` | On nav arrive | Radial glow burst on page entry |
-| `.hero-bg-parallax` | Hero bg div | Scroll-driven transform |
-| `[data-parallax="N"]` | SVG rings, etc. | Mouse-driven movement at depth N |
-| `.scroll-indicator-line` | Hero scroll dot | Bounce animation |
-
-### Timing Consistency
-
-All animations use one of these easing functions for consistency:
-- **`cubic-bezier(.22,1,.36,1)`** — smooth spring (entrances, reveals)
-- **`cubic-bezier(.34,1.56,.64,1)`** — bouncy spring (interactive elements, modals)
-- **`cubic-bezier(.77,0,.18,1)`** — cinematic snap (page wipes)
-- **`ease-in-out`** — ambient loops (orbs, pulses, parallax)
-
-### Performance Optimizations
-
-- `will-change: transform` on animated cards and orbs
-- `passive: true` on all scroll/mouse event listeners
-- rAF loops for smooth 60fps effects (cursor, parallax, progress bar)
-- `@media (prefers-reduced-motion: reduce)` disables all ambient animations
-- `@media (max-width: 768px)` hides ambient orbs and disables parallax
+```bash
+pytest
+pytest --cov
+```
 
 ---
 
-## 📝 Forms & Google Sheets Integration
+## 🤝 Contributing
 
-NexaSphere uses **Google Apps Script Web Apps** for form submissions. Data stays in Google Sheets — no backend server required.
+This is an internal project for the NexaSphere core team at GL Bajaj Group of Institutions, Mathura.
 
-### Form 1 — Core Team Recruitment (7-step)
+### For Core Team Members
 
-| Item | Detail |
-|---|---|
-| File | `src/pages/recruitment/RecruitmentPage.jsx` |
-| Constant | `APPS_SCRIPT_URL` (line ~883) |
-| Script project | Separate Apps Script project (Core Team sheet) |
-| Sheet tab | `Responses` |
-| Deployed URL | *(stored in the constant above)* |
+1. Clone the repository
+2. Create a feature branch: `git checkout -b feature/your-feature`
+3. Make changes following code quality guidelines
+4. Test thoroughly
+5. Submit a pull request
 
-### Form 2 — Join as Member (2-section)
+### Code Quality Standards
 
-| Item | Detail |
-|---|---|
-| File | `src/pages/membership/MembershipPage.jsx` |
-| Constant | `MEMBERSHIP_SCRIPT_URL` (line ~33) |
-| Script project | **"NexaSphere Membership"** Apps Script project |
-| Sheet tab | `Membership` (auto-created on first submission) |
-| Deployment ID | `AKfycbyRQOW3Xjv13vXvft8ezD9sJdvjV3kf-VHm1l_mImHRDUAEqsilK0wb5QBD5GOkixwe` |
-| Deployed URL | `https://script.google.com/macros/s/AKfycbyRQOW3Xjv13vXvft8ez.../exec` |
-| Script file | `google-apps-script/Code.gs` |
-
-> Both forms use `mode: 'no-cors'` + `Content-Type: text/plain` to bypass CORS on Google's servers. The Apps Script parses the plain-text body as JSON.
+- No console.log statements
+- Functions under 40 lines
+- Consistent naming conventions
+- No unused imports
+- Meaningful commit messages
 
 ---
 
-## ✏️ Common Content Changes
+## 📝 License
 
-| Task | File to edit |
-|---|---|
-| Add / update team member | `src/data/teamData.js` |
-| Add activity event | `src/data/activities/<name>.js` |
-| Add KSS / Insight Session | `src/data/activities/insightSession.js` |
-| Update home page stats | `src/pages/home/HeroSection.jsx` → `StatsBar` |
-| Update contact details | `src/pages/contact/ContactPage.jsx` → constants at top |
-| Add team member photo | `src/assets/images/team/<name>.png` (300×300px, transparent) |
-| Change site colors | `src/styles/globals.css` → `:root {}` |
-| Add a new scroll-reveal | Add `ns-reveal` class to any wrapper element |
-| Change animation timing | Edit easing in `src/styles/motion.css` |
+Internal project — GL Bajaj NexaSphere Core Team
 
 ---
 
-## 🔗 Key Links
+## 📧 Contact
 
-| Resource | URL |
-|---|---|
-| Core Team Application | In-built form (opens from "Apply" / "Core Team" buttons) |
-| Join as Member | In-built form (opens from "Join as Member" hero button) |
-| Code of Conduct | https://tinyurl.com/NexaSphere-COD |
-| Community Rules | https://tinyurl.com/NexaSphere-Rules |
-| LinkedIn Page | https://www.linkedin.com/showcase/glbajaj-nexasphere/ |
-| WhatsApp Community | https://chat.whatsapp.com/Jjc5cuUKENu0RC1vWSEs20 |
+**Email:** nexasphere@glbajajgroup.org  
+**Institution:** GL Bajaj Group of Institutions, Mathura  
+**Website:** https://nexasphere-glbajaj.vercel.app
 
 ---
 
-*NexaSphere — GL Bajaj Group of Institutions · Built with React + Vite*
+## 📌 Additional Documentation
+
+For detailed information on specific components, please refer to:
+
+- **[server-java/README.md](server-java/README.md)** — Java backend setup, build, deployment
+- **[server-python/README.md](server-python/README.md)** — Python backend setup, Google Sheets & Supabase integration
+- **[admin-dashboard/README.md](admin-dashboard/README.md)** — Admin dashboard installation and deployment
+
+---
+
+## 📋 Project Status Checklist
+
+
+### Future Improvements
+
+- **Screenshots & Visual Guide** — Add screenshots of key features in future iterations
+- **Architecture Diagrams** — Add system architecture and data flow diagrams
+- **API Documentation** — Integrate Swagger/OpenAPI documentation
+- **Video Tutorials** — Create setup and deployment tutorial videos
+- **Performance Metrics** — Document and track performance benchmarks
+
+### Maintenance Notes
+
+- **Update URLs** — Update all deployed URLs once production services are live
+- **Keep READMEs Updated** — Update documentation as features change or new features are added
+- **Version Management** — Maintain changelog for major updates
+- **Dependency Updates** — Regularly review and update dependencies across all services
+- **Security Reviews** — Conduct security audits and update credentials rotation policies
+
+
