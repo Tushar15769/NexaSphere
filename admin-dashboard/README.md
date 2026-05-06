@@ -1,133 +1,224 @@
-# NexaSphere Admin Dashboard
+# 👨‍💼 NexaSphere Admin Dashboard
 
-Standalone admin application for managing NexaSphere community content and events.
+## Standalone React + Vite Application
 
----
+> **Complete admin interface** for managing NexaSphere community events, activities, and team members
 
-## 📋 Overview
-
-Separate React + Vite application providing admin interface for:
-
-- Event management (create, read, update, delete)
-- Activity event management (8 categories)
-- Core team member management
-- Real-time UI updates with event-driven architecture
-- Role-based access control (admin authentication)
-
-**Frontend:** React 18 + Vite 5  
-**Backend:** Java Spring Boot API  
-**Hosting:** Vercel (separate deployment)  
-**Port (Dev):** 5174
+<br/>
 
 ---
 
-## ⚙️ Installation
+<br/>
 
-### Prerequisites
+## 📌 Overview
 
-- Node.js 20+
-- npm or yarn
+<br/>
 
-### Install Dependencies
+### Purpose
+
+Dedicated admin application providing:
+
+- ✓ Event management (create, edit, delete)
+- ✓ Activity event management (8 categories)
+- ✓ Core team member management
+- ✓ Real-time UI updates
+- ✓ Role-based access control
+
+<br/>
+
+### Key Specifications
+
+| Specification      | Details                   |
+| ------------------ | ------------------------- |
+| **Frontend**       | React 18 + Vite 5         |
+| **Backend**        | Java Spring Boot API      |
+| **Hosting**        | Vercel (separate project) |
+| **Port (Dev)**     | 5174                      |
+| **Authentication** | JWT Tokens                |
+
+<br/>
+
+---
+
+<br/>
+
+## ⚙️ Requirements
+
+<br/>
+
+| Requirement              | Version               |
+| ------------------------ | --------------------- |
+| **Node.js**              | 20+                   |
+| **npm**                  | Latest                |
+| **Running Java Backend** | http://localhost:8080 |
+
+<br/>
+
+---
+
+<br/>
+
+## 🚀 Quick Start
+
+<br/>
+
+### Step 1️⃣: Install Dependencies
+
+<br/>
 
 ```bash
 cd admin-dashboard
 npm install
 ```
 
+<br/>
+
 ---
 
-## 🚀 Running Locally
+<br/>
 
-### Development Server
+### Step 2️⃣: Configure Environment
+
+<br/>
+
+Create `.env.local` file:
+
+```bash
+VITE_API_BASE=http://localhost:8080
+```
+
+<br/>
+
+---
+
+<br/>
+
+### Step 3️⃣: Start Development Server
+
+<br/>
 
 ```bash
 npm run dev
 ```
 
-Application starts on `http://localhost:5174`
+<br/>
 
-**Features:**
+**✅ Access Dashboard:** http://localhost:5174
 
-- Hot reload on code changes
-- Vite dev server
-- Source maps enabled
-
-### Production Build
-
-```bash
-npm run build
-```
-
-Creates optimized build in `dist/` directory.
-
-### Preview Production Build
-
-```bash
-npm run preview
-```
+<br/>
 
 ---
 
-## 🔑 Environment Variables
+<br/>
 
-Create `.env.local` file in `admin-dashboard/` directory:
+## 🔑 Login Credentials
+
+<br/>
+
+<table align="center">
+  <tr>
+    <td><strong>Email</strong></td>
+    <td>nexasphere@glbajajgroup.org</td>
+  </tr>
+  <tr>
+    <td><strong>Password</strong></td>
+    <td>Admin@123</td>
+  </tr>
+</table>
+
+<br/>
+
+---
+
+<br/>
+
+## 📋 Environment Variables
+
+<br/>
+
+### Development Configuration
+
+<br/>
+
+**`.env.local`** (Development)
 
 ```bash
-# API Configuration
+# API Base URL
 VITE_API_BASE=http://localhost:8080
 
-# Optional: Analytics, monitoring, etc.
+# Optional
 VITE_ENVIRONMENT=development
 ```
 
-### For Production
+<br/>
+
+### Production Configuration
+
+<br/>
+
+**`.env.production.local`** (Production)
 
 ```bash
-# .env.production
+# API Base URL
 VITE_API_BASE=https://your-java-backend-url.railway.app
+
+# Environment
 VITE_ENVIRONMENT=production
 ```
 
+<br/>
+
 ---
+
+<br/>
 
 ## 📁 Project Structure
 
+<br/>
+
 ```
 admin-dashboard/
+│
 ├── src/
-│   ├── pages/                        # Page components
-│   │   ├── LoginPage.jsx            # Admin login
-│   │   ├── DashboardPage.jsx        # Main dashboard
-│   │   ├── EventsPage.jsx           # Event management
-│   │   ├── ActivitiesPage.jsx       # Activity events
-│   │   ├── TeamPage.jsx             # Core team management
-│   │   └── NotFoundPage.jsx         # 404 page
-│   ├── components/                   # Reusable components
-│   │   ├── EventForm.jsx            # Create/edit event form
-│   │   ├── ActivityEventForm.jsx    # Activity event form
-│   │   ├── TeamMemberForm.jsx       # Team member form
-│   │   ├── DataTable.jsx            # Generic data table
-│   │   ├── Modal.jsx                # Modal component
-│   │   └── Sidebar.jsx              # Navigation sidebar
-│   ├── services/
-│   │   ├── apiClient.js             # API request handler
-│   │   ├── authService.js           # Authentication
-│   │   ├── eventService.js          # Event API calls
-│   │   ├── activityService.js       # Activity API calls
-│   │   └── teamService.js           # Team API calls
-│   ├── hooks/
-│   │   ├── useAuth.js               # Authentication hook
-│   │   ├── useEvents.js             # Events data hook
-│   │   ├── useActivities.js         # Activities data hook
-│   │   └── useTeam.js               # Team data hook
-│   ├── styles/
-│   │   ├── globals.css              # Global styles
-│   │   ├── dashboard.css            # Dashboard styles
-│   │   └── forms.css                # Form styles
+│   ├── pages/                       ← Page Components
+│   │   ├── LoginPage.jsx            ← Admin login interface
+│   │   ├── DashboardPage.jsx        ← Main dashboard
+│   │   ├── EventsPage.jsx           ← Event management
+│   │   ├── ActivitiesPage.jsx       ← Activity management
+│   │   ├── TeamPage.jsx             ← Team member management
+│   │   └── NotFoundPage.jsx         ← 404 page
+│   │
+│   ├── components/                  ← Reusable Components
+│   │   ├── EventForm.jsx            ← Event creation/edit
+│   │   ├── ActivityEventForm.jsx    ← Activity event form
+│   │   ├── TeamMemberForm.jsx       ← Team member form
+│   │   ├── DataTable.jsx            ← Generic data table
+│   │   ├── Modal.jsx                ← Reusable modal
+│   │   ├── Navbar.jsx               ← Top navigation
+│   │   └── Sidebar.jsx              ← Side navigation
+│   │
+│   ├── services/                    ← API Services
+│   │   ├── apiClient.js             ← API request handler
+│   │   ├── authService.js           ← Authentication logic
+│   │   ├── eventService.js          ← Event API calls
+│   │   ├── activityService.js       ← Activity API calls
+│   │   └── teamService.js           ← Team API calls
+│   │
+│   ├── hooks/                       ← Custom React Hooks
+│   │   ├── useAuth.js               ← Authentication hook
+│   │   ├── useEvents.js             ← Events data hook
+│   │   ├── useActivities.js         ← Activities data hook
+│   │   └── useTeam.js               ← Team data hook
+│   │
+│   ├── styles/                      ← Stylesheets
+│   │   ├── globals.css              ← Global styles
+│   │   ├── dashboard.css            ← Dashboard styles
+│   │   └── forms.css                ← Form styles
+│   │
 │   ├── App.jsx
 │   ├── main.jsx
 │   └── index.html
+│
 ├── package.json
 ├── vite.config.js
 ├── .env.local
@@ -135,110 +226,232 @@ admin-dashboard/
 └── README.md
 ```
 
----
-
-## 🔐 Authentication
-
-### Login
-
-Admin credentials:
-
-- **Email:** `nexasphere@glbajajgroup.org`
-- **Password:** `Admin@123`
-
-### Request Flow
-
-1. User enters credentials on login page
-2. Client sends POST request to `/api/admin/login`
-3. Backend returns JWT token
-4. Token stored in localStorage
-5. Token included in Authorization header for protected requests
+<br/>
 
 ---
 
-## 📊 Features
+<br/>
 
-### Event Management
+## 🎯 Core Features
 
-- **List Events:** View all community events with filters and pagination
-- **Create Event:** Add new event with date, description, location
-- **Edit Event:** Modify event details
-- **Delete Event:** Remove events with confirmation
+<br/>
 
-### Activity Event Management
+### 1️⃣ Event Management
 
-Manage events for 8 activity categories:
+<br/>
 
-- Hackathon
-- Codathon
-- Ideathon
-- Promptathon
-- Workshop
-- Insight Session
-- Open Source Day
-- Tech Debate
+<table>
+  <tr>
+    <td width="50%">
+      <h3>✨ Capabilities</h3>
+      <ul>
+        <li>📝 Create new events</li>
+        <li>✏️ Edit existing events</li>
+        <li>🗑️ Delete events</li>
+        <li>📅 Set dates & times</li>
+        <li>📍 Add locations</li>
+        <li>📄 Add descriptions</li>
+      </ul>
+    </td>
+    <td width="50%">
+      <h3>🔄 Updates</h3>
+      <ul>
+        <li>⚡ Real-time sync</li>
+        <li>🔔 Instant updates</li>
+        <li>🎯 No page reload</li>
+        <li>✅ Success feedback</li>
+        <li>⚠️ Error handling</li>
+        <li>🔄 Refresh data</li>
+      </ul>
+    </td>
+  </tr>
+</table>
 
-Each activity has:
-
-- Event creation form
-- Event listing with filter/sort
-- Edit and delete functionality
-
-### Core Team Management
-
-- **Add Members:** Create core team member profiles
-- **Edit Members:** Update member details, roles, contact info
-- **Delete Members:** Remove members from team
-- **View Members:** Display team member profiles
-
-### Real-Time Updates
-
-- Event-driven architecture
-- No page reloads required
-- Immediate UI updates on data changes
-- WebSocket support (optional)
+<br/>
 
 ---
 
-## 🔗 API Integration
+<br/>
+
+### 2️⃣ Activity Event Management
+
+<br/>
+
+**8 Activity Categories:**
+
+- 🔨 **Hackathon** — 24-48 hour coding events
+- 💻 **Codathon** — Competitive programming
+- 💡 **Ideathon** — Innovation & brainstorming
+- ⚡ **Promptathon** — AI prompt engineering
+- 🎓 **Workshop** — Technical trainings
+- 🎤 **Insight Session** — Expert talks
+- 🌍 **Open Source Day** — Community contribution
+- 🗣️ **Tech Debate** — Discussions & debates
+
+<br/>
+
+**Features:**
+
+- Add/edit/delete activities
+- Category-based organization
+- Scheduled event listing
+- Real-time updates
+
+<br/>
+
+---
+
+<br/>
+
+### 3️⃣ Core Team Management
+
+<br/>
+
+<table>
+  <tr>
+    <td width="50%">
+      <h3>👥 Member Profile</h3>
+      <ul>
+        <li>Name & Email</li>
+        <li>Phone number</li>
+        <li>Role & Position</li>
+        <li>Department</li>
+        <li>Social links</li>
+        <li>Profile photo</li>
+      </ul>
+    </td>
+    <td width="50%">
+      <h3>⚙️ Operations</h3>
+      <ul>
+        <li>✏️ Add members</li>
+        <li>📝 Edit details</li>
+        <li>🖼️ Upload photos</li>
+        <li>🔗 Add socials</li>
+        <li>🗑️ Remove members</li>
+        <li>📄 View profiles</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<br/>
+
+---
+
+<br/>
+
+### 4️⃣ Real-time Updates
+
+<br/>
+
+**Architecture:**
+
+- Event-driven system
+- No page reloads
+- Instant UI synchronization
+- Seamless user experience
+
+<br/>
+
+---
+
+<br/>
+
+## 🔐 Authentication Flow
+
+<br/>
+
+```
+┌─────────────┐
+│  Login Page │
+└──────┬──────┘
+       │ Submit credentials
+       ▼
+┌────────────────────┐
+│  Java Backend API  │
+│  /api/admin/login  │
+└──────┬─────────────┘
+       │ JWT Token returned
+       ▼
+┌──────────────────┐
+│  localStorage    │
+│  Store JWT Token │
+└─────┬────────────┘
+      │ Include in header
+      ▼
+┌──────────────────────┐
+│  Protected Requests  │
+│ Authorization: Bearer │
+└──────────────────────┘
+```
+
+<br/>
+
+---
+
+<br/>
+
+## 🌐 API Integration
+
+<br/>
 
 ### Authentication Endpoints
 
+<br/>
+
+```http
+POST /api/admin/login
+POST /api/admin/logout
 ```
-POST /api/admin/login              # Login and get JWT token
-POST /api/admin/logout             # Logout
-```
+
+<br/>
 
 ### Event Endpoints
 
+<br/>
+
+```http
+GET    /api/admin/events           ← Fetch all events
+POST   /api/admin/events           ← Create new event
+PUT    /api/admin/events/{id}      ← Update event
+DELETE /api/admin/events/{id}      ← Delete event
 ```
-GET    /api/admin/events           # List all events
-POST   /api/admin/events           # Create event
-PUT    /api/admin/events/{id}      # Update event
-DELETE /api/admin/events/{id}      # Delete event
-```
+
+<br/>
 
 ### Activity Endpoints
 
+<br/>
+
+```http
+GET    /api/admin/activities/{key}/events        ← Get activity events
+POST   /api/admin/activities/{key}/events        ← Create activity event
+PUT    /api/admin/activities/{key}/events/{id}   ← Update
+DELETE /api/admin/activities/{key}/events/{id}   ← Delete
 ```
-GET    /api/admin/activities/{key}/events     # Get activity events
-POST   /api/admin/activities/{key}/events     # Create activity event
-PUT    /api/admin/activities/{key}/events/{id} # Update
-DELETE /api/admin/activities/{key}/events/{id} # Delete
-```
+
+<br/>
 
 ### Team Endpoints
 
+<br/>
+
+```http
+GET    /api/admin/core-team        ← List team members
+POST   /api/admin/core-team        ← Add member
+PUT    /api/admin/core-team/{id}   ← Update member
+DELETE /api/admin/core-team/{id}   ← Delete member
 ```
-GET    /api/admin/core-team        # List team members
-POST   /api/admin/core-team        # Create team member
-PUT    /api/admin/core-team/{id}   # Update team member
-DELETE /api/admin/core-team/{id}   # Delete team member
-```
+
+<br/>
 
 ---
 
+<br/>
+
 ## 🧪 Testing
+
+<br/>
 
 ### Run Tests
 
@@ -246,103 +459,264 @@ DELETE /api/admin/core-team/{id}   # Delete team member
 npm run test
 ```
 
+<br/>
+
 ### Run with Coverage
 
 ```bash
 npm run test:coverage
 ```
 
-### Component Testing
+<br/>
+
+### Test Specific Components
 
 ```bash
-npm run test:components
+npm run test EventForm.test.jsx
 ```
+
+<br/>
 
 ---
 
-## 🚢 Deployment
+<br/>
+
+## 🚀 Deployment Guide
+
+<br/>
 
 ### Vercel Deployment
 
-#### Initial Setup
+<br/>
 
-1. Push code to GitHub
-2. Go to [Vercel Dashboard](https://vercel.com)
-3. Click "New Project"
-4. Select GitHub repository
-5. Configure project:
-   - **Framework:** Vite
-   - **Build Command:** `npm run build`
-   - **Output Directory:** `dist`
-   - **Environment Variables:** Add `VITE_API_BASE`
+### Step 1️⃣: Prepare Repository
 
-#### Deploy Steps
+<br/>
 
-1. Set environment variables in Vercel dashboard:
-
-   ```
-   VITE_API_BASE=https://your-java-backend-url.railway.app
-   ```
-
-2. Click "Deploy"
-
-3. Vercel automatically deploys on push to main branch
-
-### Environment Variables (Production)
+Push code to GitHub with:
 
 ```
-VITE_API_BASE=https://nexasphere-api.railway.app
-VITE_ENVIRONMENT=production
+admin-dashboard/
+├── src/
+├── package.json
+├── vite.config.js
+├── .env.example
+└── .gitignore
 ```
 
-### Live URL
+<br/>
 
-https://admin-nexasphere.vercel.app
+### Step 2️⃣: Create Vercel Project
+
+<br/>
+
+1. Go to [Vercel Dashboard](https://vercel.com)
+2. Click **"Add New"** → **"Project"**
+3. Select GitHub repository
+4. Choose `admin-dashboard` folder as root
+
+<br/>
+
+### Step 3️⃣: Configure Build Settings
+
+<br/>
+
+<table>
+  <tr>
+    <td><strong>Field</strong></td>
+    <td><strong>Value</strong></td>
+  </tr>
+  <tr>
+    <td>Framework</td>
+    <td>Vite</td>
+  </tr>
+  <tr>
+    <td>Build Command</td>
+    <td>npm run build</td>
+  </tr>
+  <tr>
+    <td>Output Directory</td>
+    <td>dist</td>
+  </tr>
+  <tr>
+    <td>Install Command</td>
+    <td>npm install</td>
+  </tr>
+</table>
+
+<br/>
+
+### Step 4️⃣: Add Environment Variables
+
+<br/>
+
+In Vercel Dashboard:
+
+```
+VITE_API_BASE = https://your-java-backend-url.railway.app
+```
+
+<br/>
+
+### Step 5️⃣: Deploy
+
+<br/>
+
+Click **"Deploy"** and wait for completion.
+
+<br/>
+
+**📍 Live URL:** https://admin-nexasphere.vercel.app
+
+<br/>
 
 ---
 
-## 🔄 Post-Deployment Checks
+<br/>
 
-After deploying to Vercel:
+## 📝 Build for Production
 
-1. **Verify API Connection**
-   - Check browser console for API errors
-   - Test login functionality
-   - Verify data loading
+<br/>
 
-2. **Check Environment**
-   - Verify `VITE_API_BASE` is set correctly
-   - Test cross-origin requests
+### Build Optimized Version
 
-3. **Performance**
-   - Run Lighthouse audit
-   - Check bundle size
-   - Monitor Core Web Vitals
+```bash
+npm run build
+```
+
+<br/>
+
+**Creates:** `dist/` folder with optimized files
+
+<br/>
+
+### Preview Production Build
+
+```bash
+npm run preview
+```
+
+<br/>
+
+**Access:** http://localhost:4173
+
+<br/>
 
 ---
 
-## 📝 Development Guidelines
+<br/>
+
+## 🐛 Troubleshooting
+
+<br/>
+
+### Build Issues
+
+<br/>
+
+**❌ npm command not found**
+
+```bash
+# Install Node.js from https://nodejs.org/
+# Verify: node -v && npm -v
+```
+
+<br/>
+
+**❌ Port 5174 already in use**
+
+```bash
+# Use different port
+npm run dev -- --port 5175
+```
+
+<br/>
+
+### API Connection Issues
+
+<br/>
+
+**❌ CORS error from backend**
+
+```bash
+# Verify VITE_API_BASE in .env.local
+# Ensure Java backend is running
+# Check Backend CORS configuration
+```
+
+<br/>
+
+**❌ 401 Unauthorized on protected routes**
+
+```bash
+# Clear browser storage: localStorage
+# Delete browser cookies
+# Re-login with correct credentials
+```
+
+<br/>
+
+### Deployment Issues
+
+<br/>
+
+**❌ Blank page after Vercel deployment**
+
+```bash
+# Check Vercel build logs
+# Verify environment variables are set
+# Ensure API endpoint is accessible
+```
+
+<br/>
+
+**❌ API requests failing in production**
+
+```bash
+# Verify VITE_API_BASE points to production backend
+# Check CORS configuration on Java backend
+# Ensure backend is deployed and running
+```
+
+<br/>
+
+---
+
+<br/>
+
+## 📚 Development Guidelines
+
+<br/>
 
 ### Code Quality
 
-- ESLint configuration for code consistency
-- Prettier for code formatting
-- No console.log statements in production
-- Meaningful component and function names
+<br/>
 
-### Component Structure
+- ✓ Use ESLint configuration
+- ✓ Format with Prettier
+- ✓ No `console.log` in production
+- ✓ Write meaningful component names
+- ✓ Keep functions under 50 lines
+- ✓ Add JSDoc comments for complex logic
 
-```jsx
+<br/>
+
+### Component Best Practices
+
+<br/>
+
+```javascript
 // Good component structure
-export default function EventForm({ onSubmit }) {
+export default function EventForm({ onSubmit, event }) {
   const [formData, setFormData] = useState({});
 
   const handleChange = (e) => {
-    // Handle input changes
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
-    // Validate and submit
+    e.preventDefault();
     onSubmit(formData);
   };
 
@@ -350,53 +724,49 @@ export default function EventForm({ onSubmit }) {
 }
 ```
 
-### API Call Pattern
-
-```javascript
-// Use service layer for API calls
-const response = await eventService.createEvent(eventData);
-```
+<br/>
 
 ---
 
-## 📝 Troubleshooting
+<br/>
 
-### Build Errors
+## 📖 Resources
 
-**Problem:** `Module not found` errors
+<br/>
 
-- **Solution:** Run `npm install` and clear node_modules if needed
+- **[React 18 Docs](https://react.dev)**
+- **[Vite Documentation](https://vitejs.dev)**
+- **[Vercel Docs](https://vercel.com/docs)**
+- **[Fetch API](https://mdn.io/Fetch_API)**
+- **[JWT Auth](https://jwt.io/introduction)**
 
-**Problem:** `Port 5174 already in use`
-
-- **Solution:** Kill process on that port or use different port: `npm run dev -- --port 5175`
-
-### API Connection Issues
-
-**Problem:** `CORS error` from backend
-
-- **Solution:** Check `VITE_API_BASE` environment variable
-
-**Problem:** `401 Unauthorized` on protected routes
-
-- **Solution:** Clear localStorage and re-login
-
-### Deployment Issues
-
-**Problem:** Blank page after deployment to Vercel
-
-- **Solution:** Check build output, verify environment variables are set
-
-**Problem:** API requests failing in production
-
-- **Solution:** Verify backend URL in production environment variable
+<br/>
 
 ---
 
-## 📚 Additional Resources
+<br/>
 
-- [React Documentation](https://react.dev)
-- [Vite Documentation](https://vitejs.dev)
-- [Vercel Documentation](https://vercel.com/docs)
-- [Fetch API Guide](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
-- [JWT Authentication](https://jwt.io/introduction)
+## 🚀 Performance Tips
+
+<br/>
+
+- 📦 Code splitting with lazy loading
+- 🖼️ Image optimization
+- 🗜️ CSS & JS minification
+- 💾 Caching strategies
+- ⚡ Debounce API calls
+- 🎯 Virtual scrolling for large lists
+
+<br/>
+
+---
+
+<br/>
+
+<div align="center">
+
+### Questions? 📧 Contact nexasphere@glbajajgroup.org
+
+**Dashboard Version:** 1.0 | **Last Updated:** May 2026
+
+</div>

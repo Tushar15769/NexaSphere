@@ -1,162 +1,287 @@
-# NexaSphere Python Backend
+# 🐍 NexaSphere Python Backend
 
-FastAPI service for handling form submissions and integrating with Google Sheets and Supabase.
+## FastAPI Microservice for Form Processing
 
----
+> **High-performance form submission service** with Google Sheets and Supabase integration
 
-## 📋 Overview
-
-Secondary backend service providing:
-
-- Form submission processing (membership, recruitment, core team)
-- Google Sheets integration for data storage
-- Supabase database sync
-- CORS support for frontend applications
-
-**Runtime:** Python 3.11+  
-**Framework:** FastAPI  
-**ASGI Server:** Uvicorn  
-**Port:** 8000
+<br/>
 
 ---
 
-## ⚙️ Setup Virtual Environment
+<br/>
 
-### Create Virtual Environment
+## 📌 Overview
 
-```bash
-cd server-python
-python -m venv venv
-```
+<br/>
 
-### Activate Virtual Environment
+### Purpose
 
-**Windows:**
+FastAPI microservice handling:
 
-```bash
-venv\Scripts\activate
-```
+- ✓ Form submission processing
+- ✓ Google Sheets integration
+- ✓ Supabase database synchronization
+- ✓ CORS-enabled API endpoints
+- ✓ Real-time data persistence
+
+<br/>
+
+### Key Specifications
+
+| Specification | Details            |
+| ------------- | ------------------ |
+| **Runtime**   | Python 3.11+       |
+| **Framework** | FastAPI            |
+| **Server**    | Uvicorn ASGI       |
+| **Port**      | 8000               |
+| **Auto Docs** | Swagger UI & ReDoc |
+
+<br/>
+
+---
+
+<br/>
+
+## ⚙️ System Requirements
+
+<br/>
+
+| Requirement      | Version | Purpose             |
+| ---------------- | ------- | ------------------- |
+| **Python**       | 3.11+   | Runtime environment |
+| **pip**          | Latest  | Package manager     |
+| **Google Cloud** | -       | Form storage        |
+| **Supabase**     | Latest  | Database backup     |
+
+<br/>
+
+---
+
+<br/>
+
+## 🚀 Quick Start
+
+<br/>
+
+### Step 1️⃣: Create Virtual Environment
+
+<br/>
 
 **macOS/Linux:**
 
 ```bash
+cd server-python
+python -m venv venv
 source venv/bin/activate
 ```
 
+<br/>
+
+**Windows:**
+
+```bash
+cd server-python
+python -m venv venv
+venv\Scripts\activate
+```
+
+<br/>
+
 ---
 
-## 📦 Install Dependencies
+<br/>
+
+### Step 2️⃣: Install Dependencies
+
+<br/>
 
 ```bash
 pip install -r requirements.txt
 ```
 
+<br/>
+
 **Key Dependencies:**
 
-- fastapi — Web framework
-- uvicorn — ASGI server
-- python-dotenv — Environment variable management
-- google-auth — Google authentication
-- google-cloud-sheets — Google Sheets API
-- supabase — Supabase client
-- pydantic — Data validation
+- **fastapi** — Web framework
+- **uvicorn** — ASGI server
+- **pydantic** — Data validation
+- **google-cloud-sheets** — Google integration
+- **supabase** — Database client
+- **python-dotenv** — Environment management
+
+<br/>
 
 ---
 
-## 🚀 Running Locally
+<br/>
 
-### Development Server
+### Step 3️⃣: Configure Environment
 
-```bash
-uvicorn main:app --reload --port 8000
-```
+<br/>
 
-Application starts on `http://localhost:8000`
-
-**Features:**
-
-- Auto-reload on code changes
-- Interactive API documentation at `/docs`
-- ReDoc documentation at `/redoc`
-
-### Production Server
-
-```bash
-uvicorn main:app --host 0.0.0.0 --port 8000 --workers 4
-```
-
----
-
-## 🔑 Environment Variables
-
-Create `.env` file in `server-python/` directory:
+Create `.env` file in `server-python/`:
 
 ```bash
 # Google Cloud Setup
-GOOGLE_PROJECT_ID=your-google-project-id
-GOOGLE_SERVICE_ACCOUNT_EMAIL=your-sa-email@project.iam.gserviceaccount.com
+GOOGLE_PROJECT_ID=your-project-id
+GOOGLE_SERVICE_ACCOUNT_EMAIL=your-sa@project.iam.gserviceaccount.com
 GOOGLE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
-GOOGLE_SHEET_ID=your-google-sheet-id
+GOOGLE_SHEET_ID=your-sheet-id
 
 # Supabase Setup
 SUPABASE_URL=https://your-project.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 
-# CORS Configuration
-CORS_ORIGIN=http://localhost:5173,https://nexasphere-glbajaj.vercel.app
-
 # Server Configuration
+CORS_ORIGIN=http://localhost:5173,https://nexasphere-glbajaj.vercel.app
 DEBUG=True
 ```
 
-### Getting Credentials
-
-#### Google Sheets Setup
-
-1. Create Google Cloud project
-2. Enable Sheets API
-3. Create Service Account with JSON key
-4. Share Google Sheet with service account email
-5. Copy credentials to `.env`
-
-#### Supabase Setup
-
-1. Create Supabase project
-2. Get project URL from dashboard
-3. Get service role key from settings
-4. Add to `.env`
+<br/>
 
 ---
+
+<br/>
+
+### Step 4️⃣: Run Development Server
+
+<br/>
+
+```bash
+uvicorn main:app --reload --port 8000
+```
+
+<br/>
+
+**✅ Server Running on:** http://localhost:8000
+
+<br/>
+
+**📚 Interactive Documentation:**
+
+- Swagger UI: http://localhost:8000/docs
+- ReDoc: http://localhost:8000/redoc
+
+<br/>
+
+---
+
+<br/>
+
+## 🔑 Environment Variables Guide
+
+<br/>
+
+### Google Cloud Authentication
+
+<br/>
+
+**Getting Credentials:**
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com)
+2. Create new project or select existing
+3. Enable Google Sheets API
+4. Create Service Account
+5. Generate JSON key file
+6. Share Google Sheet with service account email
+
+<br/>
+
+**Required Variables:**
+
+```bash
+GOOGLE_PROJECT_ID=your-gcp-project-id
+GOOGLE_SERVICE_ACCOUNT_EMAIL=serviceaccount@project.iam.gserviceaccount.com
+GOOGLE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
+GOOGLE_SHEET_ID=1a2b3c4d5e6f7g8h9i0j
+```
+
+<br/>
+
+---
+
+<br/>
+
+### Supabase Configuration
+
+<br/>
+
+**Getting Credentials:**
+
+1. Create account at [Supabase](https://supabase.com)
+2. Create new project
+3. Get project URL from settings
+4. Get service role key from API settings
+5. Create required tables
+
+<br/>
+
+**Required Variables:**
+
+```bash
+SUPABASE_URL=https://projectid.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+<br/>
+
+---
+
+<br/>
 
 ## 📁 Project Structure
 
+<br/>
+
 ```
 server-python/
-├── main.py                 # Application entry point
-├── requirements.txt        # Python dependencies
-├── .env.example            # Environment variables template
-├── routers/
+│
+├── main.py                         ← Application Entry Point
+├── requirements.txt                ← Python Dependencies
+├── .env.example                    ← Environment Template
+├── .env                            ← Local Environment (gitignored)
+│
+├── routers/                        ← API Routes
 │   ├── __init__.py
-│   └── forms.py            # Form submission endpoints
-├── services/
+│   └── forms.py                    ← Form submission endpoints
+│
+├── services/                       ← Business Logic
 │   ├── __init__.py
-│   ├── sheets.py           # Google Sheets integration
-│   └── supabase.py         # Supabase integration
-├── models/
+│   ├── sheets.py                   ← Google Sheets integration
+│   └── supabase.py                 ← Supabase operations
+│
+├── models/                         ← Data Models
 │   ├── __init__.py
-│   └── forms.py            # Pydantic data models
+│   └── forms.py                    ← Pydantic schemas
+│
 └── README.md
 ```
 
+<br/>
+
 ---
+
+<br/>
 
 ## 🔗 API Endpoints
 
-### Form Submission Endpoints
+<br/>
 
-#### Membership Form
+### Health Check
 
 ```
+GET /health
+GET /api/forms/status
+```
+
+<br/>
+
+### Membership Form
+
+<br/>
+
+```http
 POST /api/forms/membership
 Content-Type: application/json
 
@@ -164,18 +289,36 @@ Content-Type: application/json
   "name": "John Doe",
   "email": "john@example.com",
   "whatsapp": "9876543210",
-  "year": "3rd",
+  "year": "3rd Year",
   "branch": "Computer Science",
   "section": "A",
-  "reason": "Interested in tech community"
+  "reason": "Want to join the community"
 }
 ```
 
-Response: `{"id": 1, "status": "success"}`
+<br/>
 
-#### Recruitment Form
+**Response:**
 
+```json
+{
+  "id": 1,
+  "status": "success",
+  "message": "Form submitted successfully"
+}
 ```
+
+<br/>
+
+---
+
+<br/>
+
+### Recruitment Form
+
+<br/>
+
+```http
 POST /api/forms/recruitment
 Content-Type: application/json
 
@@ -183,16 +326,24 @@ Content-Type: application/json
   "name": "Jane Smith",
   "email": "jane@example.com",
   "whatsapp": "9876543210",
-  "year": "2nd",
+  "year": "2nd Year",
   "branch": "Electronics",
   "section": "B",
-  "reason": "Want to contribute to projects"
+  "reason": "Interested in contributing"
 }
 ```
 
-#### Core Team Application
+<br/>
 
-```
+---
+
+<br/>
+
+### Core Team Application
+
+<br/>
+
+```http
 POST /api/forms/core-team
 Content-Type: application/json
 
@@ -200,59 +351,90 @@ Content-Type: application/json
   "name": "Alice Johnson",
   "email": "alice@example.com",
   "whatsapp": "9876543210",
-  "year": "4th",
+  "year": "4th Year",
   "branch": "IT",
   "section": "A",
-  "reason": "Leadership and mentorship experience"
+  "reason": "Leadership experience"
 }
 ```
 
-### Status Endpoints
-
-```
-GET  /api/health             # Health check
-GET  /api/forms/status       # Forms service status
-```
+<br/>
 
 ---
+
+<br/>
 
 ## 📊 Google Sheets Integration
 
+<br/>
+
 ### Sheet Structure
 
-**Sheet 1: Membership Forms**
+<br/>
 
-- Column A: Name
-- Column B: Email
-- Column C: WhatsApp
-- Column D: Year
-- Column E: Branch
-- Column F: Section
-- Column G: Reason
-- Column H: Timestamp
+Create a Google Sheet with these tabs:
 
-**Sheet 2: Recruitment Forms**
-(Same structure as Membership)
+<br/>
 
-**Sheet 3: Core Team Applications**
-(Same structure as Membership)
+**Tab 1: Membership Forms**
 
-### Setting Up Google Sheets
+| Column | Header    |
+| ------ | --------- |
+| A      | Timestamp |
+| B      | Name      |
+| C      | Email     |
+| D      | WhatsApp  |
+| E      | Year      |
+| F      | Branch    |
+| G      | Section   |
+| H      | Reason    |
 
-1. Create Google Sheet with tabs for each form type
-2. Add headers to first row
-3. Share sheet with service account email
-4. Add `GOOGLE_SHEET_ID` to `.env`
+<br/>
+
+**Tab 2: Recruitment Forms** (Same structure)
+
+**Tab 3: Core Team Applications** (Same structure)
+
+<br/>
+
+### Setup Instructions
+
+<br/>
+
+1. **Create Google Sheet**
+   - Go to [Google Sheets](https://sheets.new)
+   - Add three tabs as shown above
+   - Add headers in first row
+
+2. **Share with Service Account**
+   - Get email from `GOOGLE_SERVICE_ACCOUNT_EMAIL`
+   - Click Share → Add service account email
+   - Grant Editor access
+
+3. **Copy Sheet ID**
+   - Sheet URL: `https://docs.google.com/spreadsheets/d/{SHEET_ID}/edit`
+   - Add `{SHEET_ID}` to `.env`
+
+<br/>
 
 ---
 
+<br/>
+
 ## 💾 Supabase Integration
 
-### Supabase Tables
+<br/>
 
-Create these tables in Supabase:
+### Create Tables
+
+<br/>
+
+Login to Supabase and run these SQL scripts:
+
+<br/>
 
 ```sql
+-- Membership Forms Table
 CREATE TABLE membership_forms (
   id SERIAL PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
@@ -265,6 +447,7 @@ CREATE TABLE membership_forms (
   created_at TIMESTAMP DEFAULT NOW()
 );
 
+-- Recruitment Forms Table
 CREATE TABLE recruitment_forms (
   id SERIAL PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
@@ -277,6 +460,7 @@ CREATE TABLE recruitment_forms (
   created_at TIMESTAMP DEFAULT NOW()
 );
 
+-- Core Team Applications Table
 CREATE TABLE core_team_applications (
   id SERIAL PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
@@ -290,15 +474,23 @@ CREATE TABLE core_team_applications (
 );
 ```
 
+<br/>
+
 ---
+
+<br/>
 
 ## 🧪 Testing
 
-### Run Tests
+<br/>
+
+### Run All Tests
 
 ```bash
 pytest
 ```
+
+<br/>
 
 ### Run with Coverage
 
@@ -306,19 +498,39 @@ pytest
 pytest --cov=. --cov-report=html
 ```
 
-Coverage report: `htmlcov/index.html`
+**📊 View Coverage:** `htmlcov/index.html`
+
+<br/>
 
 ### Run Specific Test
 
 ```bash
-pytest tests/test_forms.py::test_membership_form_submission
+pytest tests/test_forms.py::test_membership_submission
 ```
+
+<br/>
 
 ---
 
-## 🚢 Deployment
+<br/>
+
+## 🚀 Deployment
+
+<br/>
+
+### Production Server
+
+<br/>
+
+```bash
+uvicorn main:app --host 0.0.0.0 --port 8000 --workers 4
+```
+
+<br/>
 
 ### Railway Deployment
+
+<br/>
 
 ```bash
 cd server-python
@@ -326,15 +538,23 @@ railway init
 railway up
 ```
 
+<br/>
+
 ### Render Deployment
 
+<br/>
+
 1. Connect GitHub repository to Render
-2. Set build command: `pip install -r requirements.txt`
-3. Set start command: `uvicorn main:app --host 0.0.0.0 --port 8000`
-4. Add environment variables from `.env`
+2. Set **Build Command:** `pip install -r requirements.txt`
+3. Set **Start Command:** `uvicorn main:app --host 0.0.0.0 --port 8000`
+4. Add environment variables
 5. Deploy
 
+<br/>
+
 ### Fly.io Deployment
+
+<br/>
 
 ```bash
 fly auth login
@@ -342,57 +562,124 @@ fly launch
 fly deploy
 ```
 
-### Environment Variables (Production)
+<br/>
 
-```
+### Production Environment Variables
+
+<br/>
+
+```bash
 GOOGLE_PROJECT_ID=production-project-id
 GOOGLE_SERVICE_ACCOUNT_EMAIL=prod-sa@project.iam.gserviceaccount.com
 GOOGLE_PRIVATE_KEY=[from-service-account-json]
 GOOGLE_SHEET_ID=production-sheet-id
 SUPABASE_URL=https://prod-project.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=production-key
-CORS_ORIGIN=https://nexasphere-glbajaj.vercel.app,https://admin-nexasphere.vercel.app
+CORS_ORIGIN=https://nexasphere-glbajaj.vercel.app
 DEBUG=False
 ```
 
+<br/>
+
 ---
 
-## 📝 Troubleshooting
+<br/>
 
-### Module Not Found Errors
+## 🐛 Troubleshooting
 
-**Problem:** `ModuleNotFoundError: No module named 'fastapi'`
+<br/>
 
-- **Solution:** Activate virtual environment and run `pip install -r requirements.txt`
+### Module Errors
+
+<br/>
+
+**❌ ModuleNotFoundError: No module named 'fastapi'**
+
+```bash
+# Solution: Activate venv and install dependencies
+source venv/bin/activate    # macOS/Linux
+pip install -r requirements.txt
+```
+
+<br/>
 
 ### Google Sheets Errors
 
-**Problem:** `403 Forbidden` when accessing Sheet
+<br/>
 
-- **Solution:** Share Google Sheet with service account email
+**❌ 403 Forbidden when accessing Sheet**
 
-**Problem:** `Invalid GOOGLE_SHEET_ID`
+```bash
+# Solution: Share sheet with service account
+# 1. Copy GOOGLE_SERVICE_ACCOUNT_EMAIL
+# 2. Open Google Sheet
+# 3. Click Share → Add email → Editor
+```
 
-- **Solution:** Verify sheet ID from URL: `docs.google.com/spreadsheets/d/{SHEET_ID}/edit`
+<br/>
+
+**❌ Invalid GOOGLE_SHEET_ID**
+
+```bash
+# Solution: Extract from URL
+# https://docs.google.com/spreadsheets/d/{SHEET_ID}/edit
+# Copy the {SHEET_ID} part
+```
+
+<br/>
 
 ### Connection Errors
 
-**Problem:** `Connection refused` to Supabase
+<br/>
 
-- **Solution:** Verify `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` in `.env`
+**❌ Connection refused to Supabase**
+
+```bash
+# Solution: Verify environment variables
+echo $SUPABASE_URL
+echo $SUPABASE_SERVICE_ROLE_KEY
+```
+
+<br/>
 
 ### CORS Issues
 
-**Problem:** `CORS policy error` from frontend
+<br/>
 
-- **Solution:** Check `CORS_ORIGIN` environment variable includes frontend URL
+**❌ CORS policy error from frontend**
+
+```bash
+# Solution: Check CORS_ORIGIN environment variable
+# Ensure frontend URL is included
+CORS_ORIGIN=https://nexasphere-glbajaj.vercel.app
+```
+
+<br/>
 
 ---
 
-## 📚 Additional Resources
+<br/>
 
-- [FastAPI Documentation](https://fastapi.tiangolo.com/)
-- [Uvicorn Documentation](https://www.uvicorn.org/)
-- [Google Sheets API](https://developers.google.com/sheets/api)
-- [Supabase Documentation](https://supabase.com/docs)
-- [Pydantic Documentation](https://docs.pydantic.dev/)
+## 📚 Resources
+
+<br/>
+
+- **[FastAPI Docs](https://fastapi.tiangolo.com/)**
+- **[Uvicorn](https://www.uvicorn.org/)**
+- **[Google Sheets API](https://developers.google.com/sheets/api)**
+- **[Supabase Docs](https://supabase.com/docs)**
+- **[Pydantic](https://docs.pydantic.dev/)**
+
+<br/>
+
+---
+
+<br/>
+
+<div align="center">
+
+### Questions? 📧 Contact nexasphere@glbajajgroup.org
+
+**Backend Version:** 1.0 | **Last Updated:** May 2026
+
+</div>

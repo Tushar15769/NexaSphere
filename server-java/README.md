@@ -1,80 +1,248 @@
-# NexaSphere Java Backend
+# ☕ NexaSphere Java Backend
 
-Spring Boot 3 REST API for NexaSphere community platform.
+## Spring Boot 3 REST API
 
----
+> **Enterprise-grade REST API** for NexaSphere community platform with real-time data synchronization
 
-## 📋 Overview
-
-Primary backend service providing:
-
-- Event management (CRUD operations)
-- Core team member management
-- User form submissions handling
-- Admin authentication
-- Real-time data synchronization with frontend
-
-**Runtime:** Java 17+  
-**Framework:** Spring Boot 3  
-**Build Tool:** Maven 3.8+  
-**Database:** PostgreSQL (prod) / H2 (dev)  
-**Port:** 8080
+<br/>
 
 ---
 
-## 🛠️ Build Instructions
+<br/>
 
-### Prerequisites
+## 📌 Overview
 
-- Java 17 or higher
-- Maven 3.8 or higher
+<br/>
 
-### Build Project
+### Purpose
+
+Spring Boot 3 backend service providing:
+
+- ✓ Event management (CRUD operations)
+- ✓ Core team member management
+- ✓ User form submission handling
+- ✓ Admin authentication & authorization
+- ✓ Real-time data synchronization
+
+<br/>
+
+### Key Specifications
+
+| Specification           | Details          |
+| ----------------------- | ---------------- |
+| **Runtime**             | Java 17+         |
+| **Framework**           | Spring Boot 3    |
+| **Build Tool**          | Maven 3.8+       |
+| **Default Database**    | H2 (development) |
+| **Production Database** | PostgreSQL       |
+| **Port**                | 8080             |
+
+<br/>
+
+---
+
+<br/>
+
+## ⚙️ Prerequisites
+
+<br/>
+
+Before starting, ensure you have:
+
+| Tool           | Version | Download                                  |
+| -------------- | ------- | ----------------------------------------- |
+| **Java JDK**   | 17+     | https://www.oracle.com/java/technologies/ |
+| **Maven**      | 3.8+    | https://maven.apache.org/download.cgi     |
+| **PostgreSQL** | Latest  | https://www.postgresql.org/download/      |
+
+<br/>
+
+---
+
+<br/>
+
+## 🚀 Quick Start
+
+<br/>
+
+### 1️⃣ Build Project
+
+<br/>
 
 ```bash
 cd server-java
 mvn clean install
 ```
 
-This command:
+**What this does:**
 
-- Downloads dependencies
+- Downloads all dependencies
 - Compiles source code
 - Runs unit tests
 - Creates executable JAR
 
+<br/>
+
 ---
 
-## 🚀 Running Locally
+<br/>
 
-### Development (H2 Database)
+### 2️⃣ Run Development Server
+
+<br/>
+
+**Using H2 (in-memory database):**
 
 ```bash
 mvn spring-boot:run
 ```
 
-Application starts on `http://localhost:8080`
+<br/>
 
-### Production (PostgreSQL)
+**✅ Server Running on:** http://localhost:8080
 
-1. Set environment variables:
+<br/>
+
+---
+
+<br/>
+
+### 3️⃣ Run Production Server
+
+<br/>
+
+**Setup PostgreSQL:**
 
 ```bash
+# Export environment variables
 export DB_URL=jdbc:postgresql://localhost:5432/nexasphere
 export DB_DRIVER=org.postgresql.Driver
 export DB_USER=postgres
 export DB_PASS=yourpassword
-```
 
-2. Run application:
-
-```bash
+# Run the server
 mvn spring-boot:run
 ```
 
+<br/>
+
 ---
 
-## 🧪 Running Tests
+<br/>
+
+## 📋 Environment Variables
+
+<br/>
+
+### Essential Variables
+
+| Variable           | Example                     | Purpose                  |
+| ------------------ | --------------------------- | ------------------------ |
+| **ADMIN_EMAIL**    | nexasphere@glbajajgroup.org | Admin login email        |
+| **ADMIN_PASSWORD** | Admin@123                   | Admin login password     |
+| **CORS_ORIGIN**    | http://localhost:5173       | Allowed frontend origins |
+
+<br/>
+
+### Database Configuration
+
+| Variable      | Dev Value                | Prod Value                             |
+| ------------- | ------------------------ | -------------------------------------- |
+| **DB_URL**    | jdbc:h2:mem:nexaspheredb | jdbc:postgresql://host:5432/nexasphere |
+| **DB_DRIVER** | org.h2.Driver            | org.postgresql.Driver                  |
+| **DB_USER**   | sa                       | postgres                               |
+| **DB_PASS**   | _(empty)_                | your-password                          |
+
+<br/>
+
+### application.properties File
+
+<br/>
+
+Create `src/main/resources/application.properties`:
+
+```properties
+# ========== Server Configuration ==========
+server.port=8080
+spring.profiles.active=dev
+
+# ========== Database (H2 - Development) ==========
+spring.datasource.url=jdbc:h2:mem:nexaspheredb
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=
+
+# ========== Database (PostgreSQL - Production) ==========
+# Uncomment for production
+# spring.datasource.url=jdbc:postgresql://localhost:5432/nexasphere
+# spring.datasource.driverClassName=org.postgresql.Driver
+# spring.datasource.username=postgres
+# spring.datasource.password=yourpassword
+
+# ========== JPA/Hibernate Configuration ==========
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+spring.jpa.hibernate.ddl-auto=create-drop
+spring.jpa.show-sql=false
+spring.jpa.properties.hibernate.format_sql=true
+
+# ========== Admin Credentials ==========
+app.admin.email=nexasphere@glbajajgroup.org
+app.admin.password=Admin@123
+
+# ========== CORS Configuration ==========
+app.cors.origin=http://localhost:5173,https://nexasphere-glbajaj.vercel.app
+
+# ========== Logging ==========
+logging.level.root=INFO
+logging.level.org.nexasphere=DEBUG
+logging.level.org.springframework.web=DEBUG
+```
+
+<br/>
+
+---
+
+<br/>
+
+## 📁 Project Structure
+
+<br/>
+
+```
+server-java/
+│
+├── src/
+│   ├── main/
+│   │   ├── java/org/nexasphere/
+│   │   │   ├── NexaSphereApplication.java      ← Spring Boot Entry Point
+│   │   │   ├── controller/                     ← REST Endpoints
+│   │   │   ├── service/                        ← Business Logic
+│   │   │   ├── model/                          ← JPA Entities
+│   │   │   ├── repository/                     ← Data Access Layer
+│   │   │   ├── config/                         ← Spring Configuration
+│   │   │   ├── exception/                      ← Custom Exceptions
+│   │   │   └── util/                           ← Utility Classes
+│   │   └── resources/
+│   │       ├── application.properties          ← Configuration
+│   │       └── data.sql                        ← Seed Data
+│   └── test/
+│       └── java/org/nexasphere/
+│           └── NexaSphereApplicationTests.java
+│
+├── pom.xml                                     ← Maven Dependencies
+├── mvnw & mvnw.cmd                            ← Maven Wrapper
+└── README.md
+```
+
+<br/>
+
+---
+
+<br/>
+
+## 🧪 Testing
+
+<br/>
 
 ### Run All Tests
 
@@ -82,204 +250,156 @@ mvn spring-boot:run
 mvn test
 ```
 
+<br/>
+
 ### Run with Coverage Report
 
 ```bash
 mvn clean test jacoco:report
 ```
 
-Coverage report: `target/site/jacoco/index.html`
+**📊 View Coverage:** `target/site/jacoco/index.html`
 
-### Run Verification
+<br/>
+
+### Run Full Verification
 
 ```bash
 mvn verify
 ```
 
----
-
-## 🔑 Environment Variables
-
-### Required Variables
-
-| Variable         | Description          | Example                                                       |
-| ---------------- | -------------------- | ------------------------------------------------------------- |
-| `ADMIN_EMAIL`    | Admin login email    | `nexasphere@glbajajgroup.org`                                 |
-| `ADMIN_PASSWORD` | Admin login password | `Admin@123`                                                   |
-| `CORS_ORIGIN`    | CORS allowed origins | `http://localhost:5173,https://nexasphere-glbajaj.vercel.app` |
-
-### Database Variables
-
-| Variable    | Description             | Dev Value                  |
-| ----------- | ----------------------- | -------------------------- |
-| `DB_URL`    | Database connection URL | `jdbc:h2:mem:nexaspheredb` |
-| `DB_DRIVER` | Database driver class   | `org.h2.Driver`            |
-| `DB_USER`   | Database username       | `sa`                       |
-| `DB_PASS`   | Database password       | (empty)                    |
-
-### Application Properties
-
-Create `src/main/resources/application.properties`:
-
-```properties
-# Server
-server.port=8080
-
-# H2 Database (Development)
-spring.datasource.url=jdbc:h2:mem:nexaspheredb
-spring.datasource.driverClassName=org.h2.Driver
-spring.datasource.username=sa
-spring.datasource.password=
-
-# PostgreSQL (Production)
-# spring.datasource.url=jdbc:postgresql://localhost:5432/nexasphere
-# spring.datasource.driverClassName=org.postgresql.Driver
-# spring.datasource.username=postgres
-# spring.datasource.password=yourpassword
-
-# JPA/Hibernate
-spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
-spring.jpa.hibernate.ddl-auto=create-drop
-spring.jpa.show-sql=false
-
-# Admin Credentials
-app.admin.email=nexasphere@glbajajgroup.org
-app.admin.password=Admin@123
-
-# CORS
-app.cors.origin=http://localhost:5173,https://nexasphere-glbajaj.vercel.app
-
-# Logging
-logging.level.root=INFO
-logging.level.org.nexasphere=DEBUG
-```
+<br/>
 
 ---
 
-## 📁 Project Structure
+<br/>
 
-```
-server-java/
-├── src/
-│   ├── main/
-│   │   ├── java/org/nexasphere/
-│   │   │   ├── NexaSphereApplication.java    # Spring Boot entry point
-│   │   │   ├── controller/                   # REST endpoints
-│   │   │   ├── service/                      # Business logic
-│   │   │   ├── model/                        # JPA entities
-│   │   │   ├── repository/                   # Data access layer
-│   │   │   ├── config/                       # Configuration classes
-│   │   │   ├── exception/                    # Custom exceptions
-│   │   │   └── util/                         # Utility classes
-│   │   └── resources/
-│   │       ├── application.properties        # Application config
-│   │       └── data.sql                      # Initial seed data
-│   └── test/
-│       └── java/org/nexasphere/
-│           └── NexaSphereApplicationTests.java
-├── pom.xml
-├── mvnw
-├── mvnw.cmd
-└── README.md
-```
+## 🏛️ Architecture
 
----
+<br/>
 
-## 📊 Database Setup
+### Layer Breakdown
 
-### Development (H2)
+<table>
+  <tr>
+    <td width="50%">
+      <h3>🎯 Controller Layer</h3>
+      <ul>
+        <li>REST endpoint handlers</li>
+        <li>Request/response mapping</li>
+        <li>Input validation</li>
+        <li>CORS configuration</li>
+      </ul>
+    </td>
+    <td width="50%">
+      <h3>🔧 Service Layer</h3>
+      <ul>
+        <li>Business logic</li>
+        <li>Data processing</li>
+        <li>Business rules</li>
+        <li>Transaction management</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <h3>🗄️ Repository Layer</h3>
+      <ul>
+        <li>Database queries</li>
+        <li>CRUD operations</li>
+        <li>JPA interfaces</li>
+        <li>Custom queries</li>
+      </ul>
+    </td>
+    <td width="50%">
+      <h3>📦 Model Layer</h3>
+      <ul>
+        <li>JPA entities</li>
+        <li>Database tables</li>
+        <li>Entity relationships</li>
+        <li>Validation annotations</li>
+      </ul>
+    </td>
+  </tr>
+</table>
 
-H2 in-memory database automatically initializes on startup:
-
-- Tables created via JPA entities
-- Seed data loaded from `data.sql`
-- No manual configuration needed
-
-### Production (PostgreSQL)
-
-1. Create database:
-
-```bash
-createdb nexasphere
-```
-
-2. Spring Boot creates tables automatically via:
-
-```properties
-spring.jpa.hibernate.ddl-auto=validate
-```
-
-3. Seed data loads from `data.sql` on first run
-
-### Entity Models
-
-- **Event:** Represents community events with dates and descriptions
-- **ActivityEvent:** Activity-specific event entries
-- **CoreTeamMember:** Core team member profiles
-- **MembershipForm:** User membership applications
-- **RecruitmentForm:** User recruitment applications
-- **CoreTeamApplication:** Core team position applications
+<br/>
 
 ---
 
-## 🔗 API Endpoints
+<br/>
 
-### Public Endpoints (No Authentication)
+## 🌐 API Endpoints
 
-#### Events
+<br/>
 
-```
-GET  /api/content/events              # List all events
-GET  /api/content/events/{id}         # Get event details
-GET  /api/content/activity-events/{activityKey}  # Events by activity
-```
+### Public Endpoints
 
-#### Core Team
+<br/>
 
 ```
-GET  /api/content/core-team           # List all team members
-GET  /api/content/core-team/{id}      # Get team member details
+GET  /api/content/events
+GET  /api/content/events/{id}
+GET  /api/content/activity-events/{activityKey}
+GET  /api/content/core-team
+GET  /api/content/core-team/{id}
+POST /api/forms/membership
+POST /api/forms/recruitment
+POST /api/core-team/apply
 ```
 
-#### Forms
+<br/>
+
+### Admin Endpoints (Requires Authentication)
+
+<br/>
 
 ```
-POST /api/forms/membership            # Submit membership form
-POST /api/forms/recruitment           # Submit recruitment form
-POST /api/core-team/apply             # Submit core team application
+POST   /api/admin/events
+PUT    /api/admin/events/{id}
+DELETE /api/admin/events/{id}
+
+POST   /api/admin/core-team
+PUT    /api/admin/core-team/{id}
+DELETE /api/admin/core-team/{id}
+
+POST   /api/admin/login
+POST   /api/admin/logout
 ```
 
-### Protected Endpoints (Admin Auth Required)
-
-#### Events
-
-```
-POST   /api/admin/events              # Create new event
-PUT    /api/admin/events/{id}         # Update event
-DELETE /api/admin/events/{id}         # Delete event
-```
-
-#### Core Team
-
-```
-POST   /api/admin/core-team           # Create team member
-PUT    /api/admin/core-team/{id}      # Update team member
-DELETE /api/admin/core-team/{id}      # Delete team member
-```
+<br/>
 
 ---
+
+<br/>
 
 ## 🔐 Authentication
+
+<br/>
 
 ### Admin Login
 
 ```bash
 curl -X POST http://localhost:8080/api/admin/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"nexasphere@glbajajgroup.org","password":"Admin@123"}'
+  -d '{
+    "email":"nexasphere@glbajajgroup.org",
+    "password":"Admin@123"
+  }'
 ```
 
-Response includes JWT token for subsequent requests.
+<br/>
+
+### Response
+
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "expiresIn": 3600
+}
+```
+
+<br/>
 
 ### Using Token
 
@@ -288,76 +408,175 @@ curl -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   http://localhost:8080/api/admin/events
 ```
 
+<br/>
+
 ---
 
-## 🚢 Deployment
+<br/>
 
-### Railway
+## 📚 Database Setup
+
+<br/>
+
+### Development (H2)
+
+**Automatic Setup:**
+
+- ✓ Creates in-memory database on startup
+- ✓ Creates tables from JPA entities
+- ✓ Loads seed data from `data.sql`
+- ✓ No manual configuration needed
+
+<br/>
+
+### Production (PostgreSQL)
+
+<br/>
+
+**Step 1: Create Database**
 
 ```bash
-# Install Railway CLI
+createdb nexasphere
+```
+
+<br/>
+
+**Step 2: Configure Connection**
+
+Update `application.properties` with PostgreSQL credentials
+
+<br/>
+
+**Step 3: Initialize**
+
+Spring Boot auto-creates tables on startup via JPA
+
+<br/>
+
+---
+
+<br/>
+
+## 🚀 Deployment
+
+<br/>
+
+### Railway Deployment
+
+<br/>
+
+**1. Install Railway CLI**
+
+```bash
 npm i -g @railway/cli
+```
 
-# Login to Railway
+<br/>
+
+**2. Login & Deploy**
+
+```bash
 railway login
-
-# Initialize Railway project
 cd server-java
 railway init
-
-# Deploy
 railway up
 ```
 
-### Environment Variables (Production)
+<br/>
+
+**3. Set Environment Variables**
+
+In Railway Dashboard, add:
 
 ```
 ADMIN_EMAIL=nexasphere@glbajajgroup.org
 ADMIN_PASSWORD=Admin@123
-CORS_ORIGIN=https://nexasphere-glbajaj.vercel.app,https://admin-nexasphere.vercel.app
-DB_URL=jdbc:postgresql://[rail_host]:5432/railway
+CORS_ORIGIN=https://nexasphere-glbajaj.vercel.app
+DB_URL=jdbc:postgresql://[rail-host]:5432/railway
 DB_DRIVER=org.postgresql.Driver
 DB_USER=postgres
-DB_PASS=[from-railway]
+DB_PASS=[from-dashboard]
 ```
+
+<br/>
 
 ---
 
-## 📝 Troubleshooting
+<br/>
+
+## 🐛 Troubleshooting
+
+<br/>
 
 ### Build Issues
 
-**Problem:** `Maven command not found`
+<br/>
 
-- **Solution:** Install Maven and add to PATH
+**❌ Maven command not found**
 
-**Problem:** `Java 17 not found`
+```bash
+# Solution: Add Maven to PATH
+# Or use Maven wrapper
+./mvnw clean install
+```
 
-- **Solution:** Download Java 17+ from oracle.com or use OpenJDK
+<br/>
+
+**❌ Java 17 not found**
+
+```bash
+# Solution: Download Java 17+
+# Verify: java -version
+```
+
+<br/>
 
 ### Runtime Issues
 
-**Problem:** `Connection refused on port 8080`
+<br/>
 
-- **Solution:** Check if port 8080 is already in use; change in `application.properties`
+**❌ Connection refused on port 8080**
 
-**Problem:** `H2 console not accessible`
+```bash
+# Solution: Port already in use
+# Change port in application.properties
+server.port=9090
+```
 
-- **Solution:** Enable H2 console in `application.properties`:
-  ```
-  spring.h2.console.enabled=true
-  ```
+<br/>
 
-### Database Issues
+**❌ Database connection failed**
 
-**Problem:** `PostgreSQL connection failed`
+```bash
+# Solution: Verify PostgreSQL is running
+# Check credentials in application.properties
+```
 
-- **Solution:** Verify PostgreSQL is running and credentials are correct
+<br/>
 
 ---
 
-## 📚 Additional Resources
+<br/>
 
-- [Spring Boot Documentation](https://spring.io/projects/spring-boot)
-- [Maven Guide](https://maven.apache.org/guides/)
-- [PostgreSQL Documentation](https://www.postgresql.org/docs/)
+## 📖 Additional Resources
+
+<br/>
+
+- **[Spring Boot Docs](https://spring.io/projects/spring-boot)**
+- **[Maven Guide](https://maven.apache.org/guides/)**
+- **[PostgreSQL Docs](https://www.postgresql.org/docs/)**
+- **[JPA/Hibernate](https://hibernate.org/)**
+
+<br/>
+
+---
+
+<br/>
+
+<div align="center">
+
+### Questions? 📧 Contact nexasphere@glbajajgroup.org
+
+**Backend Version:** 1.0 | **Last Updated:** May 2026
+
+</div>
