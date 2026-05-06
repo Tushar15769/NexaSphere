@@ -8,8 +8,8 @@ A modern, animated single-page React application for NexaSphere, the official st
 
 | Environment | URL |
 |-------------|-----|
-| **Production** | [nexasphere.vercel.app](https://nexasphere.vercel.app) |
-| **GitHub Pages** | [ayushh-sharmaa.github.io/NexaSphere-NSOC](https://ayushh-sharmaa.github.io/NexaSphere-NSOC) |
+| **Production** |  |
+| **GitHub Pages** |  |
 
 ---
 
