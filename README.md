@@ -16,7 +16,7 @@
 
 | Resource               | Link                                                                           |
 | ---------------------- | ------------------------------------------------------------------------------ |
-| 🌐 **Live Website**    | [[https://nexasphere-glbajaj.vercel.app]([https://nexa-sphere-sigma.vercel.app/)]|
+| 🌐 **Live Website**    | [[https://nexasphere-glbajaj.vercel.app]([https://nexa-sphere-sigma.vercel.app/)|
 | 🔑 **Admin Dashboard** | [https://admin-nexasphere.vercel.app](https://admin-nexasphere.vercel.app)     |
 | 📧 **Contact**         | nexasphere@glbajajgroup.org                                                    |
 | 💼 **Institution**     | GL Bajaj Group of Institutions, Mathura                                        |
