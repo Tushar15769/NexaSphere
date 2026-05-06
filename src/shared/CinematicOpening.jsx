@@ -99,10 +99,11 @@ function IntroContent({ phase, count, tagline, accent, accent2, muted, grad, bg,
         )}
       </div>
       <div style={{
-        fontFamily:"'Space Mono',monospace", fontSize:'.65rem',
-        letterSpacing:'.28em', textTransform:'uppercase', color:muted,
+        fontFamily:"'Space Mono',monospace", fontSize:'.72rem',
+        letterSpacing:'.22em', textTransform:'uppercase', color:muted,
         opacity:tagline?1:0, transform:tagline?'none':'translateY(10px)',
         transition:'all .55s ease', marginBottom:'4px',
+        textShadow: isL ? 'none' : '0 0 12px rgba(255,255,255,.15)',
       }}>
         GL Bajaj Group of Institutions · Mathura
       </div>
@@ -148,7 +149,7 @@ export default function CinematicOpening({ onDone, theme = 'dark' }) {
   const bg      = isL ? '#FFFFFF' : '#0A0A0A';
   const accent  = isL ? '#CC1111' : '#CC1111';
   const accent2 = isL ? '#880000' : '#880000';
-  const muted   = isL ? '#8A8A8A' : '#606060';
+  const muted   = isL ? '#7A7A7A' : '#BEBEBE';
   const grad    = isL
     ? 'linear-gradient(135deg,#CC1111 0%,#880000 50%,#EE2222 100%)'
     : 'linear-gradient(135deg,#EE2222 0%,#CC1111 50%,#FF4444 100%)';
