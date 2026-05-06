@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { IconArrowLeft, IconArrowRight, IconBolt, IconShieldCheck, IconSpark, IconUsers } from '../../shared/Icons';
 
-/* ── Roles & Responsibilities slide-over modal ─────────────────────────── */
+/* â”€â”€ Roles & Responsibilities slide-over modal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function RolesGuideModal({ onClose }) {
   useEffect(() => {
     const prev = document.body.style.overflow;
@@ -42,7 +42,7 @@ function RolesGuideModal({ onClose }) {
 
   return (
     <>
-      {/* Backdrop */}
+      
       <div
         onClick={onClose}
         style={{
@@ -50,7 +50,7 @@ function RolesGuideModal({ onClose }) {
           background: 'rgba(0,0,0,.65)', backdropFilter: 'blur(4px)',
         }}
       />
-      {/* Panel */}
+      
       <div style={{
         position: 'fixed', top: 0, right: 0, bottom: 0, zIndex: 99999,
         width: 'min(680px, 96vw)',
@@ -67,7 +67,7 @@ function RolesGuideModal({ onClose }) {
           }
         `}</style>
 
-        {/* Header */}
+        
         <div style={{
           padding: '20px 24px', borderBottom: '1px solid var(--bdr)',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -76,10 +76,10 @@ function RolesGuideModal({ onClose }) {
         }}>
           <div>
             <div style={{ fontFamily: 'Orbitron,monospace', fontSize: '.95rem', fontWeight: 700, color: 'var(--t1)' }}>
-              🎯 Core Team Structure & Roles
+              ðŸŽ¯ Core Team Structure & Roles
             </div>
             <div style={{ fontSize: '.78rem', color: 'var(--t3)', marginTop: 4 }}>
-              NexaSphere — GL Bajaj Group of Institutions · Last Updated: 25/01/2026
+              NexaSphere â€” GL Bajaj Group of Institutions Â· Last Updated: 25/01/2026
             </div>
           </div>
           <button
@@ -91,10 +91,10 @@ function RolesGuideModal({ onClose }) {
               color: 'var(--t1)', fontSize: '1.1rem', display: 'flex',
               alignItems: 'center', justifyContent: 'center', flexShrink: 0,
             }}
-          >✕</button>
+          >âœ•</button>
         </div>
 
-        {/* Scrollable content */}
+        
         <div style={{ flex: 1, overflowY: 'auto', padding: '24px', scrollbarWidth: 'thin' }}>
           <p style={{ color: 'var(--t2)', fontSize: '.88rem', lineHeight: 1.7, marginBottom: 24 }}>
             NexaSphere operates through a structured, responsibility-driven Core Team where every role has defined authority, accountability, and execution ownership.
@@ -180,19 +180,19 @@ function RolesGuideModal({ onClose }) {
               'Design two certificates per event (Top 3 Performer + Participation)',
               'Provide official certificates to Core Team members for events they organised',
             ])}
-            {role('🎓', 'Community & Outreach Lead', null, [
+            {role('🌍', 'Community & Outreach Lead', null, [
               'Manage onboarding and build partnerships',
               'Drive engagement initiatives',
               'Represent student voice',
             ])}
-            {role('👥', 'Volunteers & Coordinators', null, [
+            {role('🙋', 'Volunteers & Coordinators', null, [
               'Support event execution and handle registrations',
               'Assist participants and provide technical/logistical support',
             ])}
           </>)}
         </div>
 
-        {/* Footer */}
+        
         <div style={{
           padding: '14px 24px', borderTop: '1px solid var(--bdr)',
           display: 'flex', justifyContent: 'flex-end', flexShrink: 0,
@@ -358,7 +358,7 @@ function MultiSelectChips({ options, values, onToggle }) {
               fontSize: '.82rem',
             }}
           >
-            {active ? '✓ ' : ''}{opt}
+            {active ? 'âœ“ ' : ''}{opt}
           </button>
         );
       })}
@@ -377,15 +377,15 @@ const BRANCH_OPTIONS = [
 ];
 
 export default function RecruitmentPage({ onBack }) {
-  const [step, setStep] = useState(0); // 0..6
+  const [step, setStep] = useState(0); 
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState(false);
   const [alreadySubmitted, setAlreadySubmitted] = useState(false);
   const [err, setErr] = useState('');
-  const [showRoles, setShowRoles] = useState(false); // lifted out of useMemo to obey Rules of Hooks
+  const [showRoles, setShowRoles] = useState(false); 
   const topRef = useRef(null);
 
-  // Check on mount if this device already submitted
+  
   useEffect(() => {
     try {
       const submitted = JSON.parse(localStorage.getItem('ns_submitted_emails') || '[]');
@@ -430,12 +430,12 @@ export default function RecruitmentPage({ onBack }) {
   const steps = useMemo(() => ([
     {
       title: 'About NexaSphere',
-      subtitle: 'NexaSphere Core Team Recruitment — 2026',
+      subtitle: 'NexaSphere Core Team Recruitment â€” 2026',
       icon: <IconBolt style={{ width: 18, height: 18 }} />,
       requiredKeys: [],
       render: () => (
         <div style={{ display: 'grid', gap: 18 }}>
-          {/* One-time fill warning */}
+          
           <div style={{
             background: 'rgba(255,180,0,.08)',
             border: '1px solid rgba(255,180,0,.32)',
@@ -443,13 +443,13 @@ export default function RecruitmentPage({ onBack }) {
             padding: '14px 18px',
             display: 'flex', alignItems: 'flex-start', gap: 12,
           }}>
-            <span style={{ fontSize: '1.4rem', flexShrink: 0 }}>⚠️</span>
+            <span style={{ fontSize: '1.4rem', flexShrink: 0 }}>âš ï¸</span>
             <div style={{ lineHeight: 1.75 }}>
               <div style={{
                 fontFamily: 'Orbitron,monospace', fontSize: '.75rem',
                 letterSpacing: '.1em', color: 'var(--t1)', marginBottom: 6, textTransform: 'uppercase',
               }}>
-                Important — Read Before Proceeding
+                Important â€” Read Before Proceeding
               </div>
               <div style={{ fontSize: '.9rem', color: 'var(--t2)' }}>
                 This application form can be filled <b style={{ color: 'var(--t1)' }}>only once</b> per device.
@@ -461,7 +461,7 @@ export default function RecruitmentPage({ onBack }) {
           </div>
 
           <p style={{ color: 'var(--t2)' }}>
-            We are building the Core Team for <span className="grad-text" style={{ fontWeight: 700 }}>NexaSphere</span> — the central tech community
+            We are building the Core Team for <span className="grad-text" style={{ fontWeight: 700 }}>NexaSphere</span> â€” the central tech community
             that brings together GDG On Campus activities, cloud programs, workshops, hackathons, and multi-domain learning on campus.
           </p>
           <div style={{
@@ -482,7 +482,7 @@ export default function RecruitmentPage({ onBack }) {
               marginBottom: 10,
             }}>Important notes</div>
             <ul style={{ paddingLeft: 18, display: 'grid', gap: 8, color: 'var(--t2)' }}>
-              <li>By filling this form, you are committing <b>4–6 hours/week</b> to NexaSphere activities.</li>
+              <li>By filling this form, you are committing <b>4â€“6 hours/week</b> to NexaSphere activities.</li>
               <li>Attendance support will be provided for lectures missed due to officially approved events.</li>
               <li>Short test / trial activities may be conducted to evaluate credibility, consistency, and teamwork.</li>
               <li>Only serious, responsible, and committed students should apply.</li>
@@ -499,7 +499,7 @@ export default function RecruitmentPage({ onBack }) {
                 <IconBolt style={{ width: 34, height: 34 }} />
               </div>
               <div className="activity-title">Weekly Commitment</div>
-              <div className="activity-desc">4–6 hours, consistent.</div>
+              <div className="activity-desc">4â€“6 hours, consistent.</div>
             </div>
             <div className="activity-card" style={{ cursor: 'default' }}>
               <div className="card-accent-line"/>
@@ -532,7 +532,7 @@ export default function RecruitmentPage({ onBack }) {
             <Input
               value={form.fullName}
               onChange={v => {
-                // Letters, spaces, dots, hyphens only — no numbers or symbols
+                
                 const cleaned = v.replace(/[^a-zA-Z\s.\-']/g, '');
                 setForm(f => ({ ...f, fullName: cleaned }));
               }}
@@ -553,7 +553,7 @@ export default function RecruitmentPage({ onBack }) {
             <Input
               value={form.whatsapp}
               onChange={v => {
-                // Strip everything except digits, cap at 10
+                
                 const cleaned = String(v || '').replace(/[^\d]/g, '').slice(0, 10);
                 setForm(f => ({ ...f, whatsapp: cleaned }));
               }}
@@ -590,7 +590,7 @@ export default function RecruitmentPage({ onBack }) {
                     cursor: 'pointer',
                     appearance: 'none',
                     WebkitAppearance: 'none',
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2300d4ff' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")`,
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23CC1111' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")`,
                     backgroundRepeat: 'no-repeat',
                     backgroundPosition: 'right 14px center',
                     paddingRight: '36px',
@@ -632,7 +632,7 @@ export default function RecruitmentPage({ onBack }) {
                     cursor: 'pointer',
                     appearance: 'none',
                     WebkitAppearance: 'none',
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2300d4ff' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")`,
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23CC1111' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")`,
                     backgroundRepeat: 'no-repeat',
                     backgroundPosition: 'right 14px center',
                     paddingRight: '36px',
@@ -681,7 +681,7 @@ export default function RecruitmentPage({ onBack }) {
                   className="btn btn-outline btn-sm"
                   style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
                 >
-                  🔎 View Roles & Responsibilities
+                  ðŸ”Ž View Roles & Responsibilities
                 </button>
               </div>
             </div>
@@ -721,7 +721,7 @@ export default function RecruitmentPage({ onBack }) {
             <TextArea
               value={form.skills}
               onChange={v => setForm(f => ({ ...f, skills: v }))}
-              placeholder={'Example:\nPython – Intermediate\nJava – Beginner\nHTML – Advanced\nKotlin – Beginner'}
+              placeholder={'Example:\nPython â€“ Intermediate\nJava â€“ Beginner\nHTML â€“ Advanced\nKotlin â€“ Beginner'}
               rows={6}
             />
           </Field>
@@ -734,7 +734,7 @@ export default function RecruitmentPage({ onBack }) {
             <TextArea
               value={form.comms}
               onChange={v => setForm(f => ({ ...f, comms: v }))}
-              placeholder={'Example:\nEnglish – Basic\nHindi – Fluent\nBoth – Moderate'}
+              placeholder={'Example:\nEnglish â€“ Basic\nHindi â€“ Fluent\nBoth â€“ Moderate'}
               rows={4}
             />
           </Field>
@@ -752,7 +752,7 @@ export default function RecruitmentPage({ onBack }) {
               <Input
                 value={form.campusExpDetails}
                 onChange={v => setForm(f => ({ ...f, campusExpDetails: v }))}
-                placeholder="e.g. Leo Club – Event Coordinator"
+                placeholder="e.g. Leo Club â€“ Event Coordinator"
                 maxLength={100}
               />
             </Field>
@@ -762,8 +762,8 @@ export default function RecruitmentPage({ onBack }) {
             <Input
               value={form.links}
               onChange={v => {
-                // Only allow valid GitHub profile URL characters while typing
-                // Strip spaces automatically
+                
+                
                 setForm(f => ({ ...f, links: v.replace(/\s/g, '') }));
               }}
               placeholder="https://github.com/YourUsername"
@@ -785,7 +785,7 @@ export default function RecruitmentPage({ onBack }) {
       requiredKeys: ['commitHours', 'attendCampus', 'assessmentOk'],
       render: () => (
         <div style={{ display: 'grid', gap: 18 }}>
-          <Field label="Are you willing to commit 4–6 hours per week consistently?" required>
+          <Field label="Are you willing to commit 4â€“6 hours per week consistently?" required>
             <PillRadio options={COMMIT_OPTIONS} value={form.commitHours} onChange={v => setForm(f => ({ ...f, commitHours: v }))} />
           </Field>
           <Field label="Are you comfortable attending meetings, events, and sessions on campus?" required>
@@ -808,7 +808,7 @@ export default function RecruitmentPage({ onBack }) {
             <TextArea
               value={form.whyJoin}
               onChange={v => setForm(f => ({ ...f, whyJoin: v }))}
-              placeholder="Share your motivation, what you’ll bring, and what you want to learn."
+              placeholder="Share your motivation, what youâ€™ll bring, and what you want to learn."
               rows={6}
             />
           </Field>
@@ -834,7 +834,7 @@ export default function RecruitmentPage({ onBack }) {
             <div style={{ display: 'grid', gap: 10 }}>
               {[
                 { k: 'truth', label: 'I confirm that all details provided are true.' },
-                { k: 'time', label: 'I understand the time commitment (4–6 hours/week).' },
+                { k: 'time', label: 'I understand the time commitment (4â€“6 hours/week).' },
                 { k: 'participate', label: 'I agree to participate in test sessions and team activities.' },
                 { k: 'disagree', label: 'I do not agree to the above declaration.' },
               ].map(opt => {
@@ -879,7 +879,7 @@ export default function RecruitmentPage({ onBack }) {
                         color: active ? 'var(--c1)' : 'transparent',
                         fontSize: '.8rem',
                       }}>
-                        ✓
+                        âœ“
                       </span>
                       <span style={{ fontSize: '.98rem', fontWeight: 600 }}>{opt.label}</span>
                     </div>
@@ -912,24 +912,24 @@ export default function RecruitmentPage({ onBack }) {
         missing.push(k);
       }
     }
-    // Extra manual checks for 'Other' fields
+    
     if (step === 1 && form.branch === 'Other' && !String(form.branchOther || '').trim()) missing.push('branchOther');
     if (step === 1 && form.section === 'Other' && !String(form.sectionOther || '').trim()) missing.push('sectionOther');
 
-    // Extra validation rules (cannot be bypassed by just typing anything)
+    
     const email = String(form.collegeEmail || '').trim().toLowerCase();
     if (step === 1 && email && !email.endsWith('@glbajajgroup.org')) missing.push('collegeEmail');
     const phone = String(form.whatsapp || '').trim();
     if (step === 1 && phone && !/^\d{10}$/.test(phone)) missing.push('whatsapp');
-    // GitHub URL validation (optional field — only validate format if something is entered)
+    
     const githubUrl = String(form.links || '').trim();
     if (step === 3 && githubUrl) {
-      // Must match https://github.com/username or https://github.com/username/
+      
       const githubPattern = /^https:\/\/github\.com\/[a-zA-Z0-9][a-zA-Z0-9\-]{0,37}\/?$/;
       if (!githubPattern.test(githubUrl)) missing.push('links');
     }
     if (step === 3 && form.campusExp === 'Yes' && !String(form.campusExpDetails || '').trim()) {
-      // Not required in the original form, but it’s useful when they select Yes.
+      
     }
     return missing;
   }, [current.requiredKeys, form, step]);
@@ -946,7 +946,7 @@ export default function RecruitmentPage({ onBack }) {
     try {
       const payload = {
         ...form,
-        // If 'Other' was selected, use the custom text; otherwise use the selected option
+        
         branch: form.branch === 'Other' ? (form.branchOther || 'Other') : form.branch,
         section: form.section === 'Other' ? (form.sectionOther || 'Other') : form.section,
         interests: Array.isArray(form.interests) ? form.interests.join(', ') : '',
@@ -956,7 +956,7 @@ export default function RecruitmentPage({ onBack }) {
         userAgent: navigator.userAgent,
       };
 
-      // Block duplicate email submissions
+      
       const emailKey = String(form.collegeEmail || '').trim().toLowerCase();
       try {
         const existing = JSON.parse(localStorage.getItem('ns_submitted_emails') || '[]');
@@ -1108,7 +1108,7 @@ export default function RecruitmentPage({ onBack }) {
           lineHeight: 1.75,
           animationDelay: '.12s',
         }}>
-          A 7-step application process. Complete all sections carefully — shortlisted candidates will be contacted for the next steps.
+          A 7-step application process. Complete all sections carefully â€” shortlisted candidates will be contacted for the next steps.
         </p>
         <div className="apply-divider" style={{ marginTop: 34, maxWidth: 780 }}/>
       </div>
@@ -1161,7 +1161,7 @@ export default function RecruitmentPage({ onBack }) {
                     ) : null}
                   </div>
                   <div style={{ color: 'var(--t2)', fontSize: '.9rem' }}>
-                    {done ? 'Thank you for applying to NexaSphere – GL Bajaj Group of Institutions' : current.subtitle}
+                    {done ? 'Thank you for applying to NexaSphere â€“ GL Bajaj Group of Institutions' : current.subtitle}
                   </div>
                 </div>
               </div>
@@ -1207,7 +1207,7 @@ export default function RecruitmentPage({ onBack }) {
                 padding: '20px 22px',
                 textAlign: 'center',
               }}>
-                <div style={{ fontSize: '1.4rem', marginBottom: 10 }}>⚠️</div>
+                <div style={{ fontSize: '1.4rem', marginBottom: 10 }}>âš ï¸</div>
                 <div style={{ color: 'var(--t1)', fontWeight: 700, fontSize: '1rem', marginBottom: 12 }}>Application Already Submitted</div>
                 <div style={{ color: 'var(--t2)', fontSize: '.88rem', lineHeight: 1.65, marginBottom: 24 }}>
                   An application form has already been submitted from this device.<br/>
@@ -1249,12 +1249,12 @@ export default function RecruitmentPage({ onBack }) {
                   textAlign: 'center',
                 }}>
                   <div className="corner-tl"/><div className="corner-br"/>
-                  <div style={{ fontSize: '2rem', marginBottom: 12 }}>✅</div>
+                  <div style={{ fontSize: '2rem', marginBottom: 12 }}>âœ…</div>
                   <div style={{ fontFamily: 'Orbitron,monospace', fontSize: '1rem', color: 'var(--t1)', fontWeight: 700, marginBottom: 12 }}>
                     Application Submitted Successfully
                   </div>
                   <p style={{ color: 'var(--t2)', lineHeight: 1.8, maxWidth: 520, margin: '0 auto' }}>
-                    Thank you for applying to the NexaSphere Core Team — GL Bajaj Group of Institutions.
+                    Thank you for applying to the NexaSphere Core Team â€” GL Bajaj Group of Institutions.
                     <br/><br/>
                     Your application has been recorded. Shortlisted candidates will be contacted regarding the next steps, which may include a short assessment or trial session.
                     <br/><br/>
@@ -1306,7 +1306,7 @@ export default function RecruitmentPage({ onBack }) {
                     onClick={() => {
                       setErr('');
                       if (step === 0) {
-                        // Go back to previous page
+                        
                         if (onBack) onBack();
                       } else {
                         setStep(s => clamp(s - 1, 0, steps.length - 1));
@@ -1357,7 +1357,7 @@ export default function RecruitmentPage({ onBack }) {
                         submit();
                       }}
                     >
-                      {busy ? 'Submitting…' : 'Submit Application'}
+                      {busy ? 'Submittingâ€¦' : 'Submit Application'}
                     </button>
                   )}
                 </div>
@@ -1382,3 +1382,5 @@ export default function RecruitmentPage({ onBack }) {
     </div>
   );
 }
+
+

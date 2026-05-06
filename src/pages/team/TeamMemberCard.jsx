@@ -36,3 +36,4 @@ export default function TeamMemberCard({ member, onClick, extraClass = '', style
     </div>
   );
 }
+
