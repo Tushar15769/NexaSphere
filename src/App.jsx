@@ -44,7 +44,7 @@ function Wipe({ on, ph }) {
   return (
     <>
       <div style={{position:'fixed',inset:0,zIndex:8000,background:'var(--bg)',animation:`${ph==='out'?'wipeDown .27s':'wipeUp .30s'} cubic-bezier(.77,0,.18,1) forwards`,pointerEvents:'all'}}/>
-      <div style={{position:'fixed',inset:0,zIndex:8001,background:'linear-gradient(90deg,var(--c1),var(--c2),var(--c3))',opacity:.07,animation:`${ph==='out'?'wipeDown .20s .04s':'wipeUp .24s .04s'} cubic-bezier(.77,0,.18,1) forwards`,pointerEvents:'none'}}/>
+      <div style={{position:'fixed',inset:0,zIndex:8001,background:'linear-gradient(90deg,#CC1111,#880000,#EE2222)',opacity:.09,animation:`${ph==='out'?'wipeDown .20s .04s':'wipeUp .24s .04s'} cubic-bezier(.77,0,.18,1) forwards`,pointerEvents:'none'}}/>
       {/* Enhanced shimmer sweep over wipe */}
       {ph==='out'&&<div className="wipe-shimmer" aria-hidden="true"/>}
       {/* Page flash glow on navigate */}
@@ -157,7 +157,7 @@ function Cursor() {
       <div ref={glowRef} style={{
         position:'fixed', pointerEvents:'none', zIndex:10000,
         width:'320px', height:'320px', borderRadius:'50%',
-        background:'radial-gradient(circle, rgba(0,212,255,.055) 0%, rgba(123,111,255,.03) 40%, transparent 70%)',
+        background:'radial-gradient(circle, rgba(204,17,17,.055) 0%, rgba(136,0,0,.03) 40%, transparent 70%)',
         transform:'translate(-50%,-50%)',
         transition:'opacity .3s',
       }}/>
@@ -166,7 +166,7 @@ function Cursor() {
       <div ref={trailRef} style={{
         position:'fixed', pointerEvents:'none', zIndex:10002,
         width:'28px', height:'28px', borderRadius:'50%',
-        background:'radial-gradient(circle, var(--c2) 0%, transparent 70%)',
+        background:'radial-gradient(circle, rgba(204,17,17,0.7) 0%, transparent 70%)',
         transform:'translate(-50%,-50%)',
         filter:'blur(6px)',
         transition:'opacity .25s',
@@ -176,8 +176,8 @@ function Cursor() {
       <div ref={orbRef} style={{
         position:'fixed', pointerEvents:'none', zIndex:10005,
         width:'18px', height:'18px', borderRadius:'50%',
-        background:'radial-gradient(circle at 35% 35%, #fff 0%, var(--c1) 40%, var(--c2) 100%)',
-        boxShadow:'0 0 10px var(--c1), 0 0 24px rgba(0,212,255,.5), 0 0 50px rgba(123,111,255,.2)',
+        background:'radial-gradient(circle at 35% 35%, #fff 0%, #CC1111 40%, #880000 100%)',
+        boxShadow:'0 0 10px rgba(204,17,17,.9), 0 0 24px rgba(204,17,17,.5), 0 0 50px rgba(136,0,0,.3)',
         transition:'transform .18s cubic-bezier(.34,1.56,.64,1), opacity .2s',
       }}>
         {/* Inner sparkle */}
@@ -402,7 +402,7 @@ export default function App() {
 
       {cinDone&&<GeometricGridBackground theme={theme} />}
       {cinDone&&<ParticleBackground theme={theme}/>}
-      {cinDone&&<Navbar activeTab={activeTab} onTabChange={onTab} onToggleTheme={toggleTheme}/>}
+      {cinDone&&<Navbar activeTab={activeTab} onTabChange={onTab} onToggleTheme={toggleTheme} theme={theme}/>}
 
       <main style={{paddingTop:nh,position:'relative',zIndex:1}}>
         {isAdminRoute && (

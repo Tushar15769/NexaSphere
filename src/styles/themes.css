@@ -1,36 +1,34 @@
 /* ═══════════════════════════════════════════════════════
    NEXASPHERE — BRAND THEME SYSTEM v9
-   New brand identity: Red gradient palette
+   Brand palette: Rich wine-red from NS logo
+   Primary: #CC1111 → #880000 (pure metallic red)
    Dark mode (default) · Light mode (opt-in)
    ═══════════════════════════════════════════════════════ */
 
-/* ── BRAND COLOR PRIMITIVES (global constants) ────────── */
+/* ── BRAND COLOR PRIMITIVES ──────────────────────────── */
 :root {
-  /* Core Brand Reds */
-  --brand-red-primary:  #E63946;
-  --brand-red-dark:     #B71C1C;
-  --brand-red-light:    #FF5A5F;
-  --brand-red-xlight:   #FF6B6B;
-  --brand-red-pale:     #FFB4B4;
-  --brand-red-deep:     #8B0000;
-  --brand-red-mid:      #C41E3A;
-  --brand-red-accent:   #FF8787;
+  /* Core Brand Reds — extracted from NS logo */
+  --brand-red-primary: #CC1111;   /* main mid-red */
+  --brand-red-bright:  #EE2222;   /* highlight/top shine */
+  --brand-red-dark:    #880000;   /* wine/shadow */
+  --brand-red-light:   #FF4444;   /* hover / lighter accent */
+  --brand-red-deep:    #660000;   /* very deep wine */
 
-  /* Logo / Hero Gradients */
-  --gradient-logo:   linear-gradient(135deg, #E63946 0%, #B71C1C 100%);
-  --gradient-hero:   linear-gradient(135deg, #E63946 0%, #8B0000 50%, #000000 100%);
-  --gradient-glow:   linear-gradient(135deg,
-                       rgba(230,57,70,0.2) 0%,
-                       rgba(183,28,28,0.4) 50%,
-                       rgba(0,0,0,0.8)    100%);
+  /* Logo Gradients */
+  --gradient-logo:  linear-gradient(135deg, #EE2222 0%, #880000 100%);
+  --gradient-hero:  linear-gradient(135deg, #EE2222 0%, #880000 50%, #0A0A0A 100%);
+  --gradient-glow:  linear-gradient(135deg,
+                      rgba(204,17,17,0.22) 0%,
+                      rgba(136,0,0,0.4)   50%,
+                      rgba(0,0,0,0.8)     100%);
 
   /* Semantic colours */
   --semantic-success: #4CAF50;
   --semantic-warning: #FFC107;
-  --semantic-error:   #E63946;
+  --semantic-error:   #CC1111;
   --semantic-info:    #2196F3;
 
-  /* Border radii — unchanged from v8 */
+  /* Border radii */
   --r1: 8px; --r2: 14px; --r3: 22px; --r4: 32px;
 
   /* Navbar heights */
@@ -41,64 +39,64 @@
 /* ── DARK MODE (default) ──────────────────────────────── */
 :root,
 :root[data-theme="dark"] {
-  /* Backgrounds */
+  /* Backgrounds — near-black brand dark */
   --bg:    #0A0A0A;
-  --bg2:   #1A1A1A;
-  --card:  #1E1E1E;
-  --card2: #242424;
-  --card-hover: #282828;
+  --bg2:   #141414;
+  --card:  #1A1A1A;
+  --card2: #222222;
+  --card-hover: #262626;
 
-  /* Brand accent (red) */
-  --c1:  #E63946;
-  --c2:  #FF5A5F;
-  --c3:  #FF6B6B;
-  --c4:  #B71C1C;
-  --c5:  #4CAF50;   /* success green */
+  /* Brand accent (rich red) */
+  --c1:  #CC1111;   /* primary brand red */
+  --c2:  #EE2222;   /* bright highlight red */
+  --c3:  #FF4444;   /* lighter accent */
+  --c4:  #880000;   /* wine/dark red */
+  --c5:  #4CAF50;   /* success green only */
 
   /* Transparent accents */
-  --c1a: rgba(230, 57, 70, 0.08);
-  --c1b: rgba(230, 57, 70, 0.22);
-  --c1g: rgba(230, 57, 70, 0.42);
-  --c2a: rgba(255, 90, 95, 0.08);
-  --c2b: rgba(255, 90, 95, 0.22);
+  --c1a: rgba(204, 17, 17, 0.09);
+  --c1b: rgba(204, 17, 17, 0.24);
+  --c1g: rgba(204, 17, 17, 0.42);
+  --c2a: rgba(238, 34, 34, 0.09);
+  --c2b: rgba(238, 34, 34, 0.24);
 
   /* Text */
-  --t1: #FFFFFF;
-  --t2: #B0B0B0;
-  --t3: #6B6B6B;
+  --t1: #F0F0F0;
+  --t2: #A8A8A8;
+  --t3: #606060;
 
   /* Borders */
-  --bdr:  rgba(230, 57, 70, 0.12);
-  --bdr2: rgba(230, 57, 70, 0.26);
+  --bdr:  rgba(204, 17, 17, 0.14);
+  --bdr2: rgba(204, 17, 17, 0.28);
 
   /* Shadows */
-  --sh1:    0 0 28px rgba(230, 57, 70, 0.22), 0 0 70px rgba(230, 57, 70, 0.05);
-  --sh2:    0 0 28px rgba(183, 28, 28, 0.22), 0 0 70px rgba(183, 28, 28, 0.05);
+  --sh1:    0 0 28px rgba(204, 17, 17, 0.25), 0 0 70px rgba(204, 17, 17, 0.06);
+  --sh2:    0 0 28px rgba(136,  0,  0, 0.22), 0 0 70px rgba(136,  0,  0, 0.05);
   --shcard: 0 12px 48px rgba(0, 0, 0, 0.65);
 }
 
 /* ── LIGHT MODE ───────────────────────────────────────── */
 [data-theme="light"] {
-  /* Backgrounds */
+  /* Backgrounds — clean whites */
   --bg:    #FFFFFF;
   --bg2:   #F5F5F5;
   --card:  #FFFFFF;
-  --card2: #E8E8E8;
+  --card2: #EDEDED;
   --card-hover: #F9F9F9;
 
-  /* Brand accent (red — slightly toned for light bg) */
-  --c1:  #E63946;
-  --c2:  #C41E3A;
-  --c3:  #FF5A5F;
-  --c4:  #8B0000;
-  --c5:  #2e7d32;  /* success green */
+  /* Brand accent stays brand red — slightly deepened for contrast */
+  --c1:  #BB0F0F;   /* slightly darker for legibility on white */
+  --c2:  #DD2020;
+  --c3:  #FF4444;
+  --c4:  #880000;
+  --c5:  #2e7d32;
 
   /* Transparent accents */
-  --c1a: rgba(230, 57, 70, 0.07);
-  --c1b: rgba(230, 57, 70, 0.18);
-  --c1g: rgba(230, 57, 70, 0.30);
-  --c2a: rgba(196, 30, 58, 0.07);
-  --c2b: rgba(196, 30, 58, 0.18);
+  --c1a: rgba(187, 15, 15, 0.07);
+  --c1b: rgba(187, 15, 15, 0.18);
+  --c1g: rgba(187, 15, 15, 0.28);
+  --c2a: rgba(221, 32, 32, 0.07);
+  --c2b: rgba(221, 32, 32, 0.18);
 
   /* Text */
   --t1: #1A1A1A;
@@ -106,44 +104,33 @@
   --t3: #8A8A8A;
 
   /* Borders */
-  --bdr:  rgba(230, 57, 70, 0.10);
-  --bdr2: rgba(230, 57, 70, 0.20);
+  --bdr:  rgba(187, 15, 15, 0.12);
+  --bdr2: rgba(187, 15, 15, 0.22);
 
   /* Shadows */
   --sh1:    0 2px 16px rgba(0, 0, 0, 0.09), 0 1px 4px rgba(0, 0, 0, 0.05);
-  --sh2:    0 4px 20px rgba(230, 57, 70, 0.12), 0 1px 4px rgba(0, 0, 0, 0.05);
+  --sh2:    0 4px 20px rgba(187, 15, 15, 0.14), 0 1px 4px rgba(0, 0, 0, 0.05);
   --shcard: 0 4px 24px rgba(0, 0, 0, 0.09), 0 1px 4px rgba(0, 0, 0, 0.04);
 }
 
 /* ── SMOOTH THEME TRANSITION ──────────────────────────── */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html {
   transition:
-    background-color .45s cubic-bezier(.4, 0, .2, 1),
-    color            .35s cubic-bezier(.4, 0, .2, 1);
+    background-color .45s cubic-bezier(.4,0,.2,1),
+    color            .35s cubic-bezier(.4,0,.2,1);
 }
 
 body,
-.ns-navbar,
-.ns-navbar-mobile,
-.activity-card,
-.team-card,
-.timeline-card,
-.about-card-inner,
-.modal-box,
-.ns-footer,
+.ns-navbar, .ns-navbar-mobile,
+.activity-card, .team-card, .timeline-card,
+.about-card-inner, .modal-box, .ns-footer,
 #back-to-top {
   transition:
-    background-color .42s cubic-bezier(.4, 0, .2, 1),
-    border-color     .38s cubic-bezier(.4, 0, .2, 1),
-    color            .30s cubic-bezier(.4, 0, .2, 1),
+    background-color .42s cubic-bezier(.4,0,.2,1),
+    border-color     .38s cubic-bezier(.4,0,.2,1),
+    color            .30s cubic-bezier(.4,0,.2,1),
     box-shadow       .30s ease !important;
 }
 
