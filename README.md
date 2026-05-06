@@ -704,7 +704,7 @@ All rights reserved. Not for external distribution.
   </tr>
   <tr>
     <td>🌐 Website</td>
-    <td>https://nexasphere-glbajaj.vercel.app</td>
+    <td>https://nexa-sphere-sigma.vercel.app</td>
   </tr>
   <tr>
     <td>👨‍💼 Admin Panel</td>
