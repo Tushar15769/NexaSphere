@@ -1,4 +1,4 @@
-﻿@keyframes ambientDrift {
+@keyframes ambientDrift {
   0%,100% { transform: scale(1)   translate(0,    0);    opacity: var(--orb-lo,.12); }
   33%     { transform: scale(1.15) translate(25px,-18px); opacity: var(--orb-hi,.22); }
   66%     { transform: scale(0.9)  translate(-18px,14px); opacity: var(--orb-lo,.12); }

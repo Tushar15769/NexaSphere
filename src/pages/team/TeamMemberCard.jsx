@@ -1,4 +1,4 @@
-﻿import { useRef } from 'react';
+import { useRef } from 'react';
 
 export default function TeamMemberCard({ member, onClick, extraClass = '', style={} }) {
   const ref = useRef(null);

@@ -1,4 +1,4 @@
-﻿import { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 const API_BASE = (import.meta.env?.VITE_API_BASE || '').replace(/\/+$/, '');
 const api = (path) => API_BASE ? `${API_BASE}${path}` : path;

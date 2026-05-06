@@ -1,4 +1,4 @@
-﻿import nexasphereLogo from '../assets/images/logos/nexasphere-logo.png';
+import nexasphereLogo from '../assets/images/logos/nexasphere-logo.png';
 import glbajajLogo    from '../assets/images/logos/glbajaj-logo.png';
 
 const NEXASPHERE_EMAIL = 'nexasphere@glbajajgroup.org';

@@ -1,4 +1,4 @@
-﻿[data-theme="dark"] body::before,
+[data-theme="dark"] body::before,
 :not([data-theme]) body::before {
   content: '';
   position: fixed;

@@ -1,4 +1,4 @@
-﻿// â”€â”€ Hackathon Activity Data â”€â”€
+// â”€â”€ Hackathon Activity Data â”€â”€
 // To add a new conducted event: copy a block from conductedEvents and fill in details.
 // To add an upcoming event: copy a block from upcomingEvents and fill in details.
 
