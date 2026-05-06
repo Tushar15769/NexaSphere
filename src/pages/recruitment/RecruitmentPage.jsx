@@ -101,91 +101,91 @@ function RolesGuideModal({ onClose }) {
             All roles function under NexaSphere governance and college approval where applicable.
           </p>
 
-          {sec('ðŸ§ ', '1. Technical Leadership Team', <>
-            {role('ðŸ”¹', 'Technical Lead (Overall)', 'Cloud, AI/ML, Android, Web, Cybersecurity', [
+          {sec('🧠', '1. Technical Leadership Team', <>
+            {role('🔹', 'Technical Lead (Overall)', 'Cloud, AI/ML, Android, Web, Cybersecurity', [
               'Maintain overall technical quality across all NexaSphere initiatives',
               'Guide and mentor all Domain Leads',
               'Review and approve session content, workshop plans, and project roadmaps',
               'Ensure learning remains hands-on, practical, and industry-aligned',
               'Act as the final technical decision-maker',
             ])}
-            {role('ðŸ”¹', 'Domain Lead', 'One specific domain', [
+            {role('🔹', 'Domain Lead', 'One specific domain', [
               'Plan and conduct domain-specific sessions & workshops',
               'Lead hands-on projects and mentor members in their domain',
               'Stay updated with tools and trends',
               'Align activities with Technical Lead\'s roadmap',
             ])}
-            {role('â˜ï¸', 'Cloud Lead', 'Google Cloud, Firebase, DevOps, AWS', [
+            {role('☁️', 'Cloud Lead', 'Google Cloud, Firebase, DevOps, AWS', [
               'Conduct Cloud study jams & labs',
               'Organize certification prep sessions',
               'Manage demo environments and guide cloud-based projects',
             ])}
-            {role('ðŸ¤–', 'AI / ML Lead', 'AI, ML, Generative AI', [
+            {role('🤖', 'AI / ML Lead', 'AI, ML, Generative AI', [
               'Design structured AI/ML learning paths',
               'Conduct workshops with live demos',
               'Mentor AI projects and promote responsible AI practices',
             ])}
-            {role('ðŸ“±', 'Android Lead', 'Android, Kotlin, Jetpack', [
+            {role('📱', 'Android Lead', 'Android, Kotlin, Jetpack', [
               'Conduct Android workshops and run live coding sessions',
               'Mentor mobile app projects',
               'Support hackathons (mobile tech)',
             ])}
-            {role('ðŸŒ', 'Web / Full-Stack Lead', 'Frontend, Backend, MERN', [
+            {role('🌐', 'Web / Full-Stack Lead', 'Frontend, Backend, MERN', [
               'Deliver web workshops and guide full-stack learning paths',
               'Maintain GitHub repositories',
               'Provide technical support in events',
             ])}
-            {role('ðŸ”', 'Cybersecurity Lead', 'Cybersecurity, Ethical Hacking', [
+            {role('🔐', 'Cybersecurity Lead', 'Cybersecurity, Ethical Hacking', [
               'Conduct security awareness sessions',
               'Organize CTF workshops',
               'Teach secure coding fundamentals',
             ])}
           </>)}
 
-          {sec('ðŸŽ¨', '2. Product & Creative Team', <>
-            {role('ðŸŽ¨', 'UI/UX Lead', null, [
+          {sec('🎨', '2. Product & Creative Team', <>
+            {role('🎨', 'UI/UX Lead', null, [
               'Conduct design workshops',
               'Promote user-centric thinking',
               'Collaborate with tech teams',
             ])}
-            {role('ðŸ§©', 'Product Management Lead', null, [
+            {role('🧩', 'Product Management Lead', null, [
               'Bridge tech and user needs',
               'Guide MVP development',
               'Support hackathons with product strategy',
             ])}
-            {role('ðŸŽ¥', 'Media & Design Lead', null, [
+            {role('🎥', 'Media & Design Lead', null, [
               'Design posters & certificates',
               'Handle photography & reels',
               'Maintain NexaSphere brand consistency',
             ])}
           </>)}
 
-          {sec('ðŸ“‹', '3. Operations & Management Team', <>
-            {role('ðŸ“…', 'Event Management Lead', null, [
+          {sec('📋', '3. Operations & Management Team', <>
+            {role('📅', 'Event Management Lead', null, [
               'Plan and execute events end-to-end',
               'Manage timelines & logistics',
               'Coordinate across teams',
             ])}
-            {role('ðŸ“…', 'Event Management Co-Lead', null, [
+            {role('📅', 'Event Management Co-Lead', null, [
               'Assist in execution and handle on-ground coordination',
               'Manage contingencies',
             ])}
-            {role('ðŸ“¢', 'Marketing & Social Media Lead', null, [
+            {role('📢', 'Marketing & Social Media Lead', null, [
               'Promote initiatives and manage official platforms',
               'Increase reach & engagement',
             ])}
-            {role('âœï¸', 'Content & Documentation Lead', null, [
+            {role('✍️', 'Content & Documentation Lead', null, [
               'Write event reports & announcements',
               'Maintain internal documentation and collect feedback',
               'Design two certificates per event (Top 3 Performer + Participation)',
               'Provide official certificates to Core Team members for events they organised',
             ])}
-            {role('ðŸŽ“', 'Community & Outreach Lead', null, [
+            {role('🌍', 'Community & Outreach Lead', null, [
               'Manage onboarding and build partnerships',
               'Drive engagement initiatives',
               'Represent student voice',
             ])}
-            {role('ðŸ‘¥', 'Volunteers & Coordinators', null, [
+            {role('🙋', 'Volunteers & Coordinators', null, [
               'Support event execution and handle registrations',
               'Assist participants and provide technical/logistical support',
             ])}

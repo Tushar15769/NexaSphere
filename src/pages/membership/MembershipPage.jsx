@@ -380,14 +380,14 @@ export default function MembershipPage({ onBack }) {
             gap: 10,
           }}>
             {[
-              { icon: 'ðŸ”', label: 'Cybersecurity' },
-              { icon: 'ðŸ¤–', label: 'AI / Machine Learning' },
-              { icon: 'ðŸŒ', label: 'Web Development' },
-              { icon: 'â˜ï¸', label: 'Cloud & AWS' },
-              { icon: 'ðŸ“±', label: 'Android Development' },
-              { icon: 'ðŸ“¢', label: 'Management & Events' },
+              { icon: '🔐', label: 'Cybersecurity' },
+              { icon: '🤖', label: 'AI / Machine Learning' },
+              { icon: '🌐', label: 'Web Development' },
+              { icon: '☁️', label: 'Cloud & AWS' },
+              { icon: '📱', label: 'Android Development' },
+              { icon: '📢', label: 'Management & Events' },
               { icon: 'ðŸ’¼', label: 'Career & Placement' },
-              { icon: 'ðŸŽ¨', label: 'Design & Media' },
+              { icon: '🎨', label: 'Design & Media' },
             ].map(d => (
               <div key={d.label} style={{
                 display: 'flex', alignItems: 'center', gap: 10,
