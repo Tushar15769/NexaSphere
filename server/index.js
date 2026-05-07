@@ -20,6 +20,29 @@ app.use(cors({
 }));
 app.use(express.json({ limit: '512kb' }));
 
+function requestLogger(req, res, next) {
+  const start = process.hrtime.bigint();
+  const { method, path } = req;
+
+  res.on('finish', () => {
+    const duration = Number(process.hrtime.bigint() - start) / 1e6;
+    const status = res.statusCode;
+    const message = `[${method}] ${path} → ${status} (${Math.round(duration)}ms)`;
+
+    if (status >= 500) {
+      console.error(message);
+    } else if (status >= 400) {
+      console.warn(message);
+    } else {
+      console.log(message);
+    }
+  });
+
+  next();
+}
+
+app.use(requestLogger);
+
 const sessions = new Map();
 const adminEvents = new EventEmitter();
 adminEvents.on('CORE_TEAM_MEMBER_ADDED', (event) => console.log(`[EVENT] CORE_TEAM_MEMBER_ADDED:`, event));
