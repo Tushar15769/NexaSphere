@@ -21,7 +21,7 @@ import EventDetailPage     from './pages/events/EventDetailPage';
 import CinematicOpening    from './shared/CinematicOpening';
 import {
   AmbientOrbs, SectionDivider, PageFlash, BannerOrbs,
-  useScrollProgress, useNsReveal, useHeroParallax,
+  useNsReveal, useHeroParallax,
   useNavScrollTint, useGlobalMouseParallax, useMagneticCards,
 } from './shared/MotionLayer';
 import ActivitiesPage      from './pages/activities/ActivitiesPage';
@@ -297,8 +297,6 @@ export default function App() {
     return()=>{obs.disconnect();window.removeEventListener('mousemove',onMove);};
   },[cinDone,page]);
 
-  
-  useScrollProgress();
   useNsReveal([cinDone, page]);
   useHeroParallax();
   useNavScrollTint();
@@ -385,7 +383,7 @@ export default function App() {
       
       {!cinDone&&<CinematicOpening theme={theme} onDone={()=>setCinDone(true)}/>}
 
-      {cinDone&&<div id="scroll-progress"/>}
+      {cinDone&&<ScrollProgress />}
       <Cursor/>
       <Wipe on={wipeOn} ph={wipePh}/>
 
