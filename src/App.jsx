@@ -8,7 +8,7 @@ import './styles/motion.css';
 
 import ParticleBackground  from './shared/ParticleBackground';
 import GeometricGridBackground from './shared/GeometricGridBackground';
-import ScrollProgress      from './shared/ScrollProgress';
+import BackToTop           from './shared/BackToTop';
 import Navbar              from './shared/Navbar';
 import HeroSection         from './pages/home/HeroSection';
 import ActivitiesSection   from './pages/activities/ActivitiesSection';
@@ -232,16 +232,6 @@ export default function App() {
   }, []);
   
   useEffect(()=>{
-    const btn=document.getElementById('back-to-top');
-    if(!btn)return;
-    const fn=()=>btn.classList.toggle('visible',window.scrollY>400);
-    window.addEventListener('scroll',fn,{passive:true});
-    btn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
-    return()=>window.removeEventListener('scroll',fn);
-  },[]);
-
-  
-  useEffect(()=>{
     if(page)return;
     const nh=mobile?MNH:DNH;
     const fn=()=>{
@@ -404,6 +394,8 @@ export default function App() {
       {cinDone&&<ParticleBackground theme={theme}/>}
       {cinDone&&<Navbar activeTab={activeTab} onTabChange={onTab} onToggleTheme={toggleTheme} theme={theme}/>}
 
+      {cinDone&&<BackToTop />}
+
       <main style={{paddingTop:nh,position:'relative',zIndex:1}}>
         {isAdminRoute && (
           <PageIn k="pg-admin">
@@ -488,7 +480,6 @@ export default function App() {
         )}
       </main>
 
-      {cinDone&&<button id="back-to-top" aria-label="Back to top">↑</button>}
     </>
   );
 }
