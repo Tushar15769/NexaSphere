@@ -9,7 +9,6 @@ import jakarta.validation.constraints.NotBlank;
 import org.nexasphere.model.TokenSession;
 import org.nexasphere.service.AdminAuthService;
 import org.nexasphere.service.TokenService;
-import org.nexasphere.util.Sanitizer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -34,7 +33,7 @@ public class AdminController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
-        String email = Sanitizer.clean(request.email());
+        String email = request.email().trim();
         String password = request.password();
 
         if (!adminAuthService.isValidCredentials(email, password)) {
