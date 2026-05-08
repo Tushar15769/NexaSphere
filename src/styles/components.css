@@ -639,11 +639,6 @@
 
 [data-theme="light"] .card-num          { color: rgba(204,17,17,.15) !important; }
 [data-theme="light"] .team-card-hint    { color: #8A8A8A !important; }
-[data-theme="light"] .ns-footer-built   { color: #6B6B6B !important; }
-[data-theme="light"] .ns-footer-email-link { color: #CC1111 !important; }
-
-
-
-.home-icon-pop { transition: transform .3s cubic-bezier(.34,1.56,.64,1); }
-*:hover > .home-icon-pop { transform: scale(1.2) translateY(-2px); color: var(--c1) !important; }
-.activity-card:hover .activity-icon { transform: scale(1.15) rotate(4deg) !important; color: #ee2222 !important; }
+.home-icon-pop { transition: transform .4s cubic-bezier(.4, 0, .2, 1), color .3s ease, filter .3s ease; }
+*:hover > .home-icon-pop { transform: scale(1.18) translateY(-3px); color: var(--c1) !important; filter: drop-shadow(0 0 8px var(--c1g)); }
+.activity-card:hover .activity-icon { transform: scale(1.12) rotate(2deg) !important; color: #ee2222 !important; filter: drop-shadow(0 0 12px rgba(238,34,34,0.3)); }
