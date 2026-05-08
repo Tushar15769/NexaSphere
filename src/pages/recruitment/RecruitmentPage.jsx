@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { 
-  Rocket, PartyPopper, Link as LinkIcon, AlertTriangle, 
-  Check, CheckCircle, Shield, Users, Mail, Phone,
-  Globe, Layout, Smartphone, Cpu, Megaphone, Palette, ClipboardList, Target, Briefcase, Zap, Search, ArrowLeft, ArrowRight
-} from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
 import { IconArrowLeft, IconArrowRight, IconBolt, IconShieldCheck, IconUsers } from '../../shared/Icons';
+
+function DynamicIcon({ name, ...props }) {
+  const Icon = LucideIcons[name] || LucideIcons.HelpCircle;
+  return <Icon {...props} />;
+}
 
 const WHATSAPP_SCREENING = 'https://chat.whatsapp.com/Jjc5cuUKENu0RC1vWSEs20';
 const LINKEDIN_PAGE      = 'https://www.linkedin.com/showcase/glbajaj-nexasphere/';
@@ -340,7 +341,7 @@ export default function RecruitmentPage({ onBack }) {
             padding: '14px 18px',
             display: 'flex', alignItems: 'flex-start', gap: 12,
           }}>
-            <AlertTriangle size={24} style={{ color: 'var(--c4)', flexShrink: 0 }} />
+            <DynamicIcon name="AlertTriangle" size={24} style={{ color: 'var(--c4)', flexShrink: 0 }} />
             <div style={{ lineHeight: 1.75 }}>
               <div style={{ fontFamily: 'Orbitron,monospace', fontSize: '.75rem', letterSpacing: '.1em', color: 'var(--t1)', marginBottom: 6, textTransform: 'uppercase' }}>
                 Important — Read Before Proceeding
@@ -389,7 +390,7 @@ export default function RecruitmentPage({ onBack }) {
             padding: '12px 16px',
             display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap',
           }}>
-            <LinkIcon size={18} style={{ color: '#0077b5' }} />
+            <DynamicIcon name="Link" size={18} style={{ color: '#0077b5' }} />
             <span style={{ fontSize: '.88rem', color: 'var(--t2)', flex: 1 }}>
               Before applying, please follow our official LinkedIn page for updates:
             </span>
@@ -602,7 +603,7 @@ export default function RecruitmentPage({ onBack }) {
             padding: '20px',
             textAlign: 'center',
           }}>
-            <PartyPopper size={32} style={{ color: 'var(--c3)', marginBottom: 12, display: 'inline-block' }} />
+            <DynamicIcon name="PartyPopper" size={32} style={{ color: 'var(--c3)', marginBottom: 12, display: 'inline-block' }} />
             <div style={{ fontFamily: 'Orbitron,monospace', fontSize: '.85rem', color: 'var(--t1)', fontWeight: 700, marginBottom: 8, textTransform: 'uppercase' }}>
               Final Submission
             </div>
@@ -778,7 +779,7 @@ export default function RecruitmentPage({ onBack }) {
                 padding: '20px 22px',
                 textAlign: 'center',
               }}>
-                <div style={{ color: 'var(--c4)', fontSize: '2.4rem', marginBottom: 10, display: 'flex', justifyContent: 'center' }}><AlertTriangle size={48} /></div>
+                <div style={{ color: 'var(--c4)', fontSize: '2.4rem', marginBottom: 10, display: 'flex', justifyContent: 'center' }}><DynamicIcon name="AlertTriangle" size={48} /></div>
                 <div style={{ color: 'var(--t1)', fontWeight: 700, fontSize: '1rem', marginBottom: 12 }}>Application Already Submitted</div>
                 <div style={{ color: 'var(--t2)', fontSize: '.88rem', lineHeight: 1.65, marginBottom: 24 }}>
                   An application form has already been submitted from this device.<br/>
@@ -802,154 +803,98 @@ export default function RecruitmentPage({ onBack }) {
                     className="btn btn-outline"
                     style={{ flex: 1, minWidth: 0, justifyContent: 'center' }}
                   >
-                    NexaSphere LinkedIn
+                    Follow on LinkedIn
                   </a>
                 </div>
               </div>
             ) : done ? (
-              <div style={{ display: 'grid', gap: 18 }}>
+              <div style={{ textAlign: 'center', padding: '20px 0' }}>
                 <div style={{
-                  background: 'linear-gradient(135deg,rgba(123,111,255,.08),rgba(0,212,255,.06))',
+                  width: 80, height: 80, borderRadius: '50%',
+                  background: 'rgba(34,197,94,.12)',
+                  border: '1px solid rgba(34,197,94,.3)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  margin: '0 auto 24px', color: '#22c55e',
+                }}>
+                  <DynamicIcon name="Check" size={40} />
+                </div>
+                <h2 style={{ fontFamily: 'Orbitron,monospace', fontSize: '1.4rem', fontWeight: 700, color: 'var(--t1)', marginBottom: 14 }}>Application Received!</h2>
+                <p style={{ color: 'var(--t2)', fontSize: '1rem', lineHeight: 1.7, maxWidth: 500, margin: '0 auto 32px' }}>
+                  Thank you for applying to the NexaSphere Core Team. Our selection committee will review your application soon.
+                </p>
+                <div style={{
+                  background: 'var(--card2)',
                   border: '1px solid var(--bdr2)',
                   borderRadius: 'var(--r3)',
-                  padding: 22,
-                  position: 'relative',
-                  overflow: 'hidden',
-                  textAlign: 'center',
+                  padding: '24px',
+                  maxWidth: 540,
+                  margin: '0 auto 32px',
+                  textAlign: 'left',
                 }}>
-                  <div className="corner-tl"/><div className="corner-br"/>
-                  <div style={{ color: 'var(--c1)', fontSize: '3rem', marginBottom: 14, display: 'flex', justifyContent: 'center' }}><PartyPopper size={64} /></div>
-                  <div style={{ fontFamily: 'Orbitron,monospace', fontSize: '1rem', color: 'var(--t1)', fontWeight: 700, marginBottom: 12 }}>
-                    Success! Your Application is In.
-                  </div>
-                  <p style={{ color: 'var(--t2)', lineHeight: 1.8, maxWidth: 540, margin: '0 auto' }}>
-                    Thank you for applying to the NexaSphere Core Team.
-                    We have received your responses and our team will review them soon.
-                    <br/><br/>
-                    Join our WhatsApp screening group for updates and next steps in the selection process.
-                  </p>
+                  <div style={{ fontFamily: 'Orbitron,monospace', fontSize: '.75rem', color: 'var(--c1)', fontWeight: 700, marginBottom: 12, textTransform: 'uppercase', letterSpacing: '.1em' }}>What's next?</div>
+                  <ul style={{ paddingLeft: 18, color: 'var(--t2)', fontSize: '.92rem', display: 'grid', gap: 10 }}>
+                    <li>Join the applicant WhatsApp group for immediate updates.</li>
+                    <li>Wait for the initial screening results (check your email).</li>
+                    <li>Prepare for a brief interaction/interview round if shortlisted.</li>
+                  </ul>
                 </div>
-
-                <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
-                  <a
-                    className="btn btn-whatsapp"
-                    href={WHATSAPP_SCREENING}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-                      Join Screening Group <IconArrowRight/>
-                    </span>
-                  </a>
-                  <a
-                    className="btn btn-outline"
-                    href={LINKEDIN_PAGE}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-                      Follow on LinkedIn <IconArrowRight/>
-                    </span>
-                  </a>
-                </div>
-
-                <div style={{
-                  background: 'var(--card)',
-                  border: '1px solid var(--bdr)',
-                  borderRadius: 'var(--r2)',
-                  padding: '14px 16px',
-                  fontSize: '.88rem',
-                  color: 'var(--t3)',
-                  lineHeight: 1.7,
-                  textAlign: 'center',
-                }}>
-                  <CheckCircle size={14} style={{ marginRight: 6, display: 'inline-block', verticalAlign: 'middle' }} />
-                  Also make sure to follow the official NexaSphere LinkedIn page for results and announcements.
-                  <br/>
-                  <b style={{ color: 'var(--t2)' }}>Good luck! — NexaSphere Team</b>
+                <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
+                  <a href={WHATSAPP_SCREENING} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-ripple">Join WhatsApp</a>
+                  <button onClick={onBack} className="btn btn-outline">Back to Home</button>
                 </div>
               </div>
             ) : (
-              <>
-                {current.render()}
-
-                {err ? (
+              <div style={{ display: 'grid', gap: 32 }}>
+                <div className="form-step-content" style={{ minHeight: 300 }}>
+                  {current.render()}
+                </div>
+                
+                {err && (
                   <div style={{
-                    marginTop: 18,
-                    background: 'rgba(255,45,120,.10)',
-                    border: '1px solid rgba(255,45,120,.22)',
-                    color: 'var(--t1)',
-                    borderRadius: 'var(--r2)',
-                    padding: '12px 14px',
-                    fontWeight: 600,
+                    padding: '12px 16px', borderRadius: '8px',
+                    background: 'rgba(255,45,120,.1)',
+                    border: '1px solid rgba(255,45,120,.2)',
+                    color: 'var(--c4)', fontSize: '.9rem', textAlign: 'center',
                   }}>
                     {err}
                   </div>
-                ) : null}
+                )}
 
-                <div style={{ marginTop: 22, display: 'flex', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', gap: 14, alignItems: 'center', borderTop: '1px solid var(--bdr)', paddingTop: 26 }}>
                   <button
+                    onClick={() => { setStep(s => s - 1); scrollTop(); }}
+                    disabled={step === 0 || busy}
                     className="btn btn-outline"
-                    type="button"
-                    disabled={busy}
-                    onClick={() => {
-                      setErr('');
-                      if (step === 0) { if (onBack) onBack(); }
-                      else { setStep(s => clamp(s - 1, 0, steps.length - 1)); scrollTop(); }
-                    }}
+                    style={{ opacity: step === 0 ? 0 : 1, pointerEvents: step === 0 ? 'none' : 'auto' }}
                   >
-                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-                      <IconArrowLeft/> Back
-                    </span>
+                    Previous
                   </button>
-
+                  <div style={{ flex: 1 }} />
                   {step < steps.length - 1 ? (
                     <button
-                      className="btn btn-primary btn-ripple"
-                      type="button"
-                      disabled={busy || !canNext}
-                      onClick={() => {
-                        if (!canNext) { setErr('Please complete all required fields (*) to proceed.'); return; }
-                        setErr('');
-                        setStep(s => clamp(s + 1, 0, steps.length - 1));
-                        scrollTop();
-                      }}
-                      style={{ opacity: canNext ? 1 : .65 }}
+                      onClick={() => { setStep(s => s + 1); scrollTop(); }}
+                      disabled={!canNext}
+                      className="btn btn-primary"
+                      style={{ padding: '12px 32px', minWidth: 140 }}
                     >
-                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-                        Next Step <IconArrowRight/>
+                      <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                        Continue <IconArrowRight style={{ width: 16, height: 16 }} />
                       </span>
                     </button>
                   ) : (
                     <button
-                      className="btn btn-primary btn-ripple"
-                      type="button"
+                      onClick={submit}
                       disabled={busy || !canNext}
-                      onClick={() => {
-                        if (!canNext) { setErr('Please complete all required fields (*) to submit.'); return; }
-                        submit();
-                      }}
+                      className="btn btn-primary"
+                      style={{ padding: '12px 40px', minWidth: 160, background: 'linear-gradient(135deg,var(--c1),var(--c2))', border: 'none' }}
                     >
                       {busy ? 'Submitting...' : 'Submit Application'}
                     </button>
                   )}
                 </div>
-              </>
+              </div>
             )}
           </div>
-        </div>
-
-        <div className="pop-in" style={{
-          marginTop: 18,
-          textAlign: 'center',
-          color: 'var(--t3)',
-          fontFamily: 'Space Mono,monospace',
-          fontSize: '.62rem',
-          letterSpacing: '.18em',
-          textTransform: 'uppercase',
-          opacity: .9,
-        }}>
-          NexaSphere Recruitment Portal — 2026
         </div>
       </div>
     </div>

@@ -1,6 +1,11 @@
 import nexasphereAppLogo from '../assets/images/logos/nexasphere-app-logo.png';
 import glbajajLogo       from '../assets/images/logos/glbajaj-logo.png';
-import { Mail, Heart } from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
+
+function DynamicIcon({ name, ...props }) {
+  const Icon = LucideIcons[name] || LucideIcons.HelpCircle;
+  return <Icon {...props} />;
+}
 
 const NEXASPHERE_EMAIL = 'nexasphere@glbajajgroup.org';
 
@@ -17,17 +22,16 @@ export default function Footer() {
           </div>
           <p className="ns-footer-text">© {new Date().getFullYear()} <span>NexaSphere</span> — GL Bajaj Group of Institutions, Mathura</p>
           <p className="ns-footer-text" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-            <Mail size={14} style={{ color: 'var(--c1)' }} />
+            <DynamicIcon name="Mail" size={14} style={{ color: 'var(--c1)' }} />
             <a href={`mailto:${NEXASPHERE_EMAIL}`} className="ns-footer-email-link">
               {NEXASPHERE_EMAIL}
             </a>
           </p>
           <p className="ns-footer-text ns-footer-built" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px' }}>
-            Built with <Heart size={12} fill="var(--c1)" stroke="var(--c1)" /> by the NexaSphere Core Team · Architected by Ayush Sharma
+            Built with <DynamicIcon name="Heart" size={12} fill="var(--c1)" stroke="var(--c1)" /> by the NexaSphere Core Team · Architected by Ayush Sharma
           </p>
         </div>
       </div>
     </footer>
   );
 }
-

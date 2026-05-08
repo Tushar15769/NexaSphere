@@ -3,7 +3,12 @@ import { createPortal } from 'react-dom';
 import TeamMemberModal from './TeamMemberModal';
 import { BannerOrbs } from '../../shared/MotionLayer';
 import Skeleton from '../../shared/Skeleton';
-import { ArrowLeft, Sparkles, Rocket, User, ExternalLink } from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
+
+function DynamicIcon({ name, ...props }) {
+  const Icon = LucideIcons[name] || LucideIcons.HelpCircle;
+  return <Icon {...props} />;
+}
 
 function MemberCard({ member, idx, onClick }) {
   const ref = useRef(null);
@@ -46,7 +51,7 @@ function MemberCard({ member, idx, onClick }) {
            <img src={member.photo} alt={member.name} className="team-card-photo" />
         ) : (
           <div className="team-card-photo" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--card2)' }}>
-            <User size={40} style={{ opacity: 0.3 }} />
+            <DynamicIcon name="User" size={40} style={{ opacity: 0.3 }} />
           </div>
         )}
       </div>
@@ -56,7 +61,7 @@ function MemberCard({ member, idx, onClick }) {
         <span className="chip-branch">{member.branch}</span>
         <span className="chip-section">§{member.section}</span>
       </div>
-      <div className="team-card-hint">View Profile <ExternalLink size={10} style={{ marginLeft: 4 }} /></div>
+      <div className="team-card-hint">View Profile <DynamicIcon name="ExternalLink" size={10} style={{ marginLeft: 4 }} /></div>
       <div className="corner-tl" /><div className="corner-br" />
     </div>
   );
@@ -140,7 +145,7 @@ export default function TeamPage({ onBack, onApply, team = [], loading = false }
           fontFamily: "'Rajdhani', sans-serif", fontWeight: 600,
           zIndex: 10
         }}>
-          <ArrowLeft size={14} /> Back
+          <DynamicIcon name="ArrowLeft" size={14} /> Back
         </button>
 
         <span className="cin-section-label" style={{ display: 'block', textAlign: 'center', marginBottom: '8px', fontFamily: "'Space Mono', monospace", fontSize: '.6rem', color: 'var(--t3)', letterSpacing: '.3em', textTransform: 'uppercase', position:'relative',zIndex:1 }}>
@@ -165,7 +170,7 @@ export default function TeamPage({ onBack, onApply, team = [], loading = false }
           <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'linear-gradient(90deg, var(--c1), var(--c2), var(--c3))' }} />
           <div className="corner-tl" /><div className="corner-br" />
           <div style={{ fontSize: '2rem', marginBottom: '10px' }}>
-            <Rocket size={40} style={{ color: 'var(--c1)' }} />
+            <DynamicIcon name="Rocket" size={40} style={{ color: 'var(--c1)' }} />
           </div>
           <h3 style={{ fontFamily: 'Orbitron,monospace', fontSize: '1rem', fontWeight: 700, color: 'var(--c1)', marginBottom: '8px', letterSpacing: '.05em' }}>
             Want to Join NexaSphere?
@@ -179,7 +184,7 @@ export default function TeamPage({ onBack, onApply, team = [], loading = false }
             className="btn btn-join btn-ripple"
             style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}
           >
-            Apply Here <Sparkles size={16} />
+            Apply Here <DynamicIcon name="Sparkles" size={16} />
           </button>
         </div>
       </div>
@@ -191,4 +196,3 @@ export default function TeamPage({ onBack, onApply, team = [], loading = false }
     </div>
   );
 }
-

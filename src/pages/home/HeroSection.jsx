@@ -1,7 +1,12 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import nexasphereLogo from '../../assets/images/logos/nexasphere-logo.png';
 import { IconArrowRight, IconSpark } from '../../shared/Icons';
-import { Users, Zap, Calendar, Lightbulb } from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
+
+function DynamicIcon({ name, ...props }) {
+  const Icon = LucideIcons[name] || LucideIcons.HelpCircle;
+  return <Icon {...props} />;
+}
 
 /* ── Ripple Button ── */
 function RippleBtn({ cls, children, href, onClick }) {
@@ -94,10 +99,10 @@ function Logo3D({ ready, isLight }) {
 /* ── Stats bar ── */
 function StatsBar({ vis, isLight }) {
   const items = [
-    { v: '12', l: 'Members', i: <Users size={16} /> },
-    { v: '8', l: 'Activities', i: <Zap size={16} /> },
-    { v: '1', l: 'Events Done', i: <Calendar size={16} /> },
-    { v: '∞', l: 'Ideas', i: <Lightbulb size={16} /> }
+    { v: '12', l: 'Members', i: <DynamicIcon name="Users" size={16} /> },
+    { v: '8', l: 'Activities', i: <DynamicIcon name="Zap" size={16} /> },
+    { v: '1', l: 'Events Done', i: <DynamicIcon name="Calendar" size={16} /> },
+    { v: '∞', l: 'Ideas', i: <DynamicIcon name="Lightbulb" size={16} /> }
   ];
   return (
     <div style={{
@@ -246,5 +251,3 @@ export default function HeroSection({ onTabChange, onApply, onJoin, theme = 'dar
     </section>
   );
 }
-
-

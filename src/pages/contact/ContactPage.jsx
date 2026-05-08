@@ -3,7 +3,7 @@ import glbajajLogo from '../../assets/images/logos/glbajaj-logo.png';
 import * as LucideIcons from 'lucide-react';
 
 function DynamicIcon({ name, ...props }) {
-  const Icon = LucideIcons[name] || LucideIcons.Linkedin || LucideIcons.LinkedIn || LucideIcons.HelpCircle;
+  const Icon = LucideIcons[name] || LucideIcons.HelpCircle;
   return <Icon {...props} />;
 }
 
@@ -53,7 +53,7 @@ function useBurst(ref) {
 }
 
 /* ── Contact Card ── */
-function ContactCard({ icon: IconComp, label, value, href, delay = 0, color }) {
+function ContactCard({ icon, label, value, href, delay = 0, color }) {
   const ref = useRef(null);
   const [hov, setHov] = useState(false);
   useBurst(ref);
@@ -92,7 +92,7 @@ function ContactCard({ icon: IconComp, label, value, href, delay = 0, color }) {
         transition: 'box-shadow .3s, transform .3s cubic-bezier(.34,1.56,.64,1)',
         transform: hov ? 'scale(1.15) rotate(8deg)' : 'scale(1)',
       }}>
-        {IconComp}
+        <DynamicIcon name={icon} size={32} />
       </div>
 
       <div style={{
@@ -434,19 +434,19 @@ export default function ContactPage({ onBack }) {
           className="cin-container"
         >
           <ContactCard
-            icon={<Mail size={32} />} label="Email" delay={0}
+            icon="Mail" label="Email" delay={0}
             value={EMAIL}
             href={`mailto:${EMAIL}`}
             color="var(--c1)"
           />
           <ContactCard
-            icon={<Linkedin size={32} />} label="LinkedIn" delay={0.08}
+            icon="Linkedin" label="LinkedIn" delay={0.08}
             value="NexaSphere · GL Bajaj"
             href={LINKEDIN}
             color="var(--c2)"
           />
           <ContactCard
-            icon={<MessageSquare size={32} />} label="WhatsApp Community" delay={0.16}
+            icon="MessageSquare" label="WhatsApp Community" delay={0.16}
             value="Join our active community group"
             href={WHATSAPP}
             color="var(--c5)"
@@ -499,4 +499,3 @@ export default function ContactPage({ onBack }) {
     </div>
   );
 }
-

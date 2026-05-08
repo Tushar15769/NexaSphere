@@ -63,16 +63,16 @@ export default function EventsSection({ onEventClick, events = fallbackEvents })
                     )}
                   </div>
                   <div className="timeline-event-date">
-                    <Calendar size={13} style={{verticalAlign:'middle', marginRight:'6px', opacity:0.8}} />
+                    <DynamicIcon name="Calendar" size={13} style={{verticalAlign:'middle', marginRight:'6px', opacity:0.8}} />
                     {ev.date}
                   </div>
                   <p className="timeline-event-desc">{ev.description}</p>
                   <div style={{display:'flex',alignItems:'center',gap:'7px',flexWrap:'wrap'}}>
                     <span className={`timeline-badge ${ev.status}`}>
                       {ev.status==='completed' ? (
-                        <><CheckCircle size={10} style={{marginRight:4}}/> Completed</>
+                        <><DynamicIcon name="CheckCircle" size={10} style={{marginRight:4}}/> Completed</>
                       ) : (
-                        <><Clock size={10} style={{marginRight:4}}/> Upcoming</>
+                        <><DynamicIcon name="Clock" size={10} style={{marginRight:4}}/> Upcoming</>
                       )}
                     </span>
                     {ev.tags?.map(t=>(
@@ -88,7 +88,7 @@ export default function EventsSection({ onEventClick, events = fallbackEvents })
               <div className="timeline-dot upcoming"/>
               <div className="timeline-card pop-in" style={{textAlign:'center',color:'var(--t3)'}}>
                 <div style={{color:'var(--c1)', display:'flex', justifyContent:'center', marginBottom:'8px'}}>
-                  <Rocket size={24} />
+                  <DynamicIcon name="Rocket" size={24} />
                 </div>
                 <p style={{marginTop:'6px',fontSize:'.84rem'}}>More events are being planned. Watch this space!</p>
               </div>

@@ -57,7 +57,7 @@ function ActivityCard({ a, idx, onNav }) {
       <div className="activity-icon"><DynamicIcon name={a.icon} size={32} /></div>
       <div className="activity-title">{a.title}</div>
       <p className="activity-desc">{a.description}</p>
-      <div className="activity-cta"><span>Explore</span><span><LucideIcons.ArrowRight size={14} /></span></div>
+      <div className="activity-cta"><span>Explore</span><span><DynamicIcon name="ArrowRight" size={14} /></span></div>
       <div className="corner-tl"/><div className="corner-br"/>
     </div>
   );

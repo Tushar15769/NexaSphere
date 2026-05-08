@@ -1,7 +1,12 @@
 import { useEffect, useRef } from 'react';
 import { activities } from '../../data/activitiesData';
 import { BannerOrbs } from '../../shared/MotionLayer';
-import { ArrowLeft, ArrowRight, Zap, Code, Lightbulb, Bot, Wrench, Search, Globe, Mic } from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
+
+function DynamicIcon({ name, ...props }) {
+  const Icon = LucideIcons[name] || LucideIcons.HelpCircle;
+  return <Icon {...props} />;
+}
 
 const activityDetails = {
   'Hackathon':      { color: '#CC1111', longDesc: 'Intense 24–48 hour coding marathons where teams build innovative solutions to real-world problems under time pressure. Participants form cross-functional teams, brainstorm ideas, design architectures, and ship working prototypes — all under the clock.', highlights: ['Team-based challenges', 'Mentorship from seniors', 'Real problem statements', 'Prizes & recognition'], skills: ['Full-Stack Dev', 'Problem Solving', 'Team Collaboration', 'System Design'] },
@@ -12,17 +17,6 @@ const activityDetails = {
   'Insight Session':{ color: '#CC3333', longDesc: 'Deep-dive talks and peer-to-peer knowledge sharing where every member is both teacher and student. Explore industry trends, career paths, emerging research, and the big ideas shaping tomorrow\'s technology landscape.', highlights: ['Peer presentations', 'Industry trend analysis', 'Career guidance', 'Open discussions'], skills: ['Communication', 'Research', 'Critical Thinking', 'Domain Knowledge'] },
   'Open Source Day':{ color: '#4CAF50', longDesc: 'Dedicated events encouraging real contributions to open-source projects. Learn Git workflows, find your first issue, submit PRs, and become part of the global developer community — all in a guided, supportive environment.', highlights: ['First-PR guidance', 'Project selection help', 'Git & GitHub deep dive', 'Community recognition'], skills: ['Git', 'Open Source', 'Code Review', 'Documentation'] },
   'Tech Debate':    { color: '#880000', longDesc: 'Structured debates on the most controversial topics in tech — AI vs Human Jobs, Native vs Cross-Platform, SQL vs NoSQL. Sharpen your ability to defend a position, handle rebuttals, and communicate technical ideas clearly.', highlights: ['Structured format', 'Expert moderation', 'Both sides argued', 'Audience Q&A'], skills: ['Public Speaking', 'Critical Thinking', 'Technical Communication', 'Argumentation'] },
-};
-
-const IconMap = {
-  'Zap': Zap,
-  'Code': Code,
-  'Lightbulb': Lightbulb,
-  'Bot': Bot,
-  'Wrench': Wrench,
-  'Search': Search,
-  'Globe': Globe,
-  'Mic': Mic
 };
 
 function ActivityCard({ a, idx, onNavigate }) {
@@ -67,10 +61,7 @@ function ActivityCard({ a, idx, onNavigate }) {
       }} />
 
       <div className="ns-act-icon" style={{ marginBottom: '14px', display:'inline-block', color: details.color || 'var(--c1)' }}>
-        {(() => {
-          const Icon = IconMap[a.icon];
-          return Icon ? <Icon size={44} /> : null;
-        })()}
+        <DynamicIcon name={a.icon} size={44} />
       </div>
       <div style={{
         fontFamily: "'Orbitron', monospace", fontSize: '.8rem', fontWeight: 700,
@@ -102,7 +93,7 @@ function ActivityCard({ a, idx, onNavigate }) {
         <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 18px' }}>
           {details.highlights.map(h => (
             <li key={h} style={{ fontSize: '.8rem', color: 'var(--t2)', padding: '4px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <ArrowRight size={14} style={{ color: details.color }} /> {h}
+              <DynamicIcon name="ArrowRight" size={14} style={{ color: details.color }} /> {h}
             </li>
           ))}
         </ul>
@@ -117,7 +108,7 @@ function ActivityCard({ a, idx, onNavigate }) {
         onMouseEnter={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.letterSpacing = '.16em'; }}
         onMouseLeave={e => { e.currentTarget.style.opacity = '.7'; e.currentTarget.style.letterSpacing = '.1em'; }}
       >
-        <span>View Sessions</span><span><ArrowRight size={14} /></span>
+        <span>View Sessions</span><span><DynamicIcon name="ArrowRight" size={14} /></span>
       </div>
 
       <div style={{ position: 'absolute', top: 0, left: 0, width: '16px', height: '16px', borderTop: `1.5px solid ${details.color || 'var(--c1)'}`, borderLeft: `1.5px solid ${details.color || 'var(--c1)'}`, opacity: .5 }} />
@@ -168,7 +159,7 @@ export default function ActivitiesPage({ onNavigate, onBack }) {
             display: 'flex', alignItems: 'center', gap: '6px',
             fontFamily: "'Rajdhani', sans-serif", fontWeight: 600,
           }}
-        > <ArrowLeft size={16} /> Back</button>
+        > <DynamicIcon name="ArrowLeft" size={16} /> Back</button>
 
         <span className="cin-section-label pop-in" style={{position:'relative',zIndex:1}}>NexaSphere · GL Bajaj</span>
         <h1 className="section-title pop-word" style={{ fontSize: 'clamp(2rem, 5vw, 3.2rem)', position:'relative', zIndex:1 }}>Our Activities</h1>

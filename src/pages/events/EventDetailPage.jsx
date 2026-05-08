@@ -1,10 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
 import * as LucideIcons from 'lucide-react';
-import { 
-  ArrowLeft, Calendar, MapPin, CheckCircle, 
-  Clock, Mic, Video, Camera, Users, Zap, 
-  Heart, ExternalLink, Play, Sparkles, Clipboard
-} from 'lucide-react';
 
 function hexToRgb(hex) {
   if (!hex || !hex.startsWith('#')) return '0,212,255';
@@ -97,14 +92,14 @@ function SectionHeader({ icon: Icon, title, color }) {
         background: `rgba(${rgb},0.15)`, border: `1px solid rgba(${rgb},0.3)`,
         display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.85rem',
       }}>
-        {typeof Icon === 'string' ? <DynamicIcon name={Icon} size={14} /> : <Icon size={14} />}
+        {typeof Icon === 'string' ? <DynamicIcon name={Icon} size={14} /> : <DynamicIcon name={Icon.name || 'HelpCircle'} size={14} />}
       </span>
       {title}
     </h2>
   );
 }
 
-function PersonChip({ name, role, color, icon: Icon = Zap }) {
+function PersonChip({ name, role, color, icon }) {
   const [hovered, setHovered] = useState(false);
   const rgb = hexToRgb(color);
   return (
@@ -122,7 +117,9 @@ function PersonChip({ name, role, color, icon: Icon = Zap }) {
         cursor: 'default',
       }}
     >
-      <span style={{ color: hovered ? color : 'var(--text-secondary)', display: 'flex' }}><Icon size={14} /></span>
+      <span style={{ color: hovered ? color : 'var(--text-secondary)', display: 'flex' }}>
+        <DynamicIcon name={icon || 'User'} size={14} />
+      </span>
       <div>
         <div style={{ fontFamily: 'Rajdhani,sans-serif', fontWeight: 700, color: hovered ? color : 'var(--text-primary)', fontSize: '0.9rem', lineHeight: 1.2 }}>{name}</div>
         {role && <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', letterSpacing: '0.05em', textTransform: 'uppercase' }}>{role}</div>}
@@ -162,9 +159,9 @@ function TopicCard({ topic, index, color }) {
         <div style={{ flex: 1 }}>
           <div style={{ fontFamily: 'Orbitron,monospace', fontSize: '0.88rem', fontWeight: 700, color, marginBottom: '6px' }}>{topic.title}</div>
           <div style={{ display: 'flex', gap: '14px', marginBottom: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
-            <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}><Mic size={12} /> {topic.speaker}</span>
+            <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}><DynamicIcon name="Mic" size={12} /> {topic.speaker}</span>
             {topic.role && <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>· {topic.role}</span>}
-            {topic.duration !== '—' && <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}><Clock size={12} /> {topic.duration}</span>}
+            {topic.duration !== '—' && <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}><DynamicIcon name="Clock" size={12} /> {topic.duration}</span>}
           </div>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', margin: 0, lineHeight: 1.65 }}>{topic.summary}</p>
         </div>
@@ -190,7 +187,7 @@ function AckCard({ ack, color }) {
       }}
     >
       <div style={{ fontFamily: 'Orbitron,monospace', fontSize: '0.82rem', fontWeight: 700, color, marginBottom: '3px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-        <Heart size={14} style={{ fill: hovered ? color : 'transparent' }} /> {ack.name}
+        <DynamicIcon name="Heart" size={14} style={{ fill: hovered ? color : 'transparent' }} /> {ack.name}
       </div>
       <div style={{ fontSize: '0.72rem', color, opacity: 0.7, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '6px' }}>
         {ack.title}
@@ -200,7 +197,7 @@ function AckCard({ ack, color }) {
   );
 }
 
-function MediaBtn({ href, icon: Icon, label, color }) {
+function MediaBtn({ href, icon, label, color }) {
   const [hovered, setHovered] = useState(false);
   const rgb = hexToRgb(color);
   if (!href) {
@@ -210,7 +207,7 @@ function MediaBtn({ href, icon: Icon, label, color }) {
         borderRadius: '12px', padding: '20px 28px', color: 'var(--text-muted)',
         textAlign: 'center', flex: 1, minWidth: '140px',
       }}>
-        <div style={{ color: 'var(--text-muted)', marginBottom: '8px', display: 'flex', justifyContent: 'center' }}><Icon size={32} /></div>
+        <div style={{ color: 'var(--text-muted)', marginBottom: '8px', display: 'flex', justifyContent: 'center' }}><DynamicIcon name={icon} size={32} /></div>
         <div style={{ fontWeight: 600, fontSize: '0.85rem', marginBottom: '3px' }}>{label}</div>
         <div style={{ fontSize: '0.72rem' }}>Coming soon</div>
       </div>
@@ -233,7 +230,7 @@ function MediaBtn({ href, icon: Icon, label, color }) {
       }}
     >
       <div style={{ color: hovered ? color : 'var(--text-secondary)', transition: 'transform 0.3s', transform: hovered ? 'scale(1.2) rotate(-5deg)' : '' }}>
-        <Icon size={32} />
+        <DynamicIcon name={icon} size={32} />
       </div>
       <div style={{ fontFamily: 'Rajdhani,sans-serif', fontWeight: 700, fontSize: '0.9rem', letterSpacing: '0.06em', textTransform: 'uppercase' }}>{label}</div>
     </a>
@@ -282,7 +279,7 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
             onMouseEnter={e => { e.currentTarget.style.background = `rgba(${rgb},0.12)`; e.currentTarget.style.transform = 'translateX(-4px)'; }}
             onMouseLeave={e => { e.currentTarget.style.background = 'none'; e.currentTarget.style.transform = ''; }}
           >
-            <ArrowLeft size={16} /> Back
+            <DynamicIcon name="ArrowLeft" size={16} /> Back
           </button>
 
           <div style={{
@@ -298,7 +295,7 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
               fontSize: '0.78rem', color, fontFamily: 'Rajdhani,sans-serif',
               fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em',
             }}>
-              {typeof activityIcon === 'string' ? <DynamicIcon name={activityIcon} size={14} /> : activityIcon} {event.shortName || event.name}
+              {typeof activityIcon === 'string' ? <DynamicIcon name={activityIcon} size={14} /> : <DynamicIcon name={activityIcon.name || 'Zap'} size={14} />} {event.shortName || event.name}
             </div>
 
             <h1 style={{
@@ -322,15 +319,15 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
             )}
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap', marginBottom: '28px', marginTop: '12px' }}>
-              <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '6px' }}><Calendar size={14} /> {event.date}</span>
-              <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '6px' }}><MapPin size={14} /> GL Bajaj Group of Institutions, Mathura</span>
+              <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '6px' }}><DynamicIcon name="Calendar" size={14} /> {event.date}</span>
+              <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '6px' }}><DynamicIcon name="MapPin" size={14} /> GL Bajaj Group of Institutions, Mathura</span>
               <span style={{
                 fontSize: '0.72rem', padding: '3px 12px', borderRadius: '20px',
                 background: 'rgba(34,197,94,0.12)', color: '#22c55e',
                 border: '1px solid rgba(34,197,94,0.3)', fontWeight: 700,
                 textTransform: 'uppercase', letterSpacing: '0.05em',
                 display: 'flex', alignItems: 'center', gap: '4px'
-              }}><CheckCircle size={10} /> Completed</span>
+              }}><DynamicIcon name="CheckCircle" size={10} /> Completed</span>
             </div>
 
             
@@ -347,7 +344,7 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
 
           
           <section>
-            <SectionHeader icon={Clipboard} title="Session Overview" color={color} />
+            <SectionHeader icon="Clipboard" title="Session Overview" color={color} />
             <div style={{
               background: 'var(--bg-card)', borderLeft: `3px solid ${color}`,
               borderRadius: '0 12px 12px 0', padding: '28px 32px',
@@ -367,17 +364,17 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
 
           
           <section>
-            <SectionHeader icon={Mic} title="Presenters" color={color} />
+            <SectionHeader icon="Mic" title="Presenters" color={color} />
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
               {event.topics?.map((t, i) => (
-                <PersonChip key={i} name={t.speaker} role="Presenter" color={color} icon={LucideIcons.User} />
+                <PersonChip key={i} name={t.speaker} role="Presenter" color={color} icon="User" />
               ))}
             </div>
           </section>
 
           
           <section>
-            <SectionHeader icon={Sparkles} title="Topics Covered" color={color} />
+            <SectionHeader icon="Sparkles" title="Topics Covered" color={color} />
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               {event.topics?.map((t, i) => <TopicCard key={i} topic={t} index={i} color={color} />)}
             </div>
@@ -386,13 +383,13 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
           
           {(event.videoPresenter?.length > 0 || event.anchor) && (
             <section>
-              <SectionHeader icon={Video} title="Video Presentors & Anchor" color={color} />
+              <SectionHeader icon="Video" title="Video Presentors & Anchor" color={color} />
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
                 {event.videoPresenter?.map((p, i) => (
-                  <PersonChip key={i} name={p.name} role={p.role} color={color} icon={Video} />
+                  <PersonChip key={i} name={p.name} role={p.role} color={color} icon="Video" />
                 ))}
                 {event.anchor && (
-                  <PersonChip name={event.anchor.name} role={event.anchor.role} color={color} icon={Mic} />
+                  <PersonChip name={event.anchor.name} role={event.anchor.role} color={color} icon="Mic" />
                 )}
               </div>
             </section>
@@ -401,10 +398,10 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
           
           {event.volunteers?.length > 0 && (
             <section>
-              <SectionHeader icon={Zap} title="Volunteers — The Unsung Heroes" color={color} />
+              <SectionHeader icon="Zap" title="Volunteers — The Unsung Heroes" color={color} />
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
                 {event.volunteers.map((v, i) => (
-                  <PersonChip key={i} name={v.name} role="Volunteer" color={color} icon={Zap} />
+                  <PersonChip key={i} name={v.name} role="Volunteer" color={color} icon="Zap" />
                 ))}
               </div>
             </section>
@@ -413,7 +410,7 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
           
           {event.acknowledgements?.length > 0 && (
             <section>
-              <SectionHeader icon={Heart} title="Special Thanks" color={color} />
+              <SectionHeader icon="Heart" title="Special Thanks" color={color} />
               <div style={{ display: 'grid', gap: '14px', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
                 {event.acknowledgements.map((a, i) => <AckCard key={i} ack={a} color={color} />)}
               </div>
@@ -422,10 +419,10 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
 
           
           <section>
-            <SectionHeader icon={Camera} title="Photos & Videos" color={color} />
+            <SectionHeader icon="Camera" title="Photos & Videos" color={color} />
             <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-              <MediaBtn href={event.photoLink} icon={Camera} label="View Photos" color={color} />
-              <MediaBtn href={event.videoLink} icon={Play} label="Watch Recording" color={color} />
+              <MediaBtn href={event.photoLink} icon="Camera" label="View Photos" color={color} />
+              <MediaBtn href={event.videoLink} icon="Play" label="Watch Recording" color={color} />
             </div>
             {!event.photoLink && !event.videoLink && (
               <p style={{ color: 'var(--text-muted)', fontSize: '0.78rem', marginTop: '12px', fontStyle: 'italic' }}>
@@ -448,7 +445,7 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
                   backgroundImage: `radial-gradient(rgba(${rgb},0.08) 1px, transparent 1px)`,
                   backgroundSize: '20px 20px', pointerEvents: 'none',
                 }} />
-                <div style={{ color: color, marginBottom: '12px', display: 'flex', justifyContent: 'center' }}><Rocket size={48} /></div>
+                <div style={{ color: color, marginBottom: '12px', display: 'flex', justifyContent: 'center' }}><DynamicIcon name="Rocket" size={48} /></div>
                 <p style={{
                   fontFamily: 'Rajdhani,sans-serif', fontSize: '1.1rem', fontWeight: 600,
                   color: 'var(--text-primary)', lineHeight: 1.7, margin: '0 0 16px',

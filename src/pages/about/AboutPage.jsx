@@ -56,7 +56,7 @@ export default function AboutPage({ onBack }) {
           color: 'var(--t2)', fontSize: '.8rem', cursor: 'pointer',
           display: 'flex', alignItems: 'center', gap: '6px',
           fontFamily: "'Rajdhani', sans-serif", fontWeight: 600,
-        }}><ArrowLeft size={14} /> Back</button>
+        }}><DynamicIcon name="ArrowLeft" size={14} /> Back</button>
 
         <span className="cin-section-label pop-in" style={{position:'relative',zIndex:1}}>GL Bajaj Group of Institutions · Mathura</span>
         <h1 className="section-title pop-word" style={{ fontSize: 'clamp(2rem, 5vw, 3.2rem)', position:'relative',zIndex:1 }}>About NexaSphere</h1>
@@ -175,13 +175,13 @@ export default function AboutPage({ onBack }) {
           </div>
           <div className="about-actions">
             <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" className="btn btn-whatsapp">
-              <MessageSquare size={16} style={{marginRight:8}} /> Join WhatsApp
+              <DynamicIcon name="MessageSquare" size={16} style={{marginRight:8}} /> Join WhatsApp
             </a>
             <a href={LINKEDIN} target="_blank" rel="noopener noreferrer" className="btn btn-linkedin">
-              <Link size={16} style={{marginRight:8}} /> LinkedIn
+              <DynamicIcon name="Link" size={16} style={{marginRight:8}} /> LinkedIn
             </a>
             <a href={`mailto:${NEXASPHERE_EMAIL}`} className="btn btn-outline">
-              <Mail size={16} style={{marginRight:8}} /> Email Us
+              <DynamicIcon name="Mail" size={16} style={{marginRight:8}} /> Email Us
             </a>
           </div>
         </div>
@@ -189,4 +189,3 @@ export default function AboutPage({ onBack }) {
     </div>
   );
 }
-

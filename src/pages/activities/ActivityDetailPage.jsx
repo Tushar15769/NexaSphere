@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import Skeleton from '../../shared/Skeleton';
 import * as LucideIcons from 'lucide-react';
-import { ArrowLeft, Calendar, CheckCircle, Clock, Rocket, ExternalLink, Trash2, Plus } from 'lucide-react';
 
 function DynamicIcon({ name, ...props }) {
   const Icon = LucideIcons[name] || LucideIcons.HelpCircle;
@@ -41,7 +40,7 @@ function HighlightCard({ highlight, color }) {
   );
 }
 
-function SectionTitle({ children, color, icon: IconComponent }) {
+function SectionTitle({ children, color, icon }) {
   return (
     <h2 style={{
       fontFamily: 'Orbitron, monospace', fontSize: '1.1rem', fontWeight: 700,
@@ -53,7 +52,7 @@ function SectionTitle({ children, color, icon: IconComponent }) {
         display: 'inline-block', width: '32px', height: '2px',
         background: `linear-gradient(90deg, ${color}, transparent)`,
       }} />
-      {IconComponent && <IconComponent size={18} style={{ marginRight: '4px' }} />}
+      {icon && <DynamicIcon name={icon} size={18} style={{ marginRight: '4px' }} />}
       {children}
     </h2>
   );
@@ -214,11 +213,11 @@ function EventCard({ event, activityColor, onSelect, onDelete }) {
                 border: '1px solid rgba(34,197,94,0.3)', fontWeight: 700,
                 textTransform: 'uppercase', letterSpacing: '0.05em', flexShrink: 0,
                 display: 'flex', alignItems: 'center', gap: '4px'
-              }}><CheckCircle size={10} /> Completed</span>
+              }}><DynamicIcon name="CheckCircle" size={10} /> Completed</span>
             )}
           </div>
           <div style={{ color: 'var(--t3)', fontSize: '0.8rem', marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <Calendar size={14} style={{ opacity: 0.7 }} /> {event.date}
+            <DynamicIcon name="Calendar" size={14} style={{ opacity: 0.7 }} /> {event.date}
           </div>
           <p style={{ color: 'var(--t2)', fontSize: '0.88rem', margin: '0 0 12px', lineHeight: 1.6 }}>
             {event.tagline || event.description}
@@ -244,7 +243,7 @@ function EventCard({ event, activityColor, onSelect, onDelete }) {
               onClick={(e) => { e.stopPropagation(); onDelete && onDelete(event.id); }}
               style={{ padding: '4px 12px', color: '#ff5f7a', borderColor: 'rgba(255,95,122,0.3)' }}
             >
-              <Trash2 size={12} style={{ marginRight: 4 }} /> Delete
+              <DynamicIcon name="Trash2" size={12} style={{ marginRight: 4 }} /> Delete
             </button>
           </div>
         </div>
@@ -252,7 +251,7 @@ function EventCard({ event, activityColor, onSelect, onDelete }) {
           color: activityColor, fontSize: '1.4rem', flexShrink: 0,
           transform: hovered ? 'translateX(4px)' : '',
           transition: 'transform 0.3s ease',
-        }}><LucideIcons.ArrowRight size={20} /></div>
+        }}><DynamicIcon name="ArrowRight" size={20} /></div>
       </div>
     </div>
   );
@@ -282,10 +281,10 @@ function UpcomingCard({ event, color }) {
           background: `${color}15`, color, border: `1px solid ${color}40`,
           fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', flexShrink: 0,
           display: 'flex', alignItems: 'center', gap: '4px'
-        }}><Clock size={10} /> Upcoming</span>
+        }}><DynamicIcon name="Clock" size={10} /> Upcoming</span>
       </div>
       <div style={{ color: 'var(--t3)', fontSize: '0.78rem', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-        <Calendar size={14} style={{ opacity: 0.7 }} /> {event.date}
+        <DynamicIcon name="Calendar" size={14} style={{ opacity: 0.7 }} /> {event.date}
       </div>
       <p style={{ color: 'var(--t2)', fontSize: '0.85rem', margin: 0 }}>{event.description}</p>
     </div>
@@ -440,7 +439,7 @@ export default function ActivityDetailPage({ activity, onBack, onSelectEvent }) 
             onMouseEnter={e => { e.target.style.background = `rgba(${rgb},0.1)`; e.target.style.transform = 'translateX(-4px)'; }}
             onMouseLeave={e => { e.target.style.background = 'none'; e.target.style.transform = ''; }}
           >
-            <ArrowLeft size={16} /> Back to Activities
+            <DynamicIcon name="ArrowLeft" size={16} /> Back to Activities
           </button>
 
           
@@ -533,7 +532,7 @@ export default function ActivityDetailPage({ activity, onBack, onSelectEvent }) 
               }}>
                 {activity.whatYouLearn.map((item, i) => (
                   <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                    <div style={{ color: color, marginTop: '2px' }}><CheckCircle size={18} /></div>
+                    <div style={{ color: color, marginTop: '2px' }}><DynamicIcon name="CheckCircle" size={18} /></div>
                     <div style={{ color: 'var(--t2)', fontSize: '0.95rem', lineHeight: 1.5 }}>{item}</div>
                   </div>
                 ))}
@@ -574,7 +573,7 @@ export default function ActivityDetailPage({ activity, onBack, onSelectEvent }) 
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '15px' }}>
             <SectionTitle color={color}>Conducted Events</SectionTitle>
             <button className="btn btn-primary btn-sm" onClick={handleAddEvent} disabled={busy} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <Plus size={14} /> {busy ? 'Processing...' : 'Add Event'}
+              <DynamicIcon name="Plus" size={14} /> {busy ? 'Processing...' : 'Add Event'}
             </button>
           </div>
           
@@ -592,7 +591,7 @@ export default function ActivityDetailPage({ activity, onBack, onSelectEvent }) 
                 ))
               ) : (
                 <div style={{ textAlign: 'center', color: 'var(--t3)', padding: '40px 0', border: '1px dashed var(--bdr)', borderRadius: 'var(--r2)' }}>
-                   <Rocket size={32} style={{ color, marginBottom: '12px', opacity: 0.5 }} />
+                   <DynamicIcon name="Rocket" size={32} style={{ color, marginBottom: '12px', opacity: 0.5 }} />
                    <p>No conducted events found for this activity.</p>
                 </div>
               )}

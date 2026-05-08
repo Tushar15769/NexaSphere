@@ -35,7 +35,12 @@ import AdminPage           from './pages/admin/AdminPage';
 import { activityPages }   from './data/activities/index';
 import { events as fallbackEvents } from './data/eventsData';
 import nexasphereLogo      from './assets/images/logos/nexasphere-logo.png';
-import { ArrowUp }         from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
+
+function DynamicIcon({ name, ...props }) {
+  const Icon = LucideIcons[name] || LucideIcons.HelpCircle;
+  return <Icon {...props} />;
+}
 
 const MNH = 88, DNH = 64;
 const TABS = ['Home','Activities','Events','About','Team','Contact'];
@@ -511,7 +516,7 @@ export default function App() {
         )}
       </main>
 
-      {cinDone&&<button id="back-to-top" aria-label="Back to top"><ArrowUp size={20} /></button>}
+      {cinDone&&<button id="back-to-top" aria-label="Back to top"><DynamicIcon name="ArrowUp" size={20} /></button>}
     </>
   );
 }

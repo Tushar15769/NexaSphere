@@ -7,6 +7,11 @@ const NEXASPHERE_EMAIL = 'nexasphere@glbajajgroup.org';
 
 const values = ['Innovation','Collaboration','Learning','Growth','Community','Technology','Career','Mentorship'];
 
+function DynamicIcon({ name, ...props }) {
+  const Icon = LucideIcons[name] || LucideIcons.HelpCircle;
+  return <Icon {...props} />;
+}
+
 export default function AboutSection() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
@@ -86,13 +91,13 @@ export default function AboutSection() {
 
         <div className="about-actions pop-in" style={{animationDelay:'.28s'}}>
           <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" className="btn btn-whatsapp" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-            <LucideIcons.MessageSquare size={16} /> Join WhatsApp
+            <DynamicIcon name="MessageSquare" size={16} /> Join WhatsApp
           </a>
           <a href={LINKEDIN} target="_blank" rel="noopener noreferrer" className="btn btn-linkedin" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-            <LucideIcons.Linkedin size={16} /> LinkedIn
+            <DynamicIcon name="Linkedin" size={16} /> LinkedIn
           </a>
           <a href={`mailto:${NEXASPHERE_EMAIL}`} className="btn btn-outline" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-            <LucideIcons.Mail size={16} /> Email Us
+            <DynamicIcon name="Mail" size={16} /> Email Us
           </a>
         </div>
       </div>

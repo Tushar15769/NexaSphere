@@ -1,5 +1,10 @@
 import { useMemo, useState, useEffect } from 'react';
-import { Calendar, Users, Rocket, LogOut, RefreshCw, Plus, Edit2, Trash2, Mail, Lock } from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
+
+function DynamicIcon({ name, ...props }) {
+  const Icon = LucideIcons[name] || LucideIcons.HelpCircle;
+  return <Icon {...props} />;
+}
 
 const API_BASE = (import.meta.env?.VITE_API_BASE || '').replace(/\/+$/, '');
 const api = (path) => API_BASE ? `${API_BASE}${path}` : path;
@@ -170,11 +175,11 @@ export default function AdminPage() {
         <div style={{ maxWidth: 400, margin: '0 auto', background: 'var(--card)', padding: '32px', borderRadius: 'var(--r2)', border: '1px solid var(--bdr)' }}>
           <div style={{ display: 'grid', gap: 16 }}>
              <div style={{ position: 'relative' }}>
-                <Mail size={16} style={{ position: 'absolute', left: 12, top: 14, opacity: 0.5 }} />
+                <DynamicIcon name="Mail" size={16} style={{ position: 'absolute', left: 12, top: 14, opacity: 0.5 }} />
                 <input placeholder="Email Address" value={email} onChange={e => setEmail(e.target.value)} className="admin-input" style={{ paddingLeft: 40 }} />
              </div>
              <div style={{ position: 'relative' }}>
-                <Lock size={16} style={{ position: 'absolute', left: 12, top: 14, opacity: 0.5 }} />
+                <DynamicIcon name="Lock" size={16} style={{ position: 'absolute', left: 12, top: 14, opacity: 0.5 }} />
                 <input placeholder="Password" type="password" value={password} onChange={e => setPassword(e.target.value)} className="admin-input" style={{ paddingLeft: 40 }} />
              </div>
              <button className="btn btn-primary" onClick={login} disabled={busy} style={{ height: 48 }}>
@@ -186,16 +191,16 @@ export default function AdminPage() {
         <>
           <div style={{ display: 'flex', justifyContent: 'center', gap: 12, marginBottom: 32, flexWrap: 'wrap' }}>
             <button className={`btn ${activeTab === 'events' ? 'btn-primary' : 'btn-outline'}`} onClick={() => { setActiveTab('events'); resetForms(); }}>
-              <Calendar size={16} style={{ marginRight: 8 }} /> Events
+              <DynamicIcon name="Calendar" size={16} style={{ marginRight: 8 }} /> Events
             </button>
             <button className={`btn ${activeTab === 'activity-events' ? 'btn-primary' : 'btn-outline'}`} onClick={() => { setActiveTab('activity-events'); resetForms(); }}>
-              <Rocket size={16} style={{ marginRight: 8 }} /> Activity Events
+              <DynamicIcon name="Rocket" size={16} style={{ marginRight: 8 }} /> Activity Events
             </button>
             <button className={`btn ${activeTab === 'team' ? 'btn-primary' : 'btn-outline'}`} onClick={() => { setActiveTab('team'); resetForms(); }}>
-              <Users size={16} style={{ marginRight: 8 }} /> Core Team
+              <DynamicIcon name="Users" size={16} style={{ marginRight: 8 }} /> Core Team
             </button>
             <button className="btn btn-outline" onClick={logout} style={{ marginLeft: 'auto' }}>
-              <LogOut size={16} style={{ marginRight: 8 }} /> Logout
+              <DynamicIcon name="LogOut" size={16} style={{ marginRight: 8 }} /> Logout
             </button>
           </div>
 
@@ -269,7 +274,7 @@ export default function AdminPage() {
           <div style={{ display: 'grid', gap: 16, maxWidth: 900, margin: '0 auto' }}>
              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <h2 style={{ fontFamily: 'Orbitron, sans-serif', fontSize: '1.2rem', margin: 0 }}>Existing {activeTab.replace('-', ' ')}</h2>
-                <button className="btn btn-sm btn-outline" onClick={loadTabData} disabled={busy}><RefreshCw size={14} style={{ marginRight: 6 }} /> Sync</button>
+                <button className="btn btn-sm btn-outline" onClick={loadTabData} disabled={busy}><DynamicIcon name="RefreshCw" size={14} style={{ marginRight: 6 }} /> Sync</button>
              </div>
             {data.map(item => (
               <div key={item.id || item.activityTitle || item.name} style={{ border: '1px solid var(--bdr)', borderRadius: 'var(--r2)', padding: '20px', background: 'var(--card)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 20 }}>
@@ -281,8 +286,8 @@ export default function AdminPage() {
                   <p style={{ fontSize: '.85rem', color: 'var(--t2)', margin: 0, opacity: 0.8 }}>{item.description || item.eventDescription || item.bio || 'No description provided.'}</p>
                 </div>
                 <div style={{ display: 'flex', gap: 8 }}>
-                  <button className="btn btn-outline btn-sm" onClick={() => startEdit(item)}><Edit2 size={14} /></button>
-                  <button className="btn btn-outline btn-sm" onClick={() => handleRemove(item.id || item.activityTitle || item.name)} style={{ color: '#ff5f7a', borderColor: 'rgba(255,95,122,0.2)' }}><Trash2 size={14} /></button>
+                  <button className="btn btn-outline btn-sm" onClick={() => startEdit(item)}><DynamicIcon name="Edit2" size={14} /></button>
+                  <button className="btn btn-outline btn-sm" onClick={() => handleRemove(item.id || item.activityTitle || item.name)} style={{ color: '#ff5f7a', borderColor: 'rgba(255,95,122,0.2)' }}><DynamicIcon name="Trash2" size={14} /></button>
                 </div>
               </div>
             ))}

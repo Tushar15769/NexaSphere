@@ -2,7 +2,12 @@ import { useEffect } from 'react';
 import { events as fallbackEvents } from '../../data/eventsData';
 import { BannerOrbs } from '../../shared/MotionLayer';
 import Skeleton from '../../shared/Skeleton';
-import { Calendar, CheckCircle, Clock, Rocket, ArrowLeft, ChevronRight } from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
+
+function DynamicIcon({ name, ...props }) {
+  const Icon = LucideIcons[name] || LucideIcons.HelpCircle;
+  return <Icon {...props} />;
+}
 
 export default function EventsPage({ onBack, onEventClick, events = fallbackEvents, loading = false }) {
   useEffect(() => {
@@ -59,7 +64,7 @@ export default function EventsPage({ onBack, onEventClick, events = fallbackEven
           fontFamily: "'Rajdhani', sans-serif", fontWeight: 600,
           zIndex: 10
         }}>
-          <ArrowLeft size={14} /> Back
+          <DynamicIcon name="ArrowLeft" size={14} /> Back
         </button>
 
         <span className="cin-section-label pop-in" style={{position:'relative',zIndex:1}}>NexaSphere · GL Bajaj</span>
@@ -76,7 +81,7 @@ export default function EventsPage({ onBack, onEventClick, events = fallbackEven
                <div className="timeline-item">
                <div className="timeline-dot upcoming" />
                <div className="timeline-card pop-in fired" style={{ textAlign: 'center', color: 'var(--t3)', padding: '40px 20px' }}>
-                 <Rocket size={40} style={{ color: 'var(--c1)', marginBottom: '15px' }} />
+                 <DynamicIcon name="Rocket" size={40} style={{ color: 'var(--c1)', marginBottom: '15px' }} />
                  <h3 style={{ color: 'var(--t1)', marginBottom: '8px' }}>No events found</h3>
                  <p style={{ fontSize: '.9rem', opacity: 0.8 }}>We're currently planning some amazing sessions. Stay tuned!</p>
                </div>
@@ -99,7 +104,7 @@ export default function EventsPage({ onBack, onEventClick, events = fallbackEven
                       >
                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '7px' }}>
                           <span style={{ fontSize: '1.4rem', color: isKSS ? '#a855f7' : 'var(--c1)' }}>
-                            {isKSS ? <Rocket size={24} /> : <Calendar size={24} />}
+                            {isKSS ? <DynamicIcon name="Rocket" size={24} /> : <DynamicIcon name="Calendar" size={24} />}
                           </span>
                           <div className="timeline-event-name" style={isKSS ? { color: '#a855f7' } : {}}>{ev.name}</div>
                           {isKSS && (
@@ -110,17 +115,17 @@ export default function EventsPage({ onBack, onEventClick, events = fallbackEven
                               fontFamily: "'Space Mono', monospace", whiteSpace: 'nowrap',
                               display: 'flex', alignItems: 'center', gap: '4px'
                             }}>
-                              Details <ChevronRight size={12} />
+                              Details <DynamicIcon name="ChevronRight" size={12} />
                             </span>
                           )}
                         </div>
                         <div className="timeline-event-date" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                          <Calendar size={14} style={{ opacity: 0.7 }} /> {ev.date}
+                          <DynamicIcon name="Calendar" size={14} style={{ opacity: 0.7 }} /> {ev.date}
                         </div>
                         <p className="timeline-event-desc">{ev.description}</p>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '7px', flexWrap: 'wrap' }}>
                           <span className={`timeline-badge ${ev.status}`} style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                            {ev.status === 'completed' ? <CheckCircle size={12} /> : <Clock size={12} />}
+                            {ev.status === 'completed' ? <DynamicIcon name="CheckCircle" size={12} /> : <DynamicIcon name="Clock" size={12} />}
                             {ev.status === 'completed' ? 'Completed' : 'Upcoming'}
                           </span>
                           {ev.tags?.map(t => (
@@ -138,7 +143,7 @@ export default function EventsPage({ onBack, onEventClick, events = fallbackEven
                 <div className="timeline-item">
                   <div className="timeline-dot upcoming" />
                   <div className="timeline-card pop-in fired" style={{ textAlign: 'center', color: 'var(--t3)', animationDelay: `${events.length * .11}s` }}>
-                    <Rocket size={24} style={{ color: 'var(--c1)', marginBottom: '8px' }} />
+                    <DynamicIcon name="Rocket" size={24} style={{ color: 'var(--c1)', marginBottom: '8px' }} />
                     <p style={{ fontSize: '.84rem' }}>More events coming soon. Watch this space!</p>
                   </div>
                 </div>
@@ -150,4 +155,3 @@ export default function EventsPage({ onBack, onEventClick, events = fallbackEven
     </div>
   );
 }
-
