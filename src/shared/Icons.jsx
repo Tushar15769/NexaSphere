@@ -1,4 +1,21 @@
 import React from 'react';
+import { 
+  Users, Cpu, Calendar, Lightbulb, Code2, Bot, Settings, 
+  Telescope, Globe, Mic2, Linkedin, MessageSquare, Instagram, 
+  Mail, X, MapPin, Phone, Github, ExternalLink, ChevronRight
+} from 'lucide-react';
+
+const ICON_MAP = {
+  Users, Cpu, Calendar, Lightbulb, Code2, Bot, Settings, 
+  Telescope, Globe, Mic2, Linkedin, MessageSquare, Instagram, 
+  Mail, X, MapPin, Phone, Github, ExternalLink, ChevronRight
+};
+
+export function DynamicIcon({ name, size = 16, className = '', ...props }) {
+  const IconComponent = ICON_MAP[name];
+  if (!IconComponent) return null;
+  return <IconComponent size={size} className={className} {...props} />;
+}
 
 function baseProps(props) {
   return {
