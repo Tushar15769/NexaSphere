@@ -66,7 +66,7 @@ export default function TeamPage({ onBack, onApply }) {
 
   return (
     <div id="team-page" style={{ minHeight: '100vh', padding: '0 0 100px' }}>
-      {/* Hero */}
+      
       <div className="page-banner" style={{
         background: 'linear-gradient(135deg, rgba(123,111,255,.07), rgba(189,92,255,.04))',
         borderBottom: '1px solid var(--bdr)',
@@ -96,7 +96,7 @@ export default function TeamPage({ onBack, onApply }) {
       </div>
 
       <div className="container">
-        {/* Leadership */}
+        
         <div style={{ marginBottom: '52px' }}>
           <div style={{
             fontFamily: "'Orbitron', monospace", fontSize: '.68rem', fontWeight: 700,
@@ -113,7 +113,7 @@ export default function TeamPage({ onBack, onApply }) {
           </div>
         </div>
 
-        {/* Core Team */}
+        
         <div style={{ marginBottom: '52px' }}>
           <div style={{
             fontFamily: "'Orbitron', monospace", fontSize: '.68rem', fontWeight: 700,
@@ -130,7 +130,7 @@ export default function TeamPage({ onBack, onApply }) {
           </div>
         </div>
 
-        {/* Join CTA */}
+        
         <div className="ns-reveal-scale" style={{
           textAlign: 'center', padding: '32px',
           background: 'var(--card)', border: '1px solid var(--bdr)',
@@ -164,3 +164,4 @@ export default function TeamPage({ onBack, onApply }) {
     </div>
   );
 }
+

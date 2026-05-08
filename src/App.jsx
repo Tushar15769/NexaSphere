@@ -1,10 +1,14 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import './styles/themes.css';
 import './styles/globals.css';
 import './styles/animations.css';
 import './styles/components.css';
+import './styles/aurora.css';
 import './styles/motion.css';
 
 import ParticleBackground  from './shared/ParticleBackground';
+import GeometricGridBackground from './shared/GeometricGridBackground';
+import ScrollProgress      from './shared/ScrollProgress';
 import Navbar              from './shared/Navbar';
 import HeroSection         from './pages/home/HeroSection';
 import ActivitiesSection   from './pages/activities/ActivitiesSection';
@@ -17,7 +21,7 @@ import EventDetailPage     from './pages/events/EventDetailPage';
 import CinematicOpening    from './shared/CinematicOpening';
 import {
   AmbientOrbs, SectionDivider, PageFlash, BannerOrbs,
-  useScrollProgress, useNsReveal, useHeroParallax,
+  useNsReveal, useHeroParallax,
   useNavScrollTint, useGlobalMouseParallax, useMagneticCards,
 } from './shared/MotionLayer';
 import ActivitiesPage      from './pages/activities/ActivitiesPage';
@@ -42,10 +46,10 @@ function Wipe({ on, ph }) {
   return (
     <>
       <div style={{position:'fixed',inset:0,zIndex:8000,background:'var(--bg)',animation:`${ph==='out'?'wipeDown .27s':'wipeUp .30s'} cubic-bezier(.77,0,.18,1) forwards`,pointerEvents:'all'}}/>
-      <div style={{position:'fixed',inset:0,zIndex:8001,background:'linear-gradient(90deg,var(--c1),var(--c2),var(--c3))',opacity:.07,animation:`${ph==='out'?'wipeDown .20s .04s':'wipeUp .24s .04s'} cubic-bezier(.77,0,.18,1) forwards`,pointerEvents:'none'}}/>
-      {/* Enhanced shimmer sweep over wipe */}
+      <div style={{position:'fixed',inset:0,zIndex:8001,background:'linear-gradient(90deg,#CC1111,#880000,#EE2222)',opacity:.09,animation:`${ph==='out'?'wipeDown .20s .04s':'wipeUp .24s .04s'} cubic-bezier(.77,0,.18,1) forwards`,pointerEvents:'none'}}/>
+      
       {ph==='out'&&<div className="wipe-shimmer" aria-hidden="true"/>}
-      {/* Page flash glow on navigate */}
+      
       {ph==='in'&&<PageFlash/>}
       {ph==='out'&&<div style={{position:'fixed',top:'50%',left:'50%',transform:'translate(-50%,-50%)',zIndex:8002,pointerEvents:'none',opacity:0,animation:'splashIn .16s .1s ease forwards'}}>
         <img src={nexasphereLogo} style={{height:'46px',mixBlendMode:'screen',filter:'drop-shadow(0 0 12px var(--c1))',opacity:.6}} alt=""/>
@@ -71,13 +75,13 @@ function Cursor() {
   const trailRef= useRef(null);
   const glowRef = useRef(null);
   const stateRef= useRef({
-    // real mouse position
+    
     mx:0, my:0,
-    // orb position (lags behind)
+    
     ox:0, oy:0,
-    // anti-gravity float offset
+    
     floatY:0, floatPhase:0,
-    // hover state
+    
     hovering:false,
     clicking:false,
     raf:null
@@ -93,17 +97,17 @@ function Cursor() {
     const onDown = () => { s.clicking = true; };
     const onUp   = () => { s.clicking = false; };
 
-    // Detect hoverable elements
+    
     const onOver = e => {
       s.hovering = !!(e.target.closest('button,a,[role="button"],[tabindex]'));
     };
 
     const tick = () => {
-      // Smooth follow — increased sensitivity (was 0.11)
+      
       s.ox += (s.mx - s.ox) * 0.18;
       s.oy += (s.my - s.oy) * 0.18;
 
-      // Anti-gravity float: continuous gentle bob
+      
       s.floatPhase += 0.022;
       s.floatY = Math.sin(s.floatPhase) * 6
                + Math.sin(s.floatPhase * 1.7) * 3
@@ -151,34 +155,34 @@ function Cursor() {
 
   return (
     <>
-      {/* Big ambient glow — follows mouse directly */}
+      
       <div ref={glowRef} style={{
         position:'fixed', pointerEvents:'none', zIndex:10000,
         width:'320px', height:'320px', borderRadius:'50%',
-        background:'radial-gradient(circle, rgba(0,212,255,.055) 0%, rgba(123,111,255,.03) 40%, transparent 70%)',
+        background:'radial-gradient(circle, rgba(204,17,17,.055) 0%, rgba(136,0,0,.03) 40%, transparent 70%)',
         transform:'translate(-50%,-50%)',
         transition:'opacity .3s',
       }}/>
 
-      {/* Trail dot — slower, creates depth */}
+      
       <div ref={trailRef} style={{
         position:'fixed', pointerEvents:'none', zIndex:10002,
         width:'28px', height:'28px', borderRadius:'50%',
-        background:'radial-gradient(circle, var(--c2) 0%, transparent 70%)',
+        background:'radial-gradient(circle, rgba(204,17,17,0.7) 0%, transparent 70%)',
         transform:'translate(-50%,-50%)',
         filter:'blur(6px)',
         transition:'opacity .25s',
       }}/>
 
-      {/* Main anti-gravity orb */}
+      
       <div ref={orbRef} style={{
         position:'fixed', pointerEvents:'none', zIndex:10005,
         width:'18px', height:'18px', borderRadius:'50%',
-        background:'radial-gradient(circle at 35% 35%, #fff 0%, var(--c1) 40%, var(--c2) 100%)',
-        boxShadow:'0 0 10px var(--c1), 0 0 24px rgba(0,212,255,.5), 0 0 50px rgba(123,111,255,.2)',
+        background:'radial-gradient(circle at 35% 35%, #fff 0%, #CC1111 40%, #880000 100%)',
+        boxShadow:'0 0 10px rgba(204,17,17,.9), 0 0 24px rgba(204,17,17,.5), 0 0 50px rgba(136,0,0,.3)',
         transition:'transform .18s cubic-bezier(.34,1.56,.64,1), opacity .2s',
       }}>
-        {/* Inner sparkle */}
+        
         <div style={{
           position:'absolute', top:'20%', left:'22%',
           width:'5px', height:'5px', borderRadius:'50%',
@@ -200,13 +204,13 @@ export default function App() {
   const [theme,    setTheme]    = useState(()=>localStorage.getItem('ns-theme')||'dark');
   const [eventsData,setEventsData]=useState(fallbackEvents);
   const isAdminRoute = typeof window !== 'undefined' && window.location.pathname === '/admin';
-  // Apply theme to html element
+  
   useEffect(()=>{
     document.documentElement.setAttribute('data-theme',theme);
     localStorage.setItem('ns-theme',theme);
   },[theme]);
 
-  // Simple theme toggle — no animation, just CSS transition
+  
   const toggleTheme = useCallback(() => {
     setTheme(t => t === 'dark' ? 'light' : 'dark');
   }, []);
@@ -226,7 +230,7 @@ export default function App() {
       .catch(() => {});
     return () => { alive = false; };
   }, []);
-  // Back to top button
+  
   useEffect(()=>{
     const btn=document.getElementById('back-to-top');
     if(!btn)return;
@@ -236,7 +240,7 @@ export default function App() {
     return()=>window.removeEventListener('scroll',fn);
   },[]);
 
-  // Active tab highlight from scroll
+  
   useEffect(()=>{
     if(page)return;
     const nh=mobile?MNH:DNH;
@@ -251,17 +255,17 @@ export default function App() {
     return()=>window.removeEventListener('scroll',fn);
   },[mobile,page]);
 
-  // Resize
+  
   useEffect(()=>{
     const fn=()=>setMobile(window.innerWidth<=768);
     window.addEventListener('resize',fn,{passive:true});
     return()=>window.removeEventListener('resize',fn);
   },[]);
 
-  // Scroll reveal + cinematic pop + magnetic buttons + 3D card tilt
+  
   useEffect(()=>{
     if(!cinDone)return;
-    // Pop observer
+    
     const obs=new IntersectionObserver(entries=>{
       entries.forEach(e=>{
         if(e.isIntersecting){e.target.classList.add('fired');obs.unobserve(e.target);}
@@ -269,7 +273,7 @@ export default function App() {
     },{threshold:.09,rootMargin:'0px 0px -36px 0px'});
     document.querySelectorAll('.pop-in,.pop-left,.pop-right,.pop-scale,.pop-flip,.pop-word,.pop-num').forEach(el=>obs.observe(el));
 
-    // Magnetic buttons
+    
     const btns=document.querySelectorAll('.mag-btn');
     const onMove=e=>{
       btns.forEach(btn=>{
@@ -280,7 +284,7 @@ export default function App() {
         btn.style.transform=d<88?`translate(${dx*(88-d)/88*.32}px,${dy*(88-d)/88*.32}px)`:'';
       });
 
-      // 3D card tilt for activity cards
+      
       document.querySelectorAll('.activity-card').forEach(card=>{
         const rect=card.getBoundingClientRect();
         const cx=rect.left+rect.width/2;
@@ -303,15 +307,13 @@ export default function App() {
     return()=>{obs.disconnect();window.removeEventListener('mousemove',onMove);};
   },[cinDone,page]);
 
-  // ── NEW: Motion layer hooks (non-destructive extensions) ──
-  useScrollProgress();
   useNsReveal([cinDone, page]);
   useHeroParallax();
   useNavScrollTint();
   useGlobalMouseParallax();
   useMagneticCards();
 
-  // Navigation with wipe transition
+  
   const nav=useCallback((fn)=>{
     setWipeOn(true);setWipePh('out');
     setTimeout(()=>{
@@ -324,7 +326,7 @@ export default function App() {
   },[]);
 
   const onTab=useCallback(tab=>{
-    // These tabs get their own dedicated page
+    
     if(['Activities','Events','About','Team','Contact'].includes(tab)){
       nav(()=>{setPage({type:'section',section:tab});setActiveTab(tab);});
       return;
@@ -348,7 +350,7 @@ export default function App() {
   },[nav]);
 
   const onKSSClick=useCallback(ev=>{
-    // Show KSS event detail page with Insight Session as activity context
+    
     nav(()=>setPage({type:'event',activityKey:'Insight Session',event:ev}));
   },[nav]);
 
@@ -388,18 +390,19 @@ export default function App() {
 
   return (
     <>
-      {/* Cinematic opening — plays once on load */}
+      
       {!cinDone&&<CinematicOpening theme={theme} onDone={()=>setCinDone(true)}/>}
 
-      {cinDone&&<div id="scroll-progress"/>}
+      {cinDone&&<ScrollProgress />}
       <Cursor/>
       <Wipe on={wipeOn} ph={wipePh}/>
 
-      {/* Ambient depth orbs — layered behind everything */}
+      
       {cinDone&&<AmbientOrbs theme={theme}/>}
 
+      {cinDone&&<GeometricGridBackground theme={theme} />}
       {cinDone&&<ParticleBackground theme={theme}/>}
-      {cinDone&&<Navbar activeTab={activeTab} onTabChange={onTab} onToggleTheme={toggleTheme}/>}
+      {cinDone&&<Navbar activeTab={activeTab} onTabChange={onTab} onToggleTheme={toggleTheme} theme={theme}/>}
 
       <main style={{paddingTop:nh,position:'relative',zIndex:1}}>
         {isAdminRoute && (
@@ -409,7 +412,7 @@ export default function App() {
         )}
         {!isAdminRoute && (
           <>
-        {/* Section pages — navbar tab clicks */}
+        
         {page?.type==='section'&&page.section==='Activities'&&(
           <PageIn k="pg-activities">
             <ActivitiesPage onNavigate={onNavigate} onBack={onBackHome}/>
@@ -430,7 +433,7 @@ export default function App() {
             <TeamPage onBack={onBackHome} onApply={openApply}/>
           </PageIn>
         )}
-        {/* Activity detail pages */}
+        
         {page?.type==='activity'&&cur&&(
           <PageIn k={`a-${page.activityKey}`}>
             <ActivityDetailPage activity={cur} onBack={()=>nav(()=>setPage({type:'section',section:'Activities'}))} onSelectEvent={onEvent}/>
@@ -439,18 +442,18 @@ export default function App() {
         {page?.type==='event'&&page.event&&cur&&(
           <PageIn k={`e-${page.event?.id}`}>
             {(() => {
-              // For KSS event from eventsData, use the corresponding conducted event from activity
+              
               let displayEvent = page.event;
               const isKssEvent = page.event.id === 1 || page.event.id === 'kss-153' || String(page.event.shortName || '').toLowerCase().includes('kss');
               if (page.activityKey === 'Insight Session' && isKssEvent) {
-                // Find KSS #153 in conducted events
+                
                 displayEvent = cur.conductedEvents?.find(e => e.id === 'kss-153') || page.event;
               }
               return <EventDetailPage event={displayEvent} activityColor={cur.color} activityIcon={cur.icon} onBack={onBackAct}/>;
             })()}
           </PageIn>
         )}
-        {/* Main home page */}
+        
 
         {page?.type==='section' && page.section==='Contact' && (
           <PageIn k="pg-contact">
@@ -489,3 +492,4 @@ export default function App() {
     </>
   );
 }
+

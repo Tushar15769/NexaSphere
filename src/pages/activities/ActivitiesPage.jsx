@@ -3,54 +3,14 @@ import { activities } from '../../data/activitiesData';
 import { BannerOrbs } from '../../shared/MotionLayer';
 
 const activityDetails = {
-  'Hackathon': {
-    color: '#00d4ff',
-    longDesc: 'Intense 24–48 hour coding marathons where teams build innovative solutions to real-world problems under time pressure. Participants form cross-functional teams, brainstorm ideas, design architectures, and ship working prototypes — all under the clock.',
-    highlights: ['Team-based challenges', 'Mentorship from seniors', 'Real problem statements', 'Prizes & recognition'],
-    skills: ['Full-Stack Dev', 'Problem Solving', 'Team Collaboration', 'System Design'],
-  },
-  'Codathon': {
-    color: '#7b6fff',
-    longDesc: 'Competitive programming contests that test your algorithmic thinking, data structures knowledge, and code efficiency. From greedy to dynamic programming — sharpen your edge for placements and ICPC-style rounds.',
-    highlights: ['Timed challenge rounds', 'Multi-difficulty problems', 'Leaderboard ranking', 'Individual & team modes'],
-    skills: ['Algorithms', 'DSA', 'Competitive Programming', 'Optimization'],
-  },
-  'Ideathon': {
-    color: '#bd5cff',
-    longDesc: 'Creativity-first competition where the best idea wins — no code required. Pitch your innovation, back it with research, and present a compelling case. Perfect for thinkers, designers, and business-minded builders.',
-    highlights: ['Pitching rounds', 'Expert panel judging', 'Market research focus', 'Cross-discipline teams'],
-    skills: ['Creative Thinking', 'Presentation', 'Research', 'Product Design'],
-  },
-  'Promptathon': {
-    color: '#8b5cf6',
-    longDesc: 'The art of talking to AI turned into a competitive sport. Craft the sharpest, most creative prompts to solve real-world problems, generate stunning outputs, and outsmart your peers in the age of generative intelligence.',
-    highlights: ['Multi-round prompt battles', 'Judged on creativity & accuracy', 'Real-world AI tasks', 'Leaderboard & prizes'],
-    skills: ['Prompt Engineering', 'AI Tools', 'Creative Thinking', 'Problem Solving'],
-  },
-  'Workshop': {
-    color: '#ff9500',
-    longDesc: 'Hands-on learning sessions on cutting-edge tools, frameworks, and emerging technologies. Led by experienced peers, alumni, or industry guests — every workshop gets you building something real by the end.',
-    highlights: ['Live coding sessions', 'Take-home projects', 'Q&A with experts', 'Beginner to advanced tracks'],
-    skills: ['New Technologies', 'Practical Skills', 'Tool Mastery', 'Applied Learning'],
-  },
-  'Insight Session': {
-    color: '#a855f7',
-    longDesc: 'Deep-dive talks and peer-to-peer knowledge sharing where every member is both teacher and student. Explore industry trends, career paths, emerging research, and the big ideas shaping tomorrow\'s technology landscape.',
-    highlights: ['Peer presentations', 'Industry trend analysis', 'Career guidance', 'Open discussions'],
-    skills: ['Communication', 'Research', 'Critical Thinking', 'Domain Knowledge'],
-  },
-  'Open Source Day': {
-    color: '#00ff9d',
-    longDesc: 'Dedicated events encouraging real contributions to open-source projects. Learn Git workflows, find your first issue, submit PRs, and become part of the global developer community — all in a guided, supportive environment.',
-    highlights: ['First-PR guidance', 'Project selection help', 'Git & GitHub deep dive', 'Community recognition'],
-    skills: ['Git', 'Open Source', 'Code Review', 'Documentation'],
-  },
-  'Tech Debate': {
-    color: '#ff2d78',
-    longDesc: 'Structured debates on the most controversial topics in tech — AI vs Human Jobs, Native vs Cross-Platform, SQL vs NoSQL. Sharpen your ability to defend a position, handle rebuttals, and communicate technical ideas clearly.',
-    highlights: ['Structured format', 'Expert moderation', 'Both sides argued', 'Audience Q&A'],
-    skills: ['Public Speaking', 'Critical Thinking', 'Technical Communication', 'Argumentation'],
-  },
+  'Hackathon':      { color: '#CC1111', longDesc: 'Intense 24â€“48 hour coding marathons where teams build innovative solutions to real-world problems under time pressure. Participants form cross-functional teams, brainstorm ideas, design architectures, and ship working prototypes â€” all under the clock.', highlights: ['Team-based challenges', 'Mentorship from seniors', 'Real problem statements', 'Prizes & recognition'], skills: ['Full-Stack Dev', 'Problem Solving', 'Team Collaboration', 'System Design'] },
+  'Codathon':       { color: '#EE2222', longDesc: 'Competitive programming contests that test your algorithmic thinking, data structures knowledge, and code efficiency. From greedy to dynamic programming â€” sharpen your edge for placements and ICPC-style rounds.', highlights: ['Timed challenge rounds', 'Multi-difficulty problems', 'Leaderboard ranking', 'Individual & team modes'], skills: ['Algorithms', 'DSA', 'Competitive Programming', 'Optimization'] },
+  'Ideathon':       { color: '#FF4444', longDesc: 'Creativity-first competition where the best idea wins â€” no code required. Pitch your innovation, back it with research, and present a compelling case. Perfect for thinkers, designers, and business-minded builders.', highlights: ['Pitching rounds', 'Expert panel judging', 'Market research focus', 'Cross-discipline teams'], skills: ['Creative Thinking', 'Presentation', 'Research', 'Product Design'] },
+  'Promptathon':    { color: '#FF6666', longDesc: 'The art of talking to AI turned into a competitive sport. Craft the sharpest, most creative prompts to solve real-world problems, generate stunning outputs, and outsmart your peers in the age of generative intelligence.', highlights: ['Multi-round prompt battles', 'Judged on creativity & accuracy', 'Real-world AI tasks', 'Leaderboard & prizes'], skills: ['Prompt Engineering', 'AI Tools', 'Creative Thinking', 'Problem Solving'] },
+  'Workshop':       { color: '#AA0000', longDesc: 'Hands-on learning sessions on cutting-edge tools, frameworks, and emerging technologies. Led by experienced peers, alumni, or industry guests â€” every workshop gets you building something real by the end.', highlights: ['Live coding sessions', 'Take-home projects', 'Q&A with experts', 'Beginner to advanced tracks'], skills: ['New Technologies', 'Practical Skills', 'Tool Mastery', 'Applied Learning'] },
+  'Insight Session':{ color: '#CC3333', longDesc: 'Deep-dive talks and peer-to-peer knowledge sharing where every member is both teacher and student. Explore industry trends, career paths, emerging research, and the big ideas shaping tomorrow\'s technology landscape.', highlights: ['Peer presentations', 'Industry trend analysis', 'Career guidance', 'Open discussions'], skills: ['Communication', 'Research', 'Critical Thinking', 'Domain Knowledge'] },
+  'Open Source Day':{ color: '#4CAF50', longDesc: 'Dedicated events encouraging real contributions to open-source projects. Learn Git workflows, find your first issue, submit PRs, and become part of the global developer community â€” all in a guided, supportive environment.', highlights: ['First-PR guidance', 'Project selection help', 'Git & GitHub deep dive', 'Community recognition'], skills: ['Git', 'Open Source', 'Code Review', 'Documentation'] },
+  'Tech Debate':    { color: '#880000', longDesc: 'Structured debates on the most controversial topics in tech â€” AI vs Human Jobs, Native vs Cross-Platform, SQL vs NoSQL. Sharpen your ability to defend a position, handle rebuttals, and communicate technical ideas clearly.', highlights: ['Structured format', 'Expert moderation', 'Both sides argued', 'Audience Q&A'], skills: ['Public Speaking', 'Critical Thinking', 'Technical Communication', 'Argumentation'] },
 };
 
 function ActivityCard({ a, idx, onNavigate }) {
@@ -90,7 +50,7 @@ function ActivityCard({ a, idx, onNavigate }) {
         animation: `ag 7s ease-in-out ${[-0, -2.1, -4.2, -1.0, -3.3, -5.5, -0.7][idx % 7]}s infinite`,
       }}
     >
-      {/* Accent top bar */}
+      
       <div style={{
         position: 'absolute', top: 0, left: 0, right: 0, height: '3px',
         background: details.color || 'var(--c1)',
@@ -128,7 +88,7 @@ function ActivityCard({ a, idx, onNavigate }) {
         <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 18px' }}>
           {details.highlights.map(h => (
             <li key={h} style={{ fontSize: '.8rem', color: 'var(--t2)', padding: '4px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span style={{ color: details.color, fontWeight: 700 }}>→</span> {h}
+              <span style={{ color: details.color, fontWeight: 700 }}>â†’</span> {h}
             </li>
           ))}
         </ul>
@@ -143,7 +103,7 @@ function ActivityCard({ a, idx, onNavigate }) {
         onMouseEnter={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.letterSpacing = '.16em'; }}
         onMouseLeave={e => { e.currentTarget.style.opacity = '.7'; e.currentTarget.style.letterSpacing = '.1em'; }}
       >
-        <span>View Sessions</span><span>→</span>
+        <span>View Sessions</span><span>â†’</span>
       </div>
 
       <div style={{ position: 'absolute', top: 0, left: 0, width: '16px', height: '16px', borderTop: `1.5px solid ${details.color || 'var(--c1)'}`, borderLeft: `1.5px solid ${details.color || 'var(--c1)'}`, opacity: .5 }} />
@@ -164,11 +124,11 @@ export default function ActivitiesPage({ onNavigate, onBack }) {
 
   return (
     <div id="activities-page" style={{ minHeight: '100vh', padding: '60px 0 100px' }}>
-      {/* Hero banner — page-banner class triggers CSS entrance */}
+      
       <div
         className="page-banner"
         style={{
-          background: 'linear-gradient(135deg, rgba(0,212,255,.07), rgba(123,111,255,.05))',
+          background: 'linear-gradient(135deg, rgba(204,17,17,.07), rgba(136,0,0,.04))',
           borderBottom: '1px solid var(--bdr)',
           padding: '60px 0 50px',
           textAlign: 'center',
@@ -177,12 +137,12 @@ export default function ActivitiesPage({ onNavigate, onBack }) {
           overflow: 'hidden',
         }}
       >
-        {/* Animated bg line */}
+        
         <div className="page-banner-line" style={{
           position:'absolute', top:0, left:0, right:0, height:'3px',
           background:'linear-gradient(90deg,var(--c1),var(--c2),var(--c3))',
         }}/>
-        <BannerOrbs color="rgba(0,212,255,.06)"/>
+        <BannerOrbs color="rgba(204,17,17,.06)"/>
         <button
           onClick={onBack}
           className="ns-back-btn"
@@ -194,12 +154,12 @@ export default function ActivitiesPage({ onNavigate, onBack }) {
             display: 'flex', alignItems: 'center', gap: '6px',
             fontFamily: "'Rajdhani', sans-serif", fontWeight: 600,
           }}
-        >← Back</button>
+        >â† Back</button>
 
-        <span className="cin-section-label pop-in" style={{position:'relative',zIndex:1}}>NexaSphere · GL Bajaj</span>
+        <span className="cin-section-label pop-in" style={{position:'relative',zIndex:1}}>NexaSphere Â· GL Bajaj</span>
         <h1 className="section-title pop-word" style={{ fontSize: 'clamp(2rem, 5vw, 3.2rem)', position:'relative', zIndex:1 }}>Our Activities</h1>
         <p className="section-subtitle pop-in" style={{ animationDelay: '.1s', maxWidth: '580px', margin: '0 auto', position:'relative', zIndex:1 }}>
-          Every format is designed to sharpen a different skill. Explore what excites you — then dive in.
+          Every format is designed to sharpen a different skill. Explore what excites you â€” then dive in.
         </p>
       </div>
 
@@ -217,3 +177,5 @@ export default function ActivitiesPage({ onNavigate, onBack }) {
     </div>
   );
 }
+
+
