@@ -6,7 +6,9 @@ import { google } from 'googleapis';
 import { promises as fs } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import crypto from 'crypto';
+
+import apiRouter from './routes/api.js';
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -718,6 +720,12 @@ if (!process.env.VERCEL) {
       // eslint-disable-next-line no-console
       console.log(`NexaSphere server listening on http://localhost:${port}`);
     });
+  });
+} else {
+  // Vercel/Render style deployments rely on the platform to start the server.
+  app.listen(port, () => {
+    // eslint-disable-next-line no-console
+    console.log(`NexaSphere server listening on http://localhost:${port}`);
   });
 }
 
