@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { activities } from '../../data/activitiesData';
+import { DynamicIcon } from '../../shared/Icons';
 
 const ANTI_GRAVITY_DELAYS = [0, -2.1, -4.2, -1.0, -3.3, -5.5, -0.7, -6.1];
 const TILT_ANGLE = 16;
@@ -51,7 +52,7 @@ function ActivityCard({ a, idx, onNav }) {
     >
       <div className="card-accent-line" />
       <div className="card-num">{String(idx + 1).padStart(2, '0')}</div>
-      <div className="activity-icon">{a.icon}</div>
+      <div className="activity-icon pop-in fired" style={{ animationDelay: `${0.2 + idx * 0.1}s` }}><DynamicIcon name={a.icon} size={32} /></div>
       <div className="activity-title">{a.title}</div>
       <p className="activity-desc">{a.description}</p>
       <div className="activity-cta">
