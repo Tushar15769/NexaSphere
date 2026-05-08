@@ -1,6 +1,6 @@
 // ── NexaSphere Activities Data ──
 
-export const activities = [
+export const activities: ActivitySummary[] = [
   {
     id: 1,
     icon: '⚡',
@@ -58,3 +58,4 @@ export const activities = [
       'Structured debates on controversial tech topics sharpening critical thinking and communication skills.',
   },
 ];
+import type { ActivitySummary } from '../types/activities';

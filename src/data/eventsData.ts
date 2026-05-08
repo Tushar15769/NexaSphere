@@ -2,7 +2,7 @@
 // Shown on Home page event section + Events page.
 // status: 'completed' | 'upcoming'
 
-export const events = [
+export const events: Event[] = [
   {
     id: 1,
     name: 'KSS #153 — Knowledge Sharing Session',
@@ -26,3 +26,4 @@ export const events = [
     tags: ['Git', 'GitHub', 'Workshop'],
   },
 ];
+import type { Event } from '../types/api';
