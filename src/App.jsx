@@ -33,7 +33,6 @@ import TeamPage            from './pages/team/TeamPage';
 import ContactPage         from './pages/contact/ContactPage';
 import RecruitmentPage     from './pages/recruitment/RecruitmentPage';
 import MembershipPage      from './pages/membership/MembershipPage';
-import AdminPage           from './pages/admin/AdminPage';
 
 import { activityPages }   from './data/activities/index';
 import { events as fallbackEvents } from './data/eventsData';
@@ -205,7 +204,6 @@ export default function App() {
   const [page,     setPage]     = useState(null);
   const [theme,    setTheme]    = useState(()=>localStorage.getItem('ns-theme')||'dark');
   const [eventsData,setEventsData]=useState(fallbackEvents);
-  const isAdminRoute = typeof window !== 'undefined' && window.location.pathname === '/admin';
   
   useEffect(()=>{
     document.documentElement.setAttribute('data-theme',theme);
@@ -408,39 +406,33 @@ export default function App() {
       {cinDone && <Navbar activeTab={activeTab} onTabChange={onTab} onToggleTheme={toggleTheme} theme={theme}/>}
 
       <main style={{paddingTop:nh, position:'relative', zIndex:1}}>
-        {isAdminRoute ? (
-          <PageIn k="pg-admin"><AdminPage/></PageIn>
+        {/* If page is null, show home sections. Otherwise show the specific page. */}
+        {page ? (
+           <PageIn k={page.type + (page.section || page.activityKey)}>
+             {page.section === 'Activities' && <ActivitiesPage onNavigate={onNavigate} onBack={onBackHome}/>}
+             {page.section === 'Events' && <EventsPage onBack={onBackHome} onEventClick={onKSSClick} events={eventsData}/>}
+             {page.section === 'About' && <AboutPage onBack={onBackHome}/>}
+             {page.section === 'Team' && <TeamPage onBack={onBackHome} onApply={openApply}/>}
+             {page.section === 'Contact' && <ContactPage onBack={onBackHome}/>}
+             {page.type === 'activity' && cur && <ActivityDetailPage activity={cur} onBack={onBackMain} onSelectEvent={onEvent}/>}
+             {page.type === 'apply' && <RecruitmentPage onBack={onBackHome}/>}
+             {page.type === 'join' && <MembershipPage onBack={onBackHome}/>}
+           </PageIn>
         ) : (
-          <>
-            {/* If page is null, show home sections. Otherwise show the specific page. */}
-            {page ? (
-               <PageIn k={page.type + (page.section || page.activityKey)}>
-                 {page.section === 'Activities' && <ActivitiesPage onNavigate={onNavigate} onBack={onBackHome}/>}
-                 {page.section === 'Events' && <EventsPage onBack={onBackHome} onEventClick={onKSSClick} events={eventsData}/>}
-                 {page.section === 'About' && <AboutPage onBack={onBackHome}/>}
-                 {page.section === 'Team' && <TeamPage onBack={onBackHome} onApply={openApply}/>}
-                 {page.section === 'Contact' && <ContactPage onBack={onBackHome}/>}
-                 {page.type === 'activity' && cur && <ActivityDetailPage activity={cur} onBack={onBackMain} onSelectEvent={onEvent}/>}
-                 {page.type === 'apply' && <RecruitmentPage onBack={onBackHome}/>}
-                 {page.type === 'join' && <MembershipPage onBack={onBackHome}/>}
-               </PageIn>
-            ) : (
-              cinDone && (
-                <PageIn k="main">
-                  <HeroSection onTabChange={onTab} onApply={openApply} onJoin={openJoin} theme={theme}/>
-                  <SectionDivider/>
-                  <ActivitiesSection onNavigate={onNavigate}/>
-                  <SectionDivider/>
-                  <EventsSection onEventClick={onKSSClick} events={eventsData}/>
-                  <SectionDivider/>
-                  <AboutSection/>
-                  <SectionDivider/>
-                  <TeamSection onApply={openApply}/>
-                  <Footer/>
-                </PageIn>
-              )
-            )}
-          </>
+          cinDone && (
+            <PageIn k="main">
+              <HeroSection onTabChange={onTab} onApply={openApply} onJoin={openJoin} theme={theme}/>
+              <SectionDivider/>
+              <ActivitiesSection onNavigate={onNavigate}/>
+              <SectionDivider/>
+              <EventsSection onEventClick={onKSSClick} events={eventsData}/>
+              <SectionDivider/>
+              <AboutSection/>
+              <SectionDivider/>
+              <TeamSection onApply={openApply}/>
+              <Footer/>
+            </PageIn>
+          )
         )}
       </main>
 
