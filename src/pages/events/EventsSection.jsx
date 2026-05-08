@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { events as fallbackEvents } from '../../data/eventsData';
 import * as LucideIcons from 'lucide-react';
-import { Calendar, CheckCircle, Clock, Rocket } from 'lucide-react';
 
 function DynamicIcon({ name, ...props }) {
   const Icon = LucideIcons[name] || LucideIcons.HelpCircle;

@@ -1,10 +1,6 @@
 import { useEffect } from 'react';
 import { BannerOrbs } from '../../shared/MotionLayer';
 import * as LucideIcons from 'lucide-react';
-import { 
-  Lightbulb, Users, BookOpen, Seedling, Globe, Zap, 
-  Target, Rocket, Brain, Telescope, MessageSquare, Link, Mail, ArrowLeft 
-} from 'lucide-react';
 
 function DynamicIcon({ name, ...props }) {
   const Icon = LucideIcons[name] || LucideIcons.HelpCircle;
