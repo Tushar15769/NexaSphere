@@ -5,7 +5,8 @@
  * pop-in / pop-word / ag animation logic.
  */
 
-import { useEffect } from 'react';
+import { type DependencyList, type ReactNode, useEffect } from 'react';
+import type { CssVars } from '../types/dom';
 
 /* ── AMBIENT ORBS ─────────────────────────────────────── */
 const ORBS_DARK = [
@@ -23,7 +24,7 @@ const ORBS_LIGHT = [
   { w:280, h:280, top:'12%', left:'65%', bg:'rgba(232,99,122,.09)', dur:'22s', delay:'-3s',  lo:'.05', hi:'.10' },
 ];
 
-export function AmbientOrbs({ theme = 'dark' }) {
+export function AmbientOrbs({ theme = 'dark' }: { theme?: string }): ReactNode {
   const orbs = theme === 'light' ? ORBS_LIGHT : ORBS_DARK;
   return (
     <div aria-hidden="true" style={{ pointerEvents:'none', zIndex:0 }}>
@@ -33,19 +34,19 @@ export function AmbientOrbs({ theme = 'dark' }) {
           background:o.bg,
           '--orb-dur':o.dur, '--orb-delay':o.delay,
           '--orb-lo':o.lo,  '--orb-hi':o.hi,
-        }}/>
+        } as CssVars}/>
       ))}
     </div>
   );
 }
 
 /* ── SECTION DIVIDER ─────────────────────────────────── */
-export function SectionDivider() {
+export function SectionDivider(): ReactNode {
   return <div className="section-divider" aria-hidden="true"/>;
 }
 
 /* ── PAGE FLASH — visible radial glow on tab-switch ──── */
-export function PageFlash() {
+export function PageFlash(): ReactNode {
   return <div className="page-flash" aria-hidden="true"/>;
 }
 
@@ -53,7 +54,7 @@ export function PageFlash() {
    PAGE BANNER ORBS — decorative floating orbs inside
    each tab page's hero banner (not ambient layer)
    ──────────────────────────────────────────────────────── */
-export function BannerOrbs({ color = 'rgba(0,212,255,.06)' }) {
+export function BannerOrbs({ color = 'rgba(0,212,255,.06)' }: { color?: string }): ReactNode {
   const specs = [
     { w:260, h:260, t:'30%', l:'15%', dur:'14s', delay:'0s'  },
     { w:200, h:200, t:'20%', l:'70%', dur:'18s', delay:'-6s' },
@@ -76,7 +77,7 @@ export function BannerOrbs({ color = 'rgba(0,212,255,.06)' }) {
 }
 
 /* ── useScrollProgress ───────────────────────────────── */
-export function useScrollProgress() {
+export function useScrollProgress(): void {
   useEffect(() => {
     const bar = document.getElementById('scroll-progress');
     if (!bar) return;
@@ -91,7 +92,7 @@ export function useScrollProgress() {
 }
 
 /* ── useNsReveal — fires .ns-visible on scroll ────────── */
-export function useNsReveal(deps = []) {
+export function useNsReveal(deps: DependencyList = []): void {
   useEffect(() => {
     // small delay so elements are in DOM after page mount
     const t = setTimeout(() => {
@@ -121,14 +122,14 @@ export function useNsReveal(deps = []) {
 }
 
 /* Backwards-compat alias */
-export function useRevealStagger(deps = []) { useNsReveal(deps); }
+export function useRevealStagger(deps: DependencyList = []): void { useNsReveal(deps); }
 
 /* ── useHeroParallax ──────────────────────────────────── */
-export function useHeroParallax() {
+export function useHeroParallax(): void {
   useEffect(() => {
-    let raf;
+    let raf = 0;
     const tick = () => {
-      const el = document.querySelector('.hero-bg-parallax');
+      const el = document.querySelector<HTMLElement>('.hero-bg-parallax');
       if (el) el.style.transform = `scale(1.06) translateY(${window.scrollY * 0.28}px)`;
       raf = requestAnimationFrame(tick);
     };
@@ -138,10 +139,10 @@ export function useHeroParallax() {
 }
 
 /* ── useNavScrollTint ─────────────────────────────────── */
-export function useNavScrollTint() {
+export function useNavScrollTint(): void {
   useEffect(() => {
     const update = () => {
-      const nav = document.querySelector('.ns-navbar');
+      const nav = document.querySelector<HTMLElement>('.ns-navbar');
       if (!nav) return;
       const r = Math.min(window.scrollY / 180, 1);
       nav.style.backdropFilter = `blur(${24 + r * 10}px) saturate(${180 + r * 60}%)`;
@@ -152,18 +153,18 @@ export function useNavScrollTint() {
 }
 
 /* ── useGlobalMouseParallax ───────────────────────────── */
-export function useGlobalMouseParallax() {
+export function useGlobalMouseParallax(): void {
   useEffect(() => {
     if (window.matchMedia('(hover:none)').matches) return;
-    let mx = 0, my = 0, raf;
-    const onMove = e => { mx = e.clientX; my = e.clientY; };
+    let mx = 0, my = 0, raf = 0;
+    const onMove = (e: MouseEvent): void => { mx = e.clientX; my = e.clientY; };
     const tick = () => {
       const cx = window.innerWidth / 2;
       const cy = window.innerHeight / 2;
       const dx = (mx - cx) / cx;
       const dy = (my - cy) / cy;
-      document.querySelectorAll('[data-parallax]').forEach(el => {
-        const depth = parseFloat(el.dataset.parallax) || 10;
+      document.querySelectorAll<HTMLElement>('[data-parallax]').forEach(el => {
+        const depth = parseFloat(el.dataset.parallax ?? '') || 10;
         el.style.transform = `translate(${dx * depth}px, ${dy * depth}px)`;
       });
       raf = requestAnimationFrame(tick);
@@ -175,11 +176,11 @@ export function useGlobalMouseParallax() {
 }
 
 /* ── useMagneticCards — .mag-card 3D tilt ────────────── */
-export function useMagneticCards() {
+export function useMagneticCards(): void {
   useEffect(() => {
     if (window.matchMedia('(hover:none)').matches) return;
-    const apply = e => {
-      document.querySelectorAll('.mag-card').forEach(card => {
+    const apply = (e: MouseEvent): void => {
+      document.querySelectorAll<HTMLElement>('.mag-card').forEach(card => {
         const rect = card.getBoundingClientRect();
         const cx = rect.left + rect.width  / 2;
         const cy = rect.top  + rect.height / 2;
@@ -197,7 +198,7 @@ export function useMagneticCards() {
         }
       });
     };
-    const reset = () => document.querySelectorAll('.mag-card').forEach(c => { c.style.transform = ''; });
+    const reset = (): void => document.querySelectorAll<HTMLElement>('.mag-card').forEach(c => { c.style.transform = ''; });
     window.addEventListener('mousemove', apply, { passive:true });
     window.addEventListener('mouseleave', reset);
     return () => { window.removeEventListener('mousemove', apply); window.removeEventListener('mouseleave', reset); };

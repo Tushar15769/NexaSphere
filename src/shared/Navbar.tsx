@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
+import { type ReactNode, useState, useEffect } from 'react';
 import nexasphereLogo from '../assets/images/logos/nexasphere-logo.png';
+import type { NavbarProps } from '../types/components';
 
 
 const TABS = ['Home', 'Activities', 'Events', 'About', 'Team', 'Contact'];
 
-export default function Navbar({ activeTab, onTabChange, onToggleTheme }) {
+export default function Navbar({ activeTab, onTabChange, onToggleTheme }: NavbarProps): ReactNode {
   const [scrolled, setScrolled] = useState(false);
   const [mobile,   setMobile]   = useState(window.innerWidth <= 768);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -20,7 +21,7 @@ export default function Navbar({ activeTab, onTabChange, onToggleTheme }) {
     };
   }, []);
 
-  const handleTab = tab => {
+  const handleTab = (tab: string): void => {
     setMenuOpen(false);
     onTabChange(tab);
   };

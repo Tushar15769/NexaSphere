@@ -1,9 +1,10 @@
+import type { ReactNode } from 'react';
 import nexasphereLogo from '../assets/images/logos/nexasphere-logo.png';
 import glbajajLogo    from '../assets/images/logos/glbajaj-logo.png';
 
 const NEXASPHERE_EMAIL = 'nexasphere@glbajajgroup.org';
 
-export default function Footer() {
+export default function Footer(): ReactNode {
   return (
     <footer className="ns-footer">
       <div className="container">

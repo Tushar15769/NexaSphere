@@ -1,4 +1,17 @@
-import { useEffect, useRef } from 'react';
+import { type ReactNode, useEffect, useRef } from 'react';
+
+interface Particle {
+  x: number;
+  y: number;
+  ox: number;
+  oy: number;
+  vx: number;
+  vy: number;
+  r: number;
+  ph: number;
+  hue: number;
+  lhue: number;
+}
 
 /* ─────────────────────────────────────────────────────────────────
    Google Antigravity-style interactive particle dot network
@@ -6,8 +19,8 @@ import { useEffect, useRef } from 'react';
    Dark mode : glowing cyan/purple dots on dark bg
 ───────────────────────────────────────────────────────────────── */
 
-export default function ParticleBackground({ theme = 'dark' }) {
-  const canvasRef = useRef(null);
+export default function ParticleBackground({ theme = 'dark' }: { theme?: string }): ReactNode {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const themeRef  = useRef(theme);
 
   useEffect(() => { themeRef.current = theme; }, [theme]);
@@ -16,22 +29,24 @@ export default function ParticleBackground({ theme = 'dark' }) {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
-    let raf;
+    let raf = 0;
     let mx = -9999, my = -9999;
 
-    const resize = () => {
+    const resize = (): void => {
       canvas.width  = window.innerWidth;
       canvas.height = window.innerHeight;
     };
     resize();
     window.addEventListener('resize', resize, { passive: true });
 
-    const onMove  = e => { mx = e.clientX; my = e.clientY; };
-    const onTouch = e => {
-      if (e.touches.length) { mx = e.touches[0].clientX; my = e.touches[0].clientY; }
+    const onMove  = (e: MouseEvent): void => { mx = e.clientX; my = e.clientY; };
+    const onTouch = (e: TouchEvent): void => {
+      const touch = e.touches[0];
+      if (touch) { mx = touch.clientX; my = touch.clientY; }
     };
-    const onLeave = () => { mx = -9999; my = -9999; };
+    const onLeave = (): void => { mx = -9999; my = -9999; };
     window.addEventListener('mousemove',  onMove,  { passive: true });
     window.addEventListener('touchmove',  onTouch, { passive: true });
     window.addEventListener('mouseleave', onLeave, { passive: true });
@@ -42,7 +57,7 @@ export default function ParticleBackground({ theme = 'dark' }) {
     const ATTRACT_DIST = 220;
     const HALO_DIST    = 200;
 
-    const mkParticle = () => {
+    const mkParticle = (): Particle => {
       const x = Math.random() * canvas.width;
       const y = Math.random() * canvas.height;
       return {
@@ -59,7 +74,7 @@ export default function ParticleBackground({ theme = 'dark' }) {
 
     const pts = Array.from({ length: N }, mkParticle);
 
-    const draw = () => {
+    const draw = (): void => {
       const isL = themeRef.current === 'light';
 
       /* ── theme-aware palette ── */

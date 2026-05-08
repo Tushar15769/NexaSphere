@@ -1,6 +1,8 @@
-import React from 'react';
+import type { ReactNode, SVGProps } from 'react';
 
-function baseProps(props) {
+type IconProps = SVGProps<SVGSVGElement>;
+
+function baseProps(props: IconProps): IconProps {
   return {
     width: 16,
     height: 16,
@@ -14,7 +16,7 @@ function baseProps(props) {
   };
 }
 
-export function IconArrowRight(props) {
+export function IconArrowRight(props: IconProps): ReactNode {
   return (
     <svg {...baseProps(props)}>
       <path d="M5 12h12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
@@ -23,7 +25,7 @@ export function IconArrowRight(props) {
   );
 }
 
-export function IconArrowLeft(props) {
+export function IconArrowLeft(props: IconProps): ReactNode {
   return (
     <svg {...baseProps(props)}>
       <path d="M19 12H7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
@@ -32,7 +34,7 @@ export function IconArrowLeft(props) {
   );
 }
 
-export function IconSpark(props) {
+export function IconSpark(props: IconProps): ReactNode {
   return (
     <svg {...baseProps(props)}>
       <path d="M12 2l1.2 5.2L18 9l-4.8 1.8L12 16l-1.2-5.2L6 9l4.8-1.8L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
@@ -41,7 +43,7 @@ export function IconSpark(props) {
   );
 }
 
-export function IconUsers(props) {
+export function IconUsers(props: IconProps): ReactNode {
   return (
     <svg {...baseProps(props)}>
       <path d="M16 11a4 4 0 1 0-8 0" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
@@ -51,7 +53,7 @@ export function IconUsers(props) {
   );
 }
 
-export function IconShieldCheck(props) {
+export function IconShieldCheck(props: IconProps): ReactNode {
   return (
     <svg {...baseProps(props)}>
       <path d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4Z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
@@ -60,7 +62,7 @@ export function IconShieldCheck(props) {
   );
 }
 
-export function IconBolt(props) {
+export function IconBolt(props: IconProps): ReactNode {
   return (
     <svg {...baseProps(props)}>
       <path d="M13 2L4 14h7l-1 8 9-12h-7l1-8Z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />

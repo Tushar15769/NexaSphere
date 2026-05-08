@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { type ReactNode, useEffect, useRef } from 'react';
 
 /* ═══════════════════════════════════════════════════════════════
    NEXASPHERE CINEMATIC STORM v5 — FULL CANVAS, ONE UNIFIED FLOW
@@ -33,14 +33,37 @@ import { useEffect, useRef } from 'react';
 
 const N_GRAINS = 520;
 
-function rand(a, b) { return a + Math.random() * (b - a); }
-function ease(t)  { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; }
-function easeOut(t) { return 1-(1-t)**3; }
-function easeIn(t)  { return t*t*t; }
-function lerp(a,b,t){ return a+(b-a)*t; }
-function clamp(v,a,b){ return Math.max(a,Math.min(b,v)); }
+type ThemeName = 'dark' | 'light';
+type ColorTriplet = [number, number, number];
+interface Grain {
+  x: number;
+  y: number;
+  spawnX: number;
+  spawnY: number;
+  vx: number;
+  vy: number;
+  orbitAngle: number;
+  orbitDir: number;
+  r: number;
+  hue: number;
+  sat: number;
+  lit: number;
+  a: number;
+  wave: number;
+  ws: number;
+  wa: number;
+  scatterA: number;
+  scatterSpd: number;
+}
 
-function spawnGrain(W, H, idx) {
+function rand(a: number, b: number): number { return a + Math.random() * (b - a); }
+function ease(t: number): number  { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; }
+function easeOut(t: number): number { return 1-(1-t)**3; }
+function easeIn(t: number): number  { return t*t*t; }
+function lerp(a: number,b: number,t: number): number { return a+(b-a)*t; }
+function clamp(v: number,a: number,b: number): number { return Math.max(a,Math.min(b,v)); }
+
+function spawnGrain(W: number, H: number, idx: number): Grain {
   const zone = idx % 8;
   let x, y;
   switch (zone) {
@@ -75,11 +98,19 @@ function spawnGrain(W, H, idx) {
   };
 }
 
-export default function StormOverlay({ toTheme, onMidpoint, onDone }) {
-  const canvasRef    = useRef(null);
+export default function StormOverlay({
+  toTheme,
+  onMidpoint,
+  onDone,
+}: {
+  toTheme: ThemeName;
+  onMidpoint: () => void;
+  onDone: () => void;
+}): ReactNode {
+  const canvasRef    = useRef<HTMLCanvasElement | null>(null);
   const midRef       = useRef(false);
   const doneRef      = useRef(false);
-  const startTimeRef = useRef(null);
+  const startTimeRef = useRef<number | null>(null);
   // Keep callbacks in refs so the animation loop always calls the latest version
   const onMidpointRef = useRef(onMidpoint);
   const onDoneRef     = useRef(onDone);
@@ -87,8 +118,8 @@ export default function StormOverlay({ toTheme, onMidpoint, onDone }) {
   useEffect(() => { onDoneRef.current     = onDone;     }, [onDone]);
 
   const themeColors = {
-    dark:  { bg:'#020509', r:2,   g:5,   b:9,   c1:[0,212,255],  c2:[123,111,255], c3:[189,92,255] },
-    light: { bg:'#faf8f5', r:250, g:248, b:245, c1:[194,119,10], c2:[109,40,217],  c3:[190,24,93]  },
+    dark:  { bg:'#020509', r:2,   g:5,   b:9,   c1:[0,212,255] as ColorTriplet,  c2:[123,111,255] as ColorTriplet, c3:[189,92,255] as ColorTriplet },
+    light: { bg:'#faf8f5', r:250, g:248, b:245, c1:[194,119,10] as ColorTriplet, c2:[109,40,217] as ColorTriplet,  c3:[190,24,93] as ColorTriplet  },
   };
   const target = themeColors[toTheme];
 
@@ -96,6 +127,7 @@ export default function StormOverlay({ toTheme, onMidpoint, onDone }) {
     const cvs = canvasRef.current;
     if (!cvs) return;
     const ctx = cvs.getContext('2d');
+    if (!ctx) return;
     cvs.width  = window.innerWidth;
     cvs.height = window.innerHeight;
     const W=cvs.width, H=cvs.height, cx=W/2, cy=H/2;
@@ -116,11 +148,12 @@ export default function StormOverlay({ toTheme, onMidpoint, onDone }) {
       done:        2000,
     };
 
-    let raf;
+    let raf = 0;
     let canvasAlpha = 1;
 
-    const draw = (now) => {
-      const elapsed = now - startTimeRef.current;
+    const draw = (now: number): void => {
+      const startedAt = startTimeRef.current ?? now;
+      const elapsed = now - startedAt;
       ctx.clearRect(0, 0, W, H);
 
       /* ── Determine phase ── */
@@ -244,7 +277,7 @@ export default function StormOverlay({ toTheme, onMidpoint, onDone }) {
         // Chromatic aberration: 2 offset rings
         if (t < 0.6) {
           const offset = 18 * (1-t);
-          [[target.c1,'rgba(0,0,0,0)'], [target.c3,'rgba(0,0,0,0)']].forEach(([col], ci) => {
+          ([target.c1, target.c3] as ColorTriplet[]).forEach((col, ci) => {
             const ox = ci===0? -offset : offset;
             const oy = ci===0?  offset : -offset;
             ctx.save();
@@ -302,7 +335,7 @@ export default function StormOverlay({ toTheme, onMidpoint, onDone }) {
         ctx.fillRect(0,0,W,H);
         // Fade canvas out via overlay alpha (we set canvas opacity in style)
         canvasAlpha = 1 - easeOut(t);
-        if (cvs) cvs.style.opacity = canvasAlpha;
+        cvs.style.opacity = String(canvasAlpha);
 
         // Residual glow
         const resG=ctx.createRadialGradient(cx,cy,0,cx,cy,DIAG*.45);
