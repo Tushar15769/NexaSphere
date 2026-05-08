@@ -1,11 +1,13 @@
-import { useEffect, useState } from 'react';
+import { type MouseEvent, type ReactNode, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import type { CoreTeamMember } from '../../types/api';
+import type { TeamMemberModalProps } from '../../types/components';
 
 // ── Copy Popup ──
-function CopyPopup({ value, onClose }) {
+function CopyPopup({ value, onClose }: { value: string; onClose: () => void }): ReactNode {
   const [copied, setCopied] = useState(false);
 
-  const handleCopy = () => {
+  const handleCopy = (): void => {
     navigator.clipboard.writeText(value).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
@@ -13,8 +15,8 @@ function CopyPopup({ value, onClose }) {
   };
 
   useEffect(() => {
-    const handler = (e) => {
-      if (!e.target.closest('.copy-popup')) onClose();
+    const handler = (e: globalThis.MouseEvent): void => {
+      if (e.target instanceof Element && !e.target.closest('.copy-popup')) onClose();
     };
     setTimeout(() => document.addEventListener('click', handler), 0);
     return () => document.removeEventListener('click', handler);
@@ -31,7 +33,7 @@ function CopyPopup({ value, onClose }) {
 }
 
 // ── Normalize WhatsApp: handle plain numbers OR full URLs ──
-function getWhatsappDisplay(raw) {
+function getWhatsappDisplay(raw: string | null): string | null {
   if (!raw) return null;
   // Already a full URL
   if (raw.startsWith('http')) return raw;
@@ -40,11 +42,11 @@ function getWhatsappDisplay(raw) {
 }
 
 // ── Modal Content ──
-function ModalContent({ member, onClose }) {
-  const [activePopup, setActivePopup] = useState(null);
+function ModalContent({ member, onClose }: { member: CoreTeamMember; onClose: () => void }): ReactNode {
+  const [activePopup, setActivePopup] = useState<'whatsapp' | 'email' | null>(null);
 
   useEffect(() => {
-    const handler = (e) => { if (e.key === 'Escape') onClose(); };
+    const handler = (e: KeyboardEvent): void => { if (e.key === 'Escape') onClose(); };
     window.addEventListener('keydown', handler);
     document.body.style.overflow = 'hidden';
     return () => {
@@ -59,7 +61,7 @@ function ModalContent({ member, onClose }) {
   return (
     <div
       className="modal-overlay"
-      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+      onClick={(e: MouseEvent<HTMLDivElement>) => { if (e.target === e.currentTarget) onClose(); }}
     >
       <div className="modal-box">
         {/* Close */}
@@ -141,7 +143,7 @@ function ModalContent({ member, onClose }) {
                   💬 WhatsApp
                 </button>
                 {activePopup === 'whatsapp' && (
-                  <CopyPopup value={whatsappValue} onClose={() => setActivePopup(null)} />
+                  <CopyPopup value={whatsappValue ?? ''} onClose={() => setActivePopup(null)} />
                 )}
               </div>
             )}
@@ -180,8 +182,8 @@ function ModalContent({ member, onClose }) {
   );
 }
 
-// ── Export: renders via Portal so it's never clipped by any parent ──
-export default function TeamMemberModal({ member, onClose }) {
+// ── Export: renders via Portal so parent containers never clip it ──
+export default function TeamMemberModal({ member, onClose }: TeamMemberModalProps): ReactNode {
   if (!member) return null;
   return createPortal(
     <ModalContent member={member} onClose={onClose} />,

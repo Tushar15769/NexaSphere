@@ -1,9 +1,32 @@
-import { useEffect, useRef, useState } from 'react';
+import { type MouseEvent, type ReactNode, useEffect, useRef, useState } from 'react';
+import type { ActivityEvent, ActivityEventsResponse } from '../../types/api';
+import type { ActivityDetailPageProps } from '../../types/components';
+import { getErrorMessage } from '../../types/dom';
+
+interface StatLike {
+  label: string;
+  value: string | number;
+}
+
+type DisplayActivityEvent = ActivityEvent & {
+  name?: string;
+  tagline?: string;
+  description?: string;
+  date?: string;
+  stats?: StatLike[];
+};
+
+interface ActivityAuthPayload {
+  name: string;
+  email: string;
+  phone: string;
+  password: string;
+}
 
 // ── Animated Counter ──
-function Counter({ value, suffix = '' }) {
+function Counter({ value, suffix = '' }: { value: string; suffix?: string }): ReactNode {
   const [count, setCount] = useState(0);
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement | null>(null);
   const started = useRef(false);
 
   useEffect(() => {
@@ -32,7 +55,7 @@ function Counter({ value, suffix = '' }) {
 }
 
 // ── Glitch Text Effect ──
-function GlitchText({ text, color }) {
+function GlitchText({ text, color }: { text: string; color: string }): ReactNode {
   return (
     <span style={{ position: 'relative', display: 'inline-block' }}
       className="glitch-text"
@@ -70,7 +93,7 @@ function GlitchText({ text, color }) {
 }
 
 // ── Floating Orbs Background ──
-function FloatingOrbs({ color }) {
+function FloatingOrbs({ color }: { color: string }): ReactNode {
   return (
     <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none', zIndex: 0 }}>
       {[...Array(6)].map((_, i) => (
@@ -91,7 +114,7 @@ function FloatingOrbs({ color }) {
 }
 
 // ── Scan Line Effect ──
-function ScanLine() {
+function ScanLine(): ReactNode {
   return (
     <>
       <style>{`
@@ -111,7 +134,17 @@ function ScanLine() {
 }
 
 // ── Event Card ──
-function EventCard({ event, activityColor, onSelect, onDelete }) {
+function EventCard({
+  event,
+  activityColor,
+  onSelect,
+  onDelete,
+}: {
+  event: DisplayActivityEvent;
+  activityColor: string;
+  onSelect?: (event: ActivityEvent) => void;
+  onDelete?: (eventId: string | number | undefined) => void;
+}): ReactNode {
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -148,7 +181,7 @@ function EventCard({ event, activityColor, onSelect, onDelete }) {
         <div style={{ flex: 1 }}>
           <button
             className="btn btn-outline btn-sm"
-            onClick={(e) => { e.stopPropagation(); onDelete && onDelete(event.id); }}
+            onClick={(e: MouseEvent<HTMLButtonElement>) => { e.stopPropagation(); onDelete && onDelete(event.id); }}
             style={{ marginBottom: '8px' }}
           >
             Delete this event
@@ -175,7 +208,7 @@ function EventCard({ event, activityColor, onSelect, onDelete }) {
           </p>
           {event.stats && (
             <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
-              {event.stats.map(s => (
+              {event.stats.map((s: StatLike) => (
                 <div key={s.label}>
                   <div style={{ fontFamily: 'Orbitron, monospace', fontSize: '1rem', fontWeight: 700, color: activityColor }}>
                     {s.value}
@@ -189,7 +222,7 @@ function EventCard({ event, activityColor, onSelect, onDelete }) {
           )}
           <button
             className="btn btn-outline btn-sm"
-            onClick={(e) => { e.stopPropagation(); onDelete && onDelete(event.id); }}
+            onClick={(e: MouseEvent<HTMLButtonElement>) => { e.stopPropagation(); onDelete && onDelete(event.id); }}
             style={{ marginTop: '12px' }}
           >
             Delete this event
@@ -206,7 +239,7 @@ function EventCard({ event, activityColor, onSelect, onDelete }) {
 }
 
 // ── Upcoming Card ──
-function UpcomingCard({ event, color }) {
+function UpcomingCard({ event, color }: { event: ActivityEvent; color: string }): ReactNode {
   return (
     <div style={{
       background: 'var(--bg-card)',
@@ -238,7 +271,7 @@ function UpcomingCard({ event, color }) {
 }
 
 // hex to rgb helper
-function hexToRgb(hex) {
+function hexToRgb(hex: string): string {
   const r = parseInt(hex.slice(1,3),16);
   const g = parseInt(hex.slice(3,5),16);
   const b = parseInt(hex.slice(5,7),16);
@@ -246,17 +279,17 @@ function hexToRgb(hex) {
 }
 
 // ════════════════════════════════════════
-export default function ActivityDetailPage({ activity, onBack, onSelectEvent }) {
+export default function ActivityDetailPage({ activity, onBack, onSelectEvent }: ActivityDetailPageProps): ReactNode {
   const [mounted, setMounted] = useState(false);
-  const [manualEvents, setManualEvents] = useState([]);
+  const [manualEvents, setManualEvents] = useState<ActivityEvent[]>([]);
   const [busy, setBusy] = useState(false);
   const apiBase = (import.meta?.env?.VITE_API_BASE || '').replace(/\/+$/, '');
   const activityKey = encodeURIComponent(activity.title);
 
-  const fetchManualEvents = async () => {
+  const fetchManualEvents = async (): Promise<void> => {
     const url = apiBase ? `${apiBase}/api/content/activity-events/${activityKey}` : `/api/content/activity-events/${activityKey}`;
     const res = await fetch(url);
-    const data = await res.json().catch(() => ({}));
+    const data = await res.json().catch(() => ({})) as Partial<ActivityEventsResponse>;
     if (res.ok && Array.isArray(data?.events)) setManualEvents(data.events);
   };
 
@@ -266,7 +299,7 @@ export default function ActivityDetailPage({ activity, onBack, onSelectEvent }) 
     fetchManualEvents().catch(() => {});
   }, [activity.title]);
 
-  const askAuth = () => {
+  const askAuth = (): ActivityAuthPayload | null => {
     const name = window.prompt('Enter your full name (core team):');
     if (!name) return null;
     const email = window.prompt('Enter your email:');
@@ -296,18 +329,19 @@ export default function ActivityDetailPage({ activity, onBack, onSelectEvent }) 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...auth, eventName, eventDate, eventTagline, eventDescription }),
       });
-      const data = await res.json().catch(() => ({}));
+      const data = await res.json().catch(() => ({})) as { error?: string };
       if (!res.ok) throw new Error(data?.error || 'Failed to add event');
       alert('Event added successfully.');
       await fetchManualEvents();
     } catch (e) {
-      alert(e?.message || 'Unable to add event.');
+      alert(getErrorMessage(e, 'Unable to add event.'));
     } finally {
       setBusy(false);
     }
   };
 
-  const handleDeleteEvent = async (eventId) => {
+  const handleDeleteEvent = async (eventId: string | number | undefined): Promise<void> => {
+    if (eventId === undefined) return;
     const auth = askAuth();
     if (!auth) return;
     if (!window.confirm('Delete this event?')) return;
@@ -319,12 +353,12 @@ export default function ActivityDetailPage({ activity, onBack, onSelectEvent }) 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(auth),
       });
-      const data = await res.json().catch(() => ({}));
+      const data = await res.json().catch(() => ({})) as { error?: string };
       if (!res.ok) throw new Error(data?.error || 'Failed to delete event');
       alert('Event deleted.');
       await fetchManualEvents();
     } catch (e) {
-      alert(e?.message || 'Unable to delete event.');
+      alert(getErrorMessage(e, 'Unable to delete event.'));
     } finally {
       setBusy(false);
     }
@@ -358,8 +392,8 @@ export default function ActivityDetailPage({ activity, onBack, onSelectEvent }) 
               fontSize: '0.85rem', cursor: 'pointer', marginBottom: '36px',
               transition: 'all 0.2s', fontFamily: 'Rajdhani, sans-serif', fontWeight: 600,
             }}
-            onMouseEnter={e => { e.target.style.background = `rgba(${rgb},0.1)`; e.target.style.transform = 'translateX(-4px)'; }}
-            onMouseLeave={e => { e.target.style.background = 'none'; e.target.style.transform = ''; }}
+            onMouseEnter={e => { e.currentTarget.style.background = `rgba(${rgb},0.1)`; e.currentTarget.style.transform = 'translateX(-4px)'; }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'none'; e.currentTarget.style.transform = ''; }}
           >
             ← Back to Activities
           </button>
@@ -435,10 +469,10 @@ export default function ActivityDetailPage({ activity, onBack, onSelectEvent }) 
               </button>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '760px' }}>
-              {[...manualEvents, ...(activity.conductedEvents || [])].map(event => (
+              {[...manualEvents, ...(activity.conductedEvents || [])].map((event: ActivityEvent, i: number) => (
                 <EventCard
-                  key={event.id}
-                  event={event}
+                  key={String(event.id ?? i)}
+                  event={event as DisplayActivityEvent}
                   activityColor={color}
                   onSelect={onSelectEvent}
                   onDelete={handleDeleteEvent}
@@ -464,7 +498,7 @@ export default function ActivityDetailPage({ activity, onBack, onSelectEvent }) 
               Coming Up
             </h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              {activity.upcomingEvents.map((event, i) => (
+              {activity.upcomingEvents.map((event: ActivityEvent, i: number) => (
                 <UpcomingCard key={i} event={event} color={color} />
               ))}
             </div>

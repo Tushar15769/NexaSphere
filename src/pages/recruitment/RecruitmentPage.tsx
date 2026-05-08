@@ -1,17 +1,79 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { type ClipboardEvent, type InputHTMLAttributes, type ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { IconArrowLeft, IconArrowRight, IconBolt, IconShieldCheck, IconSpark, IconUsers } from '../../shared/Icons';
+import type { BackProps } from '../../types/components';
+import { getErrorMessage } from '../../types/dom';
+
+interface FieldProps {
+  label: string;
+  required?: boolean;
+  hint?: string;
+  children: ReactNode;
+}
+
+interface InputProps {
+  value: string;
+  onChange: (value: string) => void;
+  placeholder: string;
+  type?: string;
+  maxLength?: number;
+  inputMode?: InputHTMLAttributes<HTMLInputElement>['inputMode'];
+  onPaste?: (event: ClipboardEvent<HTMLInputElement>) => void;
+}
+
+interface TextAreaProps {
+  value: string;
+  onChange: (value: string) => void;
+  placeholder: string;
+  rows?: number;
+}
+
+interface ChoiceProps {
+  options: string[];
+  value: string;
+  onChange: (value: string) => void;
+}
+
+interface MultiChoiceProps {
+  options: string[];
+  values: string[];
+  onToggle: (value: string) => void;
+}
+
+interface RecruitmentForm {
+  fullName: string;
+  collegeEmail: string;
+  whatsapp: string;
+  year: string;
+  branch: string;
+  branchOther: string;
+  section: string;
+  sectionOther: string;
+  role: string;
+  interests: string[];
+  skills: string;
+  comms: string;
+  campusExp: string;
+  campusExpDetails: string;
+  links: string;
+  commitHours: string;
+  attendCampus: string;
+  assessmentOk: string;
+  whyJoin: string;
+  anythingElse: string;
+  declarations: Record<string, boolean>;
+}
 
 /* ── Roles & Responsibilities slide-over modal ─────────────────────────── */
-function RolesGuideModal({ onClose }) {
+function RolesGuideModal({ onClose }: { onClose: () => void }): ReactNode {
   useEffect(() => {
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
-    const onKey = e => { if (e.key === 'Escape') onClose(); };
+    const onKey = (e: KeyboardEvent): void => { if (e.key === 'Escape') onClose(); };
     window.addEventListener('keydown', onKey);
     return () => { document.body.style.overflow = prev; window.removeEventListener('keydown', onKey); };
   }, [onClose]);
 
-  const sec = (emoji, title, children) => (
+  const sec = (emoji: string, title: string, children: ReactNode): ReactNode => (
     <div style={{ marginBottom: 28 }}>
       <div style={{
         fontFamily: 'Orbitron,monospace', fontSize: '.75rem', letterSpacing: '.14em',
@@ -25,7 +87,7 @@ function RolesGuideModal({ onClose }) {
     </div>
   );
 
-  const role = (icon, name, domain, items) => (
+  const role = (icon: string, name: string, domain: string | null, items: string[]): ReactNode => (
     <div style={{
       background: 'var(--card2)', border: '1px solid var(--bdr)', borderRadius: 'var(--r2)',
       padding: '14px 16px', marginBottom: 10, position: 'relative', overflow: 'hidden',
@@ -35,7 +97,7 @@ function RolesGuideModal({ onClose }) {
       </div>
       {domain && <div style={{ fontSize: '.78rem', color: 'var(--c1)', marginBottom: 8, fontFamily: 'Space Mono,monospace' }}>Domain: {domain}</div>}
       <ul style={{ margin: 0, paddingLeft: 18, display: 'grid', gap: 4 }}>
-        {items.map((it, i) => <li key={i} style={{ fontSize: '.86rem', color: 'var(--t2)', lineHeight: 1.55 }}>{it}</li>)}
+        {items.map((it: string, i: number) => <li key={i} style={{ fontSize: '.86rem', color: 'var(--t2)', lineHeight: 1.55 }}>{it}</li>)}
       </ul>
     </div>
   );
@@ -237,9 +299,9 @@ const YEAR_OPTIONS = ['1st Year', '2nd Year', '3rd Year', '4th Year'];
 const SECTION_OPTIONS = ['A', 'B', 'C', 'D', 'E', 'F', 'Other'];
 const COMMIT_OPTIONS = ['Yes', 'No', 'Maybe'];
 
-function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
+function clamp(n: number, min: number, max: number): number { return Math.max(min, Math.min(max, n)); }
 
-function Field({ label, required, hint, children }) {
+function Field({ label, required, hint, children }: FieldProps): ReactNode {
   return (
     <div style={{ display: 'grid', gap: 8 }}>
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: 'wrap' }}>
@@ -259,7 +321,7 @@ function Field({ label, required, hint, children }) {
   );
 }
 
-function Input({ value, onChange, placeholder, type = 'text', maxLength, inputMode: inputModeProp, onPaste }) {
+function Input({ value, onChange, placeholder, type = 'text', maxLength, inputMode: inputModeProp, onPaste }: InputProps): ReactNode {
   return (
     <input
       value={value}
@@ -280,13 +342,13 @@ function Input({ value, onChange, placeholder, type = 'text', maxLength, inputMo
         fontSize: '.98rem',
         outline: 'none',
       }}
-      onFocus={e => { e.target.style.borderColor = 'var(--c1b)'; e.target.style.boxShadow = 'var(--sh1)'; }}
-      onBlur={e => { e.target.style.borderColor = 'var(--bdr2)'; e.target.style.boxShadow = 'none'; }}
+      onFocus={e => { e.currentTarget.style.borderColor = 'var(--c1b)'; e.currentTarget.style.boxShadow = 'var(--sh1)'; }}
+      onBlur={e => { e.currentTarget.style.borderColor = 'var(--bdr2)'; e.currentTarget.style.boxShadow = 'none'; }}
     />
   );
 }
 
-function TextArea({ value, onChange, placeholder, rows = 5 }) {
+function TextArea({ value, onChange, placeholder, rows = 5 }: TextAreaProps): ReactNode {
   return (
     <textarea
       value={value}
@@ -305,16 +367,16 @@ function TextArea({ value, onChange, placeholder, rows = 5 }) {
         outline: 'none',
         resize: 'vertical',
       }}
-      onFocus={e => { e.target.style.borderColor = 'var(--c1b)'; e.target.style.boxShadow = 'var(--sh1)'; }}
-      onBlur={e => { e.target.style.borderColor = 'var(--bdr2)'; e.target.style.boxShadow = 'none'; }}
+      onFocus={e => { e.currentTarget.style.borderColor = 'var(--c1b)'; e.currentTarget.style.boxShadow = 'var(--sh1)'; }}
+      onBlur={e => { e.currentTarget.style.borderColor = 'var(--bdr2)'; e.currentTarget.style.boxShadow = 'none'; }}
     />
   );
 }
 
-function PillRadio({ options, value, onChange }) {
+function PillRadio({ options, value, onChange }: ChoiceProps): ReactNode {
   return (
     <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-      {options.map(opt => {
+      {options.map((opt: string) => {
         const active = value === opt;
         return (
           <button
@@ -337,10 +399,10 @@ function PillRadio({ options, value, onChange }) {
   );
 }
 
-function MultiSelectChips({ options, values, onToggle }) {
+function MultiSelectChips({ options, values, onToggle }: MultiChoiceProps): ReactNode {
   return (
     <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-      {options.map(opt => {
+      {options.map((opt: string) => {
         const active = values.includes(opt);
         return (
           <button
@@ -376,24 +438,33 @@ const BRANCH_OPTIONS = [
   'Other',
 ];
 
-export default function RecruitmentPage({ onBack }) {
+type RecruitmentKey = keyof RecruitmentForm;
+type StepConfig = {
+  title: string;
+  subtitle: string;
+  icon: ReactNode;
+  requiredKeys: RecruitmentKey[];
+  render: () => ReactNode;
+};
+
+export default function RecruitmentPage({ onBack }: BackProps): ReactNode {
   const [step, setStep] = useState(0); // 0..6
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState(false);
   const [alreadySubmitted, setAlreadySubmitted] = useState(false);
   const [err, setErr] = useState('');
   const [showRoles, setShowRoles] = useState(false); // lifted out of useMemo to obey Rules of Hooks
-  const topRef = useRef(null);
+  const topRef = useRef<HTMLDivElement | null>(null);
 
   // Check on mount if this device already submitted
   useEffect(() => {
     try {
-      const submitted = JSON.parse(localStorage.getItem('ns_submitted_emails') || '[]');
+      const submitted = JSON.parse(localStorage.getItem('ns_submitted_emails') || '[]') as string[];
       if (submitted.length > 0) setAlreadySubmitted(true);
     } catch { /* ignore */ }
   }, []);
 
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<RecruitmentForm>({
     fullName: '',
     collegeEmail: '',
     whatsapp: '',
@@ -427,7 +498,7 @@ export default function RecruitmentPage({ onBack }) {
     },
   });
 
-  const steps = useMemo(() => ([
+  const steps = useMemo<StepConfig[]>(() => ([
     {
       title: 'About NexaSphere',
       subtitle: 'NexaSphere Core Team Recruitment — 2026',
@@ -595,8 +666,8 @@ export default function RecruitmentPage({ onBack }) {
                     backgroundPosition: 'right 14px center',
                     paddingRight: '36px',
                   }}
-                  onFocus={e => { e.target.style.borderColor = 'var(--c1b)'; e.target.style.boxShadow = 'var(--sh1)'; }}
-                  onBlur={e => { e.target.style.borderColor = 'var(--bdr2)'; e.target.style.boxShadow = 'none'; }}
+                  onFocus={e => { e.currentTarget.style.borderColor = 'var(--c1b)'; e.currentTarget.style.boxShadow = 'var(--sh1)'; }}
+                  onBlur={e => { e.currentTarget.style.borderColor = 'var(--bdr2)'; e.currentTarget.style.boxShadow = 'none'; }}
                 >
                   <option value="" disabled>Select your department</option>
                   {BRANCH_OPTIONS.map(b => <option key={b} value={b}>{b}</option>)}
@@ -637,8 +708,8 @@ export default function RecruitmentPage({ onBack }) {
                     backgroundPosition: 'right 14px center',
                     paddingRight: '36px',
                   }}
-                  onFocus={e => { e.target.style.borderColor = 'var(--c1b)'; e.target.style.boxShadow = 'var(--sh1)'; }}
-                  onBlur={e => { e.target.style.borderColor = 'var(--bdr2)'; e.target.style.boxShadow = 'none'; }}
+                  onFocus={e => { e.currentTarget.style.borderColor = 'var(--c1b)'; e.currentTarget.style.boxShadow = 'var(--sh1)'; }}
+                  onBlur={e => { e.currentTarget.style.borderColor = 'var(--bdr2)'; e.currentTarget.style.boxShadow = 'none'; }}
                 >
                   <option value="" disabled>Select section</option>
                   {SECTION_OPTIONS.map(opt => <option key={opt} value={opt}>{opt}</option>)}
@@ -739,7 +810,7 @@ export default function RecruitmentPage({ onBack }) {
             />
           </Field>
 
-          <Field label="Have you participated in any community, club, or event before? (On Campus)" required>
+          <Field label="Have you participated in a community, club, or event before? (On Campus)" required>
             <PillRadio
               options={['Yes', 'No']}
               value={form.campusExp}
@@ -899,11 +970,11 @@ export default function RecruitmentPage({ onBack }) {
 
   const missingRequired = useMemo(() => {
     const keys = current.requiredKeys;
-    const missing = [];
+    const missing: RecruitmentKey[] = [];
     for (const k of keys) {
       const v = form[k];
       if (k === 'declarations') {
-        const d = v || {};
+        const d = v as Record<string, boolean>;
         const ok = !!d.truth && !!d.time && !!d.participate && !d.disagree;
         if (!ok) missing.push(k);
       } else if (Array.isArray(v)) {
@@ -936,11 +1007,11 @@ export default function RecruitmentPage({ onBack }) {
 
   const canNext = missingRequired.length === 0;
 
-  function scrollTop() {
+  function scrollTop(): void {
     topRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  async function submit() {
+  async function submit(): Promise<void> {
     setErr('');
     setBusy(true);
     try {
@@ -959,7 +1030,7 @@ export default function RecruitmentPage({ onBack }) {
       // Block duplicate email submissions
       const emailKey = String(form.collegeEmail || '').trim().toLowerCase();
       try {
-        const existing = JSON.parse(localStorage.getItem('ns_submitted_emails') || '[]');
+        const existing = JSON.parse(localStorage.getItem('ns_submitted_emails') || '[]') as string[];
         if (existing.includes(emailKey)) {
           setErr('This email address has already been used to submit an application. Each applicant may submit only once.');
           setBusy(false);
@@ -972,19 +1043,19 @@ export default function RecruitmentPage({ onBack }) {
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify(payload),
       });
-      const data = await res.json().catch(() => ({}));
+      const data = await res.json().catch(() => ({})) as { ok?: boolean; error?: string };
       if (!res.ok || (data && data.ok === false)) {
         throw new Error(data?.error || 'Submission failed');
       }
       try {
-        const existing = JSON.parse(localStorage.getItem('ns_submitted_emails') || '[]');
+        const existing = JSON.parse(localStorage.getItem('ns_submitted_emails') || '[]') as string[];
         existing.push(emailKey);
         localStorage.setItem('ns_submitted_emails', JSON.stringify(existing));
       } catch { /* ignore */ }
       setDone(true);
       scrollTop();
     } catch (e) {
-      setErr(e?.message || 'Something went wrong. Please try again.');
+      setErr(getErrorMessage(e, 'Something went wrong. Please try again.'));
     } finally {
       setBusy(false);
     }

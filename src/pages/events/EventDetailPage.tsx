@@ -1,16 +1,63 @@
-import { useEffect, useState, useRef } from 'react';
+import { type ReactNode, useEffect, useState, useRef } from 'react';
+import type { EventDetailPageProps } from '../../types/components';
+
+interface DetailStat {
+  label: string;
+  value: string;
+}
+
+interface Topic {
+  title: string;
+  speaker: string;
+  role?: string;
+  duration?: string;
+  summary: string;
+}
+
+interface Acknowledgement {
+  name: string;
+  title: string;
+  note: string;
+}
+
+interface Participant {
+  name: string;
+  role?: string;
+}
+
+interface DetailEvent {
+  id?: string | number;
+  name?: string;
+  shortName?: string;
+  date?: string;
+  status?: string;
+  tagline?: string;
+  description?: string;
+  overview?: string;
+  stats?: DetailStat[];
+  topics?: Topic[];
+  presenters?: Participant[];
+  videoPresenter?: Participant[];
+  anchor?: Participant;
+  volunteers?: Participant[];
+  acknowledgements?: Acknowledgement[];
+  hashtags?: string[];
+  photoLink?: string | null;
+  videoLink?: string | null;
+  closingNote?: string;
+}
 
 // ── Helpers ──
-function hexToRgb(hex) {
+function hexToRgb(hex: string): string {
   if (!hex || !hex.startsWith('#')) return '0,212,255';
   return `${parseInt(hex.slice(1,3),16)},${parseInt(hex.slice(3,5),16)},${parseInt(hex.slice(5,7),16)}`;
 }
 
 // ── Typewriter ──
-function Typewriter({ text, speed = 10 }) {
+function Typewriter({ text, speed = 10 }: { text: string; speed?: number }): ReactNode {
   const [displayed, setDisplayed] = useState('');
   const [done, setDone] = useState(false);
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement | null>(null);
   const started = useRef(false);
   useEffect(() => {
     const obs = new IntersectionObserver(([e]) => {
@@ -37,9 +84,9 @@ function Typewriter({ text, speed = 10 }) {
 }
 
 // ── Animated Stat ──
-function StatCard({ label, value, color }) {
-  const [count, setCount] = useState(0);
-  const ref = useRef(null);
+function StatCard({ label, value, color }: { label: string; value: string; color: string }): ReactNode {
+  const [count, setCount] = useState<string | number>(0);
+  const ref = useRef<HTMLDivElement | null>(null);
   const started = useRef(false);
   useEffect(() => {
     const obs = new IntersectionObserver(([e]) => {
@@ -77,7 +124,7 @@ function StatCard({ label, value, color }) {
 }
 
 // ── Section Header ──
-function SectionHeader({ icon, title, color }) {
+function SectionHeader({ icon, title, color }: { icon: string; title: string; color: string }): ReactNode {
   return (
     <h2 style={{
       fontFamily: 'Orbitron,monospace', fontSize: '0.9rem', fontWeight: 700,
@@ -95,7 +142,7 @@ function SectionHeader({ icon, title, color }) {
 }
 
 // ── Person Chip ──
-function PersonChip({ name, role, color, emoji = '⚡' }) {
+function PersonChip({ name, role, color, emoji = '⚡' }: { name: string; role?: string; color: string; emoji?: string }): ReactNode {
   const [hovered, setHovered] = useState(false);
   const rgb = hexToRgb(color);
   return (
@@ -123,7 +170,7 @@ function PersonChip({ name, role, color, emoji = '⚡' }) {
 }
 
 // ── Topic Card ──
-function TopicCard({ topic, index, color }) {
+function TopicCard({ topic, index, color }: { topic: Topic; index: number; color: string }): ReactNode {
   const [hovered, setHovered] = useState(false);
   const rgb = hexToRgb(color);
   return (
@@ -166,7 +213,7 @@ function TopicCard({ topic, index, color }) {
 }
 
 // ── Acknowledgement Card ──
-function AckCard({ ack, color }) {
+function AckCard({ ack, color }: { ack: Acknowledgement; color: string }): ReactNode {
   const [hovered, setHovered] = useState(false);
   const rgb = hexToRgb(color);
   return (
@@ -194,7 +241,7 @@ function AckCard({ ack, color }) {
 }
 
 // ── Media Button ──
-function MediaBtn({ href, icon, label, color }) {
+function MediaBtn({ href, icon, label, color }: { href?: string | null; icon: string; label: string; color: string }): ReactNode {
   const [hovered, setHovered] = useState(false);
   const rgb = hexToRgb(color);
   if (!href) {
@@ -233,12 +280,13 @@ function MediaBtn({ href, icon, label, color }) {
 }
 
 // ════════════════════════════════════════
-export default function EventDetailPage({ event, activityColor, activityIcon, onBack }) {
+export default function EventDetailPage({ event, activityColor, activityIcon, onBack }: EventDetailPageProps): ReactNode {
   const [mounted, setMounted] = useState(false);
   useEffect(() => { window.scrollTo({ top: 0 }); setTimeout(() => setMounted(true), 60); }, []);
 
   const color = activityColor || '#a855f7';
   const rgb = hexToRgb(color);
+  const detailEvent = event as DetailEvent;
 
   return (
     <div style={{ minHeight: '100vh', paddingBottom: '100px' }}>
@@ -272,8 +320,8 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
             fontSize: '0.85rem', cursor: 'pointer', marginBottom: '36px',
             transition: 'all 0.2s', fontFamily: 'Rajdhani,sans-serif', fontWeight: 600,
           }}
-            onMouseEnter={e => { e.target.style.background = `rgba(${rgb},0.12)`; e.target.style.transform = 'translateX(-4px)'; }}
-            onMouseLeave={e => { e.target.style.background = 'none'; e.target.style.transform = ''; }}
+            onMouseEnter={e => { e.currentTarget.style.background = `rgba(${rgb},0.12)`; e.currentTarget.style.transform = 'translateX(-4px)'; }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'none'; e.currentTarget.style.transform = ''; }}
           >← Back</button>
 
           <div style={{
@@ -289,7 +337,7 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
               fontSize: '0.78rem', color, fontFamily: 'Rajdhani,sans-serif',
               fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em',
             }}>
-              {activityIcon} {event.shortName || event.name}
+              {activityIcon} {detailEvent.shortName || detailEvent.name}
             </div>
 
             <h1 style={{
@@ -299,21 +347,21 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
               background: `linear-gradient(135deg, ${color}, #ffffff90)`,
               WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
             }}>
-              {event.name || 'Event Details'}
+              {detailEvent.name || 'Event Details'}
             </h1>
 
-            {event.tagline && (
+            {detailEvent.tagline && (
               <p style={{
                 fontFamily: 'Rajdhani,sans-serif', fontSize: '1.05rem',
                 color: `rgba(${rgb},0.8)`, fontStyle: 'italic', marginBottom: '6px',
                 opacity: mounted ? 1 : 0, transition: 'opacity 0.7s 0.2s',
               }}>
-                "{event.tagline}"
+                "{detailEvent.tagline}"
               </p>
             )}
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap', marginBottom: '28px', marginTop: '12px' }}>
-              <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>📅 {event.date}</span>
+              <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>📅 {detailEvent.date}</span>
               <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>📍 GL Bajaj Group of Institutions, Mathura</span>
               <span style={{
                 fontSize: '0.72rem', padding: '3px 12px', borderRadius: '20px',
@@ -325,7 +373,7 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
 
             {/* Stats */}
             <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-              {event.stats?.map(s => <StatCard key={s.label} label={s.label} value={s.value} color={color} />)}
+              {detailEvent.stats?.map(s => <StatCard key={s.label} label={s.label} value={s.value} color={color} />)}
             </div>
           </div>
         </div>
@@ -350,7 +398,7 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
                 pointerEvents: 'none',
               }} />
               <p style={{ color: 'var(--text-secondary)', lineHeight: 1.85, fontSize: '0.98rem', margin: 0, whiteSpace: 'pre-line' }}>
-                <Typewriter text={event.overview} speed={6} />
+                <Typewriter text={detailEvent.overview ?? detailEvent.description ?? ''} speed={6} />
               </p>
             </div>
           </section>
@@ -359,7 +407,7 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
           <section>
             <SectionHeader icon="🎤" title="Presenters" color={color} />
             <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-              {event.topics?.map((t, i) => (
+              {detailEvent.topics?.map((t, i) => (
                 <PersonChip key={i} name={t.speaker} role="Presenter" color={color} emoji="👨‍💻" />
               ))}
             </div>
@@ -369,31 +417,31 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
           <section>
             <SectionHeader icon="🎯" title="Topics Covered" color={color} />
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-              {event.topics?.map((t, i) => <TopicCard key={i} topic={t} index={i} color={color} />)}
+              {detailEvent.topics?.map((t, i) => <TopicCard key={i} topic={t} index={i} color={color} />)}
             </div>
           </section>
 
           {/* Video Presentors & Anchor */}
-          {(event.videoPresenter?.length > 0 || event.anchor) && (
+          {((detailEvent.videoPresenter?.length ?? 0) > 0 || detailEvent.anchor) && (
             <section>
               <SectionHeader icon="🎬" title="Video Presentors & Anchor" color={color} />
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                {event.videoPresenter?.map((p, i) => (
+                {detailEvent.videoPresenter?.map((p: Participant, i: number) => (
                   <PersonChip key={i} name={p.name} role={p.role} color={color} emoji="🎥" />
                 ))}
-                {event.anchor && (
-                  <PersonChip name={event.anchor.name} role={event.anchor.role} color={color} emoji="🎤" />
+                {detailEvent.anchor && (
+                  <PersonChip name={detailEvent.anchor.name} role={detailEvent.anchor.role} color={color} emoji="🎤" />
                 )}
               </div>
             </section>
           )}
 
           {/* Volunteers */}
-          {event.volunteers?.length > 0 && (
+          {(detailEvent.volunteers?.length ?? 0) > 0 && (
             <section>
               <SectionHeader icon="⚡" title="Volunteers — The Unsung Heroes" color={color} />
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                {event.volunteers.map((v, i) => (
+                {detailEvent.volunteers?.map((v: Participant, i: number) => (
                   <PersonChip key={i} name={v.name} role="Volunteer" color={color} emoji="⚡" />
                 ))}
               </div>
@@ -401,11 +449,11 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
           )}
 
           {/* Acknowledgements */}
-          {event.acknowledgements?.length > 0 && (
+          {(detailEvent.acknowledgements?.length ?? 0) > 0 && (
             <section>
               <SectionHeader icon="🙏" title="Special Thanks" color={color} />
               <div style={{ display: 'grid', gap: '14px', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
-                {event.acknowledgements.map((a, i) => <AckCard key={i} ack={a} color={color} />)}
+                {detailEvent.acknowledgements?.map((a: Acknowledgement, i: number) => <AckCard key={i} ack={a} color={color} />)}
               </div>
             </section>
           )}
@@ -414,10 +462,10 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
           <section>
             <SectionHeader icon="📸" title="Photos & Videos" color={color} />
             <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-              <MediaBtn href={event.photoLink} icon="📷" label="View Photos" color={color} />
-              <MediaBtn href={event.videoLink} icon="🎥" label="Watch Recording" color={color} />
+              <MediaBtn href={detailEvent.photoLink} icon="📷" label="View Photos" color={color} />
+              <MediaBtn href={detailEvent.videoLink} icon="🎥" label="Watch Recording" color={color} />
             </div>
-            {!event.photoLink && !event.videoLink && (
+            {!detailEvent.photoLink && !detailEvent.videoLink && (
               <p style={{ color: 'var(--text-muted)', fontSize: '0.78rem', marginTop: '12px', fontStyle: 'italic' }}>
                 Add links in <code style={{ color }}>src/data/activityPagesData.js</code> → KSS #153 → <code style={{ color }}>photoLink</code> / <code style={{ color }}>videoLink</code>
               </p>
@@ -425,7 +473,7 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
           </section>
 
           {/* Closing Note */}
-          {event.closingNote && (
+          {detailEvent.closingNote && (
             <section>
               <div style={{
                 background: `linear-gradient(135deg, rgba(${rgb},0.08), rgba(${rgb},0.03))`,
@@ -444,7 +492,7 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
                   color: 'var(--text-primary)', lineHeight: 1.7, margin: '0 0 16px',
                   position: 'relative',
                 }}>
-                  {event.closingNote}
+                  {detailEvent.closingNote}
                 </p>
                 <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', margin: 0, fontStyle: 'italic' }}>
                   Stay tuned. Stay curious. The best is yet to come. 💥
@@ -454,10 +502,10 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
           )}
 
           {/* Hashtags */}
-          {event.hashtags?.length > 0 && (
+          {(detailEvent.hashtags?.length ?? 0) > 0 && (
             <section>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                {event.hashtags.map(tag => (
+                {detailEvent.hashtags?.map((tag: string) => (
                   <span key={tag} style={{
                     fontSize: '0.78rem', padding: '4px 12px', borderRadius: '20px',
                     background: `rgba(${rgb},0.08)`, color,
@@ -466,8 +514,8 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
                     letterSpacing: '0.03em', cursor: 'default',
                     transition: 'all 0.2s',
                   }}
-                    onMouseEnter={e => { e.target.style.background = `rgba(${rgb},0.18)`; e.target.style.transform = 'translateY(-2px)'; }}
-                    onMouseLeave={e => { e.target.style.background = `rgba(${rgb},0.08)`; e.target.style.transform = ''; }}
+                    onMouseEnter={e => { e.currentTarget.style.background = `rgba(${rgb},0.18)`; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+                    onMouseLeave={e => { e.currentTarget.style.background = `rgba(${rgb},0.08)`; e.currentTarget.style.transform = ''; }}
                   >
                     {tag}
                   </span>

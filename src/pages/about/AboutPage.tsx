@@ -1,5 +1,6 @@
-import { useEffect } from 'react';
+import { type ReactNode, useEffect } from 'react';
 import { BannerOrbs } from '../../shared/MotionLayer';
+import type { BackProps } from '../../types/components';
 
 const WHATSAPP = 'https://chat.whatsapp.com/Jjc5cuUKENu0RC1vWSEs20';
 const LINKEDIN = 'https://www.linkedin.com/showcase/glbajaj-nexasphere/';
@@ -20,7 +21,7 @@ const milestones = [
   { year: 'Coming Soon', label: 'Expanding', desc: 'Hackathons, workshops, open-source days and more — all in the pipeline.', icon: '🔭' },
 ];
 
-export default function AboutPage({ onBack }) {
+export default function AboutPage({ onBack }: BackProps): ReactNode {
   useEffect(() => {
     window.scrollTo({ top: 0 });
     const obs = new IntersectionObserver(entries => {

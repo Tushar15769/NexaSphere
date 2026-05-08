@@ -1,15 +1,21 @@
-import { useState, useRef, useEffect } from 'react';
+import { type KeyboardEvent, type MouseEvent, type ReactNode, useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { teamMembers } from '../../data/teamData';
 import TeamMemberModal from './TeamMemberModal';
 import { IconArrowRight, IconSpark } from '../../shared/Icons';
 import { BannerOrbs } from '../../shared/MotionLayer';
+import type { CoreTeamMember } from '../../types/api';
+import type { TeamPageProps } from '../../types/components';
 
-function MemberCard({ member, idx, onClick }) {
-  const ref = useRef(null);
+function MemberCard({ member, idx, onClick }: {
+  member: CoreTeamMember;
+  idx: number;
+  onClick: (member: CoreTeamMember) => void;
+}): ReactNode {
+  const ref = useRef<HTMLDivElement | null>(null);
   const agDelays = [-0.0, -2.1, -4.2, -1.0, -3.3, -5.5, -0.7, -6.1, -2.8, -4.9, -1.6, -3.8];
 
-  const onMove = e => {
+  const onMove = (e: MouseEvent<HTMLDivElement>): void => {
     const c = ref.current; if (!c) return;
     const rect = c.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - .5;
@@ -17,11 +23,11 @@ function MemberCard({ member, idx, onClick }) {
     c.style.animationPlayState = 'paused';
     c.style.transform = `translateY(-14px) rotateX(${-y * 18}deg) rotateY(${x * 18}deg) scale(1.06)`;
   };
-  const onLeave = () => {
+  const onLeave = (): void => {
     const c = ref.current; if (!c) return;
     c.style.transform = ''; c.style.animationPlayState = '';
   };
-  const click = () => {
+  const click = (): void => {
     const c = ref.current;
     if (c) { c.style.transform = 'scale(.9)'; setTimeout(() => { c.style.transform = ''; }, 140); }
     setTimeout(() => onClick(member), 110);
@@ -39,7 +45,7 @@ function MemberCard({ member, idx, onClick }) {
       }}
       onMouseMove={onMove} onMouseLeave={onLeave} onClick={click}
       role="button" tabIndex={0}
-      onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') click(); }}
+      onKeyDown={(e: KeyboardEvent<HTMLDivElement>) => { if (e.key === 'Enter' || e.key === ' ') click(); }}
     >
       <div className="team-card-photo-wrap">
         <img src={member.photo} alt={member.name} className="team-card-photo" />
@@ -56,8 +62,8 @@ function MemberCard({ member, idx, onClick }) {
   );
 }
 
-export default function TeamPage({ onBack, onApply }) {
-  const [sel, setSel] = useState(null);
+export default function TeamPage({ onBack, onApply }: TeamPageProps): ReactNode {
+  const [sel, setSel] = useState<CoreTeamMember | null>(null);
 
   useEffect(() => { window.scrollTo({ top: 0 }); }, []);
 

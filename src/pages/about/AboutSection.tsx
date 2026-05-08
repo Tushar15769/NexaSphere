@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
 
 const WHATSAPP       = 'https://chat.whatsapp.com/Jjc5cuUKENu0RC1vWSEs20';
 const LINKEDIN       = 'https://www.linkedin.com/showcase/glbajaj-nexasphere/';
@@ -6,7 +6,7 @@ const NEXASPHERE_EMAIL = 'nexasphere@glbajajgroup.org';
 
 const values = ['Innovation','Collaboration','Learning','Growth','Community','Technology','Career','Mentorship'];
 
-export default function AboutSection() {
+export default function AboutSection(): ReactNode {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(()=>{
@@ -74,8 +74,8 @@ export default function AboutSection() {
                     letterSpacing:'.06em',textTransform:'uppercase',cursor:'default',
                     transition:'all .18s',
                   }}
-                    onMouseEnter={e=>{e.target.style.background='var(--c1b)';e.target.style.transform='translateY(-2px)';}}
-                    onMouseLeave={e=>{e.target.style.background='var(--c1a)';e.target.style.transform='';}}
+                    onMouseEnter={e=>{e.currentTarget.style.background='var(--c1b)';e.currentTarget.style.transform='translateY(-2px)';}}
+                    onMouseLeave={e=>{e.currentTarget.style.background='var(--c1a)';e.currentTarget.style.transform='';}}
                   >{v}</span>
                 ))}
               </div>

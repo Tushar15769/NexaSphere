@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
+import { type ReactNode, useEffect } from 'react';
 import { events as fallbackEvents } from '../../data/eventsData';
 import { BannerOrbs } from '../../shared/MotionLayer';
+import type { EventsProps } from '../../types/components';
 
-export default function EventsPage({ onBack, onEventClick, events = fallbackEvents }) {
+export default function EventsPage({ onBack, onEventClick, events = fallbackEvents }: EventsProps): ReactNode {
   useEffect(() => {
     window.scrollTo({ top: 0 });
     const obs = new IntersectionObserver(entries => {

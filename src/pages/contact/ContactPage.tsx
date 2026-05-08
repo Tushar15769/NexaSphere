@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { type ReactNode, type RefObject, useEffect, useRef, useState } from 'react';
 import glbajajLogo from '../../assets/images/logos/glbajaj-logo.png';
+import type { BackProps } from '../../types/components';
 
 /* ─────────────────────────────────────────────────────────
    NEXASPHERE — CONTACT PAGE
@@ -18,10 +19,10 @@ const WHATSAPP = 'https://chat.whatsapp.com/Jjc5cuUKENu0RC1vWSEs20';
 const MAP_EMBED = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3548.9!2d77.6779!3d27.5706!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3973a5a9d0f5a4c5%3A0x9f5e2b8c1d2a3b4e!2sGL%20Bajaj%20Group%20of%20Institutions%2C%20Mathura!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin';
 
 /* ── Particle burst on hover ── */
-function useBurst(ref) {
+function useBurst(ref: RefObject<HTMLElement | null>): void {
   useEffect(() => {
     const el = ref.current; if (!el) return;
-    const burst = e => {
+    const burst = (e: MouseEvent): void => {
       for (let i = 0; i < 8; i++) {
         const p = document.createElement('span');
         const angle = (i / 8) * Math.PI * 2;
@@ -47,8 +48,15 @@ function useBurst(ref) {
 }
 
 /* ── Contact Card ── */
-function ContactCard({ icon, label, value, href, delay = 0, color }) {
-  const ref = useRef(null);
+function ContactCard({ icon, label, value, href, delay = 0, color }: {
+  icon: string;
+  label: string;
+  value: string;
+  href: string;
+  delay?: number;
+  color: string;
+}): ReactNode {
+  const ref = useRef<HTMLAnchorElement | null>(null);
   const [hov, setHov] = useState(false);
   useBurst(ref);
 
@@ -114,10 +122,10 @@ function ContactCard({ icon, label, value, href, delay = 0, color }) {
 }
 
 /* ── Map Section ── */
-function MapSection() {
+function MapSection(): ReactNode {
   const [loaded, setLoaded] = useState(false);
   const [show, setShow]     = useState(false);
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const obs = new IntersectionObserver(([e]) => {
@@ -195,7 +203,7 @@ function MapSection() {
               opacity: loaded ? 1 : 0,
               transition: 'opacity .5s ease',
             }}
-            allowFullScreen=""
+            allowFullScreen
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             title="GL Bajaj Group of Institutions, Mathura"
@@ -227,11 +235,11 @@ function MapSection() {
 }
 
 /* ── Message form CTA ── */
-function MessageCTA() {
+function MessageCTA(): ReactNode {
   const [name, setName]     = useState('');
   const [copied, setCopied] = useState(false);
 
-  const handleCopy = () => {
+  const handleCopy = (): void => {
     navigator.clipboard.writeText(EMAIL).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2200);
@@ -271,8 +279,8 @@ function MessageCTA() {
             fontFamily: 'Rajdhani,sans-serif', fontSize: '.95rem',
             outline: 'none',
           }}
-          onFocus={e => { e.target.style.borderColor = 'var(--c1b)'; e.target.style.boxShadow = 'var(--sh1)'; }}
-          onBlur={e  => { e.target.style.borderColor = 'var(--bdr2)'; e.target.style.boxShadow = 'none'; }}
+          onFocus={e => { e.currentTarget.style.borderColor = 'var(--c1b)'; e.currentTarget.style.boxShadow = 'var(--sh1)'; }}
+          onBlur={e  => { e.currentTarget.style.borderColor = 'var(--bdr2)'; e.currentTarget.style.boxShadow = 'none'; }}
         />
       </div>
 
@@ -306,7 +314,7 @@ function MessageCTA() {
 }
 
 /* ══════════════════ MAIN EXPORT ══════════════════ */
-export default function ContactPage({ onBack }) {
+export default function ContactPage({ onBack }: BackProps): ReactNode {
   useEffect(() => {
     const obs = new IntersectionObserver(entries => {
       entries.forEach(e => {

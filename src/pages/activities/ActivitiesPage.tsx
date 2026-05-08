@@ -1,8 +1,15 @@
-import { useEffect, useRef } from 'react';
+import { type MouseEvent, type ReactNode, useEffect, useRef } from 'react';
 import { activities } from '../../data/activitiesData';
 import { BannerOrbs } from '../../shared/MotionLayer';
+import type { ActivityKey, ActivitySummary } from '../../types/activities';
+import type { ActivitiesPageProps } from '../../types/components';
 
-const activityDetails = {
+const activityDetails: Record<ActivityKey, {
+  color: string;
+  longDesc: string;
+  highlights: string[];
+  skills: string[];
+}> = {
   'Hackathon': {
     color: '#00d4ff',
     longDesc: 'Intense 24–48 hour coding marathons where teams build innovative solutions to real-world problems under time pressure. Participants form cross-functional teams, brainstorm ideas, design architectures, and ship working prototypes — all under the clock.',
@@ -53,22 +60,30 @@ const activityDetails = {
   },
 };
 
-function ActivityCard({ a, idx, onNavigate }) {
-  const ref = useRef(null);
-  const details = activityDetails[a.title] || {};
+function ActivityCard({
+  a,
+  idx,
+  onNavigate,
+}: {
+  a: ActivitySummary;
+  idx: number;
+  onNavigate: (type: 'activity', title: ActivityKey) => void;
+}): ReactNode {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const details = activityDetails[a.title as ActivityKey];
 
-  const onMove = e => {
+  const onMove = (e: MouseEvent<HTMLDivElement>): void => {
     const c = ref.current; if (!c) return;
     const rect = c.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - .5;
     const y = (e.clientY - rect.top) / rect.height - .5;
     c.style.transform = `translateY(-10px) rotateX(${-y * 10}deg) rotateY(${x * 10}deg) scale(1.02)`;
   };
-  const onLeave = () => { if (ref.current) ref.current.style.transform = ''; };
-  const click = () => {
+  const onLeave = (): void => { if (ref.current) ref.current.style.transform = ''; };
+  const click = (): void => {
     const c = ref.current;
     if (c) { c.style.transform = 'scale(.93)'; setTimeout(() => { c.style.transform = ''; }, 140); }
-    setTimeout(() => onNavigate('activity', a.title), 160);
+    setTimeout(() => onNavigate('activity', a.title as ActivityKey), 160);
   };
 
   return (
@@ -109,7 +124,7 @@ function ActivityCard({ a, idx, onNavigate }) {
 
       {details.skills && (
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '18px' }}>
-          {details.skills.map(s => (
+          {details.skills.map((s: string) => (
             <span key={s} style={{
               fontSize: '.62rem', padding: '3px 9px', borderRadius: '20px',
               background: `${details.color}18`, color: details.color,
@@ -117,8 +132,8 @@ function ActivityCard({ a, idx, onNavigate }) {
               fontFamily: "'Space Mono', monospace", fontWeight: 600,
               transition: 'transform .2s, background .2s',
             }}
-              onMouseEnter={e => { e.target.style.transform = 'translateY(-2px)'; e.target.style.background = `${details.color}30`; }}
-              onMouseLeave={e => { e.target.style.transform = ''; e.target.style.background = `${details.color}18`; }}
+              onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.background = `${details.color}30`; }}
+              onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.background = `${details.color}18`; }}
             >{s}</span>
           ))}
         </div>
@@ -126,7 +141,7 @@ function ActivityCard({ a, idx, onNavigate }) {
 
       {details.highlights && (
         <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 18px' }}>
-          {details.highlights.map(h => (
+          {details.highlights.map((h: string) => (
             <li key={h} style={{ fontSize: '.8rem', color: 'var(--t2)', padding: '4px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span style={{ color: details.color, fontWeight: 700 }}>→</span> {h}
             </li>
@@ -152,7 +167,7 @@ function ActivityCard({ a, idx, onNavigate }) {
   );
 }
 
-export default function ActivitiesPage({ onNavigate, onBack }) {
+export default function ActivitiesPage({ onNavigate, onBack }: ActivitiesPageProps): ReactNode {
   useEffect(() => {
     window.scrollTo({ top: 0 });
     const obs = new IntersectionObserver(entries => {

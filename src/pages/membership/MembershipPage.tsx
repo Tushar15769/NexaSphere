@@ -1,5 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { type ClipboardEvent, type InputHTMLAttributes, type ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { IconArrowLeft, IconArrowRight, IconBolt, IconShieldCheck, IconUsers } from '../../shared/Icons';
+import type { BackProps } from '../../types/components';
+import { getErrorMessage } from '../../types/dom';
 
 // ── Constants ────────────────────────────────────────────────────────────────
 const WHATSAPP_COMMUNITY = 'https://chat.whatsapp.com/Jjc5cuUKENu0RC1vWSEs20';
@@ -33,10 +35,69 @@ const GROUP_OPTIONS    = [
 const MEMBERSHIP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyRQOW3Xjv13vXvft8ezD9sJdvjV3kf-VHm1l_mImHRDUAEqsilK0wb5QBD5GOkixwe/exec';
 
 // ── Utility ──────────────────────────────────────────────────────────────────
-function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
+function clamp(n: number, min: number, max: number): number { return Math.max(min, Math.min(max, n)); }
+
+interface FieldProps {
+  label: string;
+  required?: boolean;
+  hint?: string;
+  children: ReactNode;
+}
+
+interface InputProps {
+  value: string;
+  onChange: (value: string) => void;
+  placeholder: string;
+  type?: string;
+  maxLength?: number;
+  inputMode?: InputHTMLAttributes<HTMLInputElement>['inputMode'];
+  onPaste?: (event: ClipboardEvent<HTMLInputElement>) => void;
+}
+
+interface TextAreaProps {
+  value: string;
+  onChange: (value: string) => void;
+  placeholder: string;
+  rows?: number;
+}
+
+interface SelectProps {
+  value: string;
+  onChange: (value: string) => void;
+  children: ReactNode;
+  placeholder?: string;
+}
+
+interface ChoiceProps {
+  options: string[];
+  value: string;
+  onChange: (value: string) => void;
+}
+
+interface MultiChoiceProps {
+  options: string[];
+  values: string[];
+  onToggle: (value: string) => void;
+}
+
+interface MembershipForm {
+  fullName: string;
+  collegeEmail: string;
+  rollNumber: string;
+  course: string;
+  courseOther: string;
+  branch: string;
+  branchOther: string;
+  section: string;
+  sectionOther: string;
+  semester: string;
+  whatsapp: string;
+  groups: string[];
+  whyJoin: string;
+}
 
 // ── Sub-components ───────────────────────────────────────────────────────────
-function Field({ label, required, hint, children }) {
+function Field({ label, required, hint, children }: FieldProps): ReactNode {
   return (
     <div style={{ display: 'grid', gap: 8 }}>
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: 'wrap' }}>
@@ -56,7 +117,7 @@ function Field({ label, required, hint, children }) {
   );
 }
 
-function Input({ value, onChange, placeholder, type = 'text', maxLength, inputMode: inputModeProp, onPaste }) {
+function Input({ value, onChange, placeholder, type = 'text', maxLength, inputMode: inputModeProp, onPaste }: InputProps): ReactNode {
   return (
     <input
       value={value}
@@ -78,13 +139,13 @@ function Input({ value, onChange, placeholder, type = 'text', maxLength, inputMo
         outline: 'none',
         boxSizing: 'border-box',
       }}
-      onFocus={e => { e.target.style.borderColor = 'var(--c1b)'; e.target.style.boxShadow = 'var(--sh1)'; }}
-      onBlur={e  => { e.target.style.borderColor = 'var(--bdr2)';  e.target.style.boxShadow = 'none'; }}
+      onFocus={e => { e.currentTarget.style.borderColor = 'var(--c1b)'; e.currentTarget.style.boxShadow = 'var(--sh1)'; }}
+      onBlur={e  => { e.currentTarget.style.borderColor = 'var(--bdr2)';  e.currentTarget.style.boxShadow = 'none'; }}
     />
   );
 }
 
-function TextArea({ value, onChange, placeholder, rows = 5 }) {
+function TextArea({ value, onChange, placeholder, rows = 5 }: TextAreaProps): ReactNode {
   return (
     <textarea
       value={value}
@@ -104,15 +165,15 @@ function TextArea({ value, onChange, placeholder, rows = 5 }) {
         resize: 'vertical',
         boxSizing: 'border-box',
       }}
-      onFocus={e => { e.target.style.borderColor = 'var(--c1b)'; e.target.style.boxShadow = 'var(--sh1)'; }}
-      onBlur={e  => { e.target.style.borderColor = 'var(--bdr2)';  e.target.style.boxShadow = 'none'; }}
+      onFocus={e => { e.currentTarget.style.borderColor = 'var(--c1b)'; e.currentTarget.style.boxShadow = 'var(--sh1)'; }}
+      onBlur={e  => { e.currentTarget.style.borderColor = 'var(--bdr2)';  e.currentTarget.style.boxShadow = 'none'; }}
     />
   );
 }
 
 const SELECT_ARROW = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2300d4ff' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")`;
 
-function StyledSelect({ value, onChange, children, placeholder }) {
+function StyledSelect({ value, onChange, children, placeholder }: SelectProps): ReactNode {
   return (
     <select
       value={value}
@@ -136,8 +197,8 @@ function StyledSelect({ value, onChange, children, placeholder }) {
         paddingRight: '36px',
         boxSizing: 'border-box',
       }}
-      onFocus={e => { e.target.style.borderColor = 'var(--c1b)'; e.target.style.boxShadow = 'var(--sh1)'; }}
-      onBlur={e  => { e.target.style.borderColor = 'var(--bdr2)';  e.target.style.boxShadow = 'none'; }}
+      onFocus={e => { e.currentTarget.style.borderColor = 'var(--c1b)'; e.currentTarget.style.boxShadow = 'var(--sh1)'; }}
+      onBlur={e  => { e.currentTarget.style.borderColor = 'var(--bdr2)';  e.currentTarget.style.boxShadow = 'none'; }}
     >
       {placeholder && <option value="" disabled>{placeholder}</option>}
       {children}
@@ -145,10 +206,10 @@ function StyledSelect({ value, onChange, children, placeholder }) {
   );
 }
 
-function PillRadio({ options, value, onChange }) {
+function PillRadio({ options, value, onChange }: ChoiceProps): ReactNode {
   return (
     <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-      {options.map(opt => {
+      {options.map((opt: string) => {
         const active = value === opt;
         return (
           <button
@@ -171,10 +232,10 @@ function PillRadio({ options, value, onChange }) {
   );
 }
 
-function MultiSelectChips({ options, values, onToggle }) {
+function MultiSelectChips({ options, values, onToggle }: MultiChoiceProps): ReactNode {
   return (
     <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-      {options.map(opt => {
+      {options.map((opt: string) => {
         const active = values.includes(opt);
         return (
           <button
@@ -201,23 +262,23 @@ function MultiSelectChips({ options, values, onToggle }) {
 }
 
 // ── Main Component ────────────────────────────────────────────────────────────
-export default function MembershipPage({ onBack }) {
+export default function MembershipPage({ onBack }: BackProps): ReactNode {
   const [step, setStep]   = useState(0); // 0 = Section 1, 1 = Section 2
   const [busy, setBusy]   = useState(false);
   const [done, setDone]   = useState(false);
   const [err,  setErr]    = useState('');
   const [alreadySubmitted, setAlreadySubmitted] = useState(false);
-  const topRef = useRef(null);
+  const topRef = useRef<HTMLDivElement | null>(null);
 
   // Check for duplicate submission on mount
   useEffect(() => {
     try {
-      const submitted = JSON.parse(localStorage.getItem('ns_member_emails') || '[]');
+      const submitted = JSON.parse(localStorage.getItem('ns_member_emails') || '[]') as string[];
       if (submitted.length > 0) setAlreadySubmitted(true);
     } catch { /* ignore */ }
   }, []);
 
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<MembershipForm>({
     // Section 1
     fullName:     '',
     collegeEmail: '',
@@ -235,11 +296,11 @@ export default function MembershipPage({ onBack }) {
     whyJoin:      '',
   });
 
-  function set(key, val) { setForm(f => ({ ...f, [key]: val })); }
+  function set<K extends keyof MembershipForm>(key: K, val: MembershipForm[K]): void { setForm(f => ({ ...f, [key]: val })); }
 
   // ── Validation per step ──────────────────────────────────────────────────
   const missingRequired = useMemo(() => {
-    const missing = [];
+    const missing: (keyof MembershipForm)[] = [];
     // Step 0 = About (no required fields — just read)
     if (step === 1) {
       if (!form.fullName.trim())     missing.push('fullName');
@@ -267,18 +328,18 @@ export default function MembershipPage({ onBack }) {
 
   const canNext = missingRequired.length === 0;
 
-  function scrollTop() {
+  function scrollTop(): void {
     topRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   // ── Submit ───────────────────────────────────────────────────────────────
-  async function submit() {
+  async function submit(): Promise<void> {
     setErr('');
     setBusy(true);
     try {
       const emailKey = String(form.whatsapp || '').trim(); // use WhatsApp as dedup key
       try {
-        const existing = JSON.parse(localStorage.getItem('ns_member_emails') || '[]');
+        const existing = JSON.parse(localStorage.getItem('ns_member_emails') || '[]') as string[];
         if (existing.includes(emailKey)) {
           setErr('This number has already been used to submit a membership form. Each member may submit only once.');
           setBusy(false);
@@ -307,14 +368,14 @@ export default function MembershipPage({ onBack }) {
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify(payload),
       });
-      const data = await res.json().catch(() => ({}));
+      const data = await res.json().catch(() => ({})) as { ok?: boolean; error?: string };
       if (!res.ok || (data && data.ok === false)) {
         throw new Error(data?.error || 'Membership form submission failed');
       }
 
       // Save to localStorage to prevent re-submit from same device
       try {
-        const existing = JSON.parse(localStorage.getItem('ns_member_emails') || '[]');
+        const existing = JSON.parse(localStorage.getItem('ns_member_emails') || '[]') as string[];
         existing.push(emailKey);
         localStorage.setItem('ns_member_emails', JSON.stringify(existing));
       } catch { /* ignore */ }
@@ -322,7 +383,7 @@ export default function MembershipPage({ onBack }) {
       setDone(true);
       scrollTop();
     } catch (e) {
-      setErr(e?.message || 'Something went wrong. Please try again.');
+      setErr(getErrorMessage(e, 'Something went wrong. Please try again.'));
     } finally {
       setBusy(false);
     }

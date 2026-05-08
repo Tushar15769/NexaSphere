@@ -1,14 +1,24 @@
-import { useEffect, useRef } from 'react';
+import { type MouseEvent, type ReactNode, useEffect, useRef } from 'react';
 import { activities } from '../../data/activitiesData';
+import type { ActivityKey, ActivitySummary } from '../../types/activities';
+import type { ActivitiesSectionProps } from '../../types/components';
 
 /* Anti-gravity delays — same pattern as team cards */
 const AG_DELAYS = [0, -2.1, -4.2, -1.0, -3.3, -5.5, -0.7, -6.1];
 
-function ActivityCard({ a, idx, onNav }) {
-  const ref      = useRef(null);
+function ActivityCard({
+  a,
+  idx,
+  onNav,
+}: {
+  a: ActivitySummary;
+  idx: number;
+  onNav: (type: 'activity', title: ActivityKey) => void;
+}): ReactNode {
+  const ref      = useRef<HTMLDivElement | null>(null);
   const agDelay  = AG_DELAYS[idx % AG_DELAYS.length];
 
-  const onMove = e => {
+  const onMove = (e: MouseEvent<HTMLDivElement>): void => {
     const c = ref.current; if (!c) return;
     const rect = c.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width  - .5;
@@ -18,16 +28,16 @@ function ActivityCard({ a, idx, onNav }) {
     c.style.transform = `translateY(-16px) rotateX(${-y * 16}deg) rotateY(${x * 16}deg) scale(1.04)`;
   };
 
-  const onLeave = () => {
+  const onLeave = (): void => {
     const c = ref.current; if (!c) return;
     c.style.transform = '';
     c.style.animationPlayState = '';
   };
 
-  const click = () => {
+  const click = (): void => {
     const c = ref.current;
     if (c) { c.style.transform = 'scale(.92)'; setTimeout(() => { c.style.transform = ''; }, 130); }
-    setTimeout(() => onNav('activity', a.title), 160);
+    setTimeout(() => onNav('activity', a.title as ActivityKey), 160);
   };
 
   return (
@@ -57,7 +67,7 @@ function ActivityCard({ a, idx, onNav }) {
   );
 }
 
-export default function ActivitiesSection({ onNavigate }) {
+export default function ActivitiesSection({ onNavigate }: ActivitiesSectionProps): ReactNode {
   useEffect(() => {
     const obs = new IntersectionObserver(entries => {
       entries.forEach(e => {
@@ -75,7 +85,7 @@ export default function ActivitiesSection({ onNavigate }) {
         <div className="reveal-stagger">
           <h2 className="section-title pop-word">Our Activities</h2>
           <p className="section-subtitle pop-in" style={{ animationDelay: '.1s' }}>
-            Click any activity to explore sessions &amp; events
+            Click an activity to explore sessions &amp; events
           </p>
         </div>
         <div className="activity-grid cin-container">

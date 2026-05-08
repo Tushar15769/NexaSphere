@@ -1,12 +1,23 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { type MouseEvent, type ReactNode, type Ref, useEffect, useRef, useState, useCallback } from 'react';
 import nexasphereLogo from '../../assets/images/logos/nexasphere-logo.png';
 import { IconArrowRight, IconSpark } from '../../shared/Icons';
+import type { HeroSectionProps } from '../../types/components';
 
 
 /* ── Ripple Button ── */
-function RippleBtn({ cls, children, href, onClick }) {
-  const ref = useRef(null);
-  const go = e => {
+function RippleBtn({
+  cls,
+  children,
+  href,
+  onClick,
+}: {
+  cls: string;
+  children: ReactNode;
+  href?: string;
+  onClick?: (event: MouseEvent<HTMLElement>) => void;
+}): ReactNode {
+  const ref = useRef<HTMLElement | null>(null);
+  const go = (e: MouseEvent<HTMLElement>): void => {
     const b = ref.current; if (!b) return;
     const r = b.getBoundingClientRect();
     const el = document.createElement('span');
@@ -17,12 +28,12 @@ function RippleBtn({ cls, children, href, onClick }) {
     setTimeout(() => el.remove(), 700);
     onClick && onClick(e);
   };
-  if (href) return <a ref={ref} href={href} target="_blank" rel="noopener noreferrer" className={`btn btn-ripple ${cls}`} onClick={go}>{children}</a>;
-  return <button ref={ref} className={`btn btn-ripple ${cls}`} onClick={go}>{children}</button>;
+  if (href) return <a ref={ref as Ref<HTMLAnchorElement>} href={href} target="_blank" rel="noopener noreferrer" className={`btn btn-ripple ${cls}`} onClick={go}>{children}</a>;
+  return <button ref={ref as Ref<HTMLButtonElement>} className={`btn btn-ripple ${cls}`} onClick={go}>{children}</button>;
 }
 
 /* ── Animated gradient title — safe in both modes ── */
-function HeroTitle({ isLight }) {
+function HeroTitle({ isLight }: { isLight: boolean }): ReactNode {
   return (
     <div className="hero-title">
       <span className="hero-title-text">NexaSphere</span>
@@ -31,7 +42,7 @@ function HeroTitle({ isLight }) {
 }
 
 /* ── SVG Orbit rings ── */
-function OrbitRings({ isLight }) {
+function OrbitRings({ isLight }: { isLight: boolean }): ReactNode {
   const rings = isLight
     ? [{rx:105,ry:48,dur:8,r:2,col:'194,119,10',d:'0s'},{rx:58,ry:182,dur:13,r:1.5,col:'109,40,217',d:'-5s'},{rx:162,ry:37,dur:17,r:1,col:'190,24,93',d:'-9s'},{rx:78,ry:158,dur:6,r:2,col:'8,145,178',d:'-2s'}]
     : [{rx:105,ry:48,dur:8,r:2,col:'0,212,255',d:'0s'},{rx:58,ry:182,dur:13,r:1.5,col:'123,111,255',d:'-5s'},{rx:162,ry:37,dur:17,r:1,col:'189,92,255',d:'-9s'},{rx:78,ry:158,dur:6,r:2,col:'0,255,157',d:'-2s'}];
@@ -57,16 +68,16 @@ function OrbitRings({ isLight }) {
 }
 
 /* ── Logo with 3D mouse tilt ── */
-function Logo3D({ ready, isLight }) {
-  const ref = useRef(null);
-  const onMove = useCallback(e => {
+function Logo3D({ ready, isLight }: { ready: boolean; isLight: boolean }): ReactNode {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const onMove = useCallback((e: MouseEvent<HTMLDivElement>): void => {
     const el = ref.current; if (!el) return;
     const rect = el.getBoundingClientRect();
     const dx = (e.clientX - (rect.left+rect.width/2))/220;
     const dy = (e.clientY - (rect.top+rect.height/2))/220;
     el.style.transform = `perspective(700px) rotateX(${-dy*16}deg) rotateY(${dx*16}deg) scale(1.05)`;
   }, []);
-  const onLeave = () => { if(ref.current) ref.current.style.transform=''; };
+  const onLeave = (): void => { if(ref.current) ref.current.style.transform=''; };
 
   return (
     <div
@@ -92,7 +103,7 @@ function Logo3D({ ready, isLight }) {
 }
 
 /* ── Stats bar ── */
-function StatsBar({ vis, isLight }) {
+function StatsBar({ vis, isLight }: { vis: boolean; isLight: boolean }): ReactNode {
   const items = [{v:'12',l:'Members',i:'👥'},{v:'8',l:'Activities',i:'⚡'},{v:'1',l:'Events Done',i:'📅'},{v:'∞',l:'Ideas',i:'💡'}];
   return (
     <div style={{
@@ -127,7 +138,7 @@ function StatsBar({ vis, isLight }) {
 }
 
 /* ── Particles / atmosphere ── */
-function Atmosphere({ isLight }) {
+function Atmosphere({ isLight }: { isLight: boolean }): ReactNode {
   if (isLight) return (
     <div style={{position:'absolute',inset:0,zIndex:0,pointerEvents:'none',
       backgroundImage:`radial-gradient(circle at 60% 38%,rgba(194,119,10,.05) 0%,transparent 55%),radial-gradient(circle at 30% 68%,rgba(109,40,217,.04) 0%,transparent 48%)`}}/>
@@ -151,7 +162,7 @@ function Atmosphere({ isLight }) {
   );
 }
 
-export default function HeroSection({ onTabChange, onApply, onJoin, theme = 'dark' }) {
+export default function HeroSection({ onTabChange, onApply, onJoin, theme = 'dark' }: HeroSectionProps): ReactNode {
   const [ready, setReady]     = useState(false);
   const [statsVis, setStatsVis] = useState(false);
   const isLight = theme === 'light';

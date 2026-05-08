@@ -1,7 +1,14 @@
-import { useEffect } from 'react';
+import { type ReactNode, useEffect } from 'react';
 import { events as fallbackEvents } from '../../data/eventsData';
+import type { Event } from '../../types/api';
 
-export default function EventsSection({ onEventClick, events = fallbackEvents }) {
+export default function EventsSection({
+  onEventClick,
+  events = fallbackEvents,
+}: {
+  onEventClick?: (event: Event) => void;
+  events?: Event[];
+}): ReactNode {
   useEffect(()=>{
     const obs=new IntersectionObserver(entries=>{
       entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('fired');obs.unobserve(e.target);}});

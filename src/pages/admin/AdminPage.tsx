@@ -1,7 +1,9 @@
-import { useMemo, useState } from 'react';
+import { type ReactNode, useMemo, useState } from 'react';
+import type { Event, EventsResponse, LoginResponse } from '../../types/api';
+import { getErrorMessage } from '../../types/dom';
 
 const API_BASE = (import.meta.env?.VITE_API_BASE || '').replace(/\/+$/, '');
-const api = (path) => API_BASE ? `${API_BASE}${path}` : path;
+const api = (path: string): string => API_BASE ? `${API_BASE}${path}` : path;
 
 const initialForm = {
   id: '',
@@ -14,11 +16,11 @@ const initialForm = {
   tags: '',
 };
 
-export default function AdminPage() {
+export default function AdminPage(): ReactNode {
   const [token, setToken] = useState(localStorage.getItem('ns_admin_token') || '');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState<Event[]>([]);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState('');
   const [msg, setMsg] = useState('');
@@ -30,7 +32,7 @@ export default function AdminPage() {
     Authorization: `Bearer ${token}`,
   }), [token]);
 
-  async function login() {
+  async function login(): Promise<void> {
     setErr(''); setMsg(''); setBusy(true);
     try {
       const res = await fetch(api('/api/admin/login'), {
@@ -38,32 +40,32 @@ export default function AdminPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
       });
-      const data = await res.json();
+      const data = await res.json() as LoginResponse & { error?: string };
       if (!res.ok) throw new Error(data?.error || 'Login failed');
       setToken(data.token);
       localStorage.setItem('ns_admin_token', data.token);
       setMsg('Logged in successfully.');
       await loadEvents(data.token);
     } catch (e) {
-      setErr(e?.message || 'Login failed');
+      setErr(getErrorMessage(e, 'Login failed'));
     } finally {
       setBusy(false);
     }
   }
 
-  async function loadEvents(forceToken = token) {
+  async function loadEvents(forceToken = token): Promise<void> {
     setErr('');
     const res = await fetch(api('/api/admin/events'), {
       headers: {
         Authorization: `Bearer ${forceToken}`,
       },
     });
-    const data = await res.json();
+    const data = await res.json() as EventsResponse & { error?: string };
     if (!res.ok) throw new Error(data?.error || 'Failed to load events');
     setEvents(data.events || []);
   }
 
-  async function saveEvent() {
+  async function saveEvent(): Promise<void> {
     setBusy(true); setErr(''); setMsg('');
     try {
       const payload = {
@@ -76,20 +78,20 @@ export default function AdminPage() {
         headers: authHeaders,
         body: JSON.stringify(payload),
       });
-      const data = await res.json();
+      const data = await res.json() as { error?: string };
       if (!res.ok) throw new Error(data?.error || 'Save failed');
       setMsg(isEdit ? 'Event updated.' : 'Event created.');
       setForm(initialForm);
       setEditingId('');
       await loadEvents();
     } catch (e) {
-      setErr(e?.message || 'Save failed');
+      setErr(getErrorMessage(e, 'Save failed'));
     } finally {
       setBusy(false);
     }
   }
 
-  async function removeEvent(id) {
+  async function removeEvent(id: string | number): Promise<void> {
     if (!window.confirm('Delete this event?')) return;
     setBusy(true); setErr(''); setMsg('');
     try {
@@ -97,28 +99,29 @@ export default function AdminPage() {
         method: 'DELETE',
         headers: authHeaders,
       });
-      const data = await res.json();
+      const data = await res.json() as { error?: string };
       if (!res.ok) throw new Error(data?.error || 'Delete failed');
       setMsg('Event deleted.');
       await loadEvents();
     } catch (e) {
-      setErr(e?.message || 'Delete failed');
+      setErr(getErrorMessage(e, 'Delete failed'));
     } finally {
       setBusy(false);
     }
   }
 
-  function startEdit(ev) {
-    setEditingId(ev.id);
+  function startEdit(ev: Event): void {
+    setEditingId(String(ev.id));
     setForm({
       ...initialForm,
       ...ev,
+      id: String(ev.id),
       tags: Array.isArray(ev.tags) ? ev.tags.join(', ') : '',
     });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  function logout() {
+  function logout(): void {
     localStorage.removeItem('ns_admin_token');
     setToken('');
     setEvents([]);
