@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { 
-  X, Linkedin, MessageSquare, Instagram, Mail, 
+  X, Linkedin, MessageSquare, Camera, Mail, 
   GraduationCap, Beaker, ClipboardList, Trophy, 
   MessageCircle, Link, Check, Copy 
 } from 'lucide-react';
@@ -171,7 +171,7 @@ function ModalContent({ member, onClose }) {
                 className="modal-social-btn btn-instagram"
                 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
               >
-                <Instagram size={14} /> Instagram
+                <Camera size={14} /> Instagram
               </a>
             )}
 
