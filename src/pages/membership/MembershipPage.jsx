@@ -764,11 +764,26 @@ export default function MembershipPage({ onBack }) {
                     href={WHATSAPP_COMMUNITY}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="btn btn-primary"
+                    className="btn btn-whatsapp"
                     style={{ flex:1, minWidth:0, justifyContent:'center' }}
                   >
                     Join WhatsApp Community
                   </a>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setAlreadySubmitted(false);
+                      setForm({
+                        fullName: '', collegeEmail: '', rollNumber: '', course: '', courseOther: '', branch: '', branchOther: '', section: '', sectionOther: '', semester: '', whatsapp: '',
+                        groups: [], whyJoin: ''
+                      });
+                      setStep(0);
+                    }}
+                    className="btn btn-primary"
+                    style={{ flex:1, minWidth:0, justifyContent:'center' }}
+                  >
+                    Submit Another Form
+                  </button>
                   <a
                     href={LINKEDIN_PAGE}
                     target="_blank"
