@@ -1223,9 +1223,26 @@ export default function RecruitmentPage({ onBack }) {
                     style={{ flex: 1, minWidth: 0, justifyContent: 'center' }}
                   >
                     <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-                      Core Team Screening Room <IconArrowRight />
+                      Core Team Screening <IconArrowRight />
                     </span>
                   </a>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setAlreadySubmitted(false);
+                      setForm({
+                        fullName: '', collegeEmail: '', whatsapp: '', year: '', branch: '', branchOther: '', section: '', sectionOther: '',
+                        role: '', interests: [], skills: '', comms: '', campusExp: '', campusExpDetails: '', links: '',
+                        commitHours: '', attendCampus: '', assessmentOk: '', whyJoin: '', anythingElse: '',
+                        declarations: { truth: false, time: false, participate: false, disagree: false }
+                      });
+                      setStep(0);
+                    }}
+                    className="btn btn-primary"
+                    style={{ flex: 1, minWidth: 0, justifyContent: 'center' }}
+                  >
+                    Submit Another Application
+                  </button>
                   <a
                     href={LINKEDIN_PAGE || 'https://www.linkedin.com/showcase/glbajaj-nexasphere/'}
                     target="_blank"

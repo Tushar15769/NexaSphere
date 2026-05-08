@@ -3,57 +3,59 @@ package org.nexasphere.controller;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.nexasphere.model.entity.EventEntity;
-import org.nexasphere.repository.EventRepository;
-import org.nexasphere.util.Sanitizer;
-import org.springframework.http.HttpStatus;
+import org.nexasphere.service.crud.EventService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/api/admin/events")
 @Slf4j
 public class EventsController {
 
-    private final EventRepository repo;
+    private final EventService eventService;
 
-    public EventsController(EventRepository repo) {
-        this.repo = repo;
+    public EventsController(EventService eventService) {
+        this.eventService = eventService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<EventEntity>> getAll() {
-        log.info("Fetching all events");
-        return ResponseEntity.ok(repo.findAll());
+    @GetMapping("/api/content/events")
+    public ResponseEntity<List<EventEntity>> getPublicEvents() {
+        log.info("Fetching public events");
+        return ResponseEntity.ok(eventService.getAllEvents());
     }
 
-    @PostMapping
-    public ResponseEntity<EventEntity> create(@Valid @RequestBody EventEntity event) {
-        log.info("Creating new event: {}", event.getName());
-        event.setId(null);
-        event.setName(Sanitizer.clean(event.getName()));
-        return ResponseEntity.status(HttpStatus.CREATED).body(repo.save(event));
+    @GetMapping("/api/admin/events")
+    public ResponseEntity<List<EventEntity>> getAdminEvents() {
+        log.info("Fetching admin events");
+        return ResponseEntity.ok(eventService.getAllEvents());
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<EventEntity> update(@PathVariable Long id, @Valid @RequestBody EventEntity event) {
-        log.info("Updating event ID: {}", id);
-        return repo.findById(id).map(existing -> {
-            event.setId(id);
-            event.setName(Sanitizer.clean(event.getName()));
-            return ResponseEntity.ok(repo.save(event));
-        }).orElse(ResponseEntity.notFound().build());
+    @PostMapping("/api/admin/events")
+    public ResponseEntity<EventEntity> createEvent(
+            @Valid @RequestBody EventEntity event,
+            @AuthenticationPrincipal String adminEmail) {
+        log.info("Admin {} creating new event: {}", adminEmail, event.getName());
+        return ResponseEntity.ok(eventService.createEvent(event, adminEmail));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        log.info("Deleting event ID: {}", id);
-        if (!repo.existsById(id)) {
-            log.warn("Event ID {} not found for deletion", id);
-            return ResponseEntity.notFound().build();
-        }
-        repo.deleteById(id);
-        return ResponseEntity.noContent().build();
+    @PutMapping("/api/admin/events/{id}")
+    public ResponseEntity<EventEntity> updateEvent(
+            @PathVariable String id,
+            @Valid @RequestBody EventEntity event,
+            @AuthenticationPrincipal String adminEmail) {
+        log.info("Admin {} updating event ID: {}", adminEmail, id);
+        return ResponseEntity.ok(eventService.updateEvent(id, event, adminEmail));
+    }
+
+    @DeleteMapping("/api/admin/events/{id}")
+    public ResponseEntity<Map<String, Boolean>> deleteEvent(
+            @PathVariable String id,
+            @AuthenticationPrincipal String adminEmail) {
+        log.info("Admin {} deleting event ID: {}", adminEmail, id);
+        eventService.deleteEvent(id, adminEmail);
+        return ResponseEntity.ok(Map.of("ok", true));
     }
 }

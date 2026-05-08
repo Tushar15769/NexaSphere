@@ -20,6 +20,7 @@ public class CoreTeamMemberEntity {
 
     private String role;
     private String branch;
+    @Column(name = "\"year\"")
     private String year;
     private String email;
     private String linkedin;

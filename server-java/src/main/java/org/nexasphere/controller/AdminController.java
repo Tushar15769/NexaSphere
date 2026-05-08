@@ -6,11 +6,16 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.extern.slf4j.Slf4j;
 import org.nexasphere.model.TokenSession;
 import org.nexasphere.service.AdminAuthService;
+import org.nexasphere.service.LoginRateLimitService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.Collections;
 import java.util.Map;
@@ -22,16 +27,31 @@ import java.util.Map;
 public class AdminController {
 
     private final AdminAuthService adminAuthService;
+    private final LoginRateLimitService rateLimitService;
 
-    public AdminController(AdminAuthService adminAuthService) {
+    public AdminController(AdminAuthService adminAuthService, LoginRateLimitService rateLimitService) {
         this.adminAuthService = adminAuthService;
+        this.rateLimitService = rateLimitService;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
+    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request, HttpServletRequest servletRequest) {
+        String clientIp = getClientIp(servletRequest);
+        if (!rateLimitService.tryConsume(clientIp)) {
+            log.warn("Rate limit exceeded for IP: {}", clientIp);
+            throw new ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS, "Too many login attempts. Please try again later.");
+        }
         log.info("Login attempt for user: {}", request.email());
         TokenSession session = adminAuthService.login(request.email().trim(), request.password());
-        return ResponseEntity.ok(new LoginResponse(session.token(), session.sessionInfo().email()));
+        return ResponseEntity.ok(new LoginResponse(session.getToken(), session.getEmail()));
+    }
+
+    private String getClientIp(HttpServletRequest request) {
+        String xfHeader = request.getHeader("X-Forwarded-For");
+        if (xfHeader == null || xfHeader.isEmpty()) {
+            return request.getRemoteAddr();
+        }
+        return xfHeader.split(",")[0];
     }
 
     @PostMapping("/logout")

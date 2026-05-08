@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import './styles/themes.css';
 import './styles/globals.css';
 import './styles/animations.css';
+import './styles/chatbot.css';
 import './styles/components.css';
 import './styles/aurora.css';
 import './styles/motion.css';
@@ -19,11 +20,14 @@ import Footer from './shared/Footer';
 import ActivityDetailPage from './pages/activities/ActivityDetailPage';
 import EventDetailPage from './pages/events/EventDetailPage';
 import CinematicOpening from './shared/CinematicOpening';
+import Chatbot from './shared/Chatbot';
+
 import {
   AmbientOrbs, SectionDivider,
   useNsReveal, useHeroParallax,
   useNavScrollTint, useGlobalMouseParallax, useMagneticCards,
 } from './shared/MotionLayer';
+
 import ActivitiesPage from './pages/activities/ActivitiesPage';
 import EventsPage from './pages/events/EventsPage';
 import AboutPage from './pages/about/AboutPage';
@@ -83,6 +87,7 @@ export default function App() {
 
   return (
     <>
+      <Chatbot />
       {!cinDone && <CinematicOpening theme={theme} onDone={() => setCinDone(true)} />}
       
       {cinDone && (
