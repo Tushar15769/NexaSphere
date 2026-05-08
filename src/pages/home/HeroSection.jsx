@@ -126,7 +126,7 @@ function StatsBar({ vis, isLight }) {
           onMouseEnter={e=>e.currentTarget.style.background=isLight?'rgba(26,26,26,.06)':'rgba(204,17,17,.09)'}
           onMouseLeave={e=>e.currentTarget.style.background='transparent'}  
         >
-          <div style={{fontSize:'.9rem',marginBottom:'2px', color: 'var(--c1)'}}>{s.i}</div>
+          <div className="home-icon-pop" style={{fontSize:'.9rem',marginBottom:'2px', color: 'var(--c1)', transition: 'transform .3s cubic-bezier(.34,1.56,.64,1)'}}>{s.i}</div>
           <div style={{
             fontFamily:'Orbitron,monospace',fontSize:'clamp(1.1rem,3vw,1.75rem)',fontWeight:900,
             backgroundImage:isLight?'linear-gradient(135deg,#CC1111,#880000)':'linear-gradient(135deg,#EE2222,#CC1111)',

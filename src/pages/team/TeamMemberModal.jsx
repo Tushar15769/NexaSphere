@@ -70,8 +70,13 @@ function ModalContent({ member, onClose }) {
           <DynamicIcon name="X" size={20} />
         </button>
 
-        
-        <img src={member.photo} alt={member.name} className="modal-photo" />
+        <div className="modal-glow-orb" style={{ position: 'absolute', top: '-20px', left: '-20px', width: '80px', height: '80px', background: 'radial-gradient(circle, rgba(238,34,34,0.3) 0%, transparent 70%)', filter: 'blur(10px)', pointerEvents: 'none' }} />
+
+        {/* Photo with glowing ring */}
+        <div style={{ position: 'relative', width: '108px', height: '108px', margin: '0 auto 16px' }}>
+          <img src={member.photo} alt={member.name} className="modal-photo" />
+          <div className="modal-photo-ring" />
+        </div>
 
         
         <div className="modal-name">{member.name}</div>
