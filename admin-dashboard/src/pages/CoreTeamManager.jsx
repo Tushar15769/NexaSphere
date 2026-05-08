@@ -13,7 +13,7 @@ export function CoreTeamManager() {
 
   useEffect(() => {
     api.coreTeam.getAll()
-      .then(setMembers)
+      .then(data => setMembers(data?.members ?? []))
       .catch(() => setMembers([]))
       .finally(() => setLoading(false));
   }, []);

@@ -212,26 +212,8 @@ const WHATSAPP_COMMUNITY = 'https://chat.whatsapp.com/FhpJEaod2g419jFMfqrhGZ';
 const LINKEDIN_PAGE      = 'https://www.linkedin.com/showcase/glbajaj-nexasphere/';
 const RECRUITMENT_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzo1g6WNiO-f8kySE4Mqbdlh3VxZx9pRGLcjt7qyzRCNB1TMK0kRwjZbDD2UsaJFQ0q/exec';
 
-const ROLE_OPTIONS = [
-  'Technical Lead',
-  'Domain Lead',
-  'Co-Lead',
-  'Management Lead',
-  'Core Team Member',
-];
+import { ROLE_OPTIONS, DOMAIN_OPTIONS as INTEREST_OPTIONS } from '../../shared/roles';
 
-const INTEREST_OPTIONS = [
-  'Cloud Computing',
-  'Artificial Intelligence / Machine Learning',
-  'Android Development',
-  'Web / Full-Stack Development',
-  'Cyber Security',
-  'UI / UX Design',
-  'Event Management',
-  'Marketing & Social Media',
-  'Content & Documentation',
-  'Community & Outreach',
-];
 
 const YEAR_OPTIONS = ['1st Year', '2nd Year', '3rd Year', '4th Year'];
 const SECTION_OPTIONS = ['A', 'B', 'C', 'D', 'E', 'F', 'Other'];
