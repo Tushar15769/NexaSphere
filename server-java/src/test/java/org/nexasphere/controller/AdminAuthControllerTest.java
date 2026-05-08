@@ -64,4 +64,31 @@ class AdminAuthControllerTest {
         mockMvc.perform(get("/api/admin/me"))
                 .andExpect(status().isUnauthorized());
     }
+
+    @Test
+    void testLoginRateLimiting() throws Exception {
+        String loginJson = "{\"email\": \"nexasphere@glbajajgroup.org\", \"password\": \"wrongpass\"}";
+        
+        // First 10 attempts should be allowed (burst capacity)
+        for (int i = 0; i < 10; i++) {
+            mockMvc.perform(post("/api/admin/login")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(loginJson)
+                    .with(request -> {
+                        request.setRemoteAddr("192.168.1.1"); // Set a fixed IP for testing
+                        return request;
+                    }))
+                    .andExpect(status().isUnauthorized());
+        }
+
+        // 11th attempt should be throttled
+        mockMvc.perform(post("/api/admin/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(loginJson)
+                .with(request -> {
+                    request.setRemoteAddr("192.168.1.1");
+                    return request;
+                }))
+                .andExpect(status().isTooManyRequests());
+    }
 }
