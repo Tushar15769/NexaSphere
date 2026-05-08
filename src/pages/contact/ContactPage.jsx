@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import glbajajLogo from '../../assets/images/logos/glbajaj-logo.png';
-import { Mail, Linkedin, MessageSquare, MapPin, Map, MessageCircle, Copy, Check, Phone, ArrowLeft } from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
+
+function DynamicIcon({ name, ...props }) {
+  const Icon = LucideIcons[name] || LucideIcons.Linkedin || LucideIcons.LinkedIn || LucideIcons.HelpCircle;
+  return <Icon {...props} />;
+}
 
 /* ─────────────────────────────────────────────────────────
    NEXASPHERE — CONTACT PAGE
@@ -136,7 +141,7 @@ function MapSection() {
           display: 'inline-flex', alignItems: 'center', gap: 8,
           fontFamily: 'Space Mono,monospace', fontSize: '.65rem',
           color: 'var(--t3)', letterSpacing: '.28em', textTransform: 'uppercase',
-        }}><MapPin size={12} /> FIND US</span>
+        }}><DynamicIcon name="MapPin" size={12} /> FIND US</span>
         <h3 style={{
           fontFamily: 'Orbitron,monospace', fontSize: 'clamp(1.1rem,3vw,1.6rem)',
           fontWeight: 700, marginTop: 8, marginBottom: 6,
@@ -167,7 +172,7 @@ function MapSection() {
             flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
             gap: 12, zIndex: 2, background: 'var(--card)',
           }}>
-            <div style={{ color: 'var(--c1)', animation: 'float 2s ease-in-out infinite' }}><MapPin size={40} /></div>
+            <div style={{ color: 'var(--c1)', animation: 'float 2s ease-in-out infinite' }}><DynamicIcon name="MapPin" size={40} /></div>
             <div style={{
               fontFamily: 'Space Mono,monospace', fontSize: '.6rem',
               color: 'var(--t3)', letterSpacing: '.2em',
@@ -220,7 +225,7 @@ function MapSection() {
           className="btn btn-outline btn-sm"
           style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}
         >
-          <Map size={16} /> Open in Google Maps
+          <DynamicIcon name="Map" size={16} /> Open in Google Maps
         </a>
       </div>
     </div>
@@ -247,7 +252,7 @@ function MessageCTA() {
       <div className="corner-tl"/><div className="corner-br"/>
 
       <div style={{ textAlign: 'center', marginBottom: 28 }}>
-        <div style={{ color: 'var(--c1)', marginBottom: 12, display: 'flex', justifyContent: 'center' }}><MessageCircle size={48} /></div>
+        <div style={{ color: 'var(--c1)', marginBottom: 12, display: 'flex', justifyContent: 'center' }}><DynamicIcon name="MessageCircle" size={48} /></div>
         <h3 style={{
           fontFamily: 'Orbitron,monospace', fontSize: 'clamp(1rem,2.5vw,1.3rem)',
           fontWeight: 700, marginBottom: 8,
@@ -284,14 +289,14 @@ function MessageCTA() {
           className="btn btn-primary btn-ripple"
           style={{ flex: 1, minWidth: 0, justifyContent: 'center', display: 'flex', alignItems: 'center', gap: '8px' }}
         >
-          <Mail size={18} /> Open Email App
+          <DynamicIcon name="Mail" size={18} /> Open Email App
         </a>
         <button
           className="btn btn-outline btn-ripple"
           onClick={handleCopy}
           style={{ flex: 1, minWidth: 0, justifyContent: 'center', display: 'flex', alignItems: 'center', gap: '8px' }}
         >
-          {copied ? <Check size={18} /> : <Copy size={18} />}
+          {copied ? <DynamicIcon name="Check" size={18} /> : <DynamicIcon name="Copy" size={18} />}
           {copied ? 'Copied!' : 'Copy Email'}
         </button>
       </div>
@@ -403,7 +408,7 @@ export default function ContactPage({ onBack }) {
             className="btn btn-outline btn-sm"
             style={{ position: 'absolute', top: 24, left: 24, display: 'flex', alignItems: 'center', gap: '6px' }}
           >
-            <ArrowLeft size={14} /> Back
+            <DynamicIcon name="ArrowLeft" size={14} /> Back
           </button>
         )}
         <span className="cin-section-label pop-in">Get In Touch</span>
@@ -486,7 +491,7 @@ export default function ContactPage({ onBack }) {
             href="tel:+915652400400"
             style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginTop: 10, color: 'var(--c1)', fontSize: '.85rem', fontWeight: 600 }}
           >
-            <Phone size={14} /> +91-565-2400400
+            <DynamicIcon name="Phone" size={14} /> +91-565-2400400
           </a>
         </div>
 
