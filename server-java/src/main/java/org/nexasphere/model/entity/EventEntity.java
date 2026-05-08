@@ -2,9 +2,13 @@ package org.nexasphere.model.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "events")
+@Data
+@NoArgsConstructor
 public class EventEntity {
 
     @Id
@@ -20,21 +24,4 @@ public class EventEntity {
     private String status;
     private String location;
     private String registrationLink;
-
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-    public String getDateText() { return dateText; }
-    public void setDateText(String dateText) { this.dateText = dateText; }
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
-    public String getIcon() { return icon; }
-    public void setIcon(String icon) { this.icon = icon; }
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
-    public String getLocation() { return location; }
-    public void setLocation(String location) { this.location = location; }
-    public String getRegistrationLink() { return registrationLink; }
-    public void setRegistrationLink(String registrationLink) { this.registrationLink = registrationLink; }
 }

@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
+import { API_BASE } from '../../data/config';
 
-const API_BASE = (import.meta.env?.VITE_API_BASE || '').replace(/\/+$/, '');
 const api = (path) => API_BASE ? `${API_BASE}${path}` : path;
 
 const initialForm = {

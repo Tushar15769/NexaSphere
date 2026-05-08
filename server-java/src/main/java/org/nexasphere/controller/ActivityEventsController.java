@@ -1,6 +1,7 @@
 package org.nexasphere.controller;
 
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.nexasphere.model.entity.ActivityEventEntity;
 import org.nexasphere.repository.ActivityEventRepository;
 import org.nexasphere.util.Sanitizer;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin/activity-events")
+@Slf4j
 public class ActivityEventsController {
 
     private final ActivityEventRepository repo;
@@ -21,14 +23,16 @@ public class ActivityEventsController {
     }
 
     @GetMapping("/{activityKey}")
-    public List<ActivityEventEntity> getByActivity(@PathVariable String activityKey) {
-        return repo.findByActivityKey(activityKey);
+    public ResponseEntity<List<ActivityEventEntity>> getByActivity(@PathVariable String activityKey) {
+        log.info("Fetching events for activity: {}", activityKey);
+        return ResponseEntity.ok(repo.findByActivityKey(activityKey));
     }
 
     @PostMapping("/{activityKey}")
     public ResponseEntity<ActivityEventEntity> create(
             @PathVariable String activityKey,
             @Valid @RequestBody ActivityEventEntity event) {
+        log.info("Creating event for activity: {}", activityKey);
         event.setId(null);
         event.setActivityKey(activityKey);
         event.setName(Sanitizer.clean(event.getName()));
@@ -37,8 +41,12 @@ public class ActivityEventsController {
 
     @DeleteMapping("/{activityKey}/{id}")
     public ResponseEntity<Void> delete(@PathVariable String activityKey, @PathVariable Long id) {
+        log.info("Deleting event ID: {} from activity: {}", id, activityKey);
         var found = repo.findById(id).filter(e -> e.getActivityKey().equals(activityKey));
-        if (found.isEmpty()) return ResponseEntity.notFound().build();
+        if (found.isEmpty()) {
+            log.warn("Event ID {} not found for activity {}", id, activityKey);
+            return ResponseEntity.notFound().build();
+        }
         repo.delete(found.get());
         return ResponseEntity.noContent().build();
     }
