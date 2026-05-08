@@ -13,3 +13,14 @@ INSERT INTO event_tags (event_id, tags)
 SELECT 'kss-153', tag
 FROM (VALUES ('AI'), ('Learning'), ('Community')) AS t(tag)
 WHERE NOT EXISTS (SELECT 1 FROM event_tags WHERE event_id = 'kss-153' AND tags = tag);
+
+INSERT INTO activity_events (id, activity_key, name, date_text, tagline, description, status, created_at)
+SELECT 'kss-153',
+       'insight-session',
+       'KSS #153 — Impact of AI',
+       'March 2025',
+       'They came. They listened. They left thinking differently.',
+       'Knowledge Sharing Session #153 on the topic "Impact of AI" — NexaSphere''s first major community event at GL Bajaj Group of Institutions, Mathura.',
+       'completed',
+       NOW()
+WHERE NOT EXISTS (SELECT 1 FROM activity_events WHERE id = 'kss-153');
