@@ -4,7 +4,7 @@
 
 const techDebate = {
   id: 'tech-debate',
-  icon: '🎙️',
+  icon: 'Mic',
   title: 'Tech Debate',
   tagline: 'Argue. Defend. Evolve.',
   color: '#ef4444',
@@ -14,29 +14,6 @@ const techDebate = {
 
   conductedEvents: [
     // ── Paste completed tech debate events here ──
-    // {
-    //   id: 'debate-1',
-    //   name: 'Tech Debate 1.0 — AI vs Human Creativity',
-    //   shortName: 'Debate 1.0',
-    //   date: 'Month Year',
-    //   status: 'completed',
-    //   tagline: 'One line description',
-    //   stats: [
-    //     { label: 'Debaters', value: '8' },
-    //     { label: 'Rounds', value: '3' },
-    //     { label: 'Audience', value: '50' },
-    //     { label: 'Duration', value: '1.5 hrs' },
-    //   ],
-    //   overview: 'Full description...',
-    //   topics: [
-    //     { title: 'Motion', speaker: 'Proposer Name', role: 'Proposer', duration: '5 min', summary: '...' },
-    //   ],
-    //   volunteers: [],
-    //   acknowledgements: [],
-    //   photoLink: null,
-    //   videoLink: null,
-    //   hashtags: ['#TechDebate', '#NexaSphere', '#GLBajaj'],
-    // },
   ],
 
   upcomingEvents: [

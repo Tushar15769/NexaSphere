@@ -4,7 +4,7 @@
 
 const promptathon = {
   id: 'promptathon',
-  icon: '🤖',
+  icon: 'Bot',
   title: 'Promptathon',
   tagline: 'Prompt. Engineer. Dominate.',
   color: '#8b5cf6',
@@ -14,25 +14,6 @@ const promptathon = {
 
   conductedEvents: [
     // ── Paste completed promptathon events here ──
-    // {
-    //   id: 'promptathon-1',
-    //   name: 'Promptathon 1.0',
-    //   shortName: 'Promptathon 1.0',
-    //   date: 'Month Year',
-    //   status: 'completed',
-    //   tagline: 'One line description',
-    //   stats: [
-    //     { label: 'Participants', value: '60' },
-    //     { label: 'Prompts', value: '120+' },
-    //     { label: 'Rounds', value: '3' },
-    //     { label: 'Winners', value: '3' },
-    //   ],
-    //   overview: 'Full description of the event...',
-    //   topics: [],
-    //   photoLink: null,
-    //   videoLink: null,
-    //   hashtags: ['#Promptathon', '#NexaSphere', '#GLBajaj'],
-    // },
   ],
 
   upcomingEvents: [
@@ -46,22 +27,22 @@ const promptathon = {
 
   highlights: [
     {
-      icon: '🧠',
+      icon: 'Brain',
       title: 'Prompt Engineering',
       desc: 'Learn to write precise, creative prompts that unlock AI\'s full potential across text, code, and images.',
     },
     {
-      icon: '⚔️',
+      icon: 'Swords',
       title: 'Competitive Rounds',
       desc: 'Multi-round battles where prompts are judged on creativity, accuracy, efficiency, and output quality.',
     },
     {
-      icon: '🎯',
+      icon: 'Target',
       title: 'Real-World Tasks',
       desc: 'Tackle genuine challenges — from content generation to data analysis — using only natural language.',
     },
     {
-      icon: '🏆',
+      icon: 'Trophy',
       title: 'Leaderboard & Prizes',
       desc: 'Top prompt engineers earn recognition, certificates, and exclusive NexaSphere rewards.',
     },

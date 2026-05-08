@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import glbajajLogo from '../../assets/images/logos/glbajaj-logo.png';
+import { Mail, Linkedin, MessageSquare, MapPin, Map, MessageCircle, Copy, Check, Phone, ArrowLeft } from 'lucide-react';
 
 /* ─────────────────────────────────────────────────────────
    NEXASPHERE — CONTACT PAGE
@@ -47,7 +48,7 @@ function useBurst(ref) {
 }
 
 /* ── Contact Card ── */
-function ContactCard({ icon, label, value, href, delay = 0, color }) {
+function ContactCard({ icon: IconComp, label, value, href, delay = 0, color }) {
   const ref = useRef(null);
   const [hov, setHov] = useState(false);
   useBurst(ref);
@@ -81,12 +82,12 @@ function ContactCard({ icon, label, value, href, delay = 0, color }) {
         width: 64, height: 64, borderRadius: '50%', margin: '0 auto 20px',
         background: `${color}15`, border: `2px solid ${color}40`,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontSize: '1.75rem',
+        color: color,
         boxShadow: hov ? `0 0 24px ${color}40` : 'none',
         transition: 'box-shadow .3s, transform .3s cubic-bezier(.34,1.56,.64,1)',
         transform: hov ? 'scale(1.15) rotate(8deg)' : 'scale(1)',
       }}>
-        {icon}
+        {IconComp}
       </div>
 
       <div style={{
@@ -135,7 +136,7 @@ function MapSection() {
           display: 'inline-flex', alignItems: 'center', gap: 8,
           fontFamily: 'Space Mono,monospace', fontSize: '.65rem',
           color: 'var(--t3)', letterSpacing: '.28em', textTransform: 'uppercase',
-        }}>📍 FIND US</span>
+        }}><MapPin size={12} /> FIND US</span>
         <h3 style={{
           fontFamily: 'Orbitron,monospace', fontSize: 'clamp(1.1rem,3vw,1.6rem)',
           fontWeight: 700, marginTop: 8, marginBottom: 6,
@@ -166,7 +167,7 @@ function MapSection() {
             flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
             gap: 12, zIndex: 2, background: 'var(--card)',
           }}>
-            <div style={{ fontSize: '2rem', animation: 'float 2s ease-in-out infinite' }}>📍</div>
+            <div style={{ color: 'var(--c1)', animation: 'float 2s ease-in-out infinite' }}><MapPin size={40} /></div>
             <div style={{
               fontFamily: 'Space Mono,monospace', fontSize: '.6rem',
               color: 'var(--t3)', letterSpacing: '.2em',
@@ -217,9 +218,9 @@ function MapSection() {
           href="https://maps.google.com/?q=GL+Bajaj+Group+of+Institutions+Mathura"
           target="_blank" rel="noopener noreferrer"
           className="btn btn-outline btn-sm"
-          style={{ display: 'inline-flex' }}
+          style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}
         >
-          🗺️ Open in Google Maps
+          <Map size={16} /> Open in Google Maps
         </a>
       </div>
     </div>
@@ -246,7 +247,7 @@ function MessageCTA() {
       <div className="corner-tl"/><div className="corner-br"/>
 
       <div style={{ textAlign: 'center', marginBottom: 28 }}>
-        <div style={{ fontSize: '2.2rem', marginBottom: 12 }}>✉️</div>
+        <div style={{ color: 'var(--c1)', marginBottom: 12, display: 'flex', justifyContent: 'center' }}><MessageCircle size={48} /></div>
         <h3 style={{
           fontFamily: 'Orbitron,monospace', fontSize: 'clamp(1rem,2.5vw,1.3rem)',
           fontWeight: 700, marginBottom: 8,
@@ -281,16 +282,17 @@ function MessageCTA() {
         <a
           href={`mailto:${EMAIL}?subject=${subject}&body=${body}`}
           className="btn btn-primary btn-ripple"
-          style={{ flex: 1, minWidth: 0, justifyContent: 'center' }}
+          style={{ flex: 1, minWidth: 0, justifyContent: 'center', display: 'flex', alignItems: 'center', gap: '8px' }}
         >
-          📧 Open Email App
+          <Mail size={18} /> Open Email App
         </a>
         <button
           className="btn btn-outline btn-ripple"
           onClick={handleCopy}
-          style={{ flex: 1, minWidth: 0, justifyContent: 'center' }}
+          style={{ flex: 1, minWidth: 0, justifyContent: 'center', display: 'flex', alignItems: 'center', gap: '8px' }}
         >
-          {copied ? '✅ Copied!' : '📋 Copy Email'}
+          {copied ? <Check size={18} /> : <Copy size={18} />}
+          {copied ? 'Copied!' : 'Copy Email'}
         </button>
       </div>
 
@@ -399,9 +401,9 @@ export default function ContactPage({ onBack }) {
           <button
             onClick={onBack}
             className="btn btn-outline btn-sm"
-            style={{ position: 'absolute', top: 24, left: 24 }}
+            style={{ position: 'absolute', top: 24, left: 24, display: 'flex', alignItems: 'center', gap: '6px' }}
           >
-            ← Back
+            <ArrowLeft size={14} /> Back
           </button>
         )}
         <span className="cin-section-label pop-in">Get In Touch</span>
@@ -427,19 +429,19 @@ export default function ContactPage({ onBack }) {
           className="cin-container"
         >
           <ContactCard
-            icon="📧" label="Email" delay={0}
+            icon={<Mail size={32} />} label="Email" delay={0}
             value={EMAIL}
             href={`mailto:${EMAIL}`}
             color="var(--c1)"
           />
           <ContactCard
-            icon="🔗" label="LinkedIn" delay={0.08}
+            icon={<Linkedin size={32} />} label="LinkedIn" delay={0.08}
             value="NexaSphere · GL Bajaj"
             href={LINKEDIN}
             color="var(--c2)"
           />
           <ContactCard
-            icon="💬" label="WhatsApp Community" delay={0.16}
+            icon={<MessageSquare size={32} />} label="WhatsApp Community" delay={0.16}
             value="Join our active community group"
             href={WHATSAPP}
             color="var(--c5)"
@@ -482,9 +484,9 @@ export default function ContactPage({ onBack }) {
           </p>
           <a
             href="tel:+915652400400"
-            style={{ display: 'block', marginTop: 10, color: 'var(--c1)', fontSize: '.85rem', fontWeight: 600 }}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginTop: 10, color: 'var(--c1)', fontSize: '.85rem', fontWeight: 600 }}
           >
-            📞 +91-565-2400400
+            <Phone size={14} /> +91-565-2400400
           </a>
         </div>
 

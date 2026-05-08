@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { 
+  X, Linkedin, MessageSquare, Instagram, Mail, 
+  GraduationCap, Beaker, ClipboardList, Trophy, 
+  MessageCircle, Link, Check, Copy 
+} from 'lucide-react';
 
 function CopyPopup({ value, onClose }) {
   const [copied, setCopied] = useState(false);
@@ -22,8 +27,9 @@ function CopyPopup({ value, onClose }) {
   return (
     <div className="copy-popup">
       <span className="copy-popup-value">{value}</span>
-      <button className="copy-popup-btn" onClick={handleCopy}>
-        {copied ? '✅ Copied!' : '📋 Copy'}
+      <button className="copy-popup-btn" onClick={handleCopy} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+        {copied ? <Check size={14} /> : <Copy size={14} />}
+        {copied ? 'Copied!' : 'Copy'}
       </button>
     </div>
   );
@@ -60,7 +66,9 @@ function ModalContent({ member, onClose }) {
     >
       <div className="modal-box">
         
-        <button className="modal-close" onClick={onClose} aria-label="Close">✕</button>
+        <button className="modal-close" onClick={onClose} aria-label="Close">
+          <X size={20} />
+        </button>
 
         
         <img src={member.photo} alt={member.name} className="modal-photo" />
@@ -72,15 +80,21 @@ function ModalContent({ member, onClose }) {
         
         <div className="modal-info">
           <div className="modal-info-row">
-            <span className="modal-info-label">🎓 Year</span>
+            <span className="modal-info-label" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <GraduationCap size={14} /> Year
+            </span>
             <span className="modal-info-value">{member.year}</span>
           </div>
           <div className="modal-info-row">
-            <span className="modal-info-label">🔬 Branch</span>
+            <span className="modal-info-label" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <Beaker size={14} /> Branch
+            </span>
             <span className="modal-info-value">{member.branch}</span>
           </div>
           <div className="modal-info-row">
-            <span className="modal-info-label">📋 Section</span>
+            <span className="modal-info-label" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <ClipboardList size={14} /> Section
+            </span>
             <span className="modal-info-value">{member.section}</span>
           </div>
         </div>
@@ -88,7 +102,9 @@ function ModalContent({ member, onClose }) {
         
         {member.achievements && member.achievements.length > 0 && (
           <div className="modal-achievements">
-            <div className="modal-achievements-title">🏆 Achievements</div>
+            <div className="modal-achievements-title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Trophy size={16} /> Achievements
+            </div>
             <ul className="modal-achievements-list">
               {member.achievements.map((ach, idx) => (
                 <li key={idx} className="modal-achievement-item">{ach}</li>
@@ -100,7 +116,9 @@ function ModalContent({ member, onClose }) {
         
         {member.testimonials && member.testimonials.length > 0 && (
           <div className="modal-testimonials">
-            <div className="modal-testimonials-title">💬 Testimonials</div>
+            <div className="modal-testimonials-title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <MessageCircle size={16} /> Testimonials
+            </div>
             <ul className="modal-testimonials-list">
               {member.testimonials.map((t, idx) => (
                 <li key={idx} className="modal-testimonial-item">
@@ -121,8 +139,9 @@ function ModalContent({ member, onClose }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="modal-social-btn btn-linkedin"
+                style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
               >
-                🔗 LinkedIn
+                <Linkedin size={14} /> LinkedIn
               </a>
             )}
 
@@ -134,8 +153,9 @@ function ModalContent({ member, onClose }) {
                     e.stopPropagation();
                     setActivePopup(activePopup === 'whatsapp' ? null : 'whatsapp');
                   }}
+                  style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
                 >
-                  💬 WhatsApp
+                  <MessageSquare size={14} /> WhatsApp
                 </button>
                 {activePopup === 'whatsapp' && (
                   <CopyPopup value={whatsappValue} onClose={() => setActivePopup(null)} />
@@ -149,8 +169,9 @@ function ModalContent({ member, onClose }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="modal-social-btn btn-instagram"
+                style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
               >
-                📸 Instagram
+                <Instagram size={14} /> Instagram
               </a>
             )}
 
@@ -162,8 +183,9 @@ function ModalContent({ member, onClose }) {
                     e.stopPropagation();
                     setActivePopup(activePopup === 'email' ? null : 'email');
                   }}
+                  style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
                 >
-                  ✉️ Email
+                  <Mail size={14} /> Email
                 </button>
                 {activePopup === 'email' && (
                   <CopyPopup value={member.email} onClose={() => setActivePopup(null)} />

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import * as LucideIcons from 'lucide-react';
 
 const WHATSAPP       = 'https://chat.whatsapp.com/Jjc5cuUKENu0RC1vWSEs20';
 const LINKEDIN       = 'https://www.linkedin.com/showcase/glbajaj-nexasphere/';
@@ -84,9 +85,15 @@ export default function AboutSection() {
         </div>
 
         <div className="about-actions pop-in" style={{animationDelay:'.28s'}}>
-          <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" className="btn btn-whatsapp">💬 Join WhatsApp</a>
-          <a href={LINKEDIN} target="_blank" rel="noopener noreferrer" className="btn btn-linkedin">🔗 LinkedIn</a>
-          <a href={`mailto:${NEXASPHERE_EMAIL}`} className="btn btn-outline">📧 Email Us</a>
+          <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" className="btn btn-whatsapp" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+            <LucideIcons.MessageSquare size={16} /> Join WhatsApp
+          </a>
+          <a href={LINKEDIN} target="_blank" rel="noopener noreferrer" className="btn btn-linkedin" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+            <LucideIcons.Linkedin size={16} /> LinkedIn
+          </a>
+          <a href={`mailto:${NEXASPHERE_EMAIL}`} className="btn btn-outline" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+            <LucideIcons.Mail size={16} /> Email Us
+          </a>
         </div>
       </div>
     </section>

@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import nexasphereLogo from '../../assets/images/logos/nexasphere-logo.png';
 import { IconArrowRight, IconSpark } from '../../shared/Icons';
+import { Users, Zap, Calendar, Lightbulb } from 'lucide-react';
 
-/* â”€â”€ Ripple Button â”€â”€ */
+/* ── Ripple Button ── */
 function RippleBtn({ cls, children, href, onClick }) {
   const ref = useRef(null);
   const go = e => {
@@ -20,7 +21,7 @@ function RippleBtn({ cls, children, href, onClick }) {
   return <button ref={ref} className={`btn btn-ripple ${cls}`} onClick={go}>{children}</button>;
 }
 
-/* â”€â”€ Animated gradient title â€” safe in both modes â”€â”€ */
+/* ── Animated gradient title — safe in both modes ── */
 function HeroTitle({ isLight }) {
   return (
     <div className="hero-title">
@@ -29,7 +30,7 @@ function HeroTitle({ isLight }) {
   );
 }
 
-/* â”€â”€ SVG Orbit rings â”€â”€ */
+/* ── SVG Orbit rings ── */
 function OrbitRings({ isLight }) {
   const rings = isLight
     ? [{rx:105,ry:48,dur:8,r:2,col:'204,17,17',d:'0s'},{rx:58,ry:182,dur:13,r:1.5,col:'136,0,0',d:'-5s'},{rx:162,ry:37,dur:17,r:1,col:'238,34,34',d:'-9s'},{rx:78,ry:158,dur:6,r:2,col:'255,68,68',d:'-2s'}]
@@ -55,7 +56,7 @@ function OrbitRings({ isLight }) {
   );
 }
 
-/* â”€â”€ Logo with 3D mouse tilt â”€â”€ */
+/* ── Logo with 3D mouse tilt ── */
 function Logo3D({ ready, isLight }) {
   const ref = useRef(null);
   const onMove = useCallback(e => {
@@ -90,9 +91,14 @@ function Logo3D({ ready, isLight }) {
   );
 }
 
-/* â”€â”€ Stats bar â”€â”€ */
+/* ── Stats bar ── */
 function StatsBar({ vis, isLight }) {
-  const items = [{v:'12',l:'Members',i:'ðŸ‘¥'},{v:'8',l:'Activities',i:'âš¡'},{v:'1',l:'Events Done',i:'ðŸ“…'},{v:'âˆž',l:'Ideas',i:'ðŸ’¡'}];
+  const items = [
+    { v: '12', l: 'Members', i: <Users size={16} /> },
+    { v: '8', l: 'Activities', i: <Zap size={16} /> },
+    { v: '1', l: 'Events Done', i: <Calendar size={16} /> },
+    { v: '∞', l: 'Ideas', i: <Lightbulb size={16} /> }
+  ];
   return (
     <div style={{
       display:'flex',maxWidth:'500px',margin:'40px auto 0',
@@ -107,11 +113,15 @@ function StatsBar({ vis, isLight }) {
           flex:1,padding:'13px 6px',textAlign:'center',cursor:'default',
           borderRight:i<3?`1px solid ${isLight?'rgba(26,26,26,.07)':'rgba(204,17,17,.10)'}`:'none',
           transition:'background .2s',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
           onMouseEnter={e=>e.currentTarget.style.background=isLight?'rgba(26,26,26,.06)':'rgba(204,17,17,.09)'}
           onMouseLeave={e=>e.currentTarget.style.background='transparent'}  
         >
-          <div style={{fontSize:'.9rem',marginBottom:'2px'}}>{s.i}</div>
+          <div style={{fontSize:'.9rem',marginBottom:'2px', color: 'var(--c1)'}}>{s.i}</div>
           <div style={{
             fontFamily:'Orbitron,monospace',fontSize:'clamp(1.1rem,3vw,1.75rem)',fontWeight:900,
             backgroundImage:isLight?'linear-gradient(135deg,#CC1111,#880000)':'linear-gradient(135deg,#EE2222,#CC1111)',
@@ -125,7 +135,7 @@ function StatsBar({ vis, isLight }) {
   );
 }
 
-/* â”€â”€ Particles / atmosphere â”€â”€ */
+/* ── Particles / atmosphere ── */
 function Atmosphere({ isLight }) {
   if (isLight) return (
     <div style={{position:'absolute',inset:0,zIndex:0,pointerEvents:'none',

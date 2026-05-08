@@ -1,28 +1,27 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
+import { Calendar, Users, Rocket, LogOut, RefreshCw, Plus, Edit2, Trash2, Mail, Lock } from 'lucide-react';
 
 const API_BASE = (import.meta.env?.VITE_API_BASE || '').replace(/\/+$/, '');
 const api = (path) => API_BASE ? `${API_BASE}${path}` : path;
 
-const initialForm = {
-  id: '',
-  name: '',
-  shortName: '',
-  date: '',
-  description: '',
-  status: 'upcoming',
-  icon: '📌',
-  tags: '',
-};
+const initialEventForm = { id: '', name: '', shortName: '', date: '', description: '', status: 'upcoming', icon: 'Calendar', tags: '' };
+const initialActivityEventForm = { activityTitle: '', eventName: '', eventDate: '', eventTagline: '', eventDescription: '' };
+const initialTeamForm = { id: '', name: '', role: 'Core Team Member', branch: '', section: '', photo: '', linkedin: '', github: '', bio: '' };
 
 export default function AdminPage() {
   const [token, setToken] = useState(localStorage.getItem('ns_admin_token') || '');
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [events, setEvents] = useState([]);
+  const [activeTab, setActiveTab] = useState('events'); // 'events', 'activity-events', 'team'
+  
+  const [data, setData] = useState([]); // List for current tab
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState('');
   const [msg, setMsg] = useState('');
-  const [form, setForm] = useState(initialForm);
+  
+  const [eventForm, setEventForm] = useState(initialEventForm);
+  const [activityEventForm, setActivityEventForm] = useState(initialActivityEventForm);
+  const [teamForm, setTeamForm] = useState(initialTeamForm);
   const [editingId, setEditingId] = useState('');
 
   const authHeaders = useMemo(() => ({
@@ -30,20 +29,23 @@ export default function AdminPage() {
     Authorization: `Bearer ${token}`,
   }), [token]);
 
+  useEffect(() => {
+    if (token) loadTabData();
+  }, [activeTab, token]);
+
   async function login() {
     setErr(''); setMsg(''); setBusy(true);
     try {
       const res = await fetch(api('/api/admin/login'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ email, password }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error || 'Login failed');
       setToken(data.token);
       localStorage.setItem('ns_admin_token', data.token);
       setMsg('Logged in successfully.');
-      await loadEvents(data.token);
     } catch (e) {
       setErr(e?.message || 'Login failed');
     } finally {
@@ -51,154 +53,269 @@ export default function AdminPage() {
     }
   }
 
-  async function loadEvents(forceToken = token) {
+  async function loadTabData() {
     setErr('');
-    const res = await fetch(api('/api/admin/events'), {
-      headers: {
-        Authorization: `Bearer ${forceToken}`,
-      },
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data?.error || 'Failed to load events');
-    setEvents(data.events || []);
+    let endpoint = '';
+    if (activeTab === 'events') endpoint = '/api/admin/events';
+    else if (activeTab === 'activity-events') endpoint = '/api/admin/activity-events';
+    else if (activeTab === 'team') endpoint = '/api/admin/core-team';
+
+    try {
+      const res = await fetch(api(endpoint), { headers: { Authorization: `Bearer ${token}` } });
+      const d = await res.json();
+      if (!res.ok) throw new Error(d?.error || 'Failed to load data');
+      
+      if (activeTab === 'events') setData(d.events || []);
+      else if (activeTab === 'activity-events') setData(d.activityEvents || []);
+      else if (activeTab === 'team') setData(d.members || []);
+    } catch (e) {
+      setData([]);
+      setErr(e.message);
+    }
   }
 
-  async function saveEvent() {
+  async function handleSave() {
     setBusy(true); setErr(''); setMsg('');
     try {
-      const payload = {
-        ...form,
-        tags: form.tags.split(',').map(t => t.trim()).filter(Boolean),
-      };
-      const isEdit = !!editingId;
-      const res = await fetch(api(isEdit ? `/api/admin/events/${editingId}` : '/api/admin/events'), {
-        method: isEdit ? 'PUT' : 'POST',
+      let endpoint = '';
+      let payload = {};
+      let method = editingId ? 'PUT' : 'POST';
+
+      if (activeTab === 'events') {
+        endpoint = editingId ? `/api/admin/events/${editingId}` : '/api/admin/events';
+        payload = { ...eventForm, tags: eventForm.tags.split(',').map(t => t.trim()).filter(Boolean) };
+      } else if (activeTab === 'activity-events') {
+        endpoint = editingId ? `/api/admin/activity-events/${editingId}` : '/api/admin/activity-events';
+        payload = { ...activityEventForm };
+      } else if (activeTab === 'team') {
+        endpoint = editingId ? `/api/admin/core-team/${editingId}` : '/api/admin/core-team';
+        payload = { ...teamForm };
+      }
+
+      const res = await fetch(api(endpoint), {
+        method,
         headers: authHeaders,
         body: JSON.stringify(payload),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data?.error || 'Save failed');
-      setMsg(isEdit ? 'Event updated.' : 'Event created.');
-      setForm(initialForm);
-      setEditingId('');
-      await loadEvents();
+      const d = await res.json();
+      if (!res.ok) throw new Error(d?.error || 'Save failed');
+      
+      setMsg('Changes saved successfully.');
+      resetForms();
+      await loadTabData();
     } catch (e) {
-      setErr(e?.message || 'Save failed');
+      setErr(e.message);
     } finally {
       setBusy(false);
     }
   }
 
-  async function removeEvent(id) {
-    if (!window.confirm('Delete this event?')) return;
+  async function handleRemove(id) {
+    if (!window.confirm('Delete this item?')) return;
     setBusy(true); setErr(''); setMsg('');
     try {
-      const res = await fetch(api(`/api/admin/events/${id}`), {
-        method: 'DELETE',
-        headers: authHeaders,
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data?.error || 'Delete failed');
-      setMsg('Event deleted.');
-      await loadEvents();
+      let endpoint = '';
+      if (activeTab === 'events') endpoint = `/api/admin/events/${id}`;
+      else if (activeTab === 'activity-events') endpoint = `/api/admin/activity-events/${id}`;
+      else if (activeTab === 'team') endpoint = `/api/admin/core-team/${id}`;
+
+      const res = await fetch(api(endpoint), { method: 'DELETE', headers: authHeaders });
+      if (!res.ok) {
+        const d = await res.json();
+        throw new Error(d?.error || 'Delete failed');
+      }
+      setMsg('Item deleted.');
+      await loadTabData();
     } catch (e) {
-      setErr(e?.message || 'Delete failed');
+      setErr(e.message);
     } finally {
       setBusy(false);
     }
   }
 
-  function startEdit(ev) {
-    setEditingId(ev.id);
-    setForm({
-      ...initialForm,
-      ...ev,
-      tags: Array.isArray(ev.tags) ? ev.tags.join(', ') : '',
-    });
+  function resetForms() {
+    setEditingId('');
+    setEventForm(initialEventForm);
+    setActivityEventForm(initialActivityEventForm);
+    setTeamForm(initialTeamForm);
+  }
+
+  function startEdit(item) {
+    setEditingId(item.id || item.activityTitle); 
+    if (activeTab === 'events') {
+      setEventForm({ ...item, tags: Array.isArray(item.tags) ? item.tags.join(', ') : '' });
+    } else if (activeTab === 'activity-events') {
+      setActivityEventForm({ ...item });
+    } else if (activeTab === 'team') {
+      setTeamForm({ ...item });
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function logout() {
     localStorage.removeItem('ns_admin_token');
     setToken('');
-    setEvents([]);
+    setData([]);
     setMsg('Logged out.');
   }
 
   return (
     <div className="container" style={{ paddingTop: 120, paddingBottom: 80 }}>
       <h1 className="section-title">Admin Dashboard</h1>
-      <p className="section-subtitle" style={{ marginBottom: 24 }}>
-        Manage events without editing code. Updates are saved in backend storage and shown on the website.
+      <p className="section-subtitle" style={{ marginBottom: 32 }}>
+        Manage platform content dynamically across different modules.
       </p>
 
       {!token ? (
-        <div style={{ maxWidth: 420, margin: '0 auto', display: 'grid', gap: 12 }}>
-          <input placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} className="admin-input" />
-          <input placeholder="Password" type="password" value={password} onChange={e => setPassword(e.target.value)} className="admin-input" />
-          <button className="btn btn-primary" onClick={login} disabled={busy}>{busy ? 'Signing in...' : 'Login'}</button>
+        <div style={{ maxWidth: 400, margin: '0 auto', background: 'var(--card)', padding: '32px', borderRadius: 'var(--r2)', border: '1px solid var(--bdr)' }}>
+          <div style={{ display: 'grid', gap: 16 }}>
+             <div style={{ position: 'relative' }}>
+                <Mail size={16} style={{ position: 'absolute', left: 12, top: 14, opacity: 0.5 }} />
+                <input placeholder="Email Address" value={email} onChange={e => setEmail(e.target.value)} className="admin-input" style={{ paddingLeft: 40 }} />
+             </div>
+             <div style={{ position: 'relative' }}>
+                <Lock size={16} style={{ position: 'absolute', left: 12, top: 14, opacity: 0.5 }} />
+                <input placeholder="Password" type="password" value={password} onChange={e => setPassword(e.target.value)} className="admin-input" style={{ paddingLeft: 40 }} />
+             </div>
+             <button className="btn btn-primary" onClick={login} disabled={busy} style={{ height: 48 }}>
+               {busy ? 'Verifying...' : 'Login to Dashboard'}
+             </button>
+          </div>
         </div>
       ) : (
         <>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: 10, marginBottom: 16, flexWrap: 'wrap' }}>
-            <button className="btn btn-outline" onClick={() => loadEvents()} disabled={busy}>Refresh Events</button>
-            <button className="btn btn-outline" onClick={logout}>Logout</button>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 12, marginBottom: 32, flexWrap: 'wrap' }}>
+            <button className={`btn ${activeTab === 'events' ? 'btn-primary' : 'btn-outline'}`} onClick={() => { setActiveTab('events'); resetForms(); }}>
+              <Calendar size={16} style={{ marginRight: 8 }} /> Events
+            </button>
+            <button className={`btn ${activeTab === 'activity-events' ? 'btn-primary' : 'btn-outline'}`} onClick={() => { setActiveTab('activity-events'); resetForms(); }}>
+              <Rocket size={16} style={{ marginRight: 8 }} /> Activity Events
+            </button>
+            <button className={`btn ${activeTab === 'team' ? 'btn-primary' : 'btn-outline'}`} onClick={() => { setActiveTab('team'); resetForms(); }}>
+              <Users size={16} style={{ marginRight: 8 }} /> Core Team
+            </button>
+            <button className="btn btn-outline" onClick={logout} style={{ marginLeft: 'auto' }}>
+              <LogOut size={16} style={{ marginRight: 8 }} /> Logout
+            </button>
           </div>
 
-          <div style={{ maxWidth: 760, margin: '0 auto 28px', display: 'grid', gap: 10 }}>
-            <input className="admin-input" placeholder="Event ID (optional)" value={form.id} onChange={e => setForm(f => ({ ...f, id: e.target.value }))} />
-            <input className="admin-input" placeholder="Event Name" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} />
-            <input className="admin-input" placeholder="Short Name" value={form.shortName} onChange={e => setForm(f => ({ ...f, shortName: e.target.value }))} />
-            <input className="admin-input" placeholder="Date (e.g. May 12, 2026)" value={form.date} onChange={e => setForm(f => ({ ...f, date: e.target.value }))} />
-            <textarea className="admin-input" placeholder="Description" rows={4} value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} />
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10 }}>
-              <select className="admin-input" value={form.status} onChange={e => setForm(f => ({ ...f, status: e.target.value }))}>
-                <option value="upcoming">Upcoming</option>
-                <option value="completed">Completed</option>
-              </select>
-              <input className="admin-input" placeholder="Icon" value={form.icon} onChange={e => setForm(f => ({ ...f, icon: e.target.value }))} />
-              <input className="admin-input" placeholder="Tags (comma separated)" value={form.tags} onChange={e => setForm(f => ({ ...f, tags: e.target.value }))} />
-            </div>
-            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-              <button className="btn btn-primary" onClick={saveEvent} disabled={busy}>{editingId ? 'Update Event' : 'Create Event'}</button>
-              {editingId ? <button className="btn btn-outline" onClick={() => { setEditingId(''); setForm(initialForm); }}>Cancel Edit</button> : null}
+          <div style={{ maxWidth: 800, margin: '0 auto 40px', background: 'var(--card)', padding: '24px', borderRadius: 'var(--r2)', border: '1px solid var(--bdr)' }}>
+            <h3 style={{ fontFamily: 'Orbitron, sans-serif', fontSize: '1rem', marginBottom: 20, color: 'var(--c1)' }}>
+              {editingId ? 'Update Entry' : 'Create New Entry'}
+            </h3>
+            
+            <div style={{ display: 'grid', gap: 12 }}>
+              {activeTab === 'events' && (
+                <>
+                  <input className="admin-input" placeholder="Event Name" value={eventForm.name} onChange={e => setEventForm(f => ({ ...f, name: e.target.value }))} />
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                    <input className="admin-input" placeholder="Short Name" value={eventForm.shortName} onChange={e => setEventForm(f => ({ ...f, shortName: e.target.value }))} />
+                    <input className="admin-input" placeholder="Date (e.g. May 12, 2026)" value={eventForm.date} onChange={e => setEventForm(f => ({ ...f, date: e.target.value }))} />
+                  </div>
+                  <textarea className="admin-input" placeholder="Description" rows={3} value={eventForm.description} onChange={e => setEventForm(f => ({ ...f, description: e.target.value }))} />
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12 }}>
+                    <select className="admin-input" value={eventForm.status} onChange={e => setEventForm(f => ({ ...f, status: e.target.value }))}>
+                      <option value="upcoming">Upcoming</option>
+                      <option value="completed">Completed</option>
+                    </select>
+                    <input className="admin-input" placeholder="Icon Name" value={eventForm.icon} onChange={e => setEventForm(f => ({ ...f, icon: e.target.value }))} />
+                    <input className="admin-input" placeholder="Tags (comma separated)" value={eventForm.tags} onChange={e => setEventForm(f => ({ ...f, tags: e.target.value }))} />
+                  </div>
+                </>
+              )}
+
+              {activeTab === 'activity-events' && (
+                <>
+                  <input className="admin-input" placeholder="Activity Title (matches data exactly)" value={activityEventForm.activityTitle} onChange={e => setActivityEventForm(f => ({ ...f, activityTitle: e.target.value }))} />
+                  <input className="admin-input" placeholder="Event Name" value={activityEventForm.eventName} onChange={e => setActivityEventForm(f => ({ ...f, eventName: e.target.value }))} />
+                  <input className="admin-input" placeholder="Event Date" value={activityEventForm.eventDate} onChange={e => setActivityEventForm(f => ({ ...f, eventDate: e.target.value }))} />
+                  <input className="admin-input" placeholder="Tagline" value={activityEventForm.eventTagline} onChange={e => setActivityEventForm(f => ({ ...f, eventTagline: e.target.value }))} />
+                  <textarea className="admin-input" placeholder="Event Description" rows={3} value={activityEventForm.eventDescription} onChange={e => setActivityEventForm(f => ({ ...f, eventDescription: e.target.value }))} />
+                </>
+              )}
+
+              {activeTab === 'team' && (
+                <>
+                  <input className="admin-input" placeholder="Full Name" value={teamForm.name} onChange={e => setTeamForm(f => ({ ...f, name: e.target.value }))} />
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12 }}>
+                    <select className="admin-input" value={teamForm.role} onChange={e => setTeamForm(f => ({ ...f, role: e.target.value }))}>
+                      <option value="Organiser">Organiser</option>
+                      <option value="Co-organiser">Co-organiser</option>
+                      <option value="Core Team Member">Core Team Member</option>
+                    </select>
+                    <input className="admin-input" placeholder="Branch" value={teamForm.branch} onChange={e => setTeamForm(f => ({ ...f, branch: e.target.value }))} />
+                    <input className="admin-input" placeholder="Section" value={teamForm.section} onChange={e => setTeamForm(f => ({ ...f, section: e.target.value }))} />
+                  </div>
+                  <input className="admin-input" placeholder="Photo URL" value={teamForm.photo} onChange={e => setTeamForm(f => ({ ...f, photo: e.target.value }))} />
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                    <input className="admin-input" placeholder="LinkedIn URL" value={teamForm.linkedin} onChange={e => setTeamForm(f => ({ ...f, linkedin: e.target.value }))} />
+                    <input className="admin-input" placeholder="GitHub URL" value={teamForm.github} onChange={e => setTeamForm(f => ({ ...f, github: e.target.value }))} />
+                  </div>
+                  <textarea className="admin-input" placeholder="Short Bio" rows={2} value={teamForm.bio} onChange={e => setTeamForm(f => ({ ...f, bio: e.target.value }))} />
+                </>
+              )}
+
+              <div style={{ display: 'flex', gap: 12, marginTop: 8 }}>
+                <button className="btn btn-primary" onClick={handleSave} disabled={busy} style={{ flex: 1 }}>
+                  {busy ? 'Saving...' : editingId ? 'Update Entry' : 'Add to Platform'}
+                </button>
+                {editingId && (
+                  <button className="btn btn-outline" onClick={resetForms}>Cancel</button>
+                )}
+              </div>
             </div>
           </div>
 
-          <div style={{ display: 'grid', gap: 12, maxWidth: 900, margin: '0 auto' }}>
-            {events.map(ev => (
-              <div key={ev.id} style={{ border: '1px solid var(--bdr)', borderRadius: 14, padding: 14, background: 'var(--card)' }}>
-                <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
-                  <strong>{ev.icon} {ev.name}</strong>
-                  <span style={{ fontSize: 12, opacity: .8 }}>({ev.date})</span>
+          <div style={{ display: 'grid', gap: 16, maxWidth: 900, margin: '0 auto' }}>
+             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <h2 style={{ fontFamily: 'Orbitron, sans-serif', fontSize: '1.2rem', margin: 0 }}>Existing {activeTab.replace('-', ' ')}</h2>
+                <button className="btn btn-sm btn-outline" onClick={loadTabData} disabled={busy}><RefreshCw size={14} style={{ marginRight: 6 }} /> Sync</button>
+             </div>
+            {data.map(item => (
+              <div key={item.id || item.activityTitle || item.name} style={{ border: '1px solid var(--bdr)', borderRadius: 'var(--r2)', padding: '20px', background: 'var(--card)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 20 }}>
+                <div style={{ flex: 1 }}>
+                  <div style={{ display: 'flex', gap: 10, alignItems: 'center', marginBottom: 8 }}>
+                    <strong style={{ fontSize: '1rem', color: 'var(--t1)' }}>{item.name || item.eventName || item.activityTitle}</strong>
+                    {item.status && <span className={`timeline-badge ${item.status}`} style={{ fontSize: '.65rem' }}>{item.status}</span>}
+                  </div>
+                  <p style={{ fontSize: '.85rem', color: 'var(--t2)', margin: 0, opacity: 0.8 }}>{item.description || item.eventDescription || item.bio || 'No description provided.'}</p>
                 </div>
-                <p style={{ marginTop: 8 }}>{ev.description}</p>
-                <div style={{ display: 'flex', gap: 8, marginTop: 8, flexWrap: 'wrap' }}>
-                  <button className="btn btn-outline btn-sm" onClick={() => startEdit(ev)}>Edit</button>
-                  <button className="btn btn-outline btn-sm" onClick={() => removeEvent(ev.id)}>Delete</button>
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <button className="btn btn-outline btn-sm" onClick={() => startEdit(item)}><Edit2 size={14} /></button>
+                  <button className="btn btn-outline btn-sm" onClick={() => handleRemove(item.id || item.activityTitle || item.name)} style={{ color: '#ff5f7a', borderColor: 'rgba(255,95,122,0.2)' }}><Trash2 size={14} /></button>
                 </div>
               </div>
             ))}
+            {data.length === 0 && (
+              <div style={{ textAlign: 'center', padding: '40px', border: '1px dashed var(--bdr)', borderRadius: 'var(--r2)', opacity: 0.5 }}>
+                 No items found in this category.
+              </div>
+            )}
           </div>
         </>
       )}
 
-      {err ? <p style={{ color: '#ff5f7a', textAlign: 'center', marginTop: 14 }}>{err}</p> : null}
-      {msg ? <p style={{ color: 'var(--c5)', textAlign: 'center', marginTop: 14 }}>{msg}</p> : null}
+      {err ? <p style={{ color: '#ff5f7a', textAlign: 'center', marginTop: 24, fontWeight: 600 }}>{err}</p> : null}
+      {msg ? <p style={{ color: '#22c55e', textAlign: 'center', marginTop: 24, fontWeight: 600 }}>{msg}</p> : null}
 
       <style>{`
         .admin-input {
           width: 100%;
-          padding: 11px 12px;
-          border-radius: 10px;
-          border: 1px solid var(--bdr2);
+          padding: 12px 14px;
+          border-radius: 8px;
+          border: 1px solid var(--bdr);
           background: var(--card2);
           color: var(--t1);
           font-family: Rajdhani, sans-serif;
           font-size: .95rem;
+          transition: all 0.2s;
+        }
+        .admin-input:focus {
+          border-color: var(--c1);
+          outline: none;
+          box-shadow: 0 0 0 2px rgba(204,17,17,0.1);
         }
       `}</style>
     </div>
   );
 }
-

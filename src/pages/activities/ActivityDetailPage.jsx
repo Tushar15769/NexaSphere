@@ -1,4 +1,63 @@
 import { useEffect, useRef, useState } from 'react';
+import Skeleton from '../../shared/Skeleton';
+import * as LucideIcons from 'lucide-react';
+import { ArrowLeft, Calendar, CheckCircle, Clock, Rocket, ExternalLink, Trash2, Plus } from 'lucide-react';
+
+function DynamicIcon({ name, ...props }) {
+  const Icon = LucideIcons[name] || LucideIcons.HelpCircle;
+  return <Icon {...props} />;
+}
+
+function HighlightCard({ highlight, color }) {
+  const rgb = hexToRgb(color);
+  return (
+    <div style={{
+      background: 'var(--card)',
+      border: `1px solid var(--bdr)`,
+      borderRadius: 'var(--r3)',
+      padding: '24px',
+      position: 'relative',
+      overflow: 'hidden',
+      transition: 'all 0.3s ease',
+    }}
+      onMouseEnter={e => { e.currentTarget.style.borderColor = color; e.currentTarget.style.transform = 'translateY(-4px)'; }}
+      onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--bdr)'; e.currentTarget.style.transform = 'none'; }}
+    >
+      <div style={{
+        width: '48px', height: '48px', borderRadius: '12px',
+        background: `rgba(${rgb},0.1)`, color: color,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        marginBottom: '16px',
+      }}>
+        <DynamicIcon name={highlight.icon} size={24} />
+      </div>
+      <h4 style={{ fontFamily: 'Orbitron, monospace', fontSize: '0.9rem', color: 'var(--t1)', marginBottom: '8px', fontWeight: 700 }}>
+        {highlight.title}
+      </h4>
+      <p style={{ color: 'var(--t2)', fontSize: '0.85rem', lineHeight: 1.6, margin: 0 }}>
+        {highlight.desc}
+      </p>
+    </div>
+  );
+}
+
+function SectionTitle({ children, color, icon: IconComponent }) {
+  return (
+    <h2 style={{
+      fontFamily: 'Orbitron, monospace', fontSize: '1.1rem', fontWeight: 700,
+      color, margin: '0 0 24px 0', letterSpacing: '0.08em',
+      textTransform: 'uppercase',
+      display: 'flex', alignItems: 'center', gap: '10px',
+    }}>
+      <span style={{
+        display: 'inline-block', width: '32px', height: '2px',
+        background: `linear-gradient(90deg, ${color}, transparent)`,
+      }} />
+      {IconComponent && <IconComponent size={18} style={{ marginRight: '4px' }} />}
+      {children}
+    </h2>
+  );
+}
 
 function Counter({ value, suffix = '' }) {
   const [count, setCount] = useState(0);
@@ -116,11 +175,11 @@ function EventCard({ event, activityColor, onSelect, onDelete }) {
       onMouseLeave={() => setHovered(false)}
       style={{
         background: hovered
-          ? `linear-gradient(135deg, rgba(${hexToRgb(activityColor)},0.12), var(--bg-card))`
-          : 'var(--bg-card)',
-        border: `1px solid ${hovered ? activityColor + '80' : 'var(--border-subtle)'}`,
-        borderRadius: 'var(--radius-lg)',
-        padding: '28px',
+          ? `linear-gradient(135deg, rgba(${hexToRgb(activityColor)},0.12), var(--card))`
+          : 'var(--card)',
+        border: `1px solid ${hovered ? activityColor + '80' : 'var(--bdr)'}`,
+        borderRadius: 'var(--r2)',
+        padding: '24px',
         cursor: 'pointer',
         transition: 'all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)',
         transform: hovered ? 'translateY(-8px) scale(1.01)' : 'none',
@@ -141,13 +200,6 @@ function EventCard({ event, activityColor, onSelect, onDelete }) {
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '12px' }}>
         <div style={{ flex: 1 }}>
-          <button
-            className="btn btn-outline btn-sm"
-            onClick={(e) => { e.stopPropagation(); onDelete && onDelete(event.id); }}
-            style={{ marginBottom: '8px' }}
-          >
-            Delete this event
-          </button>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px', flexWrap: 'wrap' }}>
             <h3 style={{
               fontFamily: 'Orbitron, monospace', fontSize: '0.95rem', fontWeight: 700,
@@ -161,40 +213,46 @@ function EventCard({ event, activityColor, onSelect, onDelete }) {
                 background: 'rgba(34,197,94,0.12)', color: '#22c55e',
                 border: '1px solid rgba(34,197,94,0.3)', fontWeight: 700,
                 textTransform: 'uppercase', letterSpacing: '0.05em', flexShrink: 0,
-              }}>✅ Completed</span>
+                display: 'flex', alignItems: 'center', gap: '4px'
+              }}><CheckCircle size={10} /> Completed</span>
             )}
           </div>
-          <div style={{ color: 'var(--text-muted)', fontSize: '0.8rem', marginBottom: '10px' }}>📅 {event.date}</div>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', margin: '0 0 12px', lineHeight: 1.6 }}>
+          <div style={{ color: 'var(--t3)', fontSize: '0.8rem', marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <Calendar size={14} style={{ opacity: 0.7 }} /> {event.date}
+          </div>
+          <p style={{ color: 'var(--t2)', fontSize: '0.88rem', margin: '0 0 12px', lineHeight: 1.6 }}>
             {event.tagline || event.description}
           </p>
           {event.stats && (
-            <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginBottom: '16px' }}>
               {event.stats.map(s => (
                 <div key={s.label}>
                   <div style={{ fontFamily: 'Orbitron, monospace', fontSize: '1rem', fontWeight: 700, color: activityColor }}>
                     {s.value}
                   </div>
-                  <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  <div style={{ fontSize: '0.68rem', color: 'var(--t3)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                     {s.label}
                   </div>
                 </div>
               ))}
             </div>
           )}
-          <button
-            className="btn btn-outline btn-sm"
-            onClick={(e) => { e.stopPropagation(); onDelete && onDelete(event.id); }}
-            style={{ marginTop: '12px' }}
-          >
-            Delete this event
-          </button>
+          
+          <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+            <button
+              className="btn btn-outline btn-sm"
+              onClick={(e) => { e.stopPropagation(); onDelete && onDelete(event.id); }}
+              style={{ padding: '4px 12px', color: '#ff5f7a', borderColor: 'rgba(255,95,122,0.3)' }}
+            >
+              <Trash2 size={12} style={{ marginRight: 4 }} /> Delete
+            </button>
+          </div>
         </div>
         <div style={{
           color: activityColor, fontSize: '1.4rem', flexShrink: 0,
           transform: hovered ? 'translateX(4px)' : '',
           transition: 'transform 0.3s ease',
-        }}>→</div>
+        }}><LucideIcons.ArrowRight size={20} /></div>
       </div>
     </div>
   );
@@ -203,9 +261,9 @@ function EventCard({ event, activityColor, onSelect, onDelete }) {
 function UpcomingCard({ event, color }) {
   return (
     <div style={{
-      background: 'var(--bg-card)',
-      border: '1px dashed var(--border-subtle)',
-      borderRadius: 'var(--radius-md)',
+      background: 'var(--card)',
+      border: '1px dashed var(--bdr)',
+      borderRadius: 'var(--r2)',
       padding: '20px 24px',
       opacity: 0.75,
     }}>
@@ -223,15 +281,19 @@ function UpcomingCard({ event, color }) {
           fontSize: '0.68rem', padding: '2px 8px', borderRadius: '20px',
           background: `${color}15`, color, border: `1px solid ${color}40`,
           fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', flexShrink: 0,
-        }}>🔜 Upcoming</span>
+          display: 'flex', alignItems: 'center', gap: '4px'
+        }}><Clock size={10} /> Upcoming</span>
       </div>
-      <div style={{ color: 'var(--text-muted)', fontSize: '0.78rem', marginBottom: '6px' }}>📅 {event.date}</div>
-      <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', margin: 0 }}>{event.description}</p>
+      <div style={{ color: 'var(--t3)', fontSize: '0.78rem', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+        <Calendar size={14} style={{ opacity: 0.7 }} /> {event.date}
+      </div>
+      <p style={{ color: 'var(--t2)', fontSize: '0.85rem', margin: 0 }}>{event.description}</p>
     </div>
   );
 }
 
 function hexToRgb(hex) {
+  if (!hex || !hex.startsWith('#')) return '0,212,255';
   const r = parseInt(hex.slice(1,3),16);
   const g = parseInt(hex.slice(3,5),16);
   const b = parseInt(hex.slice(5,7),16);
@@ -241,15 +303,23 @@ function hexToRgb(hex) {
 export default function ActivityDetailPage({ activity, onBack, onSelectEvent }) {
   const [mounted, setMounted] = useState(false);
   const [manualEvents, setManualEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const apiBase = (import.meta?.env?.VITE_API_BASE || '').replace(/\/+$/, '');
   const activityKey = encodeURIComponent(activity.title);
 
   const fetchManualEvents = async () => {
-    const url = apiBase ? `${apiBase}/api/content/activity-events/${activityKey}` : `/api/content/activity-events/${activityKey}`;
-    const res = await fetch(url);
-    const data = await res.json().catch(() => ({}));
-    if (res.ok && Array.isArray(data?.events)) setManualEvents(data.events);
+    setLoading(true);
+    try {
+      const url = apiBase ? `${apiBase}/api/content/activity-events/${activityKey}` : `/api/content/activity-events/${activityKey}`;
+      const res = await fetch(url);
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && Array.isArray(data?.events)) setManualEvents(data.events);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -322,8 +392,25 @@ export default function ActivityDetailPage({ activity, onBack, onSelectEvent }) 
     }
   };
 
-  const color = activity.color || 'var(--cyan)';
-  const rgb = color.startsWith('#') ? hexToRgb(color) : '0,212,255';
+  const color = activity.color || 'var(--c1)';
+  const rgb = hexToRgb(color);
+
+  const renderSkeletons = () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '760px' }}>
+      {[1, 2].map(i => (
+        <div key={i} style={{ background: 'var(--card)', border: '1px solid var(--bdr)', borderRadius: 'var(--r2)', padding: '24px' }}>
+          <div style={{ display: 'flex', gap: '10px', marginBottom: '12px' }}>
+            <Skeleton width="60%" height="22px" />
+            <Skeleton width="80px" height="20px" borderRadius="10px" />
+          </div>
+          <Skeleton width="40%" height="16px" style={{ marginBottom: '12px' }} />
+          <Skeleton width="90%" height="14px" style={{ marginBottom: '8px' }} />
+          <Skeleton width="80%" height="14px" style={{ marginBottom: '16px' }} />
+          <Skeleton width="100px" height="28px" borderRadius="6px" />
+        </div>
+      ))}
+    </div>
+  );
 
   return (
     <div style={{ minHeight: '100vh', paddingBottom: '100px', overflow: 'hidden' }}>
@@ -353,7 +440,7 @@ export default function ActivityDetailPage({ activity, onBack, onSelectEvent }) 
             onMouseEnter={e => { e.target.style.background = `rgba(${rgb},0.1)`; e.target.style.transform = 'translateX(-4px)'; }}
             onMouseLeave={e => { e.target.style.background = 'none'; e.target.style.transform = ''; }}
           >
-            ← Back to Activities
+            <ArrowLeft size={16} /> Back to Activities
           </button>
 
           
@@ -368,7 +455,7 @@ export default function ActivityDetailPage({ activity, onBack, onSelectEvent }) 
               animation: 'float 4s ease-in-out infinite',
               display: 'inline-block',
             }}>
-              {activity.icon}
+              <DynamicIcon name={activity.icon} size={64} />
             </div>
             <h1 style={{
               fontFamily: 'Orbitron, monospace',
@@ -392,7 +479,7 @@ export default function ActivityDetailPage({ activity, onBack, onSelectEvent }) 
               {activity.tagline}
             </div>
             <p style={{
-              color: 'var(--text-secondary)', maxWidth: '560px',
+              color: 'var(--t2)', maxWidth: '560px',
               fontSize: '1.05rem', lineHeight: 1.7,
               opacity: mounted ? 1 : 0,
               transition: 'opacity 0.7s 0.35s ease',
@@ -403,58 +490,120 @@ export default function ActivityDetailPage({ activity, onBack, onSelectEvent }) 
         </div>
       </div>
 
-      
+      {/* ── Content Sections ── */}
       <div className="container" style={{ paddingTop: '56px' }}>
 
-        
-        {((activity.conductedEvents && activity.conductedEvents.length > 0) || manualEvents.length > 0) && (
-          <div style={{ marginBottom: '56px' }}>
-            <h2 style={{
-              fontFamily: 'Orbitron, monospace', fontSize: '1.1rem', fontWeight: 700,
-              color, marginBottom: '24px', letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              display: 'flex', alignItems: 'center', gap: '10px',
+        {/* ── Highlights ── */}
+        {activity.highlights && activity.highlights.length > 0 && (
+          <div style={{ marginBottom: '64px' }}>
+            <SectionTitle color={color}>Key Highlights</SectionTitle>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+              gap: '20px',
             }}>
-              <span style={{
-                display: 'inline-block', width: '32px', height: '2px',
-                background: `linear-gradient(90deg, ${color}, transparent)`,
-              }} />
-              Conducted Events
-            </h2>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '12px' }}>
-              <button className="btn btn-primary btn-sm" onClick={handleAddEvent} disabled={busy}>
-                {busy ? 'Please wait...' : '+ Add Event'}
-              </button>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '760px' }}>
-              {[...manualEvents, ...(activity.conductedEvents || [])].map(event => (
-                <EventCard
-                  key={event.id}
-                  event={event}
-                  activityColor={color}
-                  onSelect={onSelectEvent}
-                  onDelete={handleDeleteEvent}
-                />
+              {activity.highlights.map((h, i) => (
+                <HighlightCard key={i} highlight={h} color={color} />
               ))}
             </div>
           </div>
         )}
 
+        {/* ── What You Learn ── */}
+        {activity.whatYouLearn && activity.whatYouLearn.length > 0 && (
+          <div style={{ marginBottom: '64px' }}>
+            <SectionTitle color={color}>What You will Learn</SectionTitle>
+            <div style={{
+              background: 'var(--card)',
+              border: '1px solid var(--bdr)',
+              borderRadius: 'var(--r3)',
+              padding: '32px',
+              position: 'relative',
+              overflow: 'hidden',
+            }}>
+              <div style={{
+                position: 'absolute', top: 0, right: 0, width: '200px', height: '200px',
+                background: `radial-gradient(circle, rgba(${rgb},0.05), transparent 70%)`,
+                pointerEvents: 'none',
+              }} />
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                gap: '16px',
+              }}>
+                {activity.whatYouLearn.map((item, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                    <div style={{ color: color, marginTop: '2px' }}><CheckCircle size={18} /></div>
+                    <div style={{ color: 'var(--t2)', fontSize: '0.95rem', lineHeight: 1.5 }}>{item}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── Tools ── */}
+        {activity.tools && activity.tools.length > 0 && (
+          <div style={{ marginBottom: '64px' }}>
+            <SectionTitle color={color}>Tools & Technologies</SectionTitle>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+              {activity.tools.map(tool => (
+                <span key={tool} style={{
+                  padding: '8px 18px',
+                  background: 'var(--card2)',
+                  border: '1px solid var(--bdr2)',
+                  borderRadius: '12px',
+                  color: 'var(--t1)',
+                  fontSize: '0.88rem',
+                  fontFamily: 'Rajdhani, sans-serif',
+                  fontWeight: 600,
+                  transition: 'all 0.2s ease',
+                }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = color; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--bdr2)'; e.currentTarget.style.transform = 'none'; }}
+                >
+                  {tool}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
         
+        {/* ── Conducted Events ── */}
+        <div style={{ marginBottom: '64px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '15px' }}>
+            <SectionTitle color={color}>Conducted Events</SectionTitle>
+            <button className="btn btn-primary btn-sm" onClick={handleAddEvent} disabled={busy} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <Plus size={14} /> {busy ? 'Processing...' : 'Add Event'}
+            </button>
+          </div>
+          
+          {loading ? renderSkeletons() : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '760px' }}>
+              {([...manualEvents, ...(activity.conductedEvents || [])].length > 0) ? (
+                [...manualEvents, ...(activity.conductedEvents || [])].map(event => (
+                  <EventCard
+                    key={event.id}
+                    event={event}
+                    activityColor={color}
+                    onSelect={onSelectEvent}
+                    onDelete={handleDeleteEvent}
+                  />
+                ))
+              ) : (
+                <div style={{ textAlign: 'center', color: 'var(--t3)', padding: '40px 0', border: '1px dashed var(--bdr)', borderRadius: 'var(--r2)' }}>
+                   <Rocket size={32} style={{ color, marginBottom: '12px', opacity: 0.5 }} />
+                   <p>No conducted events found for this activity.</p>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* ── Upcoming Events ── */}
         {activity.upcomingEvents && activity.upcomingEvents.length > 0 && (
           <div style={{ maxWidth: '760px' }}>
-            <h2 style={{
-              fontFamily: 'Orbitron, monospace', fontSize: '1.1rem', fontWeight: 700,
-              color: 'var(--text-secondary)', marginBottom: '24px', letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              display: 'flex', alignItems: 'center', gap: '10px',
-            }}>
-              <span style={{
-                display: 'inline-block', width: '32px', height: '2px',
-                background: 'linear-gradient(90deg, var(--text-secondary), transparent)',
-              }} />
-              Coming Up
-            </h2>
+            <SectionTitle color={'var(--t2)'}>Coming Up</SectionTitle>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {activity.upcomingEvents.map((event, i) => (
                 <UpcomingCard key={i} event={event} color={color} />
@@ -462,18 +611,7 @@ export default function ActivityDetailPage({ activity, onBack, onSelectEvent }) 
             </div>
           </div>
         )}
-
-        
-        {(!activity.conductedEvents || activity.conductedEvents.length === 0) &&
-         (!manualEvents || manualEvents.length === 0) &&
-         (!activity.upcomingEvents || activity.upcomingEvents.length === 0) && (
-          <div style={{ textAlign: 'center', color: 'var(--text-muted)', padding: '80px 0' }}>
-            <div style={{ fontSize: '4rem', marginBottom: '16px' }}>{activity.icon}</div>
-            <p>Events coming soon. Watch this space!</p>
-          </div>
-        )}
       </div>
     </div>
   );
 }
-

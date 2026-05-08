@@ -1,5 +1,11 @@
 import { useEffect, useRef } from 'react';
 import { activities } from '../../data/activitiesData';
+import * as LucideIcons from 'lucide-react';
+
+function DynamicIcon({ name, ...props }) {
+  const Icon = LucideIcons[name];
+  return Icon ? <Icon {...props} /> : null;
+}
 
 /* Anti-gravity delays — same pattern as team cards */
 const AG_DELAYS = [0, -2.1, -4.2, -1.0, -3.3, -5.5, -0.7, -6.1];
@@ -15,7 +21,7 @@ function ActivityCard({ a, idx, onNav }) {
     const y = (e.clientY - rect.top)  / rect.height - .5;
     /* pause float while tilting */
     c.style.animationPlayState = 'paused';
-    c.style.transform = `translateY(-16px) rotateX(${-y * 16}deg) rotateY(${x * 16}deg) scale(1.04)`;
+    c.style.transform = `translateY(-4px) scale(1.02)`;
   };
 
   const onLeave = () => {
@@ -48,10 +54,10 @@ function ActivityCard({ a, idx, onNav }) {
       
       <div className="card-accent-line"/>
       <div className="card-num">{String(idx + 1).padStart(2, '0')}</div>
-      <div className="activity-icon">{a.icon}</div>
+      <div className="activity-icon"><DynamicIcon name={a.icon} size={32} /></div>
       <div className="activity-title">{a.title}</div>
       <p className="activity-desc">{a.description}</p>
-      <div className="activity-cta"><span>Explore</span><span>→</span></div>
+      <div className="activity-cta"><span>Explore</span><span><LucideIcons.ArrowRight size={14} /></span></div>
       <div className="corner-tl"/><div className="corner-br"/>
     </div>
   );

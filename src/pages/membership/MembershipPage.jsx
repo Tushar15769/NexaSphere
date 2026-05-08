@@ -1,5 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { IconArrowLeft, IconArrowRight, IconBolt, IconShieldCheck, IconUsers } from '../../shared/Icons';
+import { 
+  Rocket, PartyPopper, Link as LinkIcon, AlertTriangle, 
+  Check, CheckCircle, Shield, Users, Mail, Phone,
+  Globe, Layout, Smartphone, Cpu, Megaphone, Palette, ClipboardList, Target, Briefcase, Zap, Search, ArrowLeft, ArrowRight, Brain, Info
+} from 'lucide-react';
 
 const WHATSAPP_COMMUNITY = 'https://chat.whatsapp.com/Jjc5cuUKENu0RC1vWSEs20';
 const LINKEDIN_PAGE      = 'https://www.linkedin.com/showcase/glbajaj-nexasphere/';
@@ -187,7 +192,7 @@ function MultiSelectChips({ options, values, onToggle }) {
               fontSize: '.82rem',
             }}
           >
-            {active ? 'âœ“ ' : ''}{opt}
+            {active ? <Check size={14} style={{ marginRight: 6 }} /> : ''}{opt}
           </button>
         );
       })}
@@ -339,22 +344,21 @@ export default function MembershipPage({ onBack }) {
     
     {
       title:    'About NexaSphere',
-      subtitle: 'NexaSphere Membership Form â€” GL Bajaj Group of Institutions',
+      subtitle: 'NexaSphere Membership Form — GL Bajaj Group of Institutions',
       icon:     <IconBolt style={{ width: 18, height: 18 }} />,
       render: () => (
         <div style={{ display: 'grid', gap: 18 }}>
-          
-          <div style={{
+             <div style={{
             background: 'rgba(255,180,0,.08)',
             border: '1px solid rgba(255,180,0,.32)',
             borderRadius: 'var(--r3)',
             padding: '14px 18px',
             display: 'flex', alignItems: 'flex-start', gap: 12,
           }}>
-            <span style={{ fontSize: '1.4rem', flexShrink: 0 }}>âš ï¸</span>
+            <AlertTriangle size={24} style={{ color: 'var(--c4)', flexShrink: 0 }} />
             <div style={{ lineHeight: 1.75 }}>
               <div style={{ fontFamily: 'Orbitron,monospace', fontSize: '.75rem', letterSpacing: '.1em', color: 'var(--t1)', marginBottom: 6, textTransform: 'uppercase' }}>
-                Important â€” Read Before Proceeding
+                Important — Read Before Proceeding
               </div>
               <div style={{ fontSize: '.9rem', color: 'var(--t2)' }}>
                 This form can be filled <b style={{ color: 'var(--t1)' }}>only once</b> per device.
@@ -365,29 +369,27 @@ export default function MembershipPage({ onBack }) {
             </div>
           </div>
 
-          
           <p style={{ color: 'var(--t2)', lineHeight: 1.8, fontSize: '.96rem' }}>
             <span className="grad-text" style={{ fontWeight: 700 }}>NexaSphere</span> is the official
             student tech ecosystem at <b style={{ color: 'var(--t1)' }}>GL Bajaj Group of Institutions, Mathura</b>.
-            We bring together students from all branches and years under one platform â€” organising and
+            We bring together students from all branches and years under one platform — organising and
             supporting <b>tech and non-tech events</b> across every domain:
           </p>
 
-          
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))',
             gap: 10,
           }}>
             {[
-              { icon: '🔐', label: 'Cybersecurity' },
-              { icon: '🤖', label: 'AI / Machine Learning' },
-              { icon: '🌐', label: 'Web Development' },
-              { icon: '☁️', label: 'Cloud & AWS' },
-              { icon: '📱', label: 'Android Development' },
-              { icon: '📢', label: 'Management & Events' },
-              { icon: 'ðŸ’¼', label: 'Career & Placement' },
-              { icon: '🎨', label: 'Design & Media' },
+              { icon: <Shield size={18} />, label: 'Cybersecurity' },
+              { icon: <Brain size={18} />, label: 'AI / Machine Learning' },
+              { icon: <Globe size={18} />, label: 'Web Development' },
+              { icon: <Zap size={18} />, label: 'Cloud & AWS' },
+              { icon: <Smartphone size={18} />, label: 'Android Development' },
+              { icon: <Megaphone size={18} />, label: 'Management & Events' },
+              { icon: <Briefcase size={18} />, label: 'Career & Placement' },
+              { icon: <Palette size={18} />, label: 'Design & Media' },
             ].map(d => (
               <div key={d.label} style={{
                 display: 'flex', alignItems: 'center', gap: 10,
@@ -396,13 +398,12 @@ export default function MembershipPage({ onBack }) {
                 borderRadius: 'var(--r2)',
                 padding: '10px 14px',
               }}>
-                <span style={{ fontSize: '1.2rem' }}>{d.icon}</span>
+                <span style={{ color: 'var(--c1)', display: 'flex' }}>{d.icon}</span>
                 <span style={{ fontSize: '.88rem', color: 'var(--t2)', fontFamily: 'Rajdhani,sans-serif', fontWeight: 600 }}>{d.label}</span>
               </div>
             ))}
           </div>
 
-          
           <div style={{
             background: 'var(--card)',
             border: '1px solid var(--bdr)',
@@ -426,7 +427,6 @@ export default function MembershipPage({ onBack }) {
             </ul>
           </div>
 
-          
           <div style={{
             background: 'linear-gradient(135deg,rgba(0,119,181,.10),rgba(0,212,255,.05))',
             border: '1px solid rgba(0,119,181,.24)',
@@ -434,7 +434,7 @@ export default function MembershipPage({ onBack }) {
             padding: '12px 16px',
             display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap',
           }}>
-            <span style={{ fontSize: '1.1rem' }}>ðŸ”—</span>
+            <LinkIcon size={18} style={{ color: '#0077b5' }} />
             <span style={{ fontSize: '.88rem', color: 'var(--t2)', flex: 1 }}>
               Before filling the form, please follow our official LinkedIn page:
             </span>
@@ -685,7 +685,7 @@ export default function MembershipPage({ onBack }) {
           maxWidth:660, margin:'0 auto',
           lineHeight:1.75, animationDelay:'.12s',
         }}>
-          NexaSphere connects students with opportunities across Tech and Non-Tech domains â€”
+          NexaSphere connects students with opportunities across Tech and Non-Tech domains —
           development, cloud, cybersecurity, management, and career growth.
         </p>
         <div className="member-divider" style={{ marginTop:34, maxWidth:780 }}/>
@@ -727,7 +727,7 @@ export default function MembershipPage({ onBack }) {
                   </div>
                   <div style={{ color:'var(--t2)', fontSize:'.9rem' }}>
                     {done
-                      ? 'Thank you for joining NexaSphere â€” GL Bajaj Group of Institutions ðŸš€'
+                      ? 'Thank you for joining NexaSphere — GL Bajaj Group of Institutions'
                       : current.subtitle}
                   </div>
                 </div>
@@ -742,15 +742,13 @@ export default function MembershipPage({ onBack }) {
               <div style={{ width: `${Math.round(progress * 100)}%` }}/>
             </div>
           </div>
-
-          
           <div className="member-body">
             {alreadySubmitted && !done ? (
               <div style={{
                 background:'rgba(255,45,120,.08)', border:'1px solid rgba(255,45,120,.22)',
                 borderRadius:'var(--r3)', padding:'20px 22px', textAlign:'center',
               }}>
-                <div style={{ fontSize:'1.4rem', marginBottom:10 }}>âš ï¸</div>
+                <div style={{ color: 'var(--c4)', fontSize: '2.4rem', marginBottom: 10, display: 'flex', justifyContent: 'center' }}><AlertTriangle size={48} /></div>
                 <div style={{ color:'var(--t1)', fontSize:'.98rem', fontWeight:600, marginBottom:16 }}>
                   Membership Form Already Submitted
                 </div>
@@ -781,7 +779,6 @@ export default function MembershipPage({ onBack }) {
                 </div>
               </div>
             ) : done ? (
-              /* â”€â”€ Success screen â”€â”€ */
               <div style={{ display:'grid', gap:18 }}>
                 <div style={{
                   background:'linear-gradient(135deg,rgba(123,111,255,.08),rgba(0,212,255,.06))',
@@ -789,14 +786,14 @@ export default function MembershipPage({ onBack }) {
                   padding:22, position:'relative', overflow:'hidden', textAlign:'center',
                 }}>
                   <div className="corner-tl"/><div className="corner-br"/>
-                  <div style={{ fontSize:'2.4rem', marginBottom:14 }}>ðŸš€</div>
+                  <div style={{ color: 'var(--c1)', fontSize: '3rem', marginBottom: 14, display: 'flex', justifyContent: 'center' }}><Rocket size={64} /></div>
                   <div style={{ fontFamily:'Orbitron,monospace', fontSize:'1rem', color:'var(--t1)', fontWeight:700, marginBottom:12 }}>
                     Thank you for filling the NexaSphere Membership Form!
                   </div>
                   <p style={{ color:'var(--t2)', lineHeight:1.8, maxWidth:540, margin:'0 auto' }}>
-                    Your form has been successfully submitted. ðŸŽ‰
+                    Your form has been successfully submitted.
                     <br/><br/>
-                    Now request to join the NexaSphere WhatsApp group using the link below â€” and
+                    Now request to join the NexaSphere WhatsApp group using the link below — and
                     <b style={{ color:'var(--t1)' }}> mention that you have already filled the NexaSphere form</b>.
                     <br/><br/>
                     Our team will verify your responses and add you to the respective NexaSphere spaces/groups.
@@ -832,8 +829,10 @@ export default function MembershipPage({ onBack }) {
                   borderRadius:'var(--r2)', padding:'14px 16px',
                   fontSize:'.88rem', color:'var(--t3)', lineHeight:1.7, textAlign:'center',
                 }}>
-                  ðŸ“Œ Also make sure to follow the official NexaSphere LinkedIn page for updates.<br/>
-                  <b style={{ color:'var(--t2)' }}>Stay connected and keep building ðŸš€ â€” NexaSphere Team</b>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, marginBottom: 4 }}>
+                    <Info size={14} /> Also make sure to follow the official NexaSphere LinkedIn page for updates.
+                  </div>
+                  <b style={{ color:'var(--t2)' }}>Stay connected and keep building — NexaSphere Team</b>
                 </div>
               </div>
             ) : (
@@ -894,7 +893,7 @@ export default function MembershipPage({ onBack }) {
                         submit();
                       }}
                     >
-                      {busy ? 'Submittingâ€¦' : 'Submit Membership Form'}
+                      {busy ? 'Submitting...' : 'Submit Membership Form'}
                     </button>
                   )}
                 </div>
@@ -915,5 +914,3 @@ export default function MembershipPage({ onBack }) {
     </div>
   );
 }
-
-

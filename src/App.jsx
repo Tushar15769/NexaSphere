@@ -35,6 +35,7 @@ import AdminPage           from './pages/admin/AdminPage';
 import { activityPages }   from './data/activities/index';
 import { events as fallbackEvents } from './data/eventsData';
 import nexasphereLogo      from './assets/images/logos/nexasphere-logo.png';
+import { ArrowUp }         from 'lucide-react';
 
 const MNH = 88, DNH = 64;
 const TABS = ['Home','Activities','Events','About','Team','Contact'];
@@ -201,7 +202,9 @@ export default function App() {
   const [wipePh,   setWipePh]   = useState('out');
   const [page,     setPage]     = useState(null);
   const [theme,    setTheme]    = useState(()=>localStorage.getItem('ns-theme')||'dark');
-  const [eventsData,setEventsData]=useState(fallbackEvents);
+  const [eventsData,setEventsData]=useState([]);
+  const [teamData,  setTeamData]  = useState([]);
+  const [loading,  setLoading]   = useState(true);
   const isAdminRoute = typeof window !== 'undefined' && window.location.pathname === '/admin';
   
   useEffect(()=>{
@@ -216,17 +219,35 @@ export default function App() {
 
   useEffect(() => {
     let alive = true;
+    setLoading(true);
     const base = (import.meta?.env?.VITE_API_BASE || '').replace(/\/+$/, '');
-    const url = base ? `${base}/api/content/events` : '/api/content/events';
-    fetch(url)
-      .then(r => r.ok ? r.json() : Promise.reject(new Error('Failed to load dynamic events')))
-      .then(data => {
-        if (!alive) return;
-        if (Array.isArray(data?.events) && data.events.length > 0) {
-          setEventsData(data.events);
-        }
-      })
-      .catch(() => {});
+    
+    const fetchEvents = fetch(base ? `${base}/api/content/events` : '/api/content/events')
+      .then(r => r.ok ? r.json() : { events: [] })
+      .catch(() => ({ events: [] }));
+      
+    const fetchTeam = fetch(base ? `${base}/api/content/core-team` : '/api/content/core-team')
+      .then(r => r.ok ? r.json() : { members: [] })
+      .catch(() => ({ members: [] }));
+
+    Promise.all([fetchEvents, fetchTeam]).then(([eData, tData]) => {
+      if (!alive) return;
+      
+      if (Array.isArray(eData?.events) && eData.events.length > 0) {
+        setEventsData(eData.events);
+      } else {
+        setEventsData(fallbackEvents);
+      }
+
+      if (Array.isArray(tData?.members) && tData.members.length > 0) {
+        setTeamData(tData.members);
+      } else {
+        import('./data/teamData').then(m => setTeamData(m.teamMembers)).catch(() => {});
+      }
+    }).finally(() => {
+      if (alive) setLoading(false);
+    });
+
     return () => { alive = false; };
   }, []);
   
@@ -421,7 +442,7 @@ export default function App() {
         )}
         {page?.type==='section'&&page.section==='Events'&&(
           <PageIn k="pg-events">
-            <EventsPage onBack={onBackHome} onEventClick={onKSSClick} events={eventsData}/>
+            <EventsPage onBack={onBackHome} onEventClick={onKSSClick} events={eventsData} loading={loading}/>
           </PageIn>
         )}
         {page?.type==='section'&&page.section==='About'&&(
@@ -431,7 +452,7 @@ export default function App() {
         )}
         {page?.type==='section'&&page.section==='Team'&&(
           <PageIn k="pg-team">
-            <TeamPage onBack={onBackHome} onApply={openApply}/>
+            <TeamPage onBack={onBackHome} onApply={openApply} team={teamData} loading={loading}/>
           </PageIn>
         )}
         
@@ -454,6 +475,7 @@ export default function App() {
             })()}
           </PageIn>
         )}
+        
         
 
         {page?.type==='section' && page.section==='Contact' && (
@@ -489,8 +511,7 @@ export default function App() {
         )}
       </main>
 
-      {cinDone&&<button id="back-to-top" aria-label="Back to top">↑</button>}
+      {cinDone&&<button id="back-to-top" aria-label="Back to top"><ArrowUp size={20} /></button>}
     </>
   );
 }
-

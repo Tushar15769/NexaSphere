@@ -4,7 +4,7 @@
 
 const ideathon = {
   id: 'ideathon',
-  icon: '💡',
+  icon: 'Lightbulb',
   title: 'Ideathon',
   tagline: 'Dream. Design. Disrupt.',
   color: '#f59e0b',
@@ -14,25 +14,6 @@ const ideathon = {
 
   conductedEvents: [
     // ── Paste completed ideathon events here ──
-    // {
-    //   id: 'ideathon-1',
-    //   name: 'Ideathon 1.0',
-    //   shortName: 'Ideathon 1.0',
-    //   date: 'Month Year',
-    //   status: 'completed',
-    //   tagline: 'One line description',
-    //   stats: [
-    //     { label: 'Teams', value: '15' },
-    //     { label: 'Ideas', value: '15' },
-    //     { label: 'Judges', value: '3' },
-    //     { label: 'Winners', value: '3' },
-    //   ],
-    //   overview: 'Full description of the event...',
-    //   topics: [],
-    //   photoLink: null,
-    //   videoLink: null,
-    //   hashtags: ['#Ideathon', '#NexaSphere', '#GLBajaj'],
-    // },
   ],
 
   upcomingEvents: [
