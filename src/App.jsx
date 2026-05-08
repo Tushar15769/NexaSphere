@@ -388,7 +388,6 @@ export default function App() {
   },[nav]);
 
   const nh=mobile?MNH:DNH;
-  const isLandingPage = !isAdminRoute && !page && cinDone;
   const cur=page?.activityKey?activityPages[page.activityKey]:null;
 
   
@@ -408,13 +407,6 @@ export default function App() {
       {cinDone && <ParticleBackground theme={theme}/>}
       {cinDone && <Navbar activeTab={activeTab} onTabChange={onTab} onToggleTheme={toggleTheme} theme={theme}/>}
 
-      <main style={{paddingTop:isLandingPage ? 0 : nh,position:'relative',zIndex:1}}>
-        {isAdminRoute && (
-          <PageIn k="pg-admin">
-            <AdminPage/>
-          </PageIn>
-        )}
-        {!isAdminRoute && (
       <main style={{paddingTop:nh, position:'relative', zIndex:1}}>
         {isAdminRoute ? (
           <PageIn k="pg-admin"><AdminPage/></PageIn>
