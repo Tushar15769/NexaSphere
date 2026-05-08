@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import './styles/themes.css';
 import './styles/globals.css';
 import './styles/animations.css';
+import './styles/chatbot.css';
 import './styles/components.css';
 import './styles/aurora.css';
 import './styles/motion.css';
@@ -19,6 +20,7 @@ import Footer              from './shared/Footer';
 import ActivityDetailPage  from './pages/activities/ActivityDetailPage';
 import EventDetailPage     from './pages/events/EventDetailPage';
 import CinematicOpening    from './shared/CinematicOpening';
+import Chatbot             from './shared/Chatbot';
 import {
   AmbientOrbs, SectionDivider, PageFlash, BannerOrbs,
   useNsReveal, useHeroParallax,
@@ -176,7 +178,7 @@ function Cursor() {
 
       
       <div ref={orbRef} style={{
-        position:'fixed', pointerEvents:'none', zIndex:10005,
+        position:'fixed', pointerEvents:'none', zIndex:100000,
         width:'18px', height:'18px', borderRadius:'50%',
         background:'radial-gradient(circle at 35% 35%, #fff 0%, #CC1111 40%, #880000 100%)',
         boxShadow:'0 0 10px rgba(204,17,17,.9), 0 0 24px rgba(204,17,17,.5), 0 0 50px rgba(136,0,0,.3)',
@@ -388,108 +390,61 @@ export default function App() {
   const nh=mobile?MNH:DNH;
   const cur=page?.activityKey?activityPages[page.activityKey]:null;
 
+  
   return (
     <>
-      
-      {!cinDone&&<CinematicOpening theme={theme} onDone={()=>setCinDone(true)}/>}
+      {/* Move Chatbot to the very top to bypass all other logic */}
+      <Chatbot /> 
 
-      {cinDone&&<ScrollProgress />}
+      {!cinDone && <CinematicOpening theme={theme} onDone={() => setCinDone(true)}/>}
+
+      {cinDone && <ScrollProgress />}
       <Cursor/>
       <Wipe on={wipeOn} ph={wipePh}/>
 
-      
-      {cinDone&&<AmbientOrbs theme={theme}/>}
+      {cinDone && <AmbientOrbs theme={theme}/>}
+      {cinDone && <GeometricGridBackground theme={theme} />}
+      {cinDone && <ParticleBackground theme={theme}/>}
+      {cinDone && <Navbar activeTab={activeTab} onTabChange={onTab} onToggleTheme={toggleTheme} theme={theme}/>}
 
-      {cinDone&&<GeometricGridBackground theme={theme} />}
-      {cinDone&&<ParticleBackground theme={theme}/>}
-      {cinDone&&<Navbar activeTab={activeTab} onTabChange={onTab} onToggleTheme={toggleTheme} theme={theme}/>}
-
-      <main style={{paddingTop:nh,position:'relative',zIndex:1}}>
-        {isAdminRoute && (
-          <PageIn k="pg-admin">
-            <AdminPage/>
-          </PageIn>
-        )}
-        {!isAdminRoute && (
+      <main style={{paddingTop:nh, position:'relative', zIndex:1}}>
+        {isAdminRoute ? (
+          <PageIn k="pg-admin"><AdminPage/></PageIn>
+        ) : (
           <>
-        
-        {page?.type==='section'&&page.section==='Activities'&&(
-          <PageIn k="pg-activities">
-            <ActivitiesPage onNavigate={onNavigate} onBack={onBackHome}/>
-          </PageIn>
-        )}
-        {page?.type==='section'&&page.section==='Events'&&(
-          <PageIn k="pg-events">
-            <EventsPage onBack={onBackHome} onEventClick={onKSSClick} events={eventsData}/>
-          </PageIn>
-        )}
-        {page?.type==='section'&&page.section==='About'&&(
-          <PageIn k="pg-about">
-            <AboutPage onBack={onBackHome}/>
-          </PageIn>
-        )}
-        {page?.type==='section'&&page.section==='Team'&&(
-          <PageIn k="pg-team">
-            <TeamPage onBack={onBackHome} onApply={openApply}/>
-          </PageIn>
-        )}
-        
-        {page?.type==='activity'&&cur&&(
-          <PageIn k={`a-${page.activityKey}`}>
-            <ActivityDetailPage activity={cur} onBack={()=>nav(()=>setPage({type:'section',section:'Activities'}))} onSelectEvent={onEvent}/>
-          </PageIn>
-        )}
-        {page?.type==='event'&&page.event&&cur&&(
-          <PageIn k={`e-${page.event?.id}`}>
-            {(() => {
-              
-              let displayEvent = page.event;
-              const isKssEvent = page.event.id === 1 || page.event.id === 'kss-153' || String(page.event.shortName || '').toLowerCase().includes('kss');
-              if (page.activityKey === 'Insight Session' && isKssEvent) {
-                
-                displayEvent = cur.conductedEvents?.find(e => e.id === 'kss-153') || page.event;
-              }
-              return <EventDetailPage event={displayEvent} activityColor={cur.color} activityIcon={cur.icon} onBack={onBackAct}/>;
-            })()}
-          </PageIn>
-        )}
-        
-
-        {page?.type==='section' && page.section==='Contact' && (
-          <PageIn k="pg-contact">
-            <ContactPage onBack={onBackHome}/>
-          </PageIn>
-        )}
-        {page?.type==='apply' && (
-          <PageIn k="pg-apply">
-            <RecruitmentPage onBack={onBackHome}/>
-          </PageIn>
-        )}
-        {page?.type==='join' && (
-          <PageIn k="pg-join">
-            <MembershipPage onBack={onBackHome}/>
-          </PageIn>
-        )}
-        {!page&&cinDone&&(
-          <PageIn k="main">
-            <HeroSection onTabChange={onTab} onApply={openApply} onJoin={openJoin} theme={theme}/>
-            <SectionDivider/>
-            <ActivitiesSection onNavigate={onNavigate}/>
-            <SectionDivider/>
-            <EventsSection onEventClick={onKSSClick} events={eventsData}/>
-            <SectionDivider/>
-            <AboutSection/>
-            <SectionDivider/>
-            <TeamSection onApply={openApply}/>
-            <Footer/>
-          </PageIn>
-        )}
+            {/* If page is null, show home sections. Otherwise show the specific page. */}
+            {page ? (
+               <PageIn k={page.type + (page.section || page.activityKey)}>
+                 {page.section === 'Activities' && <ActivitiesPage onNavigate={onNavigate} onBack={onBackHome}/>}
+                 {page.section === 'Events' && <EventsPage onBack={onBackHome} onEventClick={onKSSClick} events={eventsData}/>}
+                 {page.section === 'About' && <AboutPage onBack={onBackHome}/>}
+                 {page.section === 'Team' && <TeamPage onBack={onBackHome} onApply={openApply}/>}
+                 {page.section === 'Contact' && <ContactPage onBack={onBackHome}/>}
+                 {page.type === 'activity' && cur && <ActivityDetailPage activity={cur} onBack={onBackMain} onSelectEvent={onEvent}/>}
+                 {page.type === 'apply' && <RecruitmentPage onBack={onBackHome}/>}
+                 {page.type === 'join' && <MembershipPage onBack={onBackHome}/>}
+               </PageIn>
+            ) : (
+              cinDone && (
+                <PageIn k="main">
+                  <HeroSection onTabChange={onTab} onApply={openApply} onJoin={openJoin} theme={theme}/>
+                  <SectionDivider/>
+                  <ActivitiesSection onNavigate={onNavigate}/>
+                  <SectionDivider/>
+                  <EventsSection onEventClick={onKSSClick} events={eventsData}/>
+                  <SectionDivider/>
+                  <AboutSection/>
+                  <SectionDivider/>
+                  <TeamSection onApply={openApply}/>
+                  <Footer/>
+                </PageIn>
+              )
+            )}
           </>
         )}
       </main>
 
-      {cinDone&&<button id="back-to-top" aria-label="Back to top">↑</button>}
+      {cinDone && <button id="back-to-top" aria-label="Back to top">↑</button>}
     </>
   );
 }
-
