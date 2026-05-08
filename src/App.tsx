@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { type ReactNode, useState, useEffect, useRef, useCallback } from 'react';
 import './styles/globals.css';
 import './styles/animations.css';
 import './styles/components.css';
@@ -33,12 +33,24 @@ import AdminPage           from './pages/admin/AdminPage';
 import { activityPages }   from './data/activities/index';
 import { events as fallbackEvents } from './data/eventsData';
 import nexasphereLogo      from './assets/images/logos/nexasphere-logo.png';
+import { fetchApi } from './services/api';
+import type { ActivityKey } from './types/activities';
+import type { ActivityEvent, Event, EventsResponse } from './types/api';
 
 const MNH = 88, DNH = 64;
 const TABS = ['Home','Activities','Events','About','Team','Contact'];
+type Theme = 'dark' | 'light';
+type SectionPage = 'Activities' | 'Events' | 'About' | 'Team' | 'Contact';
+type PageState =
+  | { type: 'section'; section: SectionPage }
+  | { type: 'activity'; activityKey: ActivityKey }
+  | { type: 'event'; activityKey?: ActivityKey; event: Event | ActivityEvent }
+  | { type: 'apply' }
+  | { type: 'join' }
+  | null;
 
 /* ── Page wipe transition ── */
-function Wipe({ on, ph }) {
+function Wipe({ on, ph }: { on: boolean; ph: 'out' | 'in' }): ReactNode {
   if (!on) return null;
   return (
     <>
@@ -56,7 +68,7 @@ function Wipe({ on, ph }) {
 }
 
 /* ── Page enter animation ── */
-function PageIn({ children, k }) {
+function PageIn({ children, k }: { children: ReactNode; k: string }): ReactNode {
   const [r, setR] = useState(false);
   useEffect(()=>{ const raf=requestAnimationFrame(()=>setR(true)); return()=>cancelAnimationFrame(raf); },[k]);
   return (
@@ -67,10 +79,10 @@ function PageIn({ children, k }) {
 }
 
 /* ── Anti-gravity orb cursor ── */
-function Cursor() {
-  const orbRef  = useRef(null);
-  const trailRef= useRef(null);
-  const glowRef = useRef(null);
+function Cursor(): ReactNode {
+  const orbRef  = useRef<HTMLDivElement | null>(null);
+  const trailRef= useRef<HTMLDivElement | null>(null);
+  const glowRef = useRef<HTMLDivElement | null>(null);
   const stateRef= useRef({
     // real mouse position
     mx:0, my:0,
@@ -81,7 +93,7 @@ function Cursor() {
     // hover state
     hovering:false,
     clicking:false,
-    raf:null
+    raf: 0,
   });
 
   useEffect(()=>{
@@ -90,16 +102,16 @@ function Cursor() {
 
     const s = stateRef.current;
 
-    const onMove = e => { s.mx = e.clientX; s.my = e.clientY; };
-    const onDown = () => { s.clicking = true; };
-    const onUp   = () => { s.clicking = false; };
+    const onMove = (e: MouseEvent): void => { s.mx = e.clientX; s.my = e.clientY; };
+    const onDown = (): void => { s.clicking = true; };
+    const onUp   = (): void => { s.clicking = false; };
 
     // Detect hoverable elements
-    const onOver = e => {
-      s.hovering = !!(e.target.closest('button,a,[role="button"],[tabindex]'));
+    const onOver = (e: MouseEvent): void => {
+      s.hovering = e.target instanceof Element && !!e.target.closest('button,a,[role="button"],[tabindex]');
     };
 
-    const tick = () => {
+    const tick = (): void => {
       // Smooth follow — increased sensitivity (was 0.11)
       s.ox += (s.mx - s.ox) * 0.18;
       s.oy += (s.my - s.oy) * 0.18;
@@ -119,12 +131,12 @@ function Cursor() {
         orbRef.current.style.left    = s.ox + 'px';
         orbRef.current.style.top     = fy  + 'px';
         orbRef.current.style.transform = `translate(-50%,-50%) scale(${scale})`;
-        orbRef.current.style.opacity = opacity;
+        orbRef.current.style.opacity = String(opacity);
       }
       if (trailRef.current) {
         trailRef.current.style.left  = s.ox + 'px';
         trailRef.current.style.top   = s.oy + s.floatY * 0.4 + 'px';
-        trailRef.current.style.opacity = s.hovering ? 0 : 0.35;
+        trailRef.current.style.opacity = s.hovering ? '0' : '0.35';
       }
       if (glowRef.current) {
         glowRef.current.style.left = s.mx + 'px';
@@ -191,15 +203,15 @@ function Cursor() {
   );
 }
 
-export default function App() {
+export default function App(): ReactNode {
   const [cinDone,  setCinDone]  = useState(false);
   const [activeTab,setActiveTab]= useState('Home');
   const [mobile,   setMobile]   = useState(window.innerWidth<=768);
   const [wipeOn,   setWipeOn]   = useState(false);
-  const [wipePh,   setWipePh]   = useState('out');
-  const [page,     setPage]     = useState(null);
-  const [theme,    setTheme]    = useState(()=>localStorage.getItem('ns-theme')||'dark');
-  const [eventsData,setEventsData]=useState(fallbackEvents);
+  const [wipePh,   setWipePh]   = useState<'out' | 'in'>('out');
+  const [page,     setPage]     = useState<PageState>(null);
+  const [theme,    setTheme]    = useState<Theme>(()=>localStorage.getItem('ns-theme') === 'light' ? 'light' : 'dark');
+  const [eventsData,setEventsData]=useState<Event[]>(fallbackEvents);
   const isAdminRoute = typeof window !== 'undefined' && window.location.pathname === '/admin';
   // Apply theme to html element
   useEffect(()=>{
@@ -214,10 +226,7 @@ export default function App() {
 
   useEffect(() => {
     let alive = true;
-    const base = (import.meta?.env?.VITE_API_BASE || '').replace(/\/+$/, '');
-    const url = base ? `${base}/api/content/events` : '/api/content/events';
-    fetch(url)
-      .then(r => r.ok ? r.json() : Promise.reject(new Error('Failed to load dynamic events')))
+    fetchApi<EventsResponse>('/api/content/events')
       .then(data => {
         if (!alive) return;
         if (Array.isArray(data?.events) && data.events.length > 0) {
@@ -272,13 +281,15 @@ export default function App() {
 
     // Magnetic buttons
     const btns=document.querySelectorAll('.mag-btn');
-    const onMove=e=>{
+    const onMove=(e: MouseEvent): void=>{
       btns.forEach(btn=>{
         const rect=btn.getBoundingClientRect();
         const dx=e.clientX-(rect.left+rect.width/2);
         const dy=e.clientY-(rect.top+rect.height/2);
         const d=Math.sqrt(dx*dx+dy*dy);
-        btn.style.transform=d<88?`translate(${dx*(88-d)/88*.32}px,${dy*(88-d)/88*.32}px)`:'';
+        if (btn instanceof HTMLElement) {
+          btn.style.transform=d<88?`translate(${dx*(88-d)/88*.32}px,${dy*(88-d)/88*.32}px)`:'';			
+        }
       });
 
       // 3D card tilt for activity cards
@@ -290,6 +301,7 @@ export default function App() {
         const dy=e.clientY-cy;
         const dist=Math.sqrt(dx*dx+dy*dy);
         const maxDist=Math.max(rect.width,rect.height)*0.9;
+        if (!(card instanceof HTMLElement)) return;
         if(dist<maxDist){
           const intensity=(1-dist/maxDist)*6;
           card.style.setProperty('--rx',(dx/rect.width*intensity).toFixed(2));
@@ -313,7 +325,7 @@ export default function App() {
   useMagneticCards();
 
   // Navigation with wipe transition
-  const nav=useCallback((fn)=>{
+  const nav=useCallback((fn: () => void): void=>{
     setWipeOn(true);setWipePh('out');
     setTimeout(()=>{
       fn();window.scrollTo({top:0});
@@ -324,10 +336,10 @@ export default function App() {
     },275);
   },[]);
 
-  const onTab=useCallback(tab=>{
+  const onTab=useCallback((tab: string): void=>{
     // These tabs get their own dedicated page
     if(['Activities','Events','About','Team','Contact'].includes(tab)){
-      nav(()=>{setPage({type:'section',section:tab});setActiveTab(tab);});
+      nav(()=>{setPage({type:'section',section:tab as SectionPage});setActiveTab(tab);});
       return;
     }
     nav(()=>{
@@ -340,21 +352,21 @@ export default function App() {
     });
   },[nav,mobile]);
 
-  const onNavigate=useCallback((type,title)=>{
+  const onNavigate=useCallback((type: 'activity', title: ActivityKey): void=>{
     if(type==='activity') nav(()=>setPage({type:'activity',activityKey:title}));
   },[nav]);
 
-  const onEvent=useCallback(ev=>{
-    nav(()=>setPage(p=>({...p,type:'event',event:ev})));
+  const onEvent=useCallback((ev: ActivityEvent): void=>{
+    nav(()=>setPage(p=>({...(p && 'activityKey' in p ? { activityKey: p.activityKey } : {}),type:'event',event:ev})));
   },[nav]);
 
-  const onKSSClick=useCallback(ev=>{
+  const onKSSClick=useCallback((ev: Event): void=>{
     // Show KSS event detail page with Insight Session as activity context
     nav(()=>setPage({type:'event',activityKey:'Insight Session',event:ev}));
   },[nav]);
 
-  const onBackAct=useCallback(()=>{
-    nav(()=>setPage(p=>({type:'activity',activityKey:p.activityKey})));
+  const onBackAct=useCallback((): void=>{
+    nav(()=>setPage(p=>({type:'activity',activityKey:(p && 'activityKey' in p && p.activityKey ? p.activityKey : 'Insight Session')})));
   },[nav]);
 
   const onBackMain=useCallback(()=>{
@@ -368,7 +380,7 @@ export default function App() {
     });
   },[nav,mobile]);
 
-  const onBackToSection=useCallback((section)=>{
+  const onBackToSection=useCallback((section: SectionPage): void=>{
     nav(()=>setPage({type:'section',section}));
   },[nav]);
 
@@ -385,7 +397,7 @@ export default function App() {
   },[nav]);
 
   const nh=mobile?MNH:DNH;
-  const cur=page?.activityKey?activityPages[page.activityKey]:null;
+  const cur=page && 'activityKey' in page && page.activityKey ? activityPages[page.activityKey] : null;
 
   return (
     <>
