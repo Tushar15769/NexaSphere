@@ -12,6 +12,7 @@ import { fileURLToPath } from 'url';
 
 import apiRouter from './routes/api.js';
 import * as authController from './controllers/authController.js';
+import * as eventRegistrationController from './controllers/eventRegistrationController.js';
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -770,6 +771,15 @@ app.post('/api/auth/logout', (req, res) => authController.logout(req, res));
 app.post('/api/auth/forgot-password', (req, res) => authController.forgotPassword(req, res));
 app.post('/api/auth/reset-password', (req, res) => authController.doResetPassword(req, res));
 app.get('/api/auth/me', (req, res) => authController.getCurrentUser(req, res));
+
+// ============ EVENT REGISTRATION ENDPOINTS ============
+app.post('/api/events/:eventId/register', (req, res) => eventRegistrationController.registerForEvent(req, res));
+app.delete('/api/events/:eventId/register', (req, res) => eventRegistrationController.cancelRegistration(req, res));
+app.get('/api/events/:eventId/registrations', adminAuth, (req, res) => eventRegistrationController.getEventRegistrationsAdmin(req, res));
+app.patch('/api/events/:eventId/registrations/:userId/attend', adminAuth, (req, res) => eventRegistrationController.markAttended(req, res));
+app.get('/api/admin/events/:eventId/stats', adminAuth, (req, res) => eventRegistrationController.getEventRegistrationStats(req, res));
+app.get('/api/admin/events/:eventId/registrations/export', adminAuth, (req, res) => eventRegistrationController.exportRegistrations(req, res));
+app.get('/api/user/events', (req, res) => eventRegistrationController.getUserEventsRegistrations(req, res));
 
 const port = Number(process.env.PORT || 8787);
 if (!process.env.VERCEL) {
