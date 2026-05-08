@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { API_BASE } from '../../data/config';
 
 function Counter({ value, suffix = '' }) {
   const [count, setCount] = useState(0);
@@ -242,11 +243,10 @@ export default function ActivityDetailPage({ activity, onBack, onSelectEvent }) 
   const [mounted, setMounted] = useState(false);
   const [manualEvents, setManualEvents] = useState([]);
   const [busy, setBusy] = useState(false);
-  const apiBase = (import.meta?.env?.VITE_API_BASE || '').replace(/\/+$/, '');
   const activityKey = encodeURIComponent(activity.title);
 
   const fetchManualEvents = async () => {
-    const url = apiBase ? `${apiBase}/api/content/activity-events/${activityKey}` : `/api/content/activity-events/${activityKey}`;
+    const url = API_BASE ? `${API_BASE}/api/content/activity-events/${activityKey}` : `/api/content/activity-events/${activityKey}`;
     const res = await fetch(url);
     const data = await res.json().catch(() => ({}));
     if (res.ok && Array.isArray(data?.events)) setManualEvents(data.events);

@@ -1,6 +1,7 @@
 package org.nexasphere.controller;
 
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.nexasphere.model.entity.EventEntity;
 import org.nexasphere.service.crud.EventService;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@Slf4j
 public class EventsController {
 
     private final EventService eventService;
@@ -21,11 +23,13 @@ public class EventsController {
 
     @GetMapping("/api/content/events")
     public ResponseEntity<List<EventEntity>> getPublicEvents() {
+        log.info("Fetching public events");
         return ResponseEntity.ok(eventService.getAllEvents());
     }
 
     @GetMapping("/api/admin/events")
     public ResponseEntity<List<EventEntity>> getAdminEvents() {
+        log.info("Fetching admin events");
         return ResponseEntity.ok(eventService.getAllEvents());
     }
 
@@ -33,6 +37,7 @@ public class EventsController {
     public ResponseEntity<EventEntity> createEvent(
             @Valid @RequestBody EventEntity event,
             @AuthenticationPrincipal String adminEmail) {
+        log.info("Admin {} creating new event: {}", adminEmail, event.getName());
         return ResponseEntity.ok(eventService.createEvent(event, adminEmail));
     }
 
@@ -41,6 +46,7 @@ public class EventsController {
             @PathVariable String id,
             @Valid @RequestBody EventEntity event,
             @AuthenticationPrincipal String adminEmail) {
+        log.info("Admin {} updating event ID: {}", adminEmail, id);
         return ResponseEntity.ok(eventService.updateEvent(id, event, adminEmail));
     }
 
@@ -48,6 +54,7 @@ public class EventsController {
     public ResponseEntity<Map<String, Boolean>> deleteEvent(
             @PathVariable String id,
             @AuthenticationPrincipal String adminEmail) {
+        log.info("Admin {} deleting event ID: {}", adminEmail, id);
         eventService.deleteEvent(id, adminEmail);
         return ResponseEntity.ok(Map.of("ok", true));
     }

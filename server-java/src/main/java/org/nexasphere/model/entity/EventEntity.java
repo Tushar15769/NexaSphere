@@ -1,7 +1,10 @@
 package org.nexasphere.model.entity;
 
 import jakarta.persistence.*;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -11,6 +14,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "events")
+@Data
+@NoArgsConstructor
 public class EventEntity {
 
     @Id
@@ -57,28 +62,11 @@ public class EventEntity {
     }
 
     private String slugify(String text) {
+        if (text == null) return "event-" + System.currentTimeMillis();
         String slug = text.toLowerCase()
                 .replaceAll("[^a-z0-9]+", "-")
                 .replaceAll("^-|-$", "");
         return slug.isEmpty() ? "event-" + System.currentTimeMillis() : slug;
     }
-
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-    public String getShortName() { return shortName; }
-    public void setShortName(String shortName) { this.shortName = shortName; }
-    public String getDateText() { return dateText; }
-    public void setDateText(String dateText) { this.dateText = dateText; }
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
-    public String getIcon() { return icon; }
-    public void setIcon(String icon) { this.icon = icon; }
-    public List<String> getTags() { return tags; }
-    public void setTags(List<String> tags) { this.tags = tags; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
+}
 }
