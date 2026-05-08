@@ -14,12 +14,12 @@
 @keyframes ripple { 0%{transform:scale(0);opacity:1} 100%{transform:scale(6);opacity:0} }
 @keyframes shimmer{ 0%{transform:translateX(-130%) skewX(-20deg)} 100%{transform:translateX(300%) skewX(-20deg)} }
 
-@keyframes popIn      { from{opacity:0;transform:translateY(56px) scale(.94)} to{opacity:1;transform:none} }
-@keyframes popLeft    { from{opacity:0;transform:translateX(-72px) scale(.95)} to{opacity:1;transform:none} }
-@keyframes popRight   { from{opacity:0;transform:translateX(72px) scale(.95)} to{opacity:1;transform:none} }
+@keyframes popIn      { from{opacity:0;transform:translateY(24px) scale(.98)} to{opacity:1;transform:none} }
+@keyframes popLeft    { from{opacity:0;transform:translateX(-32px) scale(.98)} to{opacity:1;transform:none} }
+@keyframes popRight   { from{opacity:0;transform:translateX(32px) scale(.98)} to{opacity:1;transform:none} }
 @keyframes scaleReveal{ from{opacity:0;transform:scale(.82) translateY(20px)} to{opacity:1;transform:none} }
-@keyframes cardFlip   { from{opacity:0;transform:perspective(800px) rotateX(-32deg) translateY(36px)} to{opacity:1;transform:none} }
-@keyframes wordReveal { from{opacity:0;transform:translateY(28px);filter:blur(10px)} to{opacity:1;transform:none;filter:blur(0)} }
+@keyframes cardFlip   { from{opacity:0;transform:perspective(800px) rotateX(-12deg) translateY(12px)} to{opacity:1;transform:none} }
+@keyframes wordReveal { from{opacity:0;transform:translateY(12px);filter:blur(6px)} to{opacity:1;transform:none;filter:blur(0)} }
 @keyframes numPop     { 0%{opacity:0;transform:scale(.5) translateY(18px)} 70%{transform:scale(1.12) translateY(-3px)} 100%{opacity:1;transform:none} }
 
 @keyframes cinLetterIn  { from{opacity:0;transform:translateY(-52px) rotateX(90deg) scale(.5)} to{opacity:1;transform:none} }

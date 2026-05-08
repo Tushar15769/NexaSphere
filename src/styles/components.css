@@ -363,8 +363,8 @@
 [data-theme="light"] .team-card:hover .team-card-photo { border-color:#CC1111; box-shadow:0 0 12px rgba(204,17,17,.3); }
 .team-card-photo-wrap::before { content:''; position:absolute; inset:-4px; border-radius:50%; background:conic-gradient(from 0deg,var(--c1),var(--c2),var(--c3),var(--c1)); opacity:0; transition:opacity .28s !important; animation:spin 4s linear infinite; z-index:-1; }
 .team-card:hover .team-card-photo-wrap::before { opacity:.45; }
-.team-card-name  { font-family:'Orbitron',monospace; font-size:.72rem; font-weight:700; color:var(--t1); margin-bottom:3px; letter-spacing:.03em; }
-.team-card-role  { font-size:.7rem; color:var(--c1); font-weight:700; letter-spacing:.06em; text-transform:uppercase; }
+.team-card-name  { font-family:'Orbitron',monospace; font-size:.88rem; font-weight:800; color:var(--t1); margin-bottom:4px; letter-spacing:.04em; }
+.team-card-role  { font-size:.74rem; color:var(--c1); font-weight:700; letter-spacing:.08em; text-transform:uppercase; margin-bottom:10px; }
 [data-theme="light"] .team-card-role { color:#CC1111; }
 .team-card-chips { display:flex; flex-wrap:wrap; gap:4px; justify-content:center; margin-top:8px; }
 .chip-branch { font-size:.55rem; padding:2px 7px; border-radius:10px; background:var(--c1a); color:var(--c1); border:1px solid var(--c1b); font-family:'Space Mono',monospace; }
