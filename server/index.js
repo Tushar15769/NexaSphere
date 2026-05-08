@@ -2,6 +2,9 @@ import 'dotenv/config';
 import express from 'express';
 import { EventEmitter } from 'events';
 import cors from 'cors';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
+import morgan from 'morgan';
 import { google } from 'googleapis';
 import { promises as fs } from 'fs';
 import path from 'path';
@@ -16,11 +19,32 @@ const CONTENT_FILE = path.join(__dirname, 'data', 'content.json');
 
 const app = express();
 
-app.use(cors({
-  origin: process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',').map(s => s.trim()).filter(Boolean) : true,
-  credentials: false,
-}));
-app.use(express.json({ limit: '512kb' }));
+// Configure CORS whitelist from env var `CORS_ORIGIN` (comma separated)
+const corsWhitelist = process.env.CORS_ORIGIN
+  ? process.env.CORS_ORIGIN.split(',').map(s => s.trim()).filter(Boolean)
+  : [];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Allow requests with no origin (e.g., mobile apps, Postman)
+      if (!origin) return callback(null, true);
+      if (corsWhitelist.length === 0) return callback(null, true);
+      if (corsWhitelist.includes(origin)) return callback(null, true);
+      return callback(new Error('CORS_NOT_ALLOWED'));
+    },
+    credentials: false,
+  })
+);
+
+// Helmet for secure HTTP headers
+app.use(helmet());
+
+// Request body size limit
+app.use(express.json({ limit: process.env.REQUEST_SIZE_LIMIT || '1mb' }));
+
+// HTTP request logging (combined with our simple requestLogger)
+app.use(morgan(process.env.MORGAN_FORMAT || 'combined'));
 
 function requestLogger(req, res, next) {
   const start = process.hrtime.bigint();
@@ -44,6 +68,24 @@ function requestLogger(req, res, next) {
 }
 
 app.use(requestLogger);
+
+// Rate limiting: global and admin-specific
+const globalLimiter = rateLimit({
+  windowMs: Number(process.env.RATE_LIMIT_API_WINDOW_MS || 15 * 60 * 1000),
+  max: Number(process.env.RATE_LIMIT_API_MAX_REQUESTS || 300),
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+const adminLimiter = rateLimit({
+  windowMs: Number(process.env.RATE_LIMIT_ADMIN_WINDOW_MS || 15 * 60 * 1000),
+  max: Number(process.env.RATE_LIMIT_ADMIN_MAX_REQUESTS || 5),
+  message: { error: 'Too many login attempts, please try again later' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+app.use(globalLimiter);
 
 const sessions = new Map();
 const adminEvents = new EventEmitter();
@@ -571,7 +613,7 @@ app.delete('/api/content/activity-events/:activityKey/:eventId', async (req, res
   }
 });
 
-app.post('/api/admin/login', (req, res) => {
+app.post('/api/admin/login', adminLimiter, (req, res) => {
   const username = process.env.ADMIN_USERNAME || 'admin';
   const password = process.env.ADMIN_PASSWORD || 'admin123';
   const u = String(req.body?.username || '').trim();
@@ -582,6 +624,12 @@ app.post('/api/admin/login', (req, res) => {
   sessions.set(token, { username: u, createdAt: Date.now() });
   return res.json({ token, username: u });
 });
+
+// Warn on default/embedded credentials in environment
+if ((!process.env.ADMIN_USERNAME || !process.env.ADMIN_PASSWORD) && process.env.NODE_ENV === 'production') {
+  // eslint-disable-next-line no-console
+  console.warn('WARNING: admin username/password not configured via environment variables. Please set ADMIN_USERNAME and ADMIN_PASSWORD in production.');
+}
 
 app.get('/api/admin/events', adminAuth, async (req, res) => {
   return res.json({ events: await listEventsStore() });
