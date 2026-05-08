@@ -32,7 +32,9 @@ export default function AdminPage() {
 
   async function login() {
     setErr(''); setMsg(''); setBusy(true);
-    if (username === 'nexasphere@glbajajgroup.org' && password === 'Admin@123') {
+    const cleanUsername = username.trim().toLowerCase();
+    const cleanPassword = password.trim();
+    if (cleanUsername === 'nexasphere@glbajajgroup.org' && cleanPassword === 'Admin@123') {
       const mockToken = 'mock-jwt-token-for-nexasphere-admin';
       setToken(mockToken);
       localStorage.setItem('ns_admin_token', mockToken);
@@ -54,7 +56,7 @@ export default function AdminPage() {
       setMsg('Logged in successfully.');
       await loadEvents(data.token);
     } catch (e) {
-      if (username === 'nexasphere@glbajajgroup.org' && password === 'Admin@123') {
+      if (cleanUsername === 'nexasphere@glbajajgroup.org' && cleanPassword === 'Admin@123') {
         const mockToken = 'mock-jwt-token-for-nexasphere-admin';
         setToken(mockToken);
         localStorage.setItem('ns_admin_token', mockToken);

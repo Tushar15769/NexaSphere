@@ -4,11 +4,13 @@ const EMAIL_KEY = 'ns_admin_email';
 
 export const auth = {
   async login(email, password) {
-    if (email === 'nexasphere@glbajajgroup.org' && password === 'Admin@123') {
+    const cleanEmail = email.trim().toLowerCase();
+    const cleanPassword = password.trim();
+    if (cleanEmail === 'nexasphere@glbajajgroup.org' && cleanPassword === 'Admin@123') {
       const mockToken = 'mock-jwt-token-for-nexasphere-admin';
       localStorage.setItem(TOKEN_KEY, mockToken);
-      localStorage.setItem(EMAIL_KEY, email);
-      return { token: mockToken, email };
+      localStorage.setItem(EMAIL_KEY, cleanEmail);
+      return { token: mockToken, email: cleanEmail };
     }
     try {
       const res = await fetch(`${API_BASE}/api/admin/login`, {
@@ -25,11 +27,11 @@ export const auth = {
       localStorage.setItem(EMAIL_KEY, email);
       return data;
     } catch (err) {
-      if (email === 'nexasphere@glbajajgroup.org' && password === 'Admin@123') {
+      if (cleanEmail === 'nexasphere@glbajajgroup.org' && cleanPassword === 'Admin@123') {
         const mockToken = 'mock-jwt-token-for-nexasphere-admin';
         localStorage.setItem(TOKEN_KEY, mockToken);
-        localStorage.setItem(EMAIL_KEY, email);
-        return { token: mockToken, email };
+        localStorage.setItem(EMAIL_KEY, cleanEmail);
+        return { token: mockToken, email: cleanEmail };
       }
       throw err;
     }
