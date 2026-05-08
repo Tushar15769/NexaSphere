@@ -52,8 +52,13 @@ export default function Navbar({ activeTab, onTabChange, onToggleTheme, theme })
   if (mobile) return (
     <nav className="ns-navbar-mobile">
       <div className="ns-mobile-top">
-        <img src={nexasphereAppLogo} alt="NexaSphere" className="ns-mobile-logo-ns"/>
-        <span className="ns-mobile-brand"><span>NexaSphere</span></span>
+        <div 
+          style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}
+          onClick={() => handleTab('Home')}
+        >
+          <img src={nexasphereAppLogo} alt="NexaSphere" className="ns-mobile-logo-ns"/>
+          <span className="ns-mobile-brand"><span>NexaSphere</span></span>
+        </div>
         <ThemeToggle theme={theme} onToggle={onToggleTheme} />
       </div>
       <div className="ns-mobile-tabs">
@@ -73,7 +78,11 @@ export default function Navbar({ activeTab, onTabChange, onToggleTheme, theme })
   return (
     <nav className={`ns-navbar${scrolled ? ' scrolled' : ''}`}>
       <div className="container">
-        <div className="ns-nav-logos">
+        <div 
+          className="ns-nav-logos" 
+          onClick={() => handleTab('Home')}
+          style={{ cursor: 'pointer' }}
+        >
           <img src={nexasphereAppLogo} alt="NexaSphere" className="ns-nav-logo-ns"/>
           <div className="ns-nav-divider"/>
           <span className="ns-nav-brand">NexaSphere</span>
