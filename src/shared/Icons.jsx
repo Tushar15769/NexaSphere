@@ -1,14 +1,37 @@
 import React from 'react';
 import { 
-  Users, Cpu, Calendar, Lightbulb, Code2, Bot, Settings, 
-  Telescope, Globe, Mic2, Linkedin, MessageSquare, Instagram, 
-  Mail, X, MapPin, Phone, Github, ExternalLink, ChevronRight
+  LucideUsers as Users, 
+  Cpu, 
+  Calendar, 
+  Lightbulb, 
+  Code2, 
+  Bot, 
+  Settings, 
+  Telescope, 
+  Globe, 
+  Mic2, 
+  LucideMessageSquare as MessageSquare, 
+  LucideMail as Mail, 
+  X, 
+  MapPin, 
+  Phone, 
+  ExternalLink, 
+  ChevronRight,
+  Briefcase, 
+  Camera, 
+  Send
 } from 'lucide-react';
 
 const ICON_MAP = {
   Users, Cpu, Calendar, Lightbulb, Code2, Bot, Settings, 
-  Telescope, Globe, Mic2, Linkedin, MessageSquare, Instagram, 
-  Mail, X, MapPin, Phone, Github, ExternalLink, ChevronRight
+  Telescope, Globe, Mic2, MessageSquare, 
+  Mail, X, MapPin, Phone, ExternalLink, ChevronRight,
+  Briefcase, Camera, Send,
+  // Fallbacks for missing brand icons in this version
+  Linkedin: Briefcase,
+  Github: Code2,
+  Instagram: Camera,
+  Twitter: Send
 };
 
 export function DynamicIcon({ name, size = 16, className = '', ...props }) {
