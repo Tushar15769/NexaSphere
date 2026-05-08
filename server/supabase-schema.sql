@@ -45,6 +45,18 @@ create table if not exists core_team_members (
   created_at timestamptz not null default now()
 );
 
+create table if not exists core_team_events (
+  id uuid primary key default gen_random_uuid(),
+  event_type text not null,
+  member_id uuid,
+  admin_email text,
+  payload jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists idx_core_team_events_created_at on core_team_events(created_at desc);
+create index if not exists idx_core_team_events_member_id on core_team_events(member_id);
+
 create table if not exists form_submissions (
   id uuid primary key default gen_random_uuid(),
   form_type text not null,

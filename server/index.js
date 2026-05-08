@@ -111,6 +111,7 @@ const defaultContent = {
   ],
   activityEvents: {},
   coreTeam: [],
+  coreTeamEventLog: [],
 };
 
 const SUPABASE_URL = process.env.SUPABASE_URL || '';
@@ -473,6 +474,143 @@ async function deleteCoreTeamStore(id) {
   return true;
 }
 
+async function updateCoreTeamStore(id, patch) {
+  if (HAS_SUPABASE) {
+    const [row] = await supabaseRequest(`core_team_members?id=eq.${encodeURIComponent(id)}`, {
+      method: 'PATCH',
+      body: {
+        name: patch.name,
+        role: patch.role,
+        year: patch.year,
+        branch: patch.branch,
+        section: patch.section,
+        email: patch.email,
+        whatsapp: patch.whatsapp,
+        linkedin: patch.linkedin,
+        instagram: patch.instagram,
+        photo_url: patch.photoUrl,
+      },
+    });
+    if (!row) return null;
+    return {
+      id: row.id,
+      name: row.name,
+      role: row.role,
+      year: row.year,
+      branch: row.branch,
+      section: row.section,
+      email: row.email,
+      whatsapp: row.whatsapp,
+      linkedin: row.linkedin,
+      instagram: row.instagram,
+      photoUrl: row.photo_url,
+      createdAt: row.created_at,
+    };
+  }
+
+  const content = await readContent();
+  content.coreTeam = content.coreTeam || [];
+  const idx = content.coreTeam.findIndex((m) => String(m.id) === String(id));
+  if (idx < 0) return null;
+  content.coreTeam[idx] = { ...content.coreTeam[idx], ...patch, id: content.coreTeam[idx].id };
+  await writeContent(content);
+  return content.coreTeam[idx];
+}
+
+async function createCoreTeamEventLogStore(entry) {
+  const payload = {
+    eventType: entry.eventType,
+    memberId: entry.memberId || null,
+    adminEmail: entry.adminEmail || null,
+    payload: entry.payload || {},
+    createdAt: entry.createdAt || new Date().toISOString(),
+  };
+
+  if (HAS_SUPABASE) {
+    const [row] = await supabaseRequest('core_team_events', {
+      method: 'POST',
+      body: [{
+        event_type: payload.eventType,
+        member_id: payload.memberId,
+        admin_email: payload.adminEmail,
+        payload: payload.payload,
+        created_at: payload.createdAt,
+      }],
+    });
+
+    return {
+      id: row.id,
+      eventType: row.event_type,
+      memberId: row.member_id,
+      adminEmail: row.admin_email,
+      payload: row.payload || {},
+      createdAt: row.created_at,
+    };
+  }
+
+  const content = await readContent();
+  content.coreTeamEventLog = content.coreTeamEventLog || [];
+  const row = {
+    id: crypto.randomUUID(),
+    eventType: payload.eventType,
+    memberId: payload.memberId,
+    adminEmail: payload.adminEmail,
+    payload: payload.payload,
+    createdAt: payload.createdAt,
+  };
+  content.coreTeamEventLog.unshift(row);
+  content.coreTeamEventLog = content.coreTeamEventLog.slice(0, 300);
+  await writeContent(content);
+  return row;
+}
+
+async function listCoreTeamEventLogStore(limit = 50) {
+  const safeLimit = Math.max(1, Math.min(Number(limit) || 50, 200));
+
+  if (HAS_SUPABASE) {
+    const rows = await supabaseRequest(`core_team_events?select=*&order=created_at.desc&limit=${safeLimit}`);
+    return rows.map((row) => ({
+      id: row.id,
+      eventType: row.event_type,
+      memberId: row.member_id,
+      adminEmail: row.admin_email,
+      payload: row.payload || {},
+      createdAt: row.created_at,
+    }));
+  }
+
+  const content = await readContent();
+  const list = Array.isArray(content.coreTeamEventLog) ? content.coreTeamEventLog : [];
+  return list.slice(0, safeLimit);
+}
+
+const coreTeamEventStreams = new Set();
+
+function broadcastCoreTeamEvent(eventRow) {
+  const data = `event: core-team\ndata: ${JSON.stringify(eventRow)}\n\n`;
+  for (const client of coreTeamEventStreams) {
+    try {
+      client.write(data);
+    } catch {
+      coreTeamEventStreams.delete(client);
+    }
+  }
+}
+
+async function emitCoreTeamDomainEvent(eventType, { memberId = null, adminEmail = null, payload = {} } = {}) {
+  const eventRow = await createCoreTeamEventLogStore({
+    eventType,
+    memberId,
+    adminEmail,
+    payload,
+    createdAt: new Date().toISOString(),
+  });
+
+  adminEvents.emit(eventType, eventRow);
+  broadcastCoreTeamEvent(eventRow);
+  return eventRow;
+}
+
 async function appendToSupabaseForms(formType, payload) {
   if (!HAS_SUPABASE) return false;
   try {
@@ -715,7 +853,11 @@ app.post('/api/admin/core-team', adminAuth, async (req, res) => {
     }
     
     const saved = await createCoreTeamStore(member);
-    adminEvents.emit('CORE_TEAM_MEMBER_ADDED', { adminEmail, member: saved, timestamp: new Date().toISOString() });
+    await emitCoreTeamDomainEvent('CORE_TEAM_MEMBER_ADDED', {
+      memberId: saved.id,
+      adminEmail,
+      payload: { member: saved },
+    });
     
     return res.status(201).json(saved);
   } catch (e) {
@@ -731,12 +873,90 @@ app.delete('/api/admin/core-team/:id', adminAuth, async (req, res) => {
     const deleted = await deleteCoreTeamStore(id);
     if (!deleted) return res.status(404).json({ error: 'Member not found' });
     
-    adminEvents.emit('CORE_TEAM_MEMBER_REMOVED', { adminEmail, memberId: id, timestamp: new Date().toISOString() });
+    await emitCoreTeamDomainEvent('CORE_TEAM_MEMBER_REMOVED', {
+      memberId: id,
+      adminEmail,
+      payload: { memberId: id },
+    });
     
     return res.json({ ok: true });
   } catch (e) {
     return res.status(500).json({ error: e?.message || 'Unable to delete member' });
   }
+});
+
+app.patch('/api/admin/core-team/:id', adminAuth, async (req, res) => {
+  try {
+    const id = String(req.params.id || '').trim();
+    const body = req.body || {};
+    const adminEmail = req.adminSession?.username || 'admin';
+
+    const patch = {
+      name: sanitizeHtml(toSafeString(body.name, 100)),
+      role: sanitizeHtml(toSafeString(body.role, 100)),
+      year: sanitizeHtml(toSafeString(body.year, 20)),
+      branch: sanitizeHtml(toSafeString(body.branch, 100)),
+      section: validateSection(body.section),
+      email: toSafeString(body.email, 140),
+      whatsapp: validateWhatsApp(body.whatsapp),
+      linkedin: toSafeString(body.linkedin, 255) || null,
+      instagram: toSafeString(body.instagram, 255) || null,
+      photoUrl: toSafeString(body.photoUrl, 500) || null,
+    };
+
+    if (!patch.name || !patch.role || !patch.year || !patch.branch || !patch.email) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+    if (!isEmail(patch.email)) {
+      return res.status(400).json({ error: 'Invalid email format' });
+    }
+
+    const updated = await updateCoreTeamStore(id, patch);
+    if (!updated) return res.status(404).json({ error: 'Member not found' });
+
+    await emitCoreTeamDomainEvent('CORE_TEAM_MEMBER_UPDATED', {
+      memberId: id,
+      adminEmail,
+      payload: { member: updated },
+    });
+
+    return res.json({ ok: true, member: updated });
+  } catch (e) {
+    return res.status(400).json({ error: e?.message || 'Validation failed' });
+  }
+});
+
+app.get('/api/admin/core-team/events', adminAuth, async (req, res) => {
+  try {
+    const limit = Number(req.query.limit || 50);
+    const events = await listCoreTeamEventLogStore(limit);
+    return res.json({ events });
+  } catch (e) {
+    return res.status(500).json({ error: e?.message || 'Failed to load core team events' });
+  }
+});
+
+app.get('/api/admin/core-team/events/stream', adminAuth, async (req, res) => {
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache, no-transform');
+  res.setHeader('Connection', 'keep-alive');
+  res.flushHeaders?.();
+
+  coreTeamEventStreams.add(res);
+
+  const heartbeat = setInterval(() => {
+    try {
+      res.write(':keepalive\n\n');
+    } catch {
+      clearInterval(heartbeat);
+      coreTeamEventStreams.delete(res);
+    }
+  }, 15000);
+
+  req.on('close', () => {
+    clearInterval(heartbeat);
+    coreTeamEventStreams.delete(res);
+  });
 });
 
 async function handleForm(formType, req, res) {

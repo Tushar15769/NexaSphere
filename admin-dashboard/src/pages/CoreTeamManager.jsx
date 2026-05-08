@@ -13,13 +13,13 @@ export function CoreTeamManager() {
 
   useEffect(() => {
     api.coreTeam.getAll()
-      .then(setMembers)
+      .then((rows) => setMembers(Array.isArray(rows) ? rows : []))
       .catch(() => setMembers([]))
       .finally(() => setLoading(false));
   }, []);
 
   useEventListener(EVENTS.CORE_TEAM_MEMBER_ADDED, useCallback((member) => {
-    setMembers(prev => [...prev, member]);
+    setMembers(prev => [...prev, member?.member || member]);
     setShowForm(false);
   }, []));
 
@@ -57,6 +57,8 @@ export function CoreTeamManager() {
             <div key={member.id} className="team-card">
               {member.photo
                 ? <img src={member.photo} alt={member.name} className="team-avatar" />
+                : member.photoUrl
+                ? <img src={member.photoUrl} alt={member.name} className="team-avatar" />
                 : <div className="team-avatar-placeholder">{member.name?.[0]}</div>
               }
               <div className="team-info">
