@@ -55,6 +55,13 @@ export function CoreTeamForm({ onClose }) {
             </select>
           </div>
           <div className="form-row">
+            <label>Domain (Optional)</label>
+            <select value={form.domain} onChange={e => set('domain', e.target.value)}>
+              <option value="">None / General</option>
+              {DOMAIN_OPTIONS.map(d => <option key={d} value={d}>{d}</option>)}
+            </select>
+          </div>
+          <div className="form-row">
             <label>Branch</label>
             <input value={form.branch} onChange={e => set('branch', e.target.value)} placeholder="e.g. CSE" />
           </div>
