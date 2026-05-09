@@ -19,14 +19,15 @@ import {
   ChevronRight,
   Briefcase, 
   Camera, 
-  Send
+  Send,
+  MoveVertical
 } from 'lucide-react';
 
 const ICON_MAP = {
   Users, Cpu, Calendar, Lightbulb, Code2, Bot, Settings, 
   Telescope, Globe, Mic2, MessageSquare, 
   Mail, X, MapPin, Phone, ExternalLink, ChevronRight,
-  Briefcase, Camera, Send,
+  Briefcase, Camera, Send, MoveVertical,
   // Fallbacks for missing brand icons in this version
   Linkedin: Briefcase,
   Github: Code2,
