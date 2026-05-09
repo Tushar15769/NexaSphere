@@ -50,6 +50,15 @@ export function AmbientOrbs({ theme = 'dark' }) {
   );
 }
 
+export function BannerOrbs({ color = 'rgba(204,17,17,.06)' }) {
+  return (
+    <div className="banner-orbs" aria-hidden="true" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, pointerEvents: 'none', zIndex: 0, overflow: 'hidden' }}>
+      <div className="ambient-orb" style={{ width: 400, height: 400, top: '-10%', left: '-5%', background: color, '--orb-dur': '15s', '--orb-lo': '.04', '--orb-hi': '.12' }} />
+      <div className="ambient-orb" style={{ width: 300, height: 300, bottom: '-10%', right: '-5%', background: color, '--orb-dur': '18s', '--orb-delay': '-5s', '--orb-lo': '.04', '--orb-hi': '.12' }} />
+    </div>
+  );
+}
+
 export function SectionDivider() {
   return <div className="section-divider" aria-hidden="true" />;
 }
