@@ -20,7 +20,7 @@ const EXITS = [
   ['0%',   '-160%', '10deg'],
   ['150%', '-125%', '24deg'],
   ['-160%','-25%', '-38deg'],
-  ['0%',   '-5%',  '0deg'],   
+  ['0%', ' -5%', '0deg'],
   ['160%', '-18%', '40deg'],
   ['-148%','140%', '-28deg'],
   ['-65%', '158%', '-14deg'],
@@ -126,22 +126,36 @@ export default function CinematicOpening({ onDone, theme = 'dark' }) {
   const WORD = 'NEXASPHERE';
   const isL  = theme === 'light';
 
+  const PHASE_1_DELAY = 280;
+  const PHASE_2_DELAY = 650;
+  const TYPEWRITER_INTERVAL = 70;
+  const TAGLINE_DELAY = 1680;
+  const CRACKING_DELAY = 2500;
+  const SHATTER_DELAY = 2640;
+  const COMPLETION_DELAY = 3380;
+
   useEffect(() => {
     const ts = [];
-    ts.push(setTimeout(() => setPhase(1), 280));
+    ts.push(setTimeout(() => setPhase(1), PHASE_1_DELAY));
     ts.push(setTimeout(() => {
       setPhase(2);
       ivRef.current = setInterval(() => {
         countRef.current += 1;
         setCount(countRef.current);
         if (countRef.current >= WORD.length) clearInterval(ivRef.current);
-      }, 70);
-    }, 650));
-    ts.push(setTimeout(() => setTagline(true),  1680));
-    ts.push(setTimeout(() => setCracking(true), 2500));
-    ts.push(setTimeout(() => setShatter(true),  2640));
-    ts.push(setTimeout(() => { setGone(true); onDone(); }, 3380));
-    return () => { ts.forEach(t => clearTimeout(t)); clearInterval(ivRef.current); };
+      }, TYPEWRITER_INTERVAL);
+    }, PHASE_2_DELAY));
+    ts.push(setTimeout(() => setTagline(true), TAGLINE_DELAY));
+    ts.push(setTimeout(() => setCracking(true), CRACKING_DELAY));
+    ts.push(setTimeout(() => setShatter(true), SHATTER_DELAY));
+    ts.push(setTimeout(() => {
+      setGone(true);
+      onDone();
+    }, COMPLETION_DELAY));
+    return () => {
+      ts.forEach(t => clearTimeout(t));
+      clearInterval(ivRef.current);
+    };
   }, []);
 
   const bg      = isL ? '#FFFFFF' : '#0A0A0A';
