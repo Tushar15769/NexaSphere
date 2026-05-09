@@ -105,14 +105,14 @@ function Cursor() {
 
     const tick = () => {
       
-      s.ox += (s.mx - s.ox) * 0.18;
-      s.oy += (s.my - s.oy) * 0.18;
+      s.ox += (s.mx - s.ox) * 1.00;
+      s.oy += (s.my - s.oy) * 1.00;
 
       
       s.floatPhase += 0.022;
-      s.floatY = Math.sin(s.floatPhase) * 6
-               + Math.sin(s.floatPhase * 1.7) * 3
-               + Math.sin(s.floatPhase * 0.5) * 4;
+         s.floatY = Math.sin(s.floatPhase) * 2
+         + Math.sin(s.floatPhase * 1.7) * 1
+         + Math.sin(s.floatPhase * 0.5) * 1;
 
       const fy = s.oy + s.floatY;
 
@@ -181,7 +181,7 @@ function Cursor() {
         width:'18px', height:'18px', borderRadius:'50%',
         background:'radial-gradient(circle at 35% 35%, #fff 0%, #CC1111 40%, #880000 100%)',
         boxShadow:'0 0 10px rgba(204,17,17,.9), 0 0 24px rgba(204,17,17,.5), 0 0 50px rgba(136,0,0,.3)',
-        transition:'transform .18s cubic-bezier(.34,1.56,.64,1), opacity .2s',
+        transition:'transform .08s cubic-bezier(.34,1.56,.64,1), opacity .2s',
       }}>
         
         <div style={{
