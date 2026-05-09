@@ -1,8 +1,19 @@
 import { useState } from 'react';
 import { api } from '../services/api';
 
-import { ROLE_OPTIONS as ROLES, DOMAIN_OPTIONS } from '../../../src/shared/roles';
-const empty = { name: '', role: 'Core Team Member', domain: '', branch: '', year: '', email: '', linkedin: '', photo: '' };
+const ROLES = ['President', 'Vice President', 'Secretary', 'Technical Lead', 'Design Lead', 'Marketing Lead', 'Member'];
+const empty = {
+  name: '',
+  role: 'Member',
+  branch: '',
+  year: '',
+  section: 'A',
+  email: '',
+  whatsapp: '',
+  linkedin: '',
+  instagram: '',
+  photoUrl: '',
+};
 
 export function CoreTeamForm({ onClose }) {
   const [form, setForm] = useState(empty);
@@ -55,6 +66,10 @@ export function CoreTeamForm({ onClose }) {
             <input value={form.branch} onChange={e => set('branch', e.target.value)} placeholder="e.g. CSE" />
           </div>
           <div className="form-row">
+            <label>Section *</label>
+            <input value={form.section} onChange={e => set('section', e.target.value.toUpperCase().slice(0, 1))} required maxLength={1} placeholder="A" />
+          </div>
+          <div className="form-row">
             <label>Year</label>
             <input value={form.year} onChange={e => set('year', e.target.value)} placeholder="e.g. 2nd Year" />
           </div>
@@ -63,12 +78,20 @@ export function CoreTeamForm({ onClose }) {
             <input value={form.email} onChange={e => set('email', e.target.value)} type="email" />
           </div>
           <div className="form-row">
+            <label>WhatsApp *</label>
+            <input value={form.whatsapp} onChange={e => set('whatsapp', e.target.value)} placeholder="10-digit number" required />
+          </div>
+          <div className="form-row">
             <label>LinkedIn URL</label>
             <input value={form.linkedin} onChange={e => set('linkedin', e.target.value)} type="url" />
           </div>
           <div className="form-row">
+            <label>Instagram URL</label>
+            <input value={form.instagram} onChange={e => set('instagram', e.target.value)} type="url" />
+          </div>
+          <div className="form-row">
             <label>Photo URL</label>
-            <input value={form.photo} onChange={e => set('photo', e.target.value)} type="url" />
+            <input value={form.photoUrl} onChange={e => set('photoUrl', e.target.value)} type="url" />
           </div>
           {error && <div className="form-error">{error}</div>}
           <div className="form-actions">
