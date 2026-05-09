@@ -86,22 +86,23 @@ function ModalContent({ member, onClose }: { member: CoreTeamMember; onClose: ()
         <div className="modal-role">{member.role}</div>
 
         
-        <div className="modal-info">
+        {/* Info Card */}
+        <div className="modal-info" style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.08)' }}>
           <div className="modal-info-row">
-            <span className="modal-info-label" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <span className="modal-info-label" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <DynamicIcon name="GraduationCap" size={14} /> Year
             </span>
             <span className="modal-info-value">{member.year}</span>
           </div>
           <div className="modal-info-row">
-            <span className="modal-info-label" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <DynamicIcon name="Beaker" size={14} /> Branch
+            <span className="modal-info-label" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <DynamicIcon name="Briefcase" size={14} /> Branch
             </span>
             <span className="modal-info-value">{member.branch}</span>
           </div>
           <div className="modal-info-row">
-            <span className="modal-info-label" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <DynamicIcon name="ClipboardList" size={14} /> Section
+            <span className="modal-info-label" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <DynamicIcon name="Layout" size={14} /> Section
             </span>
             <span className="modal-info-value">{member.section}</span>
           </div>
@@ -149,7 +150,7 @@ function ModalContent({ member, onClose }: { member: CoreTeamMember; onClose: ()
                 className="modal-social-btn btn-linkedin"
                 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
               >
-                <DynamicIcon name="Linkedin" size={14} /> LinkedIn
+                <DynamicIcon name="Linkedin" size={14} /> LINKEDIN
               </a>
             )}
 
@@ -161,26 +162,14 @@ function ModalContent({ member, onClose }: { member: CoreTeamMember; onClose: ()
                     e.stopPropagation();
                     setActivePopup(activePopup === 'whatsapp' ? null : 'whatsapp');
                   }}
-                  style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+                  style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 20px', borderRadius: '50px', fontSize: '.75rem', fontWeight: 800 }}
                 >
-                  <DynamicIcon name="MessageSquare" size={14} /> WhatsApp
+                  <DynamicIcon name="MessageSquare" size={14} /> WHATSAPP
                 </button>
                 {activePopup === 'whatsapp' && (
                   <CopyPopup value={whatsappValue ?? ''} onClose={() => setActivePopup(null)} />
                 )}
               </div>
-            )}
-
-            {member.instagram && (
-              <a
-                href={member.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="modal-social-btn btn-instagram"
-                style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
-              >
-                <DynamicIcon name="Camera" size={14} /> Instagram
-              </a>
             )}
 
             {member.email && (
@@ -191,9 +180,9 @@ function ModalContent({ member, onClose }: { member: CoreTeamMember; onClose: ()
                     e.stopPropagation();
                     setActivePopup(activePopup === 'email' ? null : 'email');
                   }}
-                  style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+                  style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 20px', borderRadius: '50px', fontSize: '.75rem', fontWeight: 800 }}
                 >
-                  <DynamicIcon name="Mail" size={14} /> Email
+                  <DynamicIcon name="Mail" size={14} /> EMAIL
                 </button>
                 {activePopup === 'email' && (
                   <CopyPopup value={member.email} onClose={() => setActivePopup(null)} />
