@@ -20,7 +20,7 @@ const EXITS = [
   ['0%',   '-160%', '10deg'],
   ['150%', '-125%', '24deg'],
   ['-160%','-25%', '-38deg'],
-  ['0%', ' -5%', '0deg'],
+  ['0%',   '-5%',  '0deg'],   
   ['160%', '-18%', '40deg'],
   ['-148%','140%', '-28deg'],
   ['-65%', '158%', '-14deg'],
@@ -127,16 +127,7 @@ export default function CinematicOpening({ onDone, theme = 'dark' }) {
   const WORD = 'NEXASPHERE';
   const isL  = theme === 'light';
 
-  const PHASE_1_DELAY = 280;
-  const PHASE_2_DELAY = 650;
-  const TYPEWRITER_INTERVAL = 70;
-  const TAGLINE_DELAY = 1680;
-  const CRACKING_DELAY = 2500;
-  const SHATTER_DELAY = 2640;
-  const COMPLETION_DELAY = 3380;
-
   const handleSkip = useCallback(() => {
-    // Clear all pending timers and the typewriter interval
     timersRef.current.forEach(t => clearTimeout(t));
     clearInterval(ivRef.current);
     setGone(true);
@@ -145,27 +136,21 @@ export default function CinematicOpening({ onDone, theme = 'dark' }) {
 
   useEffect(() => {
     const ts = [];
-    ts.push(setTimeout(() => setPhase(1), PHASE_1_DELAY));
+    ts.push(setTimeout(() => setPhase(1), 280));
     ts.push(setTimeout(() => {
       setPhase(2);
       ivRef.current = setInterval(() => {
         countRef.current += 1;
         setCount(countRef.current);
         if (countRef.current >= WORD.length) clearInterval(ivRef.current);
-      }, TYPEWRITER_INTERVAL);
-    }, PHASE_2_DELAY));
-    ts.push(setTimeout(() => setTagline(true), TAGLINE_DELAY));
-    ts.push(setTimeout(() => setCracking(true), CRACKING_DELAY));
-    ts.push(setTimeout(() => setShatter(true), SHATTER_DELAY));
-    ts.push(setTimeout(() => {
-      setGone(true);
-      onDone();
-    }, COMPLETION_DELAY));
+      }, 70);
+    }, 650));
+    ts.push(setTimeout(() => setTagline(true),  1680));
+    ts.push(setTimeout(() => setCracking(true), 2500));
+    ts.push(setTimeout(() => setShatter(true),  2640));
+    ts.push(setTimeout(() => { setGone(true); onDone(); }, 3380));
     timersRef.current = ts;
-    return () => {
-      ts.forEach(t => clearTimeout(t));
-      clearInterval(ivRef.current);
-    };
+    return () => { ts.forEach(t => clearTimeout(t)); clearInterval(ivRef.current); };
   }, []);
 
   const bg      = isL ? '#FFFFFF' : '#0A0A0A';
@@ -196,40 +181,27 @@ export default function CinematicOpening({ onDone, theme = 'dark' }) {
         ${shardKeyframes}
       `}</style>
 
-      {/* Skip button — sits above the shard layer so it's always clickable */}
+      {/* Skip button — above shard layer, always clickable */}
       {phase >= 1 && (
         <button
           onClick={handleSkip}
           aria-label="Skip intro"
           style={{
-            position: 'fixed',
-            top: '22px',
-            right: '24px',
-            zIndex: 10000,
-            background: 'rgba(204,17,17,0.12)',
-            border: '1px solid rgba(204,17,17,0.35)',
-            borderRadius: '20px',
+            position:'fixed', top:'22px', right:'24px', zIndex:10000,
+            background:'rgba(204,17,17,0.12)',
+            border:'1px solid rgba(204,17,17,0.35)',
+            borderRadius:'20px',
             color: isL ? '#CC1111' : '#FF6666',
-            fontFamily: "'Rajdhani', sans-serif",
-            fontSize: '.78rem',
-            fontWeight: 700,
-            letterSpacing: '.12em',
-            textTransform: 'uppercase',
-            padding: '6px 16px',
-            cursor: 'pointer',
-            backdropFilter: 'blur(8px)',
-            WebkitBackdropFilter: 'blur(8px)',
-            animation: 'cinSkipIn .4s ease both',
-            transition: 'background .2s, color .2s, border-color .2s',
+            fontFamily:"'Rajdhani',sans-serif",
+            fontSize:'.78rem', fontWeight:700,
+            letterSpacing:'.12em', textTransform:'uppercase',
+            padding:'6px 16px', cursor:'pointer',
+            backdropFilter:'blur(8px)', WebkitBackdropFilter:'blur(8px)',
+            animation:'cinSkipIn .4s ease both',
+            transition:'background .2s, border-color .2s',
           }}
-          onMouseEnter={e => {
-            e.currentTarget.style.background = 'rgba(204,17,17,0.28)';
-            e.currentTarget.style.borderColor = 'rgba(204,17,17,0.7)';
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.background = 'rgba(204,17,17,0.12)';
-            e.currentTarget.style.borderColor = 'rgba(204,17,17,0.35)';
-          }}
+          onMouseEnter={e=>{e.currentTarget.style.background='rgba(204,17,17,0.28)';e.currentTarget.style.borderColor='rgba(204,17,17,0.7)';}}
+          onMouseLeave={e=>{e.currentTarget.style.background='rgba(204,17,17,0.12)';e.currentTarget.style.borderColor='rgba(204,17,17,0.35)';}}
         >
           Skip →
         </button>
