@@ -3,6 +3,8 @@
 // To add a new activity: create a new file here, import it, and add it to activityPages.
 // To update an activity's events: edit ONLY that activity's file.
 
+import type { ActivityPages } from '../../types/activities';
+
 import hackathon from './hackathon';
 import codathon from './codathon';
 import ideathon from './ideathon';
@@ -13,7 +15,7 @@ import openSourceDay from './openSourceDay';
 import techDebate from './techDebate';
 
 // Keys must exactly match the activity title in src/data/activitiesData.js
-export const activityPages = {
+export const activityPages: ActivityPages = {
   'Hackathon':       hackathon,
   'Codathon':        codathon,
   'Ideathon':        ideathon,

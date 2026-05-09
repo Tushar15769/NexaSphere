@@ -1,17 +1,18 @@
-import { useRef } from 'react';
+import { type KeyboardEvent, type MouseEvent, type ReactNode, useRef } from 'react';
+import type { TeamMemberCardProps } from '../../types/components';
 
-export default function TeamMemberCard({ member, onClick, extraClass = '', style={} }) {
-  const ref = useRef(null);
+export default function TeamMemberCard({ member, onClick, extraClass = '', style={} }: TeamMemberCardProps): ReactNode {
+  const ref = useRef<HTMLDivElement | null>(null);
 
-  const onMove = e => {
+  const onMove = (e: MouseEvent<HTMLDivElement>): void => {
     const c = ref.current; if (!c) return;
     const rect = c.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width  - .5;
     const y = (e.clientY - rect.top)  / rect.height - .5;
     c.style.transform = `translateY(-10px) rotateX(${-y*13}deg) rotateY(${x*13}deg)`;
   };
-  const onLeave = () => { if (ref.current) ref.current.style.transform = ''; };
-  const click = () => {
+  const onLeave = (): void => { if (ref.current) ref.current.style.transform = ''; };
+  const click = (): void => {
     const c = ref.current;
     if (c) { c.style.transform='scale(.94)'; setTimeout(()=>{c.style.transform='';},140); }
     setTimeout(()=>onClick(member),100);
@@ -24,7 +25,7 @@ export default function TeamMemberCard({ member, onClick, extraClass = '', style
       onMouseMove={onMove} onMouseLeave={onLeave}
       onClick={click}
       role="button" tabIndex={0}
-      onKeyDown={e=>{if(e.key==='Enter'||e.key===' ')click();}}
+      onKeyDown={(e: KeyboardEvent<HTMLDivElement>)=>{if(e.key==='Enter'||e.key===' ')click();}}
       aria-label={`View ${member.name}'s profile`}
     >
       <div className="team-card-photo-wrap">

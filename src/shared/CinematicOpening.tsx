@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { type CSSProperties, type ReactNode, useEffect, useRef, useState } from 'react';
 import nexasphereLogo from '../assets/images/logos/nexasphere-logo.png';
 
 const SHARDS = [
@@ -29,7 +29,31 @@ const EXITS = [
   ['150%', '138%',  '34deg'],
 ];
 
-function IntroContent({ phase, count, tagline, accent, accent2, muted, grad, bg, isL, WORD }) {
+interface IntroContentProps {
+  phase: number;
+  count: number;
+  tagline: boolean;
+  accent: string;
+  accent2: string;
+  muted: string;
+  grad: string;
+  bg: string;
+  isL: boolean;
+  WORD: string;
+}
+
+type CornerSpec = {
+  t?: number;
+  b?: number;
+  l?: number;
+  r?: number;
+  bt?: boolean;
+  bb?: boolean;
+  bl?: boolean;
+  br?: boolean;
+};
+
+function IntroContent({ phase, count, tagline, accent, accent2, muted, grad, bg, isL, WORD }: IntroContentProps): ReactNode {
   return (
     <div style={{
       position:'absolute', inset:0, background:bg,
@@ -49,7 +73,7 @@ function IntroContent({ phase, count, tagline, accent, accent2, muted, grad, bg,
         background:`radial-gradient(circle,${isL?'rgba(204,17,17,.06)':'rgba(204,17,17,.07)'} 0%,transparent 70%)`,
         animation:'cinGlow 3s ease-in-out infinite',
       }}/>
-      {[{t:26,l:26,bt:true,bl:true},{t:26,r:26,bt:true,br:true},{b:26,l:26,bb:true,bl:true},{b:26,r:26,bb:true,br:true}].map((c,i)=>(
+      {([{t:26,l:26,bt:true,bl:true},{t:26,r:26,bt:true,br:true},{b:26,l:26,bb:true,bl:true},{b:26,r:26,bb:true,br:true}] as CornerSpec[]).map((c,i)=>(
         <div key={i} style={{
           position:'absolute',
           ...(c.t!==undefined?{top:c.t}:{}), ...(c.b!==undefined?{bottom:c.b}:{}),
@@ -80,7 +104,7 @@ function IntroContent({ phase, count, tagline, accent, accent2, muted, grad, bg,
         fontSize:'clamp(2rem,6vw,4.2rem)', fontWeight:900, letterSpacing:'.15em',
         whiteSpace:'nowrap',
       }}>
-        {WORD.split('').map((ch,li)=>(
+        {WORD.split('').map((ch: string, li: number)=>(
           <span key={li} style={{
             display: li<count ? 'inline-block' : 'none',
             backgroundImage:grad,
@@ -114,7 +138,7 @@ function IntroContent({ phase, count, tagline, accent, accent2, muted, grad, bg,
   );
 }
 
-export default function CinematicOpening({ onDone, theme = 'dark' }) {
+export default function CinematicOpening({ onDone, theme = 'dark' }: { onDone: () => void; theme?: string }): ReactNode {
   const [phase,    setPhase]    = useState(0);
   const [count,    setCount]    = useState(0);
   const [tagline,  setTagline]  = useState(false);
@@ -122,40 +146,34 @@ export default function CinematicOpening({ onDone, theme = 'dark' }) {
   const [shatter,  setShatter]  = useState(false);
   const [gone,     setGone]     = useState(false);
   const countRef = useRef(0);
-  const ivRef    = useRef(null);
+  const ivRef    = useRef<ReturnType<typeof setInterval> | null>(null);
   const WORD = 'NEXASPHERE';
   const isL  = theme === 'light';
 
-  const PHASE_1_DELAY = 280;
-  const PHASE_2_DELAY = 650;
-  const TYPEWRITER_INTERVAL = 70;
-  const TAGLINE_DELAY = 1680;
-  const CRACKING_DELAY = 2500;
-  const SHATTER_DELAY = 2640;
-  const COMPLETION_DELAY = 3380;
+  const PHASE_1_DELAY = 150;
+  const PHASE_2_DELAY = 350;
+  const TYPEWRITER_INTERVAL = 50;
+  const TAGLINE_DELAY = 900;
+  const CRACKING_DELAY = 1400;
+  const SHATTER_DELAY = 1500;
+  const COMPLETION_DELAY = 2200;
 
   useEffect(() => {
-    const ts = [];
-    ts.push(setTimeout(() => setPhase(1), PHASE_1_DELAY));
+    const ts: ReturnType<typeof setTimeout>[] = [];
+    ts.push(setTimeout(() => setPhase(1), 280));
     ts.push(setTimeout(() => {
       setPhase(2);
       ivRef.current = setInterval(() => {
         countRef.current += 1;
         setCount(countRef.current);
-        if (countRef.current >= WORD.length) clearInterval(ivRef.current);
-      }, TYPEWRITER_INTERVAL);
-    }, PHASE_2_DELAY));
-    ts.push(setTimeout(() => setTagline(true), TAGLINE_DELAY));
-    ts.push(setTimeout(() => setCracking(true), CRACKING_DELAY));
-    ts.push(setTimeout(() => setShatter(true), SHATTER_DELAY));
-    ts.push(setTimeout(() => {
-      setGone(true);
-      onDone();
-    }, COMPLETION_DELAY));
-    return () => {
-      ts.forEach(t => clearTimeout(t));
-      clearInterval(ivRef.current);
-    };
+        if (countRef.current >= WORD.length && ivRef.current) clearInterval(ivRef.current);
+      }, 70);
+    }, 650));
+    ts.push(setTimeout(() => setTagline(true),  1680));
+    ts.push(setTimeout(() => setCracking(true), 2500));
+    ts.push(setTimeout(() => setShatter(true),  2640));
+    ts.push(setTimeout(() => { setGone(true); onDone(); }, 3380));
+    return () => { ts.forEach(t => clearTimeout(t)); if (ivRef.current) clearInterval(ivRef.current); };
   }, []);
 
   const bg      = isL ? '#FFFFFF' : '#0A0A0A';
@@ -168,7 +186,7 @@ export default function CinematicOpening({ onDone, theme = 'dark' }) {
 
   if (gone) return null;
 
-  const shardKeyframes = SHARDS.map((_, i) => {
+  const shardKeyframes = SHARDS.map((_, i: number) => {
     const [tx, ty, rot] = EXITS[i];
     return `@keyframes sf${i}{to{transform:translate(${tx},${ty}) rotate(${rot}) scale(0.7);opacity:0;}}`;
   }).join('\n');
@@ -185,7 +203,7 @@ export default function CinematicOpening({ onDone, theme = 'dark' }) {
         ${shardKeyframes}
       `}</style>
 
-      <div style={{ position:'fixed', inset:0, zIndex:9999, pointerEvents:'none' }}>
+      <div style={{ position:'fixed', inset:0, zIndex:9999 }}>
 
         
         {SHARDS.map((s, i) => {
@@ -259,6 +277,21 @@ export default function CinematicOpening({ onDone, theme = 'dark' }) {
             animation:'flashBurst 0.18s ease forwards',
           }}/>
         )}
+        
+        <button
+          onClick={() => { setGone(true); onDone(); }}
+          style={{
+            position: 'absolute', bottom: '30px', right: '30px', zIndex: 10000,
+            background: 'none', border: '1px solid rgba(255,255,255,0.3)', color: 'rgba(255,255,255,0.6)',
+            padding: '6px 14px', borderRadius: '20px', fontSize: '0.8rem', cursor: 'pointer',
+            fontFamily: 'Rajdhani, sans-serif', textTransform: 'uppercase', letterSpacing: '0.1em',
+            transition: 'all 0.2s ease'
+          }}
+          onMouseEnter={e => { e.currentTarget.style.color = '#fff'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.8)'; }}
+          onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.6)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)'; }}
+        >
+          Skip Intro
+        </button>
       </div>
     </>
   );

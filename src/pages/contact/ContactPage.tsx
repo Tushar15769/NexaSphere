@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { type ReactNode, type RefObject, useEffect, useRef, useState } from 'react';
 import glbajajLogo from '../../assets/images/logos/glbajaj-logo.png';
-import './ContactPage.css';
+import type { BackProps } from '../../types/components';
 
 const EMAIL = 'nexasphere@glbajajgroup.org';
 const LINKEDIN = 'https://www.linkedin.com/showcase/glbajaj-nexasphere/';
@@ -11,12 +11,12 @@ const BURST_PARTICLES = 8;
 const BURST_DURATION = 600;
 const COPIED_TIMEOUT = 2200;
 
-function useBurst(ref) {
+/* ── Particle burst on hover ── */
+function useBurst(ref: RefObject<HTMLElement | null>): void {
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const burst = e => {
-      for (let i = 0; i < BURST_PARTICLES; i++) {
+    const el = ref.current; if (!el) return;
+    const burst = (e: MouseEvent): void => {
+      for (let i = 0; i < 8; i++) {
         const p = document.createElement('span');
         const angle = (i / BURST_PARTICLES) * Math.PI * 2;
         const dist = 40 + Math.random() * 30;
@@ -40,9 +40,17 @@ function useBurst(ref) {
   }, []);
 }
 
-function ContactCard({ icon, label, value, href, delay = 0, color }) {
-  const ref = useRef(null);
-  const [hovered, setHovered] = useState(false);
+/* ── Contact Card ── */
+function ContactCard({ icon, label, value, href, delay = 0, color }: {
+  icon: string;
+  label: string;
+  value: string;
+  href: string;
+  delay?: number;
+  color: string;
+}): ReactNode {
+  const ref = useRef<HTMLAnchorElement | null>(null);
+  const [hov, setHov] = useState(false);
   useBurst(ref);
 
   return (
@@ -91,10 +99,11 @@ function ContactCard({ icon, label, value, href, delay = 0, color }) {
   );
 }
 
-function MapSection() {
+/* ── Map Section ── */
+function MapSection(): ReactNode {
   const [loaded, setLoaded] = useState(false);
-  const [show, setShow] = useState(false);
-  const ref = useRef(null);
+  const [show, setShow]     = useState(false);
+  const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(([entry]) => {
@@ -138,10 +147,14 @@ function MapSection() {
         {show && (
           <iframe
             src={MAP_EMBED}
-            width="100%"
-            height="100%"
-            style={{ border: 0, display: 'block', filter: 'saturate(.9) contrast(1.05)', opacity: loaded ? 1 : 0, transition: 'opacity .5s ease' }}
-            allowFullScreen=""
+            width="100%" height="100%"
+            style={{
+              border: 0, display: 'block',
+              filter: 'saturate(.9) contrast(1.05)',
+              opacity: loaded ? 1 : 0,
+              transition: 'opacity .5s ease',
+            }}
+            allowFullScreen
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             title="GL Bajaj Group of Institutions, Mathura"
@@ -165,11 +178,13 @@ function MapSection() {
   );
 }
 
-function MessageCTA() {
-  const [name, setName] = useState('');
+/* ── Message form CTA ── */
+function MessageCTA(): ReactNode {
+  const [name, setName]     = useState('');
+  const [msg, setMsg]       = useState('');
   const [copied, setCopied] = useState(false);
 
-  const handleCopy = () => {
+  const handleCopy = (): void => {
     navigator.clipboard.writeText(EMAIL).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), COPIED_TIMEOUT);
@@ -177,7 +192,7 @@ function MessageCTA() {
   };
 
   const subject = encodeURIComponent(`Hi NexaSphere${name ? ` — ${name}` : ''}`);
-  const body = encodeURIComponent(`Hello NexaSphere Team,\n\n[Your message here]\n\nBest,\n${name || 'Your Name'}`);
+  const body = encodeURIComponent(`Hello NexaSphere Team,\n\n${msg || '[Your message here]'}\n\nBest,\n${name || 'Your Name'}`);
 
   return (
     <div className="pop-scale message-cta-box">
@@ -197,7 +212,30 @@ function MessageCTA() {
           value={name}
           onChange={e => setName(e.target.value)}
           placeholder="Your name (optional)"
-          className="name-input"
+          style={{
+            width: '100%', padding: '12px 16px',
+            background: 'var(--card2)', border: '1px solid var(--bdr2)',
+            borderRadius: 'var(--r2)', color: 'var(--t1)',
+            fontFamily: 'Rajdhani,sans-serif', fontSize: '.95rem',
+            outline: 'none', marginBottom: 12
+          }}
+          onFocus={e => { e.currentTarget.style.borderColor = 'var(--c1b)'; e.currentTarget.style.boxShadow = 'var(--sh1)'; }}
+          onBlur={e  => { e.currentTarget.style.borderColor = 'var(--bdr2)'; e.currentTarget.style.boxShadow = 'none'; }}
+        />
+        <textarea
+          value={msg}
+          onChange={e => setMsg(e.target.value)}
+          placeholder="Your message"
+          rows={4}
+          style={{
+            width: '100%', padding: '12px 16px',
+            background: 'var(--card2)', border: '1px solid var(--bdr2)',
+            borderRadius: 'var(--r2)', color: 'var(--t1)',
+            fontFamily: 'Rajdhani,sans-serif', fontSize: '.95rem',
+            outline: 'none', resize: 'vertical'
+          }}
+          onFocus={e => { e.currentTarget.style.borderColor = 'var(--c1b)'; e.currentTarget.style.boxShadow = 'var(--sh1)'; }}
+          onBlur={e  => { e.currentTarget.style.borderColor = 'var(--bdr2)'; e.currentTarget.style.boxShadow = 'none'; }}
         />
       </div>
 
@@ -225,7 +263,19 @@ function MessageCTA() {
   );
 }
 
-export default function ContactPage({ onBack }) {
+/* ══════════════════ MAIN EXPORT ══════════════════ */
+export default function ContactPage({ onBack }: BackProps): ReactNode {
+  useEffect(() => {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('fired'); obs.unobserve(e.target); }
+      });
+    }, { threshold: .1, rootMargin: '0px 0px -30px 0px' });
+    document.querySelectorAll('#pg-contact .pop-flip, #pg-contact .pop-in, #pg-contact .pop-word, #pg-contact .pop-scale')
+      .forEach(el => obs.observe(el));
+    return () => obs.disconnect();
+  }, []);
+
   return (
     <div className="pg-contact" id="pg-contact">
       <div className="contact-hero">

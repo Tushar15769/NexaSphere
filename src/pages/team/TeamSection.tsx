@@ -1,62 +1,69 @@
-import { useState, useRef } from 'react';
+import { type KeyboardEvent, type MouseEvent, type ReactNode, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { teamMembers } from '../../data/teamData';
 import TeamMemberModal from './TeamMemberModal';
 import { IconSpark } from '../../shared/Icons';
-import './TeamSection.css';
+import type { CoreTeamMember } from '../../types/api';
+import type { TeamSectionProps } from '../../types/components';
 
-const ANTI_GRAVITY_DELAYS = [0, -2.1, -4.2, -1.0, -3.3, -5.5, -0.7, -6.1, -2.8, -4.9, -1.6, -3.8];
-const TILT_ANGLE = 18;
-const TILT_SCALE = 1.06;
-const CLICK_SCALE_DELAY = 140;
-const CLICK_ACTION_DELAY = 110;
+const ANTI_GRAVITY_DELAYS = [-0.0, -2.1, -4.2, -1.0, -3.3, -5.5, -0.7, -6.1, -2.8, -4.9, -1.6, -3.8];
 
-function MemberCard({ member, idx, onClick }) {
-  const ref = useRef(null);
+function MemberCard({ member, idx, onClick }: {
+  member: CoreTeamMember;
+  idx: number;
+  onClick: (member: CoreTeamMember) => void;
+}): ReactNode {
+  const ref = useRef<HTMLDivElement | null>(null);
 
-  const handleMouseMove = e => {
+  const handleMouseMove = (e: MouseEvent<HTMLDivElement>): void => {
     const card = ref.current;
     if (!card) return;
+
     const rect = card.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - 0.5;
     const y = (e.clientY - rect.top) / rect.height - 0.5;
+
     card.style.animationPlayState = 'paused';
-    card.style.transform = `translateY(-14px) rotateX(${-y * TILT_ANGLE}deg) rotateY(${x * TILT_ANGLE}deg) scale(${TILT_SCALE})`;
+    card.style.transform = `translateY(-14px) rotateX(${-y * 18}deg) rotateY(${x * 18}deg) scale(1.06)`;
   };
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = (): void => {
     const card = ref.current;
     if (!card) return;
+
     card.style.transform = '';
     card.style.animationPlayState = '';
   };
 
-  const handleClick = () => {
+  const handleClick = (): void => {
     const card = ref.current;
     if (card) {
-      card.style.transform = 'scale(0.9)';
-      setTimeout(() => {
+      card.style.transform = 'scale(.9)';
+      window.setTimeout(() => {
         card.style.transform = '';
-      }, CLICK_SCALE_DELAY);
+      }, 140);
     }
-    setTimeout(() => onClick(member), CLICK_ACTION_DELAY);
+
+    window.setTimeout(() => onClick(member), 110);
+  };
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>): void => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      handleClick();
+    }
   };
 
   return (
     <div
       ref={ref}
       className="team-card shimmer mag-card"
-      style={{
-        animationDelay: `${ANTI_GRAVITY_DELAYS[idx % 12]}s`,
-      }}
+      style={{ animationDelay: `${ANTI_GRAVITY_DELAYS[idx % ANTI_GRAVITY_DELAYS.length]}s` }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onClick={handleClick}
       role="button"
       tabIndex={0}
-      onKeyDown={e => {
-        if (e.key === 'Enter' || e.key === ' ') handleClick();
-      }}
+      onKeyDown={handleKeyDown}
     >
       <div className="team-card-photo-wrap">
         <img src={member.photo} alt={member.name} className="team-card-photo" />
@@ -74,8 +81,36 @@ function MemberCard({ member, idx, onClick }) {
   );
 }
 
-export default function TeamSection({ onApply }) {
-  const [selectedMember, setSelectedMember] = useState(null);
+export default function TeamSection({ onApply }: TeamSectionProps): ReactNode {
+  const [selectedMember, setSelectedMember] = useState<CoreTeamMember | null>(null);
+
+  useEffect(() => {
+    const elements = document.querySelectorAll('#section-team .pop-flip, #section-team .pop-in, #section-team .pop-word');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('fired');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0, rootMargin: '0px 0px -10px 0px' });
+
+    elements.forEach(element => observer.observe(element));
+
+    const fallback = window.setTimeout(() => {
+      elements.forEach(element => {
+        const rect = element.getBoundingClientRect();
+        if (rect.top < window.innerHeight + 100) {
+          element.classList.add('fired');
+        }
+      });
+    }, 120);
+
+    return () => {
+      observer.disconnect();
+      window.clearTimeout(fallback);
+    };
+  }, []);
 
   return (
     <section className="section" id="section-team">
@@ -89,8 +124,8 @@ export default function TeamSection({ onApply }) {
         </div>
 
         <div className="team-grid cin-container">
-          {teamMembers.map((member, i) => (
-            <MemberCard key={member.id} member={member} idx={i} onClick={setSelectedMember} />
+          {teamMembers.map((member, index) => (
+            <MemberCard key={member.id} member={member} idx={index} onClick={setSelectedMember} />
           ))}
         </div>
 
@@ -112,11 +147,10 @@ export default function TeamSection({ onApply }) {
         </div>
       </div>
 
-      {selectedMember &&
-        createPortal(
-          <TeamMemberModal member={selectedMember} onClose={() => setSelectedMember(null)} />,
-          document.body
-        )}
+      {selectedMember ? createPortal(
+        <TeamMemberModal member={selectedMember} onClose={() => setSelectedMember(null)} />,
+        document.body
+      ) : null}
     </section>
   );
 }

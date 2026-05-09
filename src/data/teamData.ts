@@ -12,7 +12,7 @@ import aryaImg from '../assets/images/team/arya.png';
 import roshniImg from '../assets/images/team/roshni.png';
 import vikasImg from '../assets/images/team/vikas.png';
 
-export const teamMembers = [
+export const teamMembers: CoreTeamMember[] = [
   {
     id: 1,
     name: 'Ayush Sharma',
@@ -175,3 +175,4 @@ export const teamMembers = [
     instagram: null,
   },
 ];
+import type { CoreTeamMember } from '../types/api';

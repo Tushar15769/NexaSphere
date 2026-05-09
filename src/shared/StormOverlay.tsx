@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { type ReactNode, useEffect, useRef } from 'react';
 
 const NUM_GRAINS = 520;
 const ERUPT_DURATION = 380;
@@ -7,33 +7,68 @@ const SINGULARITY_DURATION = 780;
 const BANG_DURATION = 1300;
 const SETTLE_DURATION = 2000;
 const THEME_SWITCH_DELAY = 620;
+/*
+   Everything rendered on a single canvas for maximum cohesion.
 
-function rand(a, b) {
-  return a + Math.random() * (b - a);
-}
-function ease(t) {
-  return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-}
-function easeOut(t) {
-  return 1 - (1 - t) ** 3;
-}
-function easeIn(t) {
-  return t * t * t;
-}
-function lerp(a, b, t) {
-  return a + (b - a) * t;
-}
-function clamp(v, a, b) {
-  return Math.max(a, Math.min(b, v));
-}
-andom() * (b - a); }
-function ease(t)  { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; }
-function easeOut(t) { return 1-(1-t)**3; }
-function easeIn(t)  { return t*t*t; }
-function lerp(a,b,t){ return a+(b-a)*t; }
-function clamp(v,a,b){ return Math.max(a,Math.min(b,v)); }
+   Phase 1  ERUPT     (0–380ms)
+     500 sand particles BLAST from all 4 corners simultaneously
+     Thick amber flood fills screen from edges in
+     Unmissable even on dark backgrounds
 
-function spawnGrain(W, H, idx) {
+   Phase 2  COMPRESS  (380–720ms)
+     All particles spiral VIOLENTLY toward center
+     Black-hole pull effect — amber becomes incandescent at center
+     Theme switches at 620ms (completely hidden)
+
+   Phase 3  SINGULARITY (720–780ms)
+     All matter collapses to a bright pinpoint at center
+     Screen-wide white FLASH (2 frames)
+
+   Phase 4  BANG      (780–1300ms)
+     SUPERNOVA — shockwave ring explodes outward from center
+     Full screen flooded with new theme color in 300ms
+     Radial LIGHT RAYS burst from center (star burst)
+     Chromatic aberration rings (RGB split)
+     Debris particles scatter and fade
+
+   Phase 5  SETTLE    (1300–2000ms)
+     Rays fade, debris clears
+     Canvas opacity → 0, real app visible
+═══════════════════════════════════════════════════════════════ */
+
+const N_GRAINS = 520;
+
+type ThemeName = 'dark' | 'light';
+type ColorTriplet = [number, number, number];
+interface Grain {
+  x: number;
+  y: number;
+  spawnX: number;
+  spawnY: number;
+  vx: number;
+  vy: number;
+  orbitAngle: number;
+  orbitDir: number;
+  r: number;
+  hue: number;
+  sat: number;
+  lit: number;
+  a: number;
+  wave: number;
+  ws: number;
+  wa: number;
+  scatterA: number;
+  scatterSpd: number;
+}
+
+function rand(a: number, b: number): number { return a + Math.random() * (b - a); }
+function ease(t: number): number  { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; }
+function easeOut(t: number): number { return 1-(1-t)**3; }
+function easeIn(t: number): number  { return t*t*t; }
+function lerp(a: number,b: number,t: number): number { return a+(b-a)*t; }
+function clamp(v: number,a: number,b: number): number { return Math.max(a,Math.min(b,v)); }
+
+function spawnGrain(W: number, H: number, idx: number): Grain {
   const zone = idx % 8;
   let x, y;
   switch (zone) {
@@ -68,20 +103,28 @@ function spawnGrain(W, H, idx) {
   };
 }
 
-export default function StormOverlay({ toTheme, onMidpoint, onDone }) {
-  const canvasRef    = useRef(null);
+export default function StormOverlay({
+  toTheme,
+  onMidpoint,
+  onDone,
+}: {
+  toTheme: ThemeName;
+  onMidpoint: () => void;
+  onDone: () => void;
+}): ReactNode {
+  const canvasRef    = useRef<HTMLCanvasElement | null>(null);
   const midRef       = useRef(false);
   const doneRef      = useRef(false);
-  const startTimeRef = useRef(null);
-  
+  const startTimeRef = useRef<number | null>(null);
+  // Keep callbacks in refs so the animation loop always calls the latest version
   const onMidpointRef = useRef(onMidpoint);
   const onDoneRef     = useRef(onDone);
   useEffect(() => { onMidpointRef.current = onMidpoint; }, [onMidpoint]);
   useEffect(() => { onDoneRef.current     = onDone;     }, [onDone]);
 
   const themeColors = {
-    dark:  { bg:'#020509', r:2,   g:5,   b:9,   c1:[0,212,255],  c2:[123,111,255], c3:[189,92,255] },
-    light: { bg:'#faf8f5', r:250, g:248, b:245, c1:[194,119,10], c2:[109,40,217],  c3:[190,24,93]  },
+    dark:  { bg:'#020509', r:2,   g:5,   b:9,   c1:[0,212,255] as ColorTriplet,  c2:[123,111,255] as ColorTriplet, c3:[189,92,255] as ColorTriplet },
+    light: { bg:'#faf8f5', r:250, g:248, b:245, c1:[194,119,10] as ColorTriplet, c2:[109,40,217] as ColorTriplet,  c3:[190,24,93] as ColorTriplet  },
   };
   const target = themeColors[toTheme];
 
@@ -89,6 +132,7 @@ export default function StormOverlay({ toTheme, onMidpoint, onDone }) {
     const cvs = canvasRef.current;
     if (!cvs) return;
     const ctx = cvs.getContext('2d');
+    if (!ctx) return;
     cvs.width  = window.innerWidth;
     cvs.height = window.innerHeight;
     const W=cvs.width, H=cvs.height, cx=W/2, cy=H/2;
@@ -109,11 +153,12 @@ export default function StormOverlay({ toTheme, onMidpoint, onDone }) {
       done: SETTLE_DURATION,
     };
 
-    let raf;
+    let raf = 0;
     let canvasAlpha = 1;
 
-    const draw = (now) => {
-      const elapsed = now - startTimeRef.current;
+    const draw = (now: number): void => {
+      const startedAt = startTimeRef.current ?? now;
+      const elapsed = now - startedAt;
       ctx.clearRect(0, 0, W, H);
 
       /* ── Determine phase ── */
@@ -237,7 +282,7 @@ export default function StormOverlay({ toTheme, onMidpoint, onDone }) {
         
         if (t < 0.6) {
           const offset = 18 * (1-t);
-          [[target.c1,'rgba(0,0,0,0)'], [target.c3,'rgba(0,0,0,0)']].forEach(([col], ci) => {
+          ([target.c1, target.c3] as ColorTriplet[]).forEach((col, ci) => {
             const ox = ci===0? -offset : offset;
             const oy = ci===0?  offset : -offset;
             ctx.save();
@@ -295,7 +340,7 @@ export default function StormOverlay({ toTheme, onMidpoint, onDone }) {
         ctx.fillRect(0,0,W,H);
         
         canvasAlpha = 1 - easeOut(t);
-        if (cvs) cvs.style.opacity = canvasAlpha;
+        cvs.style.opacity = String(canvasAlpha);
 
         
         const resG=ctx.createRadialGradient(cx,cy,0,cx,cy,DIAG*.45);

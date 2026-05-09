@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import '../styles/auth.css';
+import '../../styles/auth.css';
 
 export default function RegisterPage({ onBack, onSuccess }) {
   const [formData, setFormData] = useState({

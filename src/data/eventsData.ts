@@ -1,4 +1,8 @@
-export const events = [
+// ── NexaSphere Events Data ──
+// Shown on Home page event section + Events page.
+// status: 'completed' | 'upcoming'
+
+export const events: Event[] = [
   {
     id: 1,
     name: 'KSS #153 — Knowledge Sharing Session',
@@ -7,7 +11,7 @@ export const events = [
     description:
       "NexaSphere's inaugural Knowledge Sharing Session — an interactive peer-to-peer learning event where members presented on the Impact of AI, fostering curiosity, collaboration, and community building.",
     status: 'completed',
-    icon: '🧠',
+    icon: 'Brain',
     tags: ['AI', 'Learning', 'Community'],
   },
   {
@@ -18,7 +22,8 @@ export const events = [
     description:
       'Version control mastery for every developer. Learn Git from scratch and start contributing to real projects like a pro.',
     status: 'upcoming',
-    icon: '🔧',
+    icon: 'Wrench',
     tags: ['Git', 'GitHub', 'Workshop'],
   },
 ];
+import type { Event } from '../types/api';

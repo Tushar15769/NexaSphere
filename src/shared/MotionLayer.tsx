@@ -1,4 +1,12 @@
-import { useEffect } from 'react';
+/**
+ * MotionLayer.jsx — NexaSphere Motion Engine v3 (Full-Site)
+ *
+ * Non-destructive: adds NEW effects only. Never modifies existing
+ * pop-in / pop-word / ag animation logic.
+ */
+
+import { type DependencyList, type ReactNode, useEffect } from 'react';
+import type { CssVars } from '../types/dom';
 
 const REVEAL_THRESHOLD = 0.05;
 const REVEAL_DELAY = 80;
@@ -25,36 +33,52 @@ const ORBS_LIGHT = [
   { w: 280, h: 280, top: '12%', left: '65%', bg: 'rgba(232,99,122,.09)', dur: '22s', delay: '-3s', lo: '.05', hi: '.10' },
 ];
 
-export function AmbientOrbs({ theme = 'dark' }) {
+export function AmbientOrbs({ theme = 'dark' }: { theme?: string }): ReactNode {
   const orbs = theme === 'light' ? ORBS_LIGHT : ORBS_DARK;
   return (
     <div aria-hidden="true" className="orbs-container">
       {orbs.map((o, i) => (
-        <div
-          key={i}
-          className="ambient-orb"
-          style={{
-            width: o.w,
-            height: o.h,
-            top: o.top,
-            left: o.left,
-            background: o.bg,
-            '--orb-dur': o.dur,
-            '--orb-delay': o.delay,
-            '--orb-lo': o.lo,
-            '--orb-hi': o.hi,
-          }}
-        />
+        <div key={i} className="ambient-orb" style={{
+          width:o.w, height:o.h, top:o.top, left:o.left,
+          background:o.bg,
+          '--orb-dur':o.dur, '--orb-delay':o.delay,
+          '--orb-lo':o.lo,  '--orb-hi':o.hi,
+        } as CssVars}/>
       ))}
     </div>
   );
 }
 
-export function SectionDivider() {
-  return <div className="section-divider" aria-hidden="true" />;
+/* ── SECTION DIVIDER ─────────────────────────────────── */
+export function SectionDivider(): ReactNode {
+  return <div className="section-divider" aria-hidden="true"/>;
 }
 
-export function useScrollProgress() {
+/* ── PAGE FLASH — visible radial glow on tab-switch ──── */
+export function PageFlash(): ReactNode {
+  return <div className="page-flash" aria-hidden="true"/>;
+}
+
+/* ────────────────────────────────────────────────────────
+   PAGE BANNER ORBS — decorative floating orbs inside
+   each tab page's hero banner (not ambient layer)
+   ──────────────────────────────────────────────────────── */
+export function BannerOrbs({ color = 'rgba(0,212,255,.06)' }: { color?: string }): ReactNode {
+  const specs = [
+    { w:260, h:260, t:'30%', l:'15%', dur:'14s', delay:'0s'  },
+    { w:200, h:200, t:'20%', l:'70%', dur:'18s', delay:'-6s' },
+    { w:140, h:140, t:'70%', l:'50%', dur:'12s', delay:'-3s' },
+  ];
+  return (
+    <div className="banner-orbs" aria-hidden="true" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, pointerEvents: 'none', zIndex: 0, overflow: 'hidden' }}>
+      <div className="ambient-orb" style={{ width: 400, height: 400, top: '-10%', left: '-5%', background: color, '--orb-dur': '15s', '--orb-lo': '.04', '--orb-hi': '.12' }} />
+      <div className="ambient-orb" style={{ width: 300, height: 300, bottom: '-10%', right: '-5%', background: color, '--orb-dur': '18s', '--orb-delay': '-5s', '--orb-lo': '.04', '--orb-hi': '.12' }} />
+    </div>
+  );
+}
+
+/* ── useScrollProgress ───────────────────────────────── */
+export function useScrollProgress(): void {
   useEffect(() => {
     const bar = document.getElementById('scroll-progress');
     if (!bar) return;
@@ -70,7 +94,8 @@ export function useScrollProgress() {
   }, []);
 }
 
-export function useNsReveal(deps = []) {
+/* ── useNsReveal — fires .ns-visible on scroll ────────── */
+export function useNsReveal(deps: DependencyList = []): void {
   useEffect(() => {
     const timeout = setTimeout(() => {
       const selector = '.ns-reveal, .ns-reveal-left, .ns-reveal-right, .ns-reveal-scale';
@@ -107,18 +132,16 @@ export function useNsReveal(deps = []) {
   }, deps);
 }
 
-export function useRevealStagger(deps = []) {
-  useNsReveal(deps);
-}
+/* Backwards-compat alias */
+export function useRevealStagger(deps: DependencyList = []): void { useNsReveal(deps); }
 
-export function useHeroParallax() {
+/* ── useHeroParallax ──────────────────────────────────── */
+export function useHeroParallax(): void {
   useEffect(() => {
-    let raf;
+    let raf = 0;
     const tick = () => {
-      const el = document.querySelector('.hero-bg-parallax');
-      if (el) {
-        el.style.transform = `scale(1.06) translateY(${window.scrollY * PARALLAX_FACTOR}px)`;
-      }
+      const el = document.querySelector<HTMLElement>('.hero-bg-parallax');
+      if (el) el.style.transform = `scale(1.06) translateY(${window.scrollY * 0.28}px)`;
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
@@ -126,10 +149,11 @@ export function useHeroParallax() {
   }, []);
 }
 
-export function useNavScrollTint() {
+/* ── useNavScrollTint ─────────────────────────────────── */
+export function useNavScrollTint(): void {
   useEffect(() => {
     const update = () => {
-      const nav = document.querySelector('.ns-navbar');
+      const nav = document.querySelector<HTMLElement>('.ns-navbar');
       if (!nav) return;
       const ratio = Math.min(window.scrollY / NAV_TINT_SCROLL_LIMIT, 1);
       nav.style.backdropFilter = `blur(${24 + ratio * 10}px) saturate(${180 + ratio * 60}%)`;
@@ -139,23 +163,19 @@ export function useNavScrollTint() {
   }, []);
 }
 
-export function useGlobalMouseParallax() {
+/* ── useGlobalMouseParallax ───────────────────────────── */
+export function useGlobalMouseParallax(): void {
   useEffect(() => {
     if (window.matchMedia('(hover:none)').matches) return;
-    let mx = 0,
-      my = 0,
-      raf;
-    const onMove = e => {
-      mx = e.clientX;
-      my = e.clientY;
-    };
+    let mx = 0, my = 0, raf = 0;
+    const onMove = (e: MouseEvent): void => { mx = e.clientX; my = e.clientY; };
     const tick = () => {
       const cx = window.innerWidth / 2;
       const cy = window.innerHeight / 2;
       const dx = (mx - cx) / cx;
       const dy = (my - cy) / cy;
-      document.querySelectorAll('[data-parallax]').forEach(el => {
-        const depth = parseFloat(el.dataset.parallax) || 10;
+      document.querySelectorAll<HTMLElement>('[data-parallax]').forEach(el => {
+        const depth = parseFloat(el.dataset.parallax ?? '') || 10;
         el.style.transform = `translate(${dx * depth}px, ${dy * depth}px)`;
       });
       raf = requestAnimationFrame(tick);
@@ -169,11 +189,12 @@ export function useGlobalMouseParallax() {
   }, []);
 }
 
-export function useMagneticCards() {
+/* ── useMagneticCards — .mag-card 3D tilt ────────────── */
+export function useMagneticCards(): void {
   useEffect(() => {
     if (window.matchMedia('(hover:none)').matches) return;
-    const apply = e => {
-      document.querySelectorAll('.mag-card').forEach(card => {
+    const apply = (e: MouseEvent): void => {
+      document.querySelectorAll<HTMLElement>('.mag-card').forEach(card => {
         const rect = card.getBoundingClientRect();
         const cx = rect.left + rect.width / 2;
         const cy = rect.top + rect.height / 2;
@@ -191,11 +212,8 @@ export function useMagneticCards() {
         }
       });
     };
-    const reset = () =>
-      document.querySelectorAll('.mag-card').forEach(c => {
-        c.style.transform = '';
-      });
-    window.addEventListener('mousemove', apply, { passive: true });
+    const reset = (): void => document.querySelectorAll<HTMLElement>('.mag-card').forEach(c => { c.style.transform = ''; });
+    window.addEventListener('mousemove', apply, { passive:true });
     window.addEventListener('mouseleave', reset);
     return () => {
       window.removeEventListener('mousemove', apply);

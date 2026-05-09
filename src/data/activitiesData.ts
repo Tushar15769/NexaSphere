@@ -1,58 +1,67 @@
-export const activities = [
+// ── NexaSphere Activities Data ──
+
+export const activities: ActivitySummary[] = [
   {
     id: 1,
-    icon: '⚡',
+    icon: 'Zap',
     title: 'Hackathon',
     description:
       'Intense coding marathons where teams build innovative solutions to real-world problems under time pressure.',
+    comingSoon: true,
   },
   {
     id: 2,
-    icon: '💻',
+    icon: 'Code',
     title: 'Codathon',
     description:
       'Competitive programming challenges that test algorithmic thinking, problem-solving speed, and code efficiency.',
+    comingSoon: true,
   },
   {
     id: 3,
-    icon: '💡',
+    icon: 'Lightbulb',
     title: 'Ideathon',
     description:
       'Idea generation competitions where creativity and strategic thinking take center stage over code.',
+    comingSoon: true,
   },
   {
     id: 4,
-    icon: '🤖',
+    icon: 'Bot',
     title: 'Promptathon',
     description:
       'AI prompt engineering competitions where participants craft the most creative, effective prompts to solve real-world challenges.',
+    comingSoon: true,
   },
   {
     id: 5,
-    icon: '🔧',
+    icon: 'Wrench',
     title: 'Workshop',
     description:
       'Hands-on learning sessions on cutting-edge tools, frameworks, and emerging technologies led by experts.',
   },
   {
     id: 6,
-    icon: '🔍',
+    icon: 'Search',
     title: 'Insight Session',
     description:
       'Deep-dive talks and discussions exploring industry trends, career paths, and the future of technology.',
   },
   {
     id: 7,
-    icon: '🌐',
+    icon: 'Globe',
     title: 'Open Source Day',
     description:
       'Dedicated events encouraging contributions to open-source projects, building real-world dev experience.',
+    comingSoon: true,
   },
   {
     id: 8,
-    icon: '🎙️',
+    icon: 'Mic',
     title: 'Tech Debate',
     description:
       'Structured debates on controversial tech topics sharpening critical thinking and communication skills.',
+    comingSoon: true,
   },
 ];
+import type { ActivitySummary } from '../types/activities';
