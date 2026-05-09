@@ -1,7 +1,6 @@
 package org.nexasphere.controller;
 
 import jakarta.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
 import org.nexasphere.model.entity.CoreTeamMemberEntity;
 import org.nexasphere.repository.CoreTeamRepository;
 import org.nexasphere.util.Sanitizer;
@@ -13,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin/core-team")
-@Slf4j
 public class CoreTeamController {
 
     private final CoreTeamRepository repo;
@@ -23,14 +21,12 @@ public class CoreTeamController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CoreTeamMemberEntity>> getAll() {
-        log.info("Fetching all core team members");
-        return ResponseEntity.ok(repo.findAll());
+    public List<CoreTeamMemberEntity> getAll() {
+        return repo.findAll();
     }
 
     @PostMapping
     public ResponseEntity<CoreTeamMemberEntity> add(@Valid @RequestBody CoreTeamMemberEntity member) {
-        log.info("Adding new core team member: {}", member.getName());
         member.setId(null);
         member.setName(Sanitizer.clean(member.getName()));
         return ResponseEntity.status(HttpStatus.CREATED).body(repo.save(member));
@@ -38,11 +34,7 @@ public class CoreTeamController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> remove(@PathVariable Long id) {
-        log.info("Removing core team member ID: {}", id);
-        if (!repo.existsById(id)) {
-            log.warn("Member ID {} not found for removal", id);
-            return ResponseEntity.notFound().build();
-        }
+        if (!repo.existsById(id)) return ResponseEntity.notFound().build();
         repo.deleteById(id);
         return ResponseEntity.noContent().build();
     }
