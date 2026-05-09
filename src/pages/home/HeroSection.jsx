@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import nexasphereLogo from '../../assets/images/logos/nexasphere-logo.png';
-import { IconArrowRight, IconSpark } from '../../shared/Icons';
+import { IconArrowRight, IconSpark, DynamicIcon } from '../../shared/Icons';
 import './HeroSection.css';
 
 const RIPPLE_DURATION = 700;
@@ -144,10 +144,10 @@ function Logo3D({ ready }) {
 
 function StatsBar({ vis }) {
   const items = [
-    { v: '12', l: 'Members', i: '👥' },
-    { v: '8', l: 'Activities', i: '⚡' },
-    { v: '1', l: 'Events Done', i: '📅' },
-    { v: '∞', l: 'Ideas', i: '💡' }
+    { v: '12', l: 'Members', i: 'Users' },
+    { v: '8', l: 'Activities', i: 'Cpu' },
+    { v: '1', l: 'Events Done', i: 'Calendar' },
+    { v: '∞', l: 'Ideas', i: 'Lightbulb' }
   ];
 
   return (
@@ -160,7 +160,7 @@ function StatsBar({ vis }) {
     >
       {items.map((s, i) => (
         <div key={i} className="stats-item">
-          <div style={{ fontSize: '.9rem', marginBottom: '2px' }}>{s.i}</div>
+          <div className={`home-icon-pop ${vis ? 'pop-in fired' : ''}`} style={{fontSize:'.9rem',marginBottom:'2px', color: 'var(--c1)', transition: 'transform .3s var(--t-smooth)', animationDelay: `${.5+i*.1}s` }}><DynamicIcon name={s.i} size={16} /></div>
           <div 
             className="stats-value"
             style={{
