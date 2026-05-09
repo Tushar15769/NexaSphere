@@ -54,6 +54,31 @@ export function SectionDivider() {
   return <div className="section-divider" aria-hidden="true" />;
 }
 
+export function PageFlash() {
+  return <div className="page-flash" aria-hidden="true" />;
+}
+
+export function BannerOrbs({ color }) {
+  const specs = [
+    { w: 380, h: 380, t: '30%', l: '20%', dur: '12s', delay: '0s' },
+    { w: 320, h: 320, t: '70%', l: '80%', dur: '16s', delay: '-4s' },
+  ];
+  return (
+    <>
+      {specs.map((s, i) => (
+        <div key={i} aria-hidden="true" style={{
+          position: 'absolute', width: s.w, height: s.h,
+          top: s.t, left: s.l, transform: 'translate(-50%,-50%)',
+          borderRadius: '50%', background: color,
+          filter: 'blur(48px)', pointerEvents: 'none',
+          animation: `ag ${s.dur} ease-in-out ${s.delay} infinite`,
+          zIndex: 0,
+        }}/>
+      ))}
+    </>
+  );
+}
+
 export function useScrollProgress() {
   useEffect(() => {
     const bar = document.getElementById('scroll-progress');
