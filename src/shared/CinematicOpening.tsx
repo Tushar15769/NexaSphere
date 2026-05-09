@@ -277,6 +277,21 @@ export default function CinematicOpening({ onDone, theme = 'dark' }: { onDone: (
             animation:'flashBurst 0.18s ease forwards',
           }}/>
         )}
+        
+        <button
+          onClick={() => { setGone(true); onDone(); }}
+          style={{
+            position: 'absolute', bottom: '30px', right: '30px', zIndex: 10000,
+            background: 'none', border: '1px solid rgba(255,255,255,0.3)', color: 'rgba(255,255,255,0.6)',
+            padding: '6px 14px', borderRadius: '20px', fontSize: '0.8rem', cursor: 'pointer',
+            fontFamily: 'Rajdhani, sans-serif', textTransform: 'uppercase', letterSpacing: '0.1em',
+            transition: 'all 0.2s ease'
+          }}
+          onMouseEnter={e => { e.currentTarget.style.color = '#fff'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.8)'; }}
+          onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.6)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)'; }}
+        >
+          Skip Intro
+        </button>
       </div>
     </>
   );

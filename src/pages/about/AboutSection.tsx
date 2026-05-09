@@ -48,7 +48,7 @@ export default function AboutSection() {
               Founded to bridge the gap between academic learning and real-world technology, we run hackathons, workshops, knowledge-sharing sessions, and career guidance events.
             </p>
             <p className="about-text pop-left" style={{ marginTop: '12px', animationDelay: '0.16s' }}>
-              We&apos;ve hosted KSS #153 on the Impact of AI, are running an Industry Insider career guidance session on March 13, and a Git &amp; GitHub workshop is coming soon. NexaSphere is where curiosity meets real opportunity.
+              We&apos;ve hosted diverse events like the KSS #153 on the Impact of AI, the Industry Insider career guidance session, and hands-on workshops like Git &amp; GitHub. NexaSphere is where curiosity meets real opportunity.
             </p>
             
             <div className="contact-mini pop-left" style={{ animationDelay: '0.22s' }}>
@@ -66,7 +66,7 @@ export default function AboutSection() {
               <div className="corner-tl"/><div className="corner-br"/>
               <div style={{fontFamily:'Orbitron,monospace',fontSize:'.7rem',color:'var(--c1)',fontWeight:700,letterSpacing:'.1em',marginBottom:'13px',textTransform:'uppercase'}}>Our Values</div>
               <div style={{display:'flex',flexWrap:'wrap',gap:'6px'}}>
-                {values.map(v=>(
+                {VALUES.map(v=>(
                   <span key={v} style={{
                     display:'inline-flex',alignItems:'center',
                     padding:'4px 12px',borderRadius:'50px',

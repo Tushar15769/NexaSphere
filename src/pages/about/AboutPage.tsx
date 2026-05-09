@@ -81,7 +81,7 @@ export default function AboutPage({ onBack }: BackProps): ReactNode {
               We bridge the gap between academic learning and real-world technology through a thriving community of passionate engineers and innovators.
             </p>
             <p className="about-text pop-in" style={{ marginTop: '12px', animationDelay: '.16s' }}>
-              We've hosted KSS #153 on the Impact of AI, are running an Industry Insider career guidance session on March 13, and a Git &amp; GitHub workshop is coming soon. NexaSphere is where curiosity meets real opportunity.
+              We've hosted diverse events like the KSS #153 on the Impact of AI, the Industry Insider career guidance session, and hands-on workshops like Git &amp; GitHub. NexaSphere is where curiosity meets real opportunity.
             </p>
 
             <div className="pop-in" style={{ marginTop: '14px', animationDelay: '.22s' }}>

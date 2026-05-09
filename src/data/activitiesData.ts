@@ -7,6 +7,7 @@ export const activities: ActivitySummary[] = [
     title: 'Hackathon',
     description:
       'Intense coding marathons where teams build innovative solutions to real-world problems under time pressure.',
+    comingSoon: true,
   },
   {
     id: 2,
@@ -14,6 +15,7 @@ export const activities: ActivitySummary[] = [
     title: 'Codathon',
     description:
       'Competitive programming challenges that test algorithmic thinking, problem-solving speed, and code efficiency.',
+    comingSoon: true,
   },
   {
     id: 3,
@@ -21,6 +23,7 @@ export const activities: ActivitySummary[] = [
     title: 'Ideathon',
     description:
       'Idea generation competitions where creativity and strategic thinking take center stage over code.',
+    comingSoon: true,
   },
   {
     id: 4,
@@ -28,6 +31,7 @@ export const activities: ActivitySummary[] = [
     title: 'Promptathon',
     description:
       'AI prompt engineering competitions where participants craft the most creative, effective prompts to solve real-world challenges.',
+    comingSoon: true,
   },
   {
     id: 5,
@@ -49,6 +53,7 @@ export const activities: ActivitySummary[] = [
     title: 'Open Source Day',
     description:
       'Dedicated events encouraging contributions to open-source projects, building real-world dev experience.',
+    comingSoon: true,
   },
   {
     id: 8,
@@ -56,6 +61,7 @@ export const activities: ActivitySummary[] = [
     title: 'Tech Debate',
     description:
       'Structured debates on controversial tech topics sharpening critical thinking and communication skills.',
+    comingSoon: true,
   },
 ];
 import type { ActivitySummary } from '../types/activities';

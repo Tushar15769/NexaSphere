@@ -7,7 +7,7 @@ const SINGULARITY_DURATION = 780;
 const BANG_DURATION = 1300;
 const SETTLE_DURATION = 2000;
 const THEME_SWITCH_DELAY = 620;
-
+/*
    Everything rendered on a single canvas for maximum cohesion.
 
    Phase 1  ERUPT     (0–380ms)

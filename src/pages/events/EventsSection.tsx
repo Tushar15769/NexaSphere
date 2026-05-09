@@ -2,6 +2,14 @@ import { type ReactNode, useEffect } from 'react';
 import { events as fallbackEvents } from '../../data/eventsData';
 import * as LucideIcons from 'lucide-react';
 
+function DynamicIcon({ name, ...props }: { name: string; [key: string]: any }) {
+  const Icon = (LucideIcons as any)[name] || LucideIcons.HelpCircle;
+  return <Icon {...props} />;
+}
+
+const ANIMATION_STAGGER_DELAY = 0.1;
+
+
 export default function EventsSection({
   onEventClick,
   events = fallbackEvents,
@@ -71,23 +79,6 @@ export default function EventsSection({
                     </span>
                     {ev.tags?.map(t=>(
                       <span key={t} style={{fontSize:'.68rem',padding:'2px 8px',borderRadius:'10px',background:'var(--c2a)',color:'var(--c2)',border:'1px solid var(--c2b)',fontWeight:600}}>{t}</span>
-                  <div className="timeline-event-header">
-                    <span style={{ fontSize: '1.4rem' }}>{ev.icon}</span>
-                    <div className={`timeline-event-name ${isKSS ? 'kss' : ''}`}>
-                      {ev.name}
-                    </div>
-                    {isKSS && <span className="view-details-badge">View Details →</span>}
-                  </div>
-                  
-                  <div className="timeline-event-date">📅 {ev.date}</div>
-                  <p className="timeline-event-desc">{ev.description}</p>
-                  
-                  <div className="timeline-badges">
-                    <span className={`timeline-badge ${ev.status}`}>
-                      {ev.status === 'completed' ? '✅ Completed' : '🔜 Upcoming'}
-                    </span>
-                    {ev.tags?.map(t => (
-                      <span key={t} className="tag-badge">{t}</span>
                     ))}
                   </div>
                 </div>
@@ -103,10 +94,6 @@ export default function EventsSection({
                   <DynamicIcon name="Rocket" size={24} />
                 </div>
                 <p style={{marginTop:'6px',fontSize:'.84rem'}}>More events are being planned. Watch this space!</p>
-              <div className="timeline-dot upcoming" />
-              <div className="timeline-card pop-in timeline-placeholder">
-                <span style={{ fontSize: '1.3rem' }}>🚀</span>
-                <p>More events are being planned. Watch this space!</p>
               </div>
             </div>
           )}

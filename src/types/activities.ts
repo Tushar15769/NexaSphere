@@ -5,6 +5,7 @@ export interface ActivitySummary {
   icon: string;
   title: ActivityKey | string;
   description: string;
+  comingSoon?: boolean;
 }
 
 export interface ActivityPage {

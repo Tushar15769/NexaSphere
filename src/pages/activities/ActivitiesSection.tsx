@@ -42,6 +42,7 @@ function ActivityCard({
   };
 
   const click = (): void => {
+    if (a.comingSoon) return;
     const c = ref.current;
     if (c) { c.style.transform = 'scale(.92)'; setTimeout(() => { c.style.transform = ''; }, 130); }
     setTimeout(() => onNav('activity', a.title as ActivityKey), 160);
@@ -63,7 +64,11 @@ function ActivityCard({
       <div className="activity-icon pop-in fired" style={{ animationDelay: `${0.2 + idx * 0.1}s` }}><DynamicIcon name={a.icon} size={32} /></div>
       <div className="activity-title">{a.title}</div>
       <p className="activity-desc">{a.description}</p>
-      <div className="activity-cta"><span>Explore</span><span><DynamicIcon name="ArrowRight" size={14} /></span></div>
+      {a.comingSoon ? (
+        <div className="activity-cta" style={{ color: 'var(--t3)', cursor: 'default' }}><span>Coming Soon</span></div>
+      ) : (
+        <div className="activity-cta"><span>Explore</span><span><DynamicIcon name="ArrowRight" size={14} /></span></div>
+      )}
       <div className="corner-tl"/><div className="corner-br"/>
     </div>
   );

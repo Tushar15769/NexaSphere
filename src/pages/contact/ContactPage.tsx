@@ -181,6 +181,7 @@ function MapSection(): ReactNode {
 /* ── Message form CTA ── */
 function MessageCTA(): ReactNode {
   const [name, setName]     = useState('');
+  const [msg, setMsg]       = useState('');
   const [copied, setCopied] = useState(false);
 
   const handleCopy = (): void => {
@@ -191,7 +192,7 @@ function MessageCTA(): ReactNode {
   };
 
   const subject = encodeURIComponent(`Hi NexaSphere${name ? ` — ${name}` : ''}`);
-  const body = encodeURIComponent(`Hello NexaSphere Team,\n\n[Your message here]\n\nBest,\n${name || 'Your Name'}`);
+  const body = encodeURIComponent(`Hello NexaSphere Team,\n\n${msg || '[Your message here]'}\n\nBest,\n${name || 'Your Name'}`);
 
   return (
     <div className="pop-scale message-cta-box">
@@ -216,7 +217,22 @@ function MessageCTA(): ReactNode {
             background: 'var(--card2)', border: '1px solid var(--bdr2)',
             borderRadius: 'var(--r2)', color: 'var(--t1)',
             fontFamily: 'Rajdhani,sans-serif', fontSize: '.95rem',
-            outline: 'none',
+            outline: 'none', marginBottom: 12
+          }}
+          onFocus={e => { e.currentTarget.style.borderColor = 'var(--c1b)'; e.currentTarget.style.boxShadow = 'var(--sh1)'; }}
+          onBlur={e  => { e.currentTarget.style.borderColor = 'var(--bdr2)'; e.currentTarget.style.boxShadow = 'none'; }}
+        />
+        <textarea
+          value={msg}
+          onChange={e => setMsg(e.target.value)}
+          placeholder="Your message"
+          rows={4}
+          style={{
+            width: '100%', padding: '12px 16px',
+            background: 'var(--card2)', border: '1px solid var(--bdr2)',
+            borderRadius: 'var(--r2)', color: 'var(--t1)',
+            fontFamily: 'Rajdhani,sans-serif', fontSize: '.95rem',
+            outline: 'none', resize: 'vertical'
           }}
           onFocus={e => { e.currentTarget.style.borderColor = 'var(--c1b)'; e.currentTarget.style.boxShadow = 'var(--sh1)'; }}
           onBlur={e  => { e.currentTarget.style.borderColor = 'var(--bdr2)'; e.currentTarget.style.boxShadow = 'none'; }}

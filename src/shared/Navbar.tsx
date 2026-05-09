@@ -2,7 +2,7 @@ import { type ReactNode, useState, useEffect } from 'react';
 import nexasphereLogo from '../assets/images/logos/nexasphere-logo.png';
 import type { NavbarProps } from '../types/components';
 
-function ThemeToggle({ theme, onToggle }) {
+function ThemeToggle({ theme, onToggle }: { theme: string; onToggle: () => void }) {
   return (
     <button
       className="ns-theme-toggle"
@@ -32,10 +32,13 @@ function ThemeToggle({ theme, onToggle }) {
 }
 
 const TABS = ['Home', 'Activities', 'Events', 'About', 'Team', 'Contact'];
+const MOBILE_BREAKPOINT = 768;
+const SCROLL_THRESHOLD = 50;
 
-export default function Navbar({ activeTab, onTabChange, onToggleTheme }: NavbarProps): ReactNode {
+export default function Navbar({ activeTab, onTabChange, onToggleTheme, theme }: NavbarProps & { theme: string }): ReactNode {
   const [scrolled, setScrolled] = useState(false);
   const [mobile, setMobile] = useState(window.innerWidth <= MOBILE_BREAKPOINT);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > SCROLL_THRESHOLD);
@@ -70,6 +73,10 @@ export default function Navbar({ activeTab, onTabChange, onToggleTheme }: Navbar
             {t}
           </button>
         ))}
+        <div style={{ display: 'flex', gap: '10px', padding: '15px 20px', marginTop: 'auto' }}>
+          <button className="btn btn-outline" style={{ flex: 1, padding: '8px', fontSize: '0.85rem' }} onClick={() => handleTab('Apply')}>Apply</button>
+          <button className="btn btn-primary" style={{ flex: 1, padding: '8px', fontSize: '0.85rem' }} onClick={() => handleTab('Join')}>Join</button>
+        </div>
       </div>
     </nav>
   );
@@ -78,14 +85,14 @@ export default function Navbar({ activeTab, onTabChange, onToggleTheme }: Navbar
     <nav className={`ns-navbar${scrolled ? ' scrolled' : ''}`}>
       <div className="container">
         <div className="ns-nav-logos">
-          <img src={nexasphereAppLogo} alt="NexaSphere" className="ns-nav-logo-ns" />
+          <img src={nexasphereLogo} alt="NexaSphere" className="ns-nav-logo-ns" />
           <div className="ns-nav-divider" />
           <span className="ns-nav-brand">NexaSphere</span>
         </div>
 
         <div className="ns-nav-right">
           <ul className="ns-nav-tabs">
-            {NAV_TABS.map(tab => (
+            {TABS.map(tab => (
               <li key={tab}>
                 <button
                   className={`ns-nav-tab${activeTab === tab ? ' active' : ''}${tab === 'Contact' ? ' contact-nav-tab' : ''}`}

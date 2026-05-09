@@ -318,7 +318,7 @@ export default function MembershipPage({ onBack }: BackProps): ReactNode {
       if (!phone || !/^\d{10}$/.test(phone)) missing.push('whatsapp');
       
       const email = form.collegeEmail.trim();
-      if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) missing.push('collegeEmail');
+      if (email && !/^[^\s@]+@glbajajgroup\.org$/.test(email)) missing.push('collegeEmail');
     }
     if (step === 2) {
       if (form.groups.length === 0) missing.push('groups');
@@ -830,21 +830,6 @@ export default function MembershipPage({ onBack }: BackProps): ReactNode {
                   >
                     Join WhatsApp Community
                   </a>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setAlreadySubmitted(false);
-                      setForm({
-                        fullName: '', collegeEmail: '', rollNumber: '', course: '', courseOther: '', branch: '', branchOther: '', section: '', sectionOther: '', semester: '', whatsapp: '',
-                        groups: [], whyJoin: ''
-                      });
-                      setStep(0);
-                    }}
-                    className="btn btn-primary"
-                    style={{ flex:1, minWidth:0, justifyContent:'center' }}
-                  >
-                    Submit Another Form
-                  </button>
                   <a
                     href={LINKEDIN_PAGE}
                     target="_blank"
