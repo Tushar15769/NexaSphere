@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { teamMembers } from '../../data/teamData';
 import TeamMemberModal from './TeamMemberModal';
 import { IconArrowRight, IconSpark } from '../../shared/Icons';
-import { BannerOrbs } from '../../shared/MotionLayer';
+import { AmbientOrbs } from '../../shared/MotionLayer';
 
 function MemberCard({ member, idx, onClick }) {
   const ref = useRef(null);
@@ -76,7 +76,7 @@ export default function TeamPage({ onBack, onApply }) {
         position: 'relative', overflow: 'hidden',
       }}>
         <div className="page-banner-line" style={{ position:'absolute',top:0,left:0,right:0,height:'3px',background:'linear-gradient(90deg,var(--c2),var(--c3),var(--c1))' }}/>
-        <BannerOrbs color="rgba(123,111,255,.07)"/>
+        <AmbientOrbs />
         <button onClick={onBack} className="ns-back-btn" style={{
           position: 'absolute', top: '24px', left: '28px',
           background: 'var(--card)', border: '1px solid var(--bdr)',

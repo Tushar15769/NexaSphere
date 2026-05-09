@@ -1,5 +1,4 @@
 import nexasphereLogo from '../assets/images/logos/nexasphere-logo.png';
-import { PageFlash } from '../shared/MotionLayer';
 
 export default function Wipe({ on, ph }) {
   if (!on) return null;
@@ -25,7 +24,6 @@ export default function Wipe({ on, ph }) {
 
       {ph === 'out' && <div className="wipe-shimmer" aria-hidden="true" />}
 
-      {ph === 'in' && <PageFlash />}
       {ph === 'out' && (
         <div style={{
           position: 'fixed',

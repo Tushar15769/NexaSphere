@@ -35,7 +35,6 @@ import TeamPage from './pages/team/TeamPage';
 import ContactPage from './pages/contact/ContactPage';
 import RecruitmentPage from './pages/recruitment/RecruitmentPage';
 import MembershipPage from './pages/membership/MembershipPage';
-import AdminPage from './pages/admin/AdminPage';
 
 import { activityPages } from './data/activities/index';
 import { events as fallbackEvents } from './data/eventsData';
@@ -63,8 +62,6 @@ export default function App() {
   const eventsData = useDynamicEvents(fallbackEvents);
   const { wipeOn, wipePh, handleTabChange, performTransition } = useAppNavigation(setPage, setActiveTab, mobile);
   const actions = useAppActions(performTransition, setPage, setActiveTab, mobile);
-
-  const isAdminRoute = typeof window !== 'undefined' && window.location.pathname === '/admin';
 
   useEffect(() => {
     const handleResize = () => setMobile(window.innerWidth <= 768);
@@ -103,51 +100,45 @@ export default function App() {
       )}
 
       <main className="app-main" style={{ paddingTop: navHeight }}>
-        {isAdminRoute ? (
-          <PageIn k="pg-admin">
-            <AdminPage />
-          </PageIn>
-        ) : (
-          <>
-            {page?.type === 'section' && (
-              <SectionContent page={page} eventsData={eventsData} actions={actions} />
-            )}
+        <>
+          {page?.type === 'section' && (
+            <SectionContent page={page} eventsData={eventsData} actions={actions} />
+          )}
 
-            {page?.type === 'activity' && currentActivity && (
-              <PageIn k={`a-${page.activityKey}`}>
-                <ActivityDetailPage 
-                  activity={currentActivity} 
-                  onBack={() => performTransition(() => setPage({ type: 'section', section: 'Activities' }))} 
-                  onSelectEvent={actions.onEvent} 
-                />
-              </PageIn>
-            )}
+          {page?.type === 'activity' && currentActivity && (
+            <PageIn k={`a-${page.activityKey}`}>
+              <ActivityDetailPage 
+                activity={currentActivity} 
+                onBack={() => performTransition(() => setPage({ type: 'section', section: 'Activities' }))} 
+                onSelectEvent={actions.onEvent} 
+              />
+            </PageIn>
+          )}
 
-            {page?.type === 'event' && page.event && currentActivity && (
-              <PageIn k={`e-${page.event?.id}`}>
-                <EventContent page={page} currentActivity={currentActivity} onBack={actions.onBackActivity} />
-              </PageIn>
-            )}
+          {page?.type === 'event' && page.event && currentActivity && (
+            <PageIn k={`e-${page.event?.id}`}>
+              <EventContent page={page} currentActivity={currentActivity} onBack={actions.onBackActivity} />
+            </PageIn>
+          )}
 
-            {page?.type === 'apply' && (
-              <PageIn k="pg-apply">
-                <RecruitmentPage onBack={actions.onBackHome} />
-              </PageIn>
-            )}
+          {page?.type === 'apply' && (
+            <PageIn k="pg-apply">
+              <RecruitmentPage onBack={actions.onBackHome} />
+            </PageIn>
+          )}
 
-            {page?.type === 'join' && (
-              <PageIn k="pg-join">
-                <MembershipPage onBack={actions.onBackHome} />
-              </PageIn>
-            )}
+          {page?.type === 'join' && (
+            <PageIn k="pg-join">
+              <MembershipPage onBack={actions.onBackHome} />
+            </PageIn>
+          )}
 
-            {!page && cinDone && (
-              <PageIn k="main">
-                <MainContent actions={actions} theme={theme} handleTabChange={handleTabChange} eventsData={eventsData} />
-              </PageIn>
-            )}
-          </>
-        )}
+          {!page && cinDone && (
+            <PageIn k="main">
+              <MainContent actions={actions} theme={theme} handleTabChange={handleTabChange} eventsData={eventsData} />
+            </PageIn>
+          )}
+        </>
       </main>
 
       {cinDone && <button id="back-to-top" aria-label="Back to top">↑</button>}

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { BannerOrbs } from '../../shared/MotionLayer';
+import { AmbientOrbs } from '../../shared/MotionLayer';
 
 const WHATSAPP = 'https://chat.whatsapp.com/Jjc5cuUKENu0RC1vWSEs20';
 const LINKEDIN = 'https://www.linkedin.com/showcase/glbajaj-nexasphere/';

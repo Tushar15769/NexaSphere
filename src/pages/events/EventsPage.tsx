@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { events as fallbackEvents } from '../../data/eventsData';
-import { BannerOrbs } from '../../shared/MotionLayer';
+import { AmbientOrbs } from '../../shared/MotionLayer';
 
 export default function EventsPage({ onBack, onEventClick, events = fallbackEvents }) {
   useEffect(() => {

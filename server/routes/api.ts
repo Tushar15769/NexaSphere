@@ -1,4 +1,4 @@
-import { Router } from 'express';
+﻿import { Router } from 'express';
 import { eventsController } from '../controllers/eventsController.js';
 import { activityEventsController } from '../controllers/activityEventsController.js';
 import { adminAuthMiddleware } from '../middleware/adminAuthMiddleware.js';
@@ -26,4 +26,5 @@ router.post('/api/admin/core-team/members', adminAuthMiddleware.requireAdmin, co
 router.delete('/api/admin/core-team/members/:id', adminAuthMiddleware.requireAdmin, coreTeamController.adminDeleteCoreTeamMember);
 
 export default router;
+
 

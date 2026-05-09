@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { activities } from '../../data/activitiesData';
-import { BannerOrbs } from '../../shared/MotionLayer';
+import { AmbientOrbs } from '../../shared/MotionLayer';
 
 const activityDetails = {
   'Hackathon':      { color: '#CC1111', longDesc: 'Intense 24â€“48 hour coding marathons where teams build innovative solutions to real-world problems under time pressure. Participants form cross-functional teams, brainstorm ideas, design architectures, and ship working prototypes â€” all under the clock.', highlights: ['Team-based challenges', 'Mentorship from seniors', 'Real problem statements', 'Prizes & recognition'], skills: ['Full-Stack Dev', 'Problem Solving', 'Team Collaboration', 'System Design'] },
@@ -142,7 +142,7 @@ export default function ActivitiesPage({ onNavigate, onBack }) {
           position:'absolute', top:0, left:0, right:0, height:'3px',
           background:'linear-gradient(90deg,var(--c1),var(--c2),var(--c3))',
         }}/>
-        <BannerOrbs color="rgba(204,17,17,.06)"/>
+        <AmbientOrbs />
         <button
           onClick={onBack}
           className="ns-back-btn"
