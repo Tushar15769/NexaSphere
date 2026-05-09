@@ -2,11 +2,17 @@ import 'dotenv/config';
 import express from 'express';
 import { EventEmitter } from 'events';
 import cors from 'cors';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
+import morgan from 'morgan';
 import { google } from 'googleapis';
 import { promises as fs } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import crypto from 'crypto';
+
+import apiRouter from './routes/api.js';
+import * as authController from './controllers/authController.js';
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -14,11 +20,73 @@ const CONTENT_FILE = path.join(__dirname, 'data', 'content.json');
 
 const app = express();
 
-app.use(cors({
-  origin: process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',').map(s => s.trim()).filter(Boolean) : true,
-  credentials: false,
-}));
-app.use(express.json({ limit: '512kb' }));
+// Configure CORS whitelist from env var `CORS_ORIGIN` (comma separated)
+const corsWhitelist = process.env.CORS_ORIGIN
+  ? process.env.CORS_ORIGIN.split(',').map(s => s.trim()).filter(Boolean)
+  : [];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Allow requests with no origin (e.g., mobile apps, Postman)
+      if (!origin) return callback(null, true);
+      if (corsWhitelist.length === 0) return callback(null, true);
+      if (corsWhitelist.includes(origin)) return callback(null, true);
+      return callback(new Error('CORS_NOT_ALLOWED'));
+    },
+    credentials: false,
+  })
+);
+
+// Helmet for secure HTTP headers
+app.use(helmet());
+
+// Request body size limit
+app.use(express.json({ limit: process.env.REQUEST_SIZE_LIMIT || '1mb' }));
+
+// HTTP request logging (combined with our simple requestLogger)
+app.use(morgan(process.env.MORGAN_FORMAT || 'combined'));
+
+function requestLogger(req, res, next) {
+  const start = process.hrtime.bigint();
+  const { method, path } = req;
+
+  res.on('finish', () => {
+    const duration = Number(process.hrtime.bigint() - start) / 1e6;
+    const status = res.statusCode;
+    const message = `[${method}] ${path} → ${status} (${Math.round(duration)}ms)`;
+
+    if (status >= 500) {
+      console.error(message);
+    } else if (status >= 400) {
+      console.warn(message);
+    } else {
+      console.log(message);
+    }
+  });
+
+  next();
+}
+
+app.use(requestLogger);
+
+// Rate limiting: global and admin-specific
+const globalLimiter = rateLimit({
+  windowMs: Number(process.env.RATE_LIMIT_API_WINDOW_MS || 15 * 60 * 1000),
+  max: Number(process.env.RATE_LIMIT_API_MAX_REQUESTS || 300),
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+const adminLimiter = rateLimit({
+  windowMs: Number(process.env.RATE_LIMIT_ADMIN_WINDOW_MS || 15 * 60 * 1000),
+  max: Number(process.env.RATE_LIMIT_ADMIN_MAX_REQUESTS || 5),
+  message: { error: 'Too many login attempts, please try again later' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+app.use(globalLimiter);
 
 const sessions = new Map();
 const adminEvents = new EventEmitter();
@@ -546,7 +614,7 @@ app.delete('/api/content/activity-events/:activityKey/:eventId', async (req, res
   }
 });
 
-app.post('/api/admin/login', (req, res) => {
+app.post('/api/admin/login', adminLimiter, (req, res) => {
   const username = process.env.ADMIN_USERNAME || 'admin';
   const password = process.env.ADMIN_PASSWORD || 'admin123';
   const u = String(req.body?.username || '').trim();
@@ -557,6 +625,12 @@ app.post('/api/admin/login', (req, res) => {
   sessions.set(token, { username: u, createdAt: Date.now() });
   return res.json({ token, username: u });
 });
+
+// Warn on default/embedded credentials in environment
+if ((!process.env.ADMIN_USERNAME || !process.env.ADMIN_PASSWORD) && process.env.NODE_ENV === 'production') {
+  // eslint-disable-next-line no-console
+  console.warn('WARNING: admin username/password not configured via environment variables. Please set ADMIN_USERNAME and ADMIN_PASSWORD in production.');
+}
 
 app.get('/api/admin/events', adminAuth, async (req, res) => {
   return res.json({ events: await listEventsStore() });
@@ -687,6 +761,16 @@ app.post('/api/forms/membership', (req, res) => handleForm('membership', req, re
 app.post('/api/forms/recruitment', (req, res) => handleForm('recruitment', req, res));
 app.post('/api/core-team/apply', (req, res) => handleForm('core_team', req, res));
 
+// ============ USER AUTHENTICATION ENDPOINTS ============
+app.post('/api/auth/register', (req, res) => authController.register(req, res));
+app.get('/api/auth/verify-email', (req, res) => authController.verifyEmailToken(req, res));
+app.post('/api/auth/login', (req, res) => authController.login(req, res));
+app.post('/api/auth/refresh', (req, res) => authController.refresh(req, res));
+app.post('/api/auth/logout', (req, res) => authController.logout(req, res));
+app.post('/api/auth/forgot-password', (req, res) => authController.forgotPassword(req, res));
+app.post('/api/auth/reset-password', (req, res) => authController.doResetPassword(req, res));
+app.get('/api/auth/me', (req, res) => authController.getCurrentUser(req, res));
+
 const port = Number(process.env.PORT || 8787);
 if (!process.env.VERCEL) {
   const boot = HAS_SUPABASE ? Promise.resolve() : ensureContentFile();
@@ -695,6 +779,12 @@ if (!process.env.VERCEL) {
       // eslint-disable-next-line no-console
       console.log(`NexaSphere server listening on http://localhost:${port}`);
     });
+  });
+} else {
+  // Vercel/Render style deployments rely on the platform to start the server.
+  app.listen(port, () => {
+    // eslint-disable-next-line no-console
+    console.log(`NexaSphere server listening on http://localhost:${port}`);
   });
 }
 

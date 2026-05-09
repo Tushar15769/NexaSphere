@@ -1,7 +1,3 @@
-// ── NexaSphere Events Data ──
-// Shown on Home page event section + Events page.
-// status: 'completed' | 'upcoming'
-
 export const events = [
   {
     id: 1,

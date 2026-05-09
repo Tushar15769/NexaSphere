@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { events as fallbackEvents } from '../../data/eventsData';
 import * as LucideIcons from 'lucide-react';
 import { Calendar, CheckCircle, Clock, Rocket } from 'lucide-react';
@@ -7,47 +6,35 @@ function DynamicIcon({ name, ...props }) {
   const Icon = LucideIcons[name] || LucideIcons.HelpCircle;
   return <Icon {...props} />;
 }
+import './EventsSection.css';
+
+const ANIMATION_STAGGER_DELAY = 0.11;
 
 export default function EventsSection({ onEventClick, events = fallbackEvents }) {
-  useEffect(()=>{
-    const obs=new IntersectionObserver(entries=>{
-      entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('fired');obs.unobserve(e.target);}});
-    },{threshold:.1});
-    document.querySelectorAll('#section-events .pop-in,#section-events .pop-left,#section-events .pop-right,#section-events .pop-word').forEach(el=>obs.observe(el));
-    return()=>obs.disconnect();
-  },[]);
-
   return (
     <section className="section" id="section-events">
       <div className="container">
         <div className="ns-reveal">
           <h2 className="section-title pop-word">Our Events</h2>
-          <p className="section-subtitle pop-in" style={{animationDelay:'.1s'}}>Where Ideas Come to Life</p>
+          <p className="section-subtitle pop-in" style={{ animationDelay: '0.1s' }}>
+            Where Ideas Come to Life
+          </p>
         </div>
+        
         <div className="events-timeline">
-          {events.map((ev,i)=>{
+          {events.map((ev, i) => {
             const isKSS = ev.id === 1 || ev.id === 'kss-153' || String(ev.shortName || '').toLowerCase().includes('kss');
+            
             return (
               <div className="timeline-item" key={ev.id}>
-                <div className={`timeline-dot${ev.status==='upcoming'?' upcoming':''}`}/>
+                <div className={`timeline-dot${ev.status === 'upcoming' ? ' upcoming' : ''}`} />
                 <div
-                  className={`timeline-card shimmer ${i%2===0?'pop-left':'pop-right'}`}
+                  className={`timeline-card shimmer ${i % 2 === 0 ? 'pop-left' : 'pop-right'} ${isKSS ? 'clickable' : ''}`}
                   style={{
-                    animationDelay:`${i*.11}s`,
+                    animationDelay: `${i * ANIMATION_STAGGER_DELAY}s`,
                     cursor: isKSS ? 'none' : 'default',
-                    transition: 'all .28s ease',
                   }}
                   onClick={isKSS ? () => onEventClick?.(ev) : undefined}
-                  onMouseEnter={isKSS ? e => {
-                    e.currentTarget.style.borderColor = 'rgba(168,85,247,.45)';
-                    e.currentTarget.style.boxShadow = '0 8px 32px rgba(168,85,247,.15)';
-                    e.currentTarget.style.transform = 'translateY(-4px)';
-                  } : undefined}
-                  onMouseLeave={isKSS ? e => {
-                    e.currentTarget.style.borderColor = '';
-                    e.currentTarget.style.boxShadow = '';
-                    e.currentTarget.style.transform = '';
-                  } : undefined}
                 >
                   <div style={{display:'flex',alignItems:'center',gap:'10px',marginBottom:'7px'}}>
                     <div style={{color: isKSS ? '#a855f7' : 'var(--c1)', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
@@ -78,13 +65,31 @@ export default function EventsSection({ onEventClick, events = fallbackEvents })
                     </span>
                     {ev.tags?.map(t=>(
                       <span key={t} style={{fontSize:'.68rem',padding:'2px 8px',borderRadius:'10px',background:'var(--c2a)',color:'var(--c2)',border:'1px solid var(--c2b)',fontWeight:600}}>{t}</span>
+                  <div className="timeline-event-header">
+                    <span style={{ fontSize: '1.4rem' }}>{ev.icon}</span>
+                    <div className={`timeline-event-name ${isKSS ? 'kss' : ''}`}>
+                      {ev.name}
+                    </div>
+                    {isKSS && <span className="view-details-badge">View Details →</span>}
+                  </div>
+                  
+                  <div className="timeline-event-date">📅 {ev.date}</div>
+                  <p className="timeline-event-desc">{ev.description}</p>
+                  
+                  <div className="timeline-badges">
+                    <span className={`timeline-badge ${ev.status}`}>
+                      {ev.status === 'completed' ? '✅ Completed' : '🔜 Upcoming'}
+                    </span>
+                    {ev.tags?.map(t => (
+                      <span key={t} className="tag-badge">{t}</span>
                     ))}
                   </div>
                 </div>
               </div>
             );
           })}
-          {events.length>0&&(
+          
+          {events.length > 0 && (
             <div className="timeline-item">
               <div className="timeline-dot upcoming"/>
               <div className="timeline-card pop-in" style={{textAlign:'center',color:'var(--t3)'}}>
@@ -92,6 +97,10 @@ export default function EventsSection({ onEventClick, events = fallbackEvents })
                   <Rocket size={24} />
                 </div>
                 <p style={{marginTop:'6px',fontSize:'.84rem'}}>More events are being planned. Watch this space!</p>
+              <div className="timeline-dot upcoming" />
+              <div className="timeline-card pop-in timeline-placeholder">
+                <span style={{ fontSize: '1.3rem' }}>🚀</span>
+                <p>More events are being planned. Watch this space!</p>
               </div>
             </div>
           )}
@@ -100,4 +109,3 @@ export default function EventsSection({ onEventClick, events = fallbackEvents })
     </section>
   );
 }
-
