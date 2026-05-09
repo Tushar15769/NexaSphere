@@ -1,11 +1,14 @@
 import { type KeyboardEvent, type MouseEvent, type ReactNode, useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { teamMembers } from '../../data/teamData';
 import TeamMemberModal from './TeamMemberModal';
-import { IconArrowRight, IconSpark } from '../../shared/Icons';
 import { BannerOrbs } from '../../shared/MotionLayer';
-import type { CoreTeamMember } from '../../types/api';
-import type { TeamPageProps } from '../../types/components';
+import Skeleton from '../../shared/Skeleton';
+import * as LucideIcons from 'lucide-react';
+
+function DynamicIcon({ name, ...props }) {
+  const Icon = LucideIcons[name] || LucideIcons.HelpCircle;
+  return <Icon {...props} />;
+}
 
 function MemberCard({ member, idx, onClick }: {
   member: CoreTeamMember;
@@ -48,7 +51,13 @@ function MemberCard({ member, idx, onClick }: {
       onKeyDown={(e: KeyboardEvent<HTMLDivElement>) => { if (e.key === 'Enter' || e.key === ' ') click(); }}
     >
       <div className="team-card-photo-wrap">
-        <img src={member.photo} alt={member.name} className="team-card-photo" />
+        {member.photo ? (
+           <img src={member.photo} alt={member.name} className="team-card-photo" />
+        ) : (
+          <div className="team-card-photo" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--card2)' }}>
+            <DynamicIcon name="User" size={40} style={{ opacity: 0.3 }} />
+          </div>
+        )}
       </div>
       <div className="team-card-name">{member.name}</div>
       <div className="team-card-role">{member.role}</div>
@@ -56,19 +65,67 @@ function MemberCard({ member, idx, onClick }: {
         <span className="chip-branch">{member.branch}</span>
         <span className="chip-section">§{member.section}</span>
       </div>
-      <div className="team-card-hint">Click to view ↗</div>
+      <div className="team-card-hint">View Profile <DynamicIcon name="ExternalLink" size={10} style={{ marginLeft: 4 }} /></div>
       <div className="corner-tl" /><div className="corner-br" />
     </div>
   );
 }
 
-export default function TeamPage({ onBack, onApply }: TeamPageProps): ReactNode {
-  const [sel, setSel] = useState<CoreTeamMember | null>(null);
+function MemberSkeleton() {
+  return (
+    <div className="team-card" style={{ border: '1px solid var(--bdr)', background: 'var(--card)', cursor: 'default' }}>
+      <div className="team-card-photo-wrap">
+        <Skeleton width="100%" height="100%" borderRadius="14px" />
+      </div>
+      <div style={{ padding: '0 10px 15px' }}>
+        <Skeleton width="70%" height="18px" style={{ margin: '10px auto 6px' }} />
+        <Skeleton width="50%" height="14px" style={{ margin: '0 auto 12px' }} />
+        <div style={{ display: 'flex', gap: '6px', justifyContent: 'center' }}>
+          <Skeleton width="50px" height="20px" borderRadius="10px" />
+          <Skeleton width="30px" height="20px" borderRadius="10px" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function TeamPage({ onBack, onApply, team = [], loading = false }) {
+  const [sel, setSel] = useState(null);
 
   useEffect(() => { window.scrollTo({ top: 0 }); }, []);
 
-  const organiser = teamMembers.filter(m => m.role === 'Organiser' || m.role === 'Co-organiser');
-  const coreTeam  = teamMembers.filter(m => m.role === 'Core Team Member');
+  const organiser = team.filter(m => m.role === 'Organiser' || m.role === 'Co-organiser');
+  const coreTeam  = team.filter(m => m.role === 'Core Team Member');
+
+  const renderSection = (title, members, colorClass, startIdx) => (
+    <div style={{ marginBottom: '52px' }}>
+      <div style={{
+        fontFamily: "'Orbitron', monospace", fontSize: '.68rem', fontWeight: 700,
+        color: `var(--${colorClass})`, letterSpacing: '.2em', textTransform: 'uppercase',
+        textAlign: 'center', marginBottom: '24px',
+        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px',
+      }}>
+        <div style={{ flex: 1, height: '1px', background: 'linear-gradient(90deg, transparent, var(--bdr2))' }} />
+        {title}
+        <div style={{ flex: 1, height: '1px', background: 'linear-gradient(90deg, var(--bdr2), transparent)' }} />
+      </div>
+      {loading ? (
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: title === 'Leadership' ? 'repeat(auto-fill, minmax(175px, 1fr))' : 'repeat(auto-fill, minmax(200px, 1fr))', 
+          gap: '16px', 
+          maxWidth: title === 'Leadership' ? '500px' : '100%', 
+          margin: '0 auto' 
+        }}>
+          {[1, 2, 3, 4].map(i => <MemberSkeleton key={i} />)}
+        </div>
+      ) : (
+        <div className={title === 'Leadership' ? '' : 'team-grid'} style={title === 'Leadership' ? { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(175px, 1fr))', gap: '16px', maxWidth: '500px', margin: '0 auto' } : {}}>
+          {members.map((m, i) => <MemberCard key={m.id} member={m} idx={i + startIdx} onClick={setSel} />)}
+        </div>
+      )}
+    </div>
+  );
 
   return (
     <div id="team-page" style={{ minHeight: '100vh', padding: '0 0 100px' }}>
@@ -90,7 +147,10 @@ export default function TeamPage({ onBack, onApply }: TeamPageProps): ReactNode 
           color: 'var(--t2)', fontSize: '.8rem', cursor: 'pointer',
           display: 'flex', alignItems: 'center', gap: '6px',
           fontFamily: "'Rajdhani', sans-serif", fontWeight: 600,
-        }}>← Back</button>
+          zIndex: 10
+        }}>
+          <DynamicIcon name="ArrowLeft" size={14} /> Back
+        </button>
 
         <span className="cin-section-label" style={{ display: 'block', textAlign: 'center', marginBottom: '8px', fontFamily: "'Space Mono', monospace", fontSize: '.6rem', color: 'var(--t3)', letterSpacing: '.3em', textTransform: 'uppercase', position:'relative',zIndex:1 }}>
           GL Bajaj Group of Institutions · Mathura
@@ -102,41 +162,9 @@ export default function TeamPage({ onBack, onApply }: TeamPageProps): ReactNode 
       </div>
 
       <div className="container">
-        
-        <div style={{ marginBottom: '52px' }}>
-          <div style={{
-            fontFamily: "'Orbitron', monospace", fontSize: '.68rem', fontWeight: 700,
-            color: 'var(--c2)', letterSpacing: '.2em', textTransform: 'uppercase',
-            textAlign: 'center', marginBottom: '24px',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px',
-          }}>
-            <div style={{ flex: 1, height: '1px', background: 'linear-gradient(90deg, transparent, var(--bdr2))' }} />
-            Leadership
-            <div style={{ flex: 1, height: '1px', background: 'linear-gradient(90deg, var(--bdr2), transparent)' }} />
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(175px, 1fr))', gap: '16px', maxWidth: '500px', margin: '0 auto' }}>
-            {organiser.map((m, i) => <MemberCard key={m.id} member={m} idx={i} onClick={setSel} />)}
-          </div>
-        </div>
+        {renderSection('Leadership', organiser, 'c2', 0)}
+        {renderSection('Core Members', coreTeam, 'c1', 2)}
 
-        
-        <div style={{ marginBottom: '52px' }}>
-          <div style={{
-            fontFamily: "'Orbitron', monospace", fontSize: '.68rem', fontWeight: 700,
-            color: 'var(--c1)', letterSpacing: '.2em', textTransform: 'uppercase',
-            textAlign: 'center', marginBottom: '24px',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px',
-          }}>
-            <div style={{ flex: 1, height: '1px', background: 'linear-gradient(90deg, transparent, var(--bdr2))' }} />
-            Core Members
-            <div style={{ flex: 1, height: '1px', background: 'linear-gradient(90deg, var(--bdr2), transparent)' }} />
-          </div>
-          <div className="team-grid">
-            {coreTeam.map((m, i) => <MemberCard key={m.id} member={m} idx={i + 2} onClick={setSel} />)}
-          </div>
-        </div>
-
-        
         <div className="ns-reveal-scale" style={{
           textAlign: 'center', padding: '32px',
           background: 'var(--card)', border: '1px solid var(--bdr)',
@@ -145,7 +173,9 @@ export default function TeamPage({ onBack, onApply }: TeamPageProps): ReactNode 
         }}>
           <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'linear-gradient(90deg, var(--c1), var(--c2), var(--c3))' }} />
           <div className="corner-tl" /><div className="corner-br" />
-          <div style={{ fontSize: '2rem', marginBottom: '10px' }}>🚀</div>
+          <div style={{ fontSize: '2rem', marginBottom: '10px' }}>
+            <DynamicIcon name="Rocket" size={40} style={{ color: 'var(--c1)' }} />
+          </div>
           <h3 style={{ fontFamily: 'Orbitron,monospace', fontSize: '1rem', fontWeight: 700, color: 'var(--c1)', marginBottom: '8px', letterSpacing: '.05em' }}>
             Want to Join NexaSphere?
           </h3>
@@ -158,7 +188,7 @@ export default function TeamPage({ onBack, onApply }: TeamPageProps): ReactNode 
             className="btn btn-join btn-ripple"
             style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}
           >
-            Apply Here <IconSpark />
+            Apply Here <DynamicIcon name="Sparkles" size={16} />
           </button>
         </div>
       </div>
@@ -170,4 +200,3 @@ export default function TeamPage({ onBack, onApply }: TeamPageProps): ReactNode 
     </div>
   );
 }
-

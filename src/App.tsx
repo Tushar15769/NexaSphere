@@ -38,9 +38,12 @@ import MembershipPage from './pages/membership/MembershipPage';
 import { activityPages } from './data/activities/index';
 import { events as fallbackEvents } from './data/eventsData';
 import nexasphereLogo      from './assets/images/logos/nexasphere-logo.png';
-import { fetchApi } from './services/api';
-import type { ActivityKey } from './types/activities';
-import type { ActivityEvent, Event, EventsResponse } from './types/api';
+import * as LucideIcons from 'lucide-react';
+
+function DynamicIcon({ name, ...props }) {
+  const Icon = LucideIcons[name] || LucideIcons.HelpCircle;
+  return <Icon {...props} />;
+}
 
 const MNH = 88, DNH = 64;
 const TABS = ['Home','Activities','Events','About','Team','Contact'];
@@ -213,10 +216,12 @@ export default function App(): ReactNode {
   const [activeTab,setActiveTab]= useState('Home');
   const [mobile,   setMobile]   = useState(window.innerWidth<=768);
   const [wipeOn,   setWipeOn]   = useState(false);
-  const [wipePh,   setWipePh]   = useState<'out' | 'in'>('out');
-  const [page,     setPage]     = useState<PageState>(null);
-  const [theme,    setTheme]    = useState<Theme>(()=>localStorage.getItem('ns-theme') === 'light' ? 'light' : 'dark');
-  const [eventsData,setEventsData]=useState<Event[]>(fallbackEvents);
+  const [wipePh,   setWipePh]   = useState('out');
+  const [page,     setPage]     = useState(null);
+  const [theme,    setTheme]    = useState(()=>localStorage.getItem('ns-theme')||'dark');
+  const [eventsData,setEventsData]=useState([]);
+  const [teamData,  setTeamData]  = useState([]);
+  const [loading,  setLoading]   = useState(true);
   const isAdminRoute = typeof window !== 'undefined' && window.location.pathname === '/admin';
   // Apply theme to html element
   useEffect(()=>{
@@ -227,14 +232,35 @@ export default function App(): ReactNode {
 
   useEffect(() => {
     let alive = true;
-    fetchApi<EventsResponse>('/api/content/events')
-      .then(data => {
-        if (!alive) return;
-        if (Array.isArray(data?.events) && data.events.length > 0) {
-          setEventsData(data.events);
-        }
-      })
-      .catch(() => {});
+    setLoading(true);
+    const base = (import.meta?.env?.VITE_API_BASE || '').replace(/\/+$/, '');
+    
+    const fetchEvents = fetch(base ? `${base}/api/content/events` : '/api/content/events')
+      .then(r => r.ok ? r.json() : { events: [] })
+      .catch(() => ({ events: [] }));
+      
+    const fetchTeam = fetch(base ? `${base}/api/content/core-team` : '/api/content/core-team')
+      .then(r => r.ok ? r.json() : { members: [] })
+      .catch(() => ({ members: [] }));
+
+    Promise.all([fetchEvents, fetchTeam]).then(([eData, tData]) => {
+      if (!alive) return;
+      
+      if (Array.isArray(eData?.events) && eData.events.length > 0) {
+        setEventsData(eData.events);
+      } else {
+        setEventsData(fallbackEvents);
+      }
+
+      if (Array.isArray(tData?.members) && tData.members.length > 0) {
+        setTeamData(tData.members);
+      } else {
+        import('./data/teamData').then(m => setTeamData(m.teamMembers)).catch(() => {});
+      }
+    }).finally(() => {
+      if (alive) setLoading(false);
+    });
+
     return () => { alive = false; };
   }, []);
 
@@ -413,7 +439,44 @@ export default function App(): ReactNode {
           <SectionContent page={page} eventsData={eventsData} actions={actions} />
         )}
 
-        {page?.type === 'activity' && currentActivity && (
+      
+      {cinDone&&<AmbientOrbs theme={theme}/>}
+
+      {cinDone&&<GeometricGridBackground theme={theme} />}
+      {cinDone&&<ParticleBackground theme={theme}/>}
+      {cinDone&&<Navbar activeTab={activeTab} onTabChange={onTab} onToggleTheme={toggleTheme} theme={theme}/>}
+
+      <main style={{paddingTop:nh,position:'relative',zIndex:1}}>
+        {isAdminRoute && (
+          <PageIn k="pg-admin">
+            <AdminPage/>
+          </PageIn>
+        )}
+        {!isAdminRoute && (
+          <>
+        
+        {page?.type==='section'&&page.section==='Activities'&&(
+          <PageIn k="pg-activities">
+            <ActivitiesPage onNavigate={onNavigate} onBack={onBackHome}/>
+          </PageIn>
+        )}
+        {page?.type==='section'&&page.section==='Events'&&(
+          <PageIn k="pg-events">
+            <EventsPage onBack={onBackHome} onEventClick={onKSSClick} events={eventsData} loading={loading}/>
+          </PageIn>
+        )}
+        {page?.type==='section'&&page.section==='About'&&(
+          <PageIn k="pg-about">
+            <AboutPage onBack={onBackHome}/>
+          </PageIn>
+        )}
+        {page?.type==='section'&&page.section==='Team'&&(
+          <PageIn k="pg-team">
+            <TeamPage onBack={onBackHome} onApply={openApply} team={teamData} loading={loading}/>
+          </PageIn>
+        )}
+        
+        {page?.type==='activity'&&cur&&(
           <PageIn k={`a-${page.activityKey}`}>
             <ActivityDetailPage 
               activity={currentActivity} 
@@ -422,6 +485,22 @@ export default function App(): ReactNode {
             />
           </PageIn>
         )}
+        {page?.type==='event'&&page.event&&cur&&(
+          <PageIn k={`e-${page.event?.id}`}>
+            {(() => {
+              
+              let displayEvent = page.event;
+              const isKssEvent = page.event.id === 1 || page.event.id === 'kss-153' || String(page.event.shortName || '').toLowerCase().includes('kss');
+              if (page.activityKey === 'Insight Session' && isKssEvent) {
+                
+                displayEvent = cur.conductedEvents?.find(e => e.id === 'kss-153') || page.event;
+              }
+              return <EventDetailPage event={displayEvent} activityColor={cur.color} activityIcon={cur.icon} onBack={onBackAct}/>;
+            })()}
+          </PageIn>
+        )}
+        
+        
 
         {page?.type === 'event' && page.event && currentActivity && (
           <PageIn k={`e-${page.event?.id}`}>
@@ -448,60 +527,7 @@ export default function App(): ReactNode {
         )}
       </main>
 
-      {cinDone && <button id="back-to-top" aria-label="Back to top">↑</button>}
-    </>
-  );
-}
-
-function SectionContent({ page, eventsData, actions }) {
-  switch (page.section) {
-    case 'Activities':
-      return <PageIn k="pg-activities"><ActivitiesPage onNavigate={actions.onNavigate} onBack={actions.onBackHome} /></PageIn>;
-    case 'Events':
-      return <PageIn k="pg-events"><EventsPage onBack={actions.onBackHome} onEventClick={actions.onKSSClick} events={eventsData} /></PageIn>;
-    case 'About':
-      return <PageIn k="pg-about"><AboutPage onBack={actions.onBackHome} /></PageIn>;
-    case 'Team':
-      return <PageIn k="pg-team"><TeamPage onBack={actions.onBackHome} onApply={actions.openApply} /></PageIn>;
-    case 'Contact':
-      return <PageIn k="pg-contact"><ContactPage onBack={actions.onBackHome} /></PageIn>;
-    default:
-      return null;
-  }
-}
-
-function EventContent({ page, currentActivity, onBack }) {
-  const displayEvent = useMemo(() => {
-    const isKssEvent = page.event.id === 1 || page.event.id === 'kss-153' || String(page.event.shortName || '').toLowerCase().includes('kss');
-    if (page.activityKey === 'Insight Session' && isKssEvent) {
-      return currentActivity.conductedEvents?.find(e => e.id === 'kss-153') || page.event;
-    }
-    return page.event;
-  }, [page.event, page.activityKey, currentActivity.conductedEvents]);
-
-  return (
-    <EventDetailPage 
-      event={displayEvent} 
-      activityColor={currentActivity.color} 
-      activityIcon={currentActivity.icon} 
-      onBack={onBack} 
-    />
-  );
-}
-
-function MainContent({ actions, theme, handleTabChange, eventsData }) {
-  return (
-    <>
-      <HeroSection onTabChange={handleTabChange} onApply={actions.openApply} onJoin={actions.openJoin} theme={theme} />
-      <SectionDivider />
-      <ActivitiesSection onNavigate={actions.onNavigate} />
-      <SectionDivider />
-      <EventsSection onEventClick={actions.onKSSClick} events={eventsData} />
-      <SectionDivider />
-      <AboutSection />
-      <SectionDivider />
-      <TeamSection onApply={actions.openApply} />
-      <Footer />
+      {cinDone&&<button id="back-to-top" aria-label="Back to top"><DynamicIcon name="ArrowUp" size={20} /></button>}
     </>
   );
 }

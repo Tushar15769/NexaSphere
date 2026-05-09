@@ -1,4 +1,5 @@
-import { type ReactNode, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import * as LucideIcons from 'lucide-react';
 
 const WHATSAPP = 'https://chat.whatsapp.com/Jjc5cuUKENu0RC1vWSEs20';
 const LINKEDIN = 'https://www.linkedin.com/showcase/glbajaj-nexasphere/';
@@ -6,7 +7,12 @@ const NEXASPHERE_EMAIL = 'nexasphere@glbajajgroup.org';
 
 const VALUES = ['Innovation', 'Collaboration', 'Learning', 'Growth', 'Community', 'Technology', 'Career', 'Mentorship'];
 
-export default function AboutSection(): ReactNode {
+function DynamicIcon({ name, ...props }) {
+  const Icon = LucideIcons[name] || LucideIcons.HelpCircle;
+  return <Icon {...props} />;
+}
+
+export default function AboutSection() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(()=>{
@@ -78,10 +84,16 @@ export default function AboutSection(): ReactNode {
           </div>
         </div>
 
-        <div className="about-actions pop-in" style={{ animationDelay: '0.28s' }}>
-          <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" className="btn btn-whatsapp">💬 Join WhatsApp</a>
-          <a href={LINKEDIN} target="_blank" rel="noopener noreferrer" className="btn btn-linkedin">🔗 LinkedIn</a>
-          <a href={`mailto:${NEXASPHERE_EMAIL}`} className="btn btn-outline">📧 Email Us</a>
+        <div className="about-actions pop-in" style={{animationDelay:'.28s'}}>
+          <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" className="btn btn-whatsapp" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+            <DynamicIcon name="MessageSquare" size={16} /> Join WhatsApp
+          </a>
+          <a href={LINKEDIN} target="_blank" rel="noopener noreferrer" className="btn btn-linkedin" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+            <DynamicIcon name="Linkedin" size={16} /> LinkedIn
+          </a>
+          <a href={`mailto:${NEXASPHERE_EMAIL}`} className="btn btn-outline" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+            <DynamicIcon name="Mail" size={16} /> Email Us
+          </a>
         </div>
       </div>
     </section>

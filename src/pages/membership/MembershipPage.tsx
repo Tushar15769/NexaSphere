@@ -1,7 +1,11 @@
 import { type ClipboardEvent, type InputHTMLAttributes, type ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { IconArrowLeft, IconArrowRight, IconBolt, IconShieldCheck, IconUsers } from '../../shared/Icons';
-import type { BackProps } from '../../types/components';
-import { getErrorMessage } from '../../types/dom';
+import * as LucideIcons from 'lucide-react';
+
+function DynamicIcon({ name, ...props }) {
+  const Icon = LucideIcons[name] || LucideIcons.HelpCircle;
+  return <Icon {...props} />;
+}
 
 const WHATSAPP_COMMUNITY = 'https://chat.whatsapp.com/Jjc5cuUKENu0RC1vWSEs20';
 const LINKEDIN_PAGE      = 'https://www.linkedin.com/showcase/glbajaj-nexasphere/';
@@ -250,7 +254,7 @@ function MultiSelectChips({ options, values, onToggle }: MultiChoiceProps): Reac
               fontSize: '.82rem',
             }}
           >
-            {active ? 'âœ“ ' : ''}{opt}
+            {active ? <DynamicIcon name="Check" size={14} style={{ marginRight: 6 }} /> : ''}{opt}
           </button>
         );
       })}
@@ -403,22 +407,21 @@ export default function MembershipPage({ onBack }: BackProps): ReactNode {
     
     {
       title:    'About NexaSphere',
-      subtitle: 'NexaSphere Membership Form â€” GL Bajaj Group of Institutions',
+      subtitle: 'NexaSphere Membership Form — GL Bajaj Group of Institutions',
       icon:     <IconBolt style={{ width: 18, height: 18 }} />,
       render: () => (
         <div style={{ display: 'grid', gap: 18 }}>
-          
-          <div style={{
+             <div style={{
             background: 'rgba(255,180,0,.08)',
             border: '1px solid rgba(255,180,0,.32)',
             borderRadius: 'var(--r3)',
             padding: '14px 18px',
             display: 'flex', alignItems: 'flex-start', gap: 12,
           }}>
-            <span style={{ fontSize: '1.4rem', flexShrink: 0 }}>âš ï¸</span>
+            <DynamicIcon name="AlertTriangle" size={24} style={{ color: 'var(--c4)', flexShrink: 0 }} />
             <div style={{ lineHeight: 1.75 }}>
               <div style={{ fontFamily: 'Orbitron,monospace', fontSize: '.75rem', letterSpacing: '.1em', color: 'var(--t1)', marginBottom: 6, textTransform: 'uppercase' }}>
-                Important â€” Read Before Proceeding
+                Important — Read Before Proceeding
               </div>
               <div style={{ fontSize: '.9rem', color: 'var(--t2)' }}>
                 This form can be filled <b style={{ color: 'var(--t1)' }}>only once</b> per device.
@@ -429,29 +432,27 @@ export default function MembershipPage({ onBack }: BackProps): ReactNode {
             </div>
           </div>
 
-          
           <p style={{ color: 'var(--t2)', lineHeight: 1.8, fontSize: '.96rem' }}>
             <span className="grad-text" style={{ fontWeight: 700 }}>NexaSphere</span> is the official
             student tech ecosystem at <b style={{ color: 'var(--t1)' }}>GL Bajaj Group of Institutions, Mathura</b>.
-            We bring together students from all branches and years under one platform â€” organising and
+            We bring together students from all branches and years under one platform — organising and
             supporting <b>tech and non-tech events</b> across every domain:
           </p>
 
-          
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))',
             gap: 10,
           }}>
             {[
-              { icon: '🔐', label: 'Cybersecurity' },
-              { icon: '🤖', label: 'AI / Machine Learning' },
-              { icon: '🌐', label: 'Web Development' },
-              { icon: '☁️', label: 'Cloud & AWS' },
-              { icon: '📱', label: 'Android Development' },
-              { icon: '📢', label: 'Management & Events' },
-              { icon: 'ðŸ’¼', label: 'Career & Placement' },
-              { icon: '🎨', label: 'Design & Media' },
+              { icon: 'Shield', label: 'Cybersecurity' },
+              { icon: 'Brain', label: 'AI / Machine Learning' },
+              { icon: 'Globe', label: 'Web Development' },
+              { icon: 'Zap', label: 'Cloud & AWS' },
+              { icon: 'Smartphone', label: 'Android Development' },
+              { icon: 'Megaphone', label: 'Management & Events' },
+              { icon: 'Briefcase', label: 'Career & Placement' },
+              { icon: 'Palette', label: 'Design & Media' },
             ].map(d => (
               <div key={d.label} style={{
                 display: 'flex', alignItems: 'center', gap: 10,
@@ -460,13 +461,12 @@ export default function MembershipPage({ onBack }: BackProps): ReactNode {
                 borderRadius: 'var(--r2)',
                 padding: '10px 14px',
               }}>
-                <span style={{ fontSize: '1.2rem' }}>{d.icon}</span>
+                <span style={{ color: 'var(--c1)', display: 'flex' }}><DynamicIcon name={d.icon} size={18} /></span>
                 <span style={{ fontSize: '.88rem', color: 'var(--t2)', fontFamily: 'Rajdhani,sans-serif', fontWeight: 600 }}>{d.label}</span>
               </div>
             ))}
           </div>
 
-          
           <div style={{
             background: 'var(--card)',
             border: '1px solid var(--bdr)',
@@ -490,7 +490,6 @@ export default function MembershipPage({ onBack }: BackProps): ReactNode {
             </ul>
           </div>
 
-          
           <div style={{
             background: 'linear-gradient(135deg,rgba(0,119,181,.10),rgba(0,212,255,.05))',
             border: '1px solid rgba(0,119,181,.24)',
@@ -498,7 +497,7 @@ export default function MembershipPage({ onBack }: BackProps): ReactNode {
             padding: '12px 16px',
             display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap',
           }}>
-            <span style={{ fontSize: '1.1rem' }}>ðŸ”—</span>
+            <DynamicIcon name="Link" size={18} style={{ color: '#0077b5' }} />
             <span style={{ fontSize: '.88rem', color: 'var(--t2)', flex: 1 }}>
               Before filling the form, please follow our official LinkedIn page:
             </span>
@@ -749,7 +748,7 @@ export default function MembershipPage({ onBack }: BackProps): ReactNode {
           maxWidth:660, margin:'0 auto',
           lineHeight:1.75, animationDelay:'.12s',
         }}>
-          NexaSphere connects students with opportunities across Tech and Non-Tech domains â€”
+          NexaSphere connects students with opportunities across Tech and Non-Tech domains —
           development, cloud, cybersecurity, management, and career growth.
         </p>
         <div className="member-divider" style={{ marginTop:34, maxWidth:780 }}/>
@@ -791,7 +790,7 @@ export default function MembershipPage({ onBack }: BackProps): ReactNode {
                   </div>
                   <div style={{ color:'var(--t2)', fontSize:'.9rem' }}>
                     {done
-                      ? 'Thank you for joining NexaSphere â€” GL Bajaj Group of Institutions ðŸš€'
+                      ? 'Thank you for joining NexaSphere — GL Bajaj Group of Institutions'
                       : current.subtitle}
                   </div>
                 </div>
@@ -806,15 +805,13 @@ export default function MembershipPage({ onBack }: BackProps): ReactNode {
               <div style={{ width: `${Math.round(progress * 100)}%` }}/>
             </div>
           </div>
-
-          
           <div className="member-body">
             {alreadySubmitted && !done ? (
               <div style={{
                 background:'rgba(255,45,120,.08)', border:'1px solid rgba(255,45,120,.22)',
                 borderRadius:'var(--r3)', padding:'20px 22px', textAlign:'center',
               }}>
-                <div style={{ fontSize:'1.4rem', marginBottom:10 }}>âš ï¸</div>
+                <div style={{ color: 'var(--c4)', fontSize: '2.4rem', marginBottom: 10, display: 'flex', justifyContent: 'center' }}><DynamicIcon name="AlertTriangle" size={48} /></div>
                 <div style={{ color:'var(--t1)', fontSize:'.98rem', fontWeight:600, marginBottom:16 }}>
                   Membership Form Already Submitted
                 </div>
@@ -860,7 +857,6 @@ export default function MembershipPage({ onBack }: BackProps): ReactNode {
                 </div>
               </div>
             ) : done ? (
-              /* â”€â”€ Success screen â”€â”€ */
               <div style={{ display:'grid', gap:18 }}>
                 <div style={{
                   background:'linear-gradient(135deg,rgba(123,111,255,.08),rgba(0,212,255,.06))',
@@ -868,131 +864,93 @@ export default function MembershipPage({ onBack }: BackProps): ReactNode {
                   padding:22, position:'relative', overflow:'hidden', textAlign:'center',
                 }}>
                   <div className="corner-tl"/><div className="corner-br"/>
-                  <div style={{ fontSize:'2.4rem', marginBottom:14 }}>ðŸš€</div>
+                  <div style={{ color: 'var(--c1)', fontSize: '3rem', marginBottom: 14, display: 'flex', justifyContent: 'center' }}><DynamicIcon name="Rocket" size={64} /></div>
                   <div style={{ fontFamily:'Orbitron,monospace', fontSize:'1rem', color:'var(--t1)', fontWeight:700, marginBottom:12 }}>
                     Thank you for filling the NexaSphere Membership Form!
                   </div>
                   <p style={{ color:'var(--t2)', lineHeight:1.8, maxWidth:540, margin:'0 auto' }}>
-                    Your form has been successfully submitted. ðŸŽ‰
+                    Your form has been successfully submitted.
                     <br/><br/>
-                    Now request to join the NexaSphere WhatsApp group using the link below â€” and
+                    Now request to join the NexaSphere WhatsApp group using the link below — and
                     <b style={{ color:'var(--t1)' }}> mention that you have already filled the NexaSphere form</b>.
                     <br/><br/>
                     Our team will verify your responses and add you to the respective NexaSphere spaces/groups.
                   </p>
-                </div>
-
-                
-                <div style={{ display:'flex', gap:12, flexWrap:'wrap', justifyContent:'center' }}>
-                  <a
-                    className="btn btn-whatsapp"
-                    href={WHATSAPP_COMMUNITY}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <span style={{ display:'inline-flex', alignItems:'center', gap:8 }}>
-                      Join NexaSphere WhatsApp Group <IconArrowRight/>
-                    </span>
-                  </a>
-                  <a
-                    className="btn btn-outline"
-                    href={LINKEDIN_PAGE}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <span style={{ display:'inline-flex', alignItems:'center', gap:8 }}>
-                      Follow on LinkedIn <IconArrowRight/>
-                    </span>
-                  </a>
-                </div>
-
-                <div style={{
-                  background:'var(--card)', border:'1px solid var(--bdr)',
-                  borderRadius:'var(--r2)', padding:'14px 16px',
-                  fontSize:'.88rem', color:'var(--t3)', lineHeight:1.7, textAlign:'center',
-                }}>
-                  ðŸ“Œ Also make sure to follow the official NexaSphere LinkedIn page for updates.<br/>
-                  <b style={{ color:'var(--t2)' }}>Stay connected and keep building ðŸš€ â€” NexaSphere Team</b>
+                  
+                  <div style={{ display:'flex', gap:12, justifyContent:'center', flexWrap:'wrap', marginTop:24 }}>
+                    <a
+                      href={WHATSAPP_COMMUNITY}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn-primary"
+                      style={{ padding:'12px 32px' }}
+                    >
+                      Join WhatsApp Group
+                    </a>
+                    <button
+                      onClick={onBack}
+                      className="btn btn-outline"
+                      style={{ padding:'12px 32px' }}
+                    >
+                      Back to Home
+                    </button>
+                  </div>
                 </div>
               </div>
             ) : (
-              <>
-                {current.render()}
-
-                {err ? (
+              <div style={{ display: 'grid', gap: 32 }}>
+                <div className="form-step-content" style={{ minHeight: 300 }}>
+                  {current.render()}
+                </div>
+                
+                {err && (
                   <div style={{
-                    marginTop:18,
-                    background:'rgba(255,45,120,.10)', border:'1px solid rgba(255,45,120,.22)',
-                    color:'var(--t1)', borderRadius:'var(--r2)', padding:'12px 14px', fontWeight:600,
+                    padding: '12px 16px', borderRadius: '8px',
+                    background: 'rgba(255,45,120,.1)',
+                    border: '1px solid rgba(255,45,120,.2)',
+                    color: 'var(--c4)', fontSize: '.9rem', textAlign: 'center',
                   }}>
                     {err}
                   </div>
-                ) : null}
+                )}
 
-                
-                <div style={{ marginTop:22, display:'flex', justifyContent:'space-between', gap:10, flexWrap:'wrap' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', gap: 14, alignItems: 'center', borderTop: '1px solid var(--bdr)', paddingTop: 26 }}>
                   <button
+                    onClick={() => { setStep(s => s - 1); scrollTop(); }}
+                    disabled={step === 0 || busy}
                     className="btn btn-outline"
-                    type="button"
-                    disabled={busy}
-                    onClick={() => {
-                      setErr('');
-                      if (step === 0) { if (onBack) onBack(); }
-                      else { setStep(s => clamp(s - 1, 0, steps.length - 1)); scrollTop(); }
-                    }}
+                    style={{ opacity: step === 0 ? 0 : 1, pointerEvents: step === 0 ? 'none' : 'auto' }}
                   >
-                    <span style={{ display:'inline-flex', alignItems:'center', gap:8 }}>
-                      <IconArrowLeft/> Back
-                    </span>
+                    Previous
                   </button>
-
+                  <div style={{ flex: 1 }} />
                   {step < steps.length - 1 ? (
                     <button
-                      className="btn btn-primary btn-ripple"
-                      type="button"
-                      disabled={busy || !canNext}
-                      onClick={() => {
-                        if (!canNext) { setErr('Please complete the required fields (*) to proceed.'); return; }
-                        setErr('');
-                        setStep(s => clamp(s + 1, 0, steps.length - 1));
-                        scrollTop();
-                      }}
-                      style={{ opacity: canNext ? 1 : .65 }}
+                      onClick={() => { setStep(s => s + 1); scrollTop(); }}
+                      disabled={!canNext}
+                      className="btn btn-primary"
+                      style={{ padding: '12px 32px', minWidth: 140 }}
                     >
-                      <span style={{ display:'inline-flex', alignItems:'center', gap:8 }}>
-                        Continue <IconArrowRight/>
+                      <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                        Continue <IconArrowRight style={{ width: 16, height: 16 }} />
                       </span>
                     </button>
                   ) : (
                     <button
-                      className="btn btn-primary btn-ripple"
-                      type="button"
+                      onClick={submit}
                       disabled={busy || !canNext}
-                      onClick={() => {
-                        if (!canNext) { setErr('Please complete the required fields (*) to submit.'); return; }
-                        submit();
-                      }}
+                      className="btn btn-primary"
+                      style={{ padding: '12px 40px', minWidth: 160, background: 'linear-gradient(135deg,var(--c1),var(--c2))', border: 'none' }}
                     >
-                      {busy ? 'Submittingâ€¦' : 'Submit Membership Form'}
+                      {busy ? 'Submitting...' : 'Join Community'}
                     </button>
                   )}
                 </div>
-              </>
+              </div>
             )}
           </div>
-        </div>
-
-        <div className="pop-in" style={{
-          marginTop:18, textAlign:'center',
-          color:'var(--t3)', fontFamily:'Space Mono,monospace',
-          fontSize:'.62rem', letterSpacing:'.18em',
-          textTransform:'uppercase', opacity:.9,
-        }}>
-          Powered by NexaSphere
         </div>
       </div>
     </div>
   );
 }
-
-

@@ -3,14 +3,14 @@
 export const activities: ActivitySummary[] = [
   {
     id: 1,
-    icon: 'Cpu',
+    icon: 'Zap',
     title: 'Hackathon',
     description:
       'Intense coding marathons where teams build innovative solutions to real-world problems under time pressure.',
   },
   {
     id: 2,
-    icon: 'Code2',
+    icon: 'Code',
     title: 'Codathon',
     description:
       'Competitive programming challenges that test algorithmic thinking, problem-solving speed, and code efficiency.',
@@ -31,14 +31,14 @@ export const activities: ActivitySummary[] = [
   },
   {
     id: 5,
-    icon: 'Settings',
+    icon: 'Wrench',
     title: 'Workshop',
     description:
       'Hands-on learning sessions on cutting-edge tools, frameworks, and emerging technologies led by experts.',
   },
   {
     id: 6,
-    icon: 'Telescope',
+    icon: 'Search',
     title: 'Insight Session',
     description:
       'Deep-dive talks and discussions exploring industry trends, career paths, and the future of technology.',
@@ -52,7 +52,7 @@ export const activities: ActivitySummary[] = [
   },
   {
     id: 8,
-    icon: 'Mic2',
+    icon: 'Mic',
     title: 'Tech Debate',
     description:
       'Structured debates on controversial tech topics sharpening critical thinking and communication skills.',

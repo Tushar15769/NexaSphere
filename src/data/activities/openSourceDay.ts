@@ -4,7 +4,7 @@
 
 const openSourceDay = {
   id: 'open-source-day',
-  icon: '🌐',
+  icon: 'Globe',
   title: 'Open Source Day',
   tagline: 'Contribute. Collaborate. Create.',
   color: '#06b6d4',
@@ -14,27 +14,6 @@ const openSourceDay = {
 
   conductedEvents: [
     // ── Paste completed open source day events here ──
-    // {
-    //   id: 'osd-1',
-    //   name: 'Open Source Day 1.0',
-    //   shortName: 'OSD 1.0',
-    //   date: 'Month Year',
-    //   status: 'completed',
-    //   tagline: 'One line description',
-    //   stats: [
-    //     { label: 'Contributors', value: '30' },
-    //     { label: 'PRs Merged', value: '15' },
-    //     { label: 'Projects', value: '5' },
-    //     { label: 'Duration', value: '4 hrs' },
-    //   ],
-    //   overview: 'Full description...',
-    //   topics: [],
-    //   volunteers: [],
-    //   acknowledgements: [],
-    //   photoLink: null,
-    //   videoLink: null,
-    //   hashtags: ['#OpenSourceDay', '#NexaSphere', '#GLBajaj'],
-    // },
   ],
 
   upcomingEvents: [
