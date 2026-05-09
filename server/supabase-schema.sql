@@ -9,6 +9,7 @@ create table if not exists events (
   status text not null default 'upcoming',
   icon text default '📌',
   tags jsonb not null default '[]'::jsonb,
+  capacity int default null,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -43,6 +44,18 @@ create table if not exists core_team_members (
   photo_url text,
   created_at timestamptz not null default now()
 );
+
+create table if not exists core_team_events (
+  id uuid primary key default gen_random_uuid(),
+  event_type text not null,
+  member_id uuid,
+  admin_email text,
+  payload jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists idx_core_team_events_created_at on core_team_events(created_at desc);
+create index if not exists idx_core_team_events_member_id on core_team_events(member_id);
 
 create table if not exists form_submissions (
   id uuid primary key default gen_random_uuid(),
@@ -101,3 +114,21 @@ create table if not exists password_reset_tokens (
 );
 
 create index if not exists idx_password_reset_user_id on password_reset_tokens(user_id);
+
+-- Event registration and attendance tracking
+create table if not exists event_registrations (
+  id uuid primary key default gen_random_uuid(),
+  event_id text not null references events(id) on delete cascade,
+  user_id uuid not null references users(id) on delete cascade,
+  status text not null default 'registered',
+  registered_at timestamptz not null default now(),
+  attended_at timestamptz,
+  notes text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  unique(event_id, user_id)
+);
+
+create index if not exists idx_registrations_event_id on event_registrations(event_id);
+create index if not exists idx_registrations_user_id on event_registrations(user_id);
+create index if not exists idx_registrations_status on event_registrations(status);

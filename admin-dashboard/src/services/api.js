@@ -175,12 +175,24 @@ export const api = {
   },
 
   coreTeam: {
-    getAll: () => fetchWithAuth('/api/admin/core-team'),
+    getAll: async () => {
+      const result = await fetchWithAuth('/api/admin/core-team');
+      if (Array.isArray(result)) return result;
+      if (Array.isArray(result?.members)) return result.members;
+      return [];
+    },
     add: async (member) => {
       const result = await fetchWithAuth('/api/admin/core-team', { method: 'POST', body: JSON.stringify(member) });
-      eventEmitter.emit(EVENTS.CORE_TEAM_MEMBER_ADDED, result);
+      const created = result?.member || result;
+      eventEmitter.emit(EVENTS.CORE_TEAM_MEMBER_ADDED, created);
       eventEmitter.emit(EVENTS.NOTIFY, { type: 'success', message: 'Member added' });
-      return result;
+      return created;
+    },
+    update: async (id, member) => {
+      const result = await fetchWithAuth(`/api/admin/core-team/${id}`, { method: 'PATCH', body: JSON.stringify(member) });
+      const updated = result?.member || result;
+      eventEmitter.emit(EVENTS.NOTIFY, { type: 'success', message: 'Member updated' });
+      return updated;
     },
     remove: async (id) => {
       await fetchWithAuth(`/api/admin/core-team/${id}`, { method: 'DELETE' });
