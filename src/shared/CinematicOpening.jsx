@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import nexasphereLogo from '../assets/images/logos/nexasphere-logo.png';
+import nexasphereLogo from '../assets/images/logos/nexasphere-app-logo.png';
 
 const SHARDS = [
   { clip:'polygon(0 0,42% 0,28% 38%,0 22%)',           ox:'20%', oy:'10%', idx:0,  d:0   },
@@ -126,15 +126,23 @@ export default function CinematicOpening({ onDone, theme = 'dark' }) {
   const WORD = 'NEXASPHERE';
   const isL  = theme === 'light';
 
-  const PHASE_1_DELAY = 280;
-  const PHASE_2_DELAY = 650;
-  const TYPEWRITER_INTERVAL = 70;
-  const TAGLINE_DELAY = 1680;
-  const CRACKING_DELAY = 2500;
-  const SHATTER_DELAY = 2640;
-  const COMPLETION_DELAY = 3380;
+  const PHASE_1_DELAY = 150;
+  const PHASE_2_DELAY = 350;
+  const TYPEWRITER_INTERVAL = 50;
+  const TAGLINE_DELAY = 900;
+  const CRACKING_DELAY = 1400;
+  const SHATTER_DELAY = 1500;
+  const COMPLETION_DELAY = 2200;
 
   useEffect(() => {
+    // Ensure the intro always finishes even if something goes wrong
+    const safetyTimeout = setTimeout(() => {
+      if (!gone) {
+        setGone(true);
+        onDone();
+      }
+    }, COMPLETION_DELAY + 1000);
+
     const ts = [];
     ts.push(setTimeout(() => setPhase(1), PHASE_1_DELAY));
     ts.push(setTimeout(() => {
@@ -185,7 +193,7 @@ export default function CinematicOpening({ onDone, theme = 'dark' }) {
         ${shardKeyframes}
       `}</style>
 
-      <div style={{ position:'fixed', inset:0, zIndex:9999, pointerEvents:'none' }}>
+      <div style={{ position:'fixed', inset:0, zIndex:9999 }}>
 
         
         {SHARDS.map((s, i) => {
