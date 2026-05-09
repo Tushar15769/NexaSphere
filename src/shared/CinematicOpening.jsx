@@ -181,30 +181,22 @@ export default function CinematicOpening({ onDone, theme = 'dark' }) {
         ${shardKeyframes}
       `}</style>
 
-      {/* Skip button — above shard layer, always clickable */}
       {phase >= 1 && (
         <button
           onClick={handleSkip}
           aria-label="Skip intro"
           style={{
             position:'fixed', top:'22px', right:'24px', zIndex:10000,
-            background:'rgba(204,17,17,0.12)',
-            border:'1px solid rgba(204,17,17,0.35)',
-            borderRadius:'20px',
-            color: isL ? '#CC1111' : '#FF6666',
-            fontFamily:"'Rajdhani',sans-serif",
-            fontSize:'.78rem', fontWeight:700,
-            letterSpacing:'.12em', textTransform:'uppercase',
-            padding:'6px 16px', cursor:'pointer',
-            backdropFilter:'blur(8px)', WebkitBackdropFilter:'blur(8px)',
-            animation:'cinSkipIn .4s ease both',
-            transition:'background .2s, border-color .2s',
+            background:'rgba(204,17,17,0.12)', border:'1px solid rgba(204,17,17,0.35)',
+            borderRadius:'20px', color: isL ? '#CC1111' : '#FF6666',
+            fontFamily:"'Rajdhani',sans-serif", fontSize:'.78rem', fontWeight:700,
+            letterSpacing:'.12em', textTransform:'uppercase', padding:'6px 16px',
+            cursor:'pointer', backdropFilter:'blur(8px)', WebkitBackdropFilter:'blur(8px)',
+            animation:'cinSkipIn .4s ease both', transition:'background .2s, border-color .2s',
           }}
           onMouseEnter={e=>{e.currentTarget.style.background='rgba(204,17,17,0.28)';e.currentTarget.style.borderColor='rgba(204,17,17,0.7)';}}
           onMouseLeave={e=>{e.currentTarget.style.background='rgba(204,17,17,0.12)';e.currentTarget.style.borderColor='rgba(204,17,17,0.35)';}}
-        >
-          Skip →
-        </button>
+        >Skip →</button>
       )}
 
       <div style={{ position:'fixed', inset:0, zIndex:9999, pointerEvents:'none' }}>

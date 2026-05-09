@@ -8,11 +8,9 @@ export function DashboardHome() {
 
   useEffect(() => {
     Promise.all([
-      api.events.getAll().catch(() => ({ events: [] })),
-      api.coreTeam.getAll().catch(() => ({ members: [] })),
-    ]).then(([eventsData, teamData]) => {
-      const events = eventsData?.events ?? [];
-      const team = teamData?.members ?? [];
+      api.events.getAll().catch(() => []),
+      api.coreTeam.getAll().catch(() => []),
+    ]).then(([events, team]) => {
       setStats({
         totalEvents: events.length,
         upcomingEvents: events.filter(e => e.status === 'upcoming').length,

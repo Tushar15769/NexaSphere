@@ -66,7 +66,6 @@ export default function Navbar({ activeTab, onTabChange, onToggleTheme, theme, o
             {t}
           </button>
         ))}
-        {/* Join / Apply CTA pills at the end of the mobile tab row */}
         <button className="ns-mobile-tab ns-mobile-cta" onClick={onJoin} aria-label="Join as Member">Join</button>
         <button className="ns-mobile-tab ns-mobile-cta ns-mobile-cta-apply" onClick={onApply} aria-label="Apply for Core Team">Apply</button>
       </div>
@@ -95,7 +94,6 @@ export default function Navbar({ activeTab, onTabChange, onToggleTheme, theme, o
               </li>
             ))}
           </ul>
-          {/* Desktop CTA buttons */}
           <div className="ns-nav-ctas">
             <button className="btn btn-sm btn-outline ns-nav-cta-btn" onClick={onJoin} aria-label="Join as Member">Join</button>
             <button className="btn btn-sm btn-primary ns-nav-cta-btn" onClick={onApply} aria-label="Apply for Core Team">Apply</button>

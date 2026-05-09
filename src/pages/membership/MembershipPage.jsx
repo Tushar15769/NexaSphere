@@ -207,9 +207,7 @@ export default function MembershipPage({ onBack }) {
   useEffect(() => {
     try {
       const submitted = JSON.parse(localStorage.getItem('ns_member_emails') || '[]');
-      if (submitted.length > 0) {
-        // Just a hint that they might have submitted before
-      }
+      if (submitted.length > 0) setAlreadySubmitted(true);
     } catch { /* ignore */ }
   }, []);
 
@@ -272,11 +270,11 @@ export default function MembershipPage({ onBack }) {
     setErr('');
     setBusy(true);
     try {
-      const emailKey = String(form.collegeEmail || '').trim().toLowerCase();
+      const emailKey = String(form.whatsapp || '').trim(); 
       try {
         const existing = JSON.parse(localStorage.getItem('ns_member_emails') || '[]');
         if (existing.includes(emailKey)) {
-          setErr('This email address has already been used to submit a membership form. Each member may submit only once.');
+          setErr('This number has already been used to submit a membership form. Each member may submit only once.');
           setBusy(false);
           return;
         }

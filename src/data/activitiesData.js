@@ -1,3 +1,5 @@
+// ── NexaSphere Activities Data ──
+
 export const activities = [
   {
     id: 1,

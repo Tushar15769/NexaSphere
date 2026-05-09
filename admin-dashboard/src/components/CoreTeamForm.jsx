@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { api } from '../services/api';
 
-import { ROLE_OPTIONS as ROLES, DOMAIN_OPTIONS } from '../../../src/shared/roles';
-const empty = { name: '', role: 'Core Team Member', domain: '', branch: '', year: '', email: '', linkedin: '', photo: '' };
+const ROLES = ['President', 'Vice President', 'Secretary', 'Technical Lead', 'Design Lead', 'Marketing Lead', 'Member'];
+const empty = { name: '', role: 'Member', branch: '', year: '', email: '', linkedin: '', photo: '' };
 
 export function CoreTeamForm({ onClose }) {
   const [form, setForm] = useState(empty);
@@ -41,13 +41,6 @@ export function CoreTeamForm({ onClose }) {
             <label>Role</label>
             <select value={form.role} onChange={e => set('role', e.target.value)}>
               {ROLES.map(r => <option key={r} value={r}>{r}</option>)}
-            </select>
-          </div>
-          <div className="form-row">
-            <label>Domain (Optional)</label>
-            <select value={form.domain} onChange={e => set('domain', e.target.value)}>
-              <option value="">None / General</option>
-              {DOMAIN_OPTIONS.map(d => <option key={d} value={d}>{d}</option>)}
             </select>
           </div>
           <div className="form-row">
