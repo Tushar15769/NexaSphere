@@ -54,6 +54,53 @@ export function SectionDivider() {
   return <div className="section-divider" aria-hidden="true" />;
 }
 
+export function BannerOrbs({ color = 'rgba(0,212,255,.06)' }) {
+  return (
+    <div aria-hidden="true" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
+      <div
+        style={{
+          position: 'absolute',
+          width: 320,
+          height: 320,
+          borderRadius: '50%',
+          top: '-120px',
+          left: '-80px',
+          background: color,
+          filter: 'blur(20px)',
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          width: 280,
+          height: 280,
+          borderRadius: '50%',
+          bottom: '-120px',
+          right: '-80px',
+          background: color,
+          filter: 'blur(20px)',
+        }}
+      />
+    </div>
+  );
+}
+
+export function PageFlash() {
+  return (
+    <div
+      aria-hidden="true"
+      style={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: 8003,
+        pointerEvents: 'none',
+        background: 'radial-gradient(circle at center, rgba(255,255,255,.35), rgba(255,255,255,0) 65%)',
+        animation: 'pf .22s ease-out forwards',
+      }}
+    />
+  );
+}
+
 export function useScrollProgress() {
   useEffect(() => {
     const bar = document.getElementById('scroll-progress');

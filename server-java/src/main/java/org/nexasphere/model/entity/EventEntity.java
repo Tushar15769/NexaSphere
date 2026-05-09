@@ -69,4 +69,3 @@ public class EventEntity {
         return slug.isEmpty() ? "event-" + System.currentTimeMillis() : slug;
     }
 }
-}
