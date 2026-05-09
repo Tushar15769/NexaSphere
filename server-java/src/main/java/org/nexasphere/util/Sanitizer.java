@@ -6,7 +6,7 @@ import org.springframework.web.util.HtmlUtils;
 @Component
 public final class Sanitizer {
 
-    public static String clean(String input) {
+    public String clean(String input) {
         if (input == null) {
             return null;
         }
