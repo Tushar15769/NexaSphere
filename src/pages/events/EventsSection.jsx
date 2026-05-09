@@ -1,4 +1,11 @@
 import { events as fallbackEvents } from '../../data/eventsData';
+import * as LucideIcons from 'lucide-react';
+import { Calendar, CheckCircle, Clock, Rocket } from 'lucide-react';
+
+function DynamicIcon({ name, ...props }) {
+  const Icon = LucideIcons[name] || LucideIcons.HelpCircle;
+  return <Icon {...props} />;
+}
 import './EventsSection.css';
 
 const ANIMATION_STAGGER_DELAY = 0.11;
@@ -29,6 +36,35 @@ export default function EventsSection({ onEventClick, events = fallbackEvents })
                   }}
                   onClick={isKSS ? () => onEventClick?.(ev) : undefined}
                 >
+                  <div style={{display:'flex',alignItems:'center',gap:'10px',marginBottom:'7px'}}>
+                    <div style={{color: isKSS ? '#a855f7' : 'var(--c1)', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                      <DynamicIcon name={ev.icon} size={22} />
+                    </div>
+                    <div className="timeline-event-name" style={isKSS ? { color: '#a855f7' } : {}}>{ev.name}</div>
+                    {isKSS && (
+                      <span style={{
+                        marginLeft: 'auto', fontSize: '.6rem', padding: '2px 8px',
+                        borderRadius: '10px', background: 'rgba(168,85,247,.12)',
+                        color: '#a855f7', border: '1px solid rgba(168,85,247,.3)',
+                        fontFamily: "'Space Mono', monospace", whiteSpace: 'nowrap',
+                      }}>View Details →</span>
+                    )}
+                  </div>
+                  <div className="timeline-event-date">
+                    <Calendar size={13} style={{verticalAlign:'middle', marginRight:'6px', opacity:0.8}} />
+                    {ev.date}
+                  </div>
+                  <p className="timeline-event-desc">{ev.description}</p>
+                  <div style={{display:'flex',alignItems:'center',gap:'7px',flexWrap:'wrap'}}>
+                    <span className={`timeline-badge ${ev.status}`}>
+                      {ev.status==='completed' ? (
+                        <><CheckCircle size={10} style={{marginRight:4}}/> Completed</>
+                      ) : (
+                        <><Clock size={10} style={{marginRight:4}}/> Upcoming</>
+                      )}
+                    </span>
+                    {ev.tags?.map(t=>(
+                      <span key={t} style={{fontSize:'.68rem',padding:'2px 8px',borderRadius:'10px',background:'var(--c2a)',color:'var(--c2)',border:'1px solid var(--c2b)',fontWeight:600}}>{t}</span>
                   <div className="timeline-event-header">
                     <span style={{ fontSize: '1.4rem' }}>{ev.icon}</span>
                     <div className={`timeline-event-name ${isKSS ? 'kss' : ''}`}>
@@ -55,6 +91,12 @@ export default function EventsSection({ onEventClick, events = fallbackEvents })
           
           {events.length > 0 && (
             <div className="timeline-item">
+              <div className="timeline-dot upcoming"/>
+              <div className="timeline-card pop-in" style={{textAlign:'center',color:'var(--t3)'}}>
+                <div style={{color:'var(--c1)', display:'flex', justifyContent:'center', marginBottom:'8px'}}>
+                  <Rocket size={24} />
+                </div>
+                <p style={{marginTop:'6px',fontSize:'.84rem'}}>More events are being planned. Watch this space!</p>
               <div className="timeline-dot upcoming" />
               <div className="timeline-card pop-in timeline-placeholder">
                 <span style={{ fontSize: '1.3rem' }}>🚀</span>
