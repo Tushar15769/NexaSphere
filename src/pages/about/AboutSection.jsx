@@ -26,7 +26,7 @@ export default function AboutSection() {
               Founded to bridge the gap between academic learning and real-world technology, we run hackathons, workshops, knowledge-sharing sessions, and career guidance events.
             </p>
             <p className="about-text pop-left" style={{ marginTop: '12px', animationDelay: '0.16s' }}>
-              We&apos;ve hosted KSS #153 on the Impact of AI, are running an Industry Insider career guidance session on March 13, and a Git &amp; GitHub workshop is coming soon. NexaSphere is where curiosity meets real opportunity.
+              From peer-led Knowledge Sharing Sessions and hands-on workshops to Industry Insider career guidance and competitive hackathons — NexaSphere runs events that connect curiosity with real opportunity, all year round.
             </p>
             
             <div className="contact-mini pop-left" style={{ animationDelay: '0.22s' }}>

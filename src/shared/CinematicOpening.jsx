@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import nexasphereLogo from '../assets/images/logos/nexasphere-logo.png';
 
 const SHARDS = [
@@ -123,6 +123,7 @@ export default function CinematicOpening({ onDone, theme = 'dark' }) {
   const [gone,     setGone]     = useState(false);
   const countRef = useRef(0);
   const ivRef    = useRef(null);
+  const timersRef = useRef([]);
   const WORD = 'NEXASPHERE';
   const isL  = theme === 'light';
 
@@ -133,6 +134,14 @@ export default function CinematicOpening({ onDone, theme = 'dark' }) {
   const CRACKING_DELAY = 2500;
   const SHATTER_DELAY = 2640;
   const COMPLETION_DELAY = 3380;
+
+  const handleSkip = useCallback(() => {
+    // Clear all pending timers and the typewriter interval
+    timersRef.current.forEach(t => clearTimeout(t));
+    clearInterval(ivRef.current);
+    setGone(true);
+    onDone();
+  }, [onDone]);
 
   useEffect(() => {
     const ts = [];
@@ -152,6 +161,7 @@ export default function CinematicOpening({ onDone, theme = 'dark' }) {
       setGone(true);
       onDone();
     }, COMPLETION_DELAY));
+    timersRef.current = ts;
     return () => {
       ts.forEach(t => clearTimeout(t));
       clearInterval(ivRef.current);
@@ -182,8 +192,48 @@ export default function CinematicOpening({ onDone, theme = 'dark' }) {
         @keyframes cinProg     { from{transform:scaleX(0)} to{transform:scaleX(1)} }
         @keyframes crackIn     { 0%{opacity:0;stroke-width:0} 40%{opacity:1} 100%{opacity:.7} }
         @keyframes flashBurst  { 0%{opacity:0} 25%{opacity:.9} 100%{opacity:0} }
+        @keyframes cinSkipIn   { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:none} }
         ${shardKeyframes}
       `}</style>
+
+      {/* Skip button — sits above the shard layer so it's always clickable */}
+      {phase >= 1 && (
+        <button
+          onClick={handleSkip}
+          aria-label="Skip intro"
+          style={{
+            position: 'fixed',
+            top: '22px',
+            right: '24px',
+            zIndex: 10000,
+            background: 'rgba(204,17,17,0.12)',
+            border: '1px solid rgba(204,17,17,0.35)',
+            borderRadius: '20px',
+            color: isL ? '#CC1111' : '#FF6666',
+            fontFamily: "'Rajdhani', sans-serif",
+            fontSize: '.78rem',
+            fontWeight: 700,
+            letterSpacing: '.12em',
+            textTransform: 'uppercase',
+            padding: '6px 16px',
+            cursor: 'pointer',
+            backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)',
+            animation: 'cinSkipIn .4s ease both',
+            transition: 'background .2s, color .2s, border-color .2s',
+          }}
+          onMouseEnter={e => {
+            e.currentTarget.style.background = 'rgba(204,17,17,0.28)';
+            e.currentTarget.style.borderColor = 'rgba(204,17,17,0.7)';
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.background = 'rgba(204,17,17,0.12)';
+            e.currentTarget.style.borderColor = 'rgba(204,17,17,0.35)';
+          }}
+        >
+          Skip →
+        </button>
+      )}
 
       <div style={{ position:'fixed', inset:0, zIndex:9999, pointerEvents:'none' }}>
 

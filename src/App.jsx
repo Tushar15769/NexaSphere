@@ -54,7 +54,8 @@ import { NAV_HEIGHTS, SCROLL_TIMEOUT } from './data/config';
 const NAV_TABS = ['Home', 'Activities', 'Events', 'About', 'Team', 'Contact'];
 
 export default function App() {
-  const [cinDone, setCinDone] = useState(false);
+  // Skip the intro for returning visitors; set the flag when it completes for the first time
+  const [cinDone, setCinDone] = useState(() => !!localStorage.getItem('ns_intro_seen'));
   const [activeTab, setActiveTab] = useState('Home');
   const [page, setPage] = useState(null);
   const [mobile, setMobile] = useState(window.innerWidth <= 768);
@@ -88,7 +89,10 @@ export default function App() {
   return (
     <>
       <Chatbot />
-      {!cinDone && <CinematicOpening theme={theme} onDone={() => setCinDone(true)} />}
+      {!cinDone && <CinematicOpening theme={theme} onDone={() => {
+        localStorage.setItem('ns_intro_seen', '1');
+        setCinDone(true);
+      }} />}
       
       {cinDone && (
         <>
@@ -98,7 +102,7 @@ export default function App() {
           <AmbientOrbs theme={theme} />
           <GeometricGridBackground theme={theme} />
           <ParticleBackground theme={theme} />
-          <Navbar activeTab={activeTab} onTabChange={handleTabChange} onToggleTheme={toggleTheme} theme={theme} />
+          <Navbar activeTab={activeTab} onTabChange={handleTabChange} onToggleTheme={toggleTheme} theme={theme} onApply={actions.openApply} onJoin={actions.openJoin} />
         </>
       )}
 
@@ -141,6 +145,13 @@ export default function App() {
               </PageIn>
             )}
 
+            {/* Fallback: unknown page type — show 404 */}
+            {page && !['section', 'activity', 'event', 'apply', 'join'].includes(page?.type) && (
+              <PageIn k="pg-404">
+                <NotFoundPage onGoHome={actions.onBackHome} />
+              </PageIn>
+            )}
+
             {!page && cinDone && (
               <PageIn k="main">
                 <MainContent actions={actions} theme={theme} handleTabChange={handleTabChange} eventsData={eventsData} />
@@ -168,8 +179,61 @@ function SectionContent({ page, eventsData, actions }) {
     case 'Contact':
       return <PageIn k="pg-contact"><ContactPage onBack={actions.onBackHome} /></PageIn>;
     default:
-      return null;
+      return <PageIn k="pg-404"><NotFoundPage onGoHome={actions.onBackHome} /></PageIn>;
   }
+}
+
+function NotFoundPage({ onGoHome }) {
+  return (
+    <div style={{
+      minHeight: '80vh',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      textAlign: 'center',
+      padding: '40px 24px',
+    }}>
+      <div style={{
+        fontFamily: "'Orbitron', monospace",
+        fontSize: 'clamp(5rem, 18vw, 10rem)',
+        fontWeight: 900,
+        background: 'linear-gradient(135deg, #CC1111 0%, #EE2222 50%, #FF4444 100%)',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+        backgroundClip: 'text',
+        lineHeight: 1,
+        marginBottom: '16px',
+      }}>
+        404
+      </div>
+      <h2 style={{
+        fontFamily: "'Orbitron', monospace",
+        fontSize: 'clamp(1rem, 3vw, 1.5rem)',
+        fontWeight: 700,
+        color: 'var(--t1)',
+        marginBottom: '12px',
+      }}>
+        Page Not Found
+      </h2>
+      <p style={{
+        color: 'var(--t2)',
+        fontSize: '1rem',
+        maxWidth: '380px',
+        lineHeight: 1.7,
+        marginBottom: '32px',
+      }}>
+        The page you&apos;re looking for doesn&apos;t exist or may have moved.
+      </p>
+      <button
+        className="btn btn-primary"
+        onClick={onGoHome}
+        style={{ cursor: 'pointer' }}
+      >
+        ← Go Home
+      </button>
+    </div>
+  );
 }
 
 function EventContent({ page, currentActivity, onBack }) {

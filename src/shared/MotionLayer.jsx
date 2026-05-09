@@ -54,6 +54,43 @@ export function SectionDivider() {
   return <div className="section-divider" aria-hidden="true" />;
 }
 
+export function BannerOrbs({ color = 'rgba(204,17,17,.06)' }) {
+  return (
+    <div aria-hidden="true" style={{
+      position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden', zIndex: 0,
+    }}>
+      {[
+        { w: 320, h: 320, top: '-10%', left: '-5%', delay: '0s' },
+        { w: 260, h: 260, top: '30%',  left: '75%', delay: '-4s' },
+        { w: 200, h: 200, top: '60%',  left: '20%', delay: '-8s' },
+      ].map((o, i) => (
+        <div key={i} style={{
+          position: 'absolute',
+          width: o.w, height: o.h,
+          top: o.top, left: o.left,
+          borderRadius: '50%',
+          background: `radial-gradient(circle, ${color} 0%, transparent 70%)`,
+          animation: `cinGlow 6s ease-in-out ${o.delay} infinite`,
+          pointerEvents: 'none',
+        }} />
+      ))}
+    </div>
+  );
+}
+
+export function PageFlash() {
+  return (
+    <div aria-hidden="true" style={{
+      position: 'fixed',
+      inset: 0,
+      zIndex: 8003,
+      background: 'linear-gradient(135deg, rgba(204,17,17,.07), rgba(136,0,0,.04))',
+      pointerEvents: 'none',
+      animation: 'flashBurst .22s ease forwards',
+    }} />
+  );
+}
+
 export function useScrollProgress() {
   useEffect(() => {
     const bar = document.getElementById('scroll-progress');
