@@ -59,6 +59,12 @@ export function BannerOrbs({ color = 'rgba(204,17,17,.06)' }) {
   );
 }
 
+export function PageFlash() {
+  return (
+    <div className="page-flash" aria-hidden="true" style={{ position: 'fixed', inset: 0, zIndex: 9000, background: '#ffffff', opacity: 0, pointerEvents: 'none', animation: 'flash .4s ease-out forwards' }} />
+  );
+}
+
 export function SectionDivider() {
   return <div className="section-divider" aria-hidden="true" />;
 }
