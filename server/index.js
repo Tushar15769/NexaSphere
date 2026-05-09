@@ -11,6 +11,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 import apiRouter from './routes/api.js';
+import * as authController from './controllers/authController.js';
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -759,6 +760,16 @@ async function handleForm(formType, req, res) {
 app.post('/api/forms/membership', (req, res) => handleForm('membership', req, res));
 app.post('/api/forms/recruitment', (req, res) => handleForm('recruitment', req, res));
 app.post('/api/core-team/apply', (req, res) => handleForm('core_team', req, res));
+
+// ============ USER AUTHENTICATION ENDPOINTS ============
+app.post('/api/auth/register', (req, res) => authController.register(req, res));
+app.get('/api/auth/verify-email', (req, res) => authController.verifyEmailToken(req, res));
+app.post('/api/auth/login', (req, res) => authController.login(req, res));
+app.post('/api/auth/refresh', (req, res) => authController.refresh(req, res));
+app.post('/api/auth/logout', (req, res) => authController.logout(req, res));
+app.post('/api/auth/forgot-password', (req, res) => authController.forgotPassword(req, res));
+app.post('/api/auth/reset-password', (req, res) => authController.doResetPassword(req, res));
+app.get('/api/auth/me', (req, res) => authController.getCurrentUser(req, res));
 
 const port = Number(process.env.PORT || 8787);
 if (!process.env.VERCEL) {
